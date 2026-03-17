@@ -1,0 +1,36 @@
+{
+  "appointments": [
+    {
+      "appointment_type": "General Consultation",
+      "preferred_date": "2026-03-25",
+      "time_slot": "10:00 AM",
+      "patient_email": "patient@example.com"
+    },
+    {
+      "appointment_type": "Follow-up Visit",
+      "preferred_date": "2026-03-26",
+      "time_slot": "2:00 PM",
+      "patient_email": "patient@example.com"
+    }
+  ],
+  "walkin_patients": [
+    {
+      "name": "John Smith",
+      "date_of_birth": "1985-05-15",
+      "reason": "Fever and sore throat",
+      "queue_type": "same-day"
+    },
+    {
+      "name": "Emma Johnson",
+      "date_of_birth": "1990-08-22",
+      "reason": "Persistent cough and fever"
+    }
+  ],
+  "reschedule": {
+    "new_date": "2026-03-26",
+    "new_time": "2:00 PM"
+  },
+  "cancellation": {
+    "reason": "Personal emergency"
+  }
+}

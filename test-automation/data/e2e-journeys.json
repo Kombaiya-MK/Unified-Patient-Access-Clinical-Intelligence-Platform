@@ -1,0 +1,40 @@
+{
+  "patient_journey": {
+    "user": {
+      "email": "patient.testuser@example.com",
+      "password": "SecurePass123!",
+      "name": "Test Patient"
+    },
+    "appointment": {
+      "type": "General Consultation",
+      "date": "2026-04-15",
+      "time": "10:00 AM"
+    },
+    "intake": {
+      "chief_complaint": "Frequent headaches for 2 weeks",
+      "severity": "Moderate, usually in the morning"
+    },
+    "document": {
+      "file_path": "./test-data/sample-medical-history.pdf",
+      "type": "Medical History"
+    }
+  },
+  "staff_journey": {
+    "user": {
+      "email": "staff.testuser@example.com",
+      "password": "StaffSecure123!",
+      "name": "Test Staff Member"
+    },
+    "walkin_patient": {
+      "name": "Emma Johnson",
+      "date_of_birth": "1990-08-22",
+      "reason": "Persistent cough and fever"
+    },
+    "noshow_patient": {
+      "name": "Michael Brown",
+      "appointment_id": "APT-20260317-001",
+      "scheduled_time": "10:00 AM",
+      "noshow_reason": "Patient did not arrive 15 minutes past scheduled time"
+    }
+  }
+}

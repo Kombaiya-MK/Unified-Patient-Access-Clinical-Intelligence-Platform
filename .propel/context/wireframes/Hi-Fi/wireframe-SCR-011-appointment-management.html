@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SCR-011 Appointment Summary — Unified Patient Access Platform</title>
+  <!-- SCR-011 | Derived From: UC-004, UC-011 Staff Mark No Show | Personas: Staff | Priority: P0 -->
+  <!-- UXR Mapped: UXR-001, UXR-002, UXR-101, UXR-201, UXR-301, UXR-401, UXR-501 -->
+  <style>
+    :root {
+      --primary-900: #003D7A; --primary-800: #004C99; --primary-600: #0066CC;
+      --primary-200: #CCE0F5; --primary-100: #E6F0FA;
+      --secondary-600: #00A86B; --secondary-100: #E6F6F0;
+      --success-600: #00A145; --success-100: #E6F9EF;
+      --warning-600: #FF8800; --warning-100: #FFF2E6;
+      --error-600: #DC3545; --error-100: #FCE8EA;
+      --info-600: #0077B6; --info-100: #E6F3F9;
+      --neutral-900: #1A1A1A; --neutral-800: #333333; --neutral-700: #4D4D4D;
+      --neutral-600: #666666; --neutral-500: #808080; --neutral-400: #999999;
+      --neutral-300: #CCCCCC; --neutral-200: #E5E5E5; --neutral-100: #F5F5F5; --neutral-50: #FAFAFA;
+      --bg-primary: #FFFFFF; --bg-tertiary: #FAFAFA; --bg-overlay: rgba(0,0,0,0.5);
+      --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      --radius-sm: 4px; --radius-md: 8px; --radius-lg: 12px; --radius-full: 9999px;
+      --shadow-1: 0px 1px 3px rgba(0,0,0,0.12), 0px 1px 2px rgba(0,0,0,0.24);
+      --shadow-3: 0px 10px 20px rgba(0,0,0,0.15), 0px 3px 6px rgba(0,0,0,0.10);
+      --focus-ring: 0 0 0 2px #FFFFFF, 0 0 0 4px #0066CC;
+      --transition: 200ms ease;
+      --sidebar-width: 240px; --header-height: 64px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: var(--font-family); background: var(--bg-tertiary); color: var(--neutral-900); }
+    a { color: var(--primary-600); text-decoration: none; }
+    a:hover { color: var(--primary-800); }
+    a:focus-visible { outline: none; box-shadow: var(--focus-ring); border-radius: var(--radius-sm); }
+
+    .header { position: fixed; top: 0; left: 0; right: 0; height: var(--header-height); z-index: 1000; background: var(--bg-primary); border-bottom: 1px solid var(--neutral-200); display: flex; align-items: center; padding: 0 24px; gap: 16px; }
+    .header__logo { font-size: 20px; font-weight: 700; color: var(--primary-600); }
+    .header__title { flex: 1; font-size: 16px; font-weight: 600; color: var(--neutral-800); margin-left: 16px; }
+    .header__avatar { width: 36px; height: 36px; border-radius: var(--radius-full); background: var(--secondary-100); color: var(--secondary-600); font-size: 14px; font-weight: 600; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+
+    .sidebar { position: fixed; top: var(--header-height); left: 0; bottom: 0; width: var(--sidebar-width); background: var(--bg-primary); border-right: 1px solid var(--neutral-200); padding: 16px 0; z-index: 900; display: flex; flex-direction: column; }
+    .sidebar__role { padding: 8px 16px; margin: 0 16px 16px; font-size: 12px; font-weight: 500; text-transform: uppercase; letter-spacing: 1px; color: var(--secondary-600); background: var(--secondary-100); border-radius: var(--radius-full); text-align: center; }
+    .sidebar__nav { flex: 1; list-style: none; }
+    .sidebar__item { display: flex; align-items: center; gap: 12px; padding: 12px 24px; font-size: 14px; font-weight: 500; color: var(--neutral-700); cursor: pointer; transition: all var(--transition); border-left: 3px solid transparent; text-decoration: none; }
+    .sidebar__item:hover { background: var(--neutral-50); color: var(--primary-600); }
+    .sidebar__item--active { color: var(--primary-600); background: var(--primary-100); border-left-color: var(--primary-600); font-weight: 600; }
+    .sidebar__item:focus-visible { box-shadow: var(--focus-ring); outline: none; }
+    .sidebar__icon { width: 20px; text-align: center; font-size: 16px; }
+
+    .main { margin-left: var(--sidebar-width); margin-top: var(--header-height); padding: 32px; min-height: calc(100vh - var(--header-height)); }
+    .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 14px; color: var(--neutral-500); margin-bottom: 24px; }
+    .breadcrumb a { color: var(--primary-600); }
+    .breadcrumb__separator { color: var(--neutral-400); }
+
+    .page-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; }
+    .page-title { font-size: 32px; font-weight: 700; line-height: 40px; letter-spacing: -0.25px; }
+
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; height: 40px; min-width: 80px; padding: 8px 16px; font-size: 14px; font-weight: 500; font-family: var(--font-family); border: none; border-radius: var(--radius-md); cursor: pointer; transition: all var(--transition); }
+    .btn:focus-visible { box-shadow: var(--focus-ring); outline: none; }
+    .btn--primary { background: var(--primary-600); color: white; }
+    .btn--primary:hover { background: var(--primary-800); }
+    .btn--danger { background: none; color: var(--error-600); border: 1px solid var(--error-600); font-size: 12px; height: 32px; padding: 4px 12px; }
+    .btn--danger:hover { background: var(--error-100); }
+    .btn--danger:disabled { color: var(--neutral-400); border-color: var(--neutral-300); cursor: not-allowed; background: none; }
+    .btn--secondary { background: none; color: var(--neutral-700); border: 1px solid var(--neutral-300); font-size: 12px; height: 32px; padding: 4px 12px; }
+    .btn--secondary:hover { background: var(--neutral-50); }
+    .btn--success-row { background: none; color: var(--secondary-600); border: 1px solid var(--secondary-600); font-size: 12px; height: 32px; padding: 4px 12px; }
+    .btn--success-row:hover { background: var(--secondary-100); }
+    .btn--complete { background: none; color: var(--success-600); border: 1px solid var(--success-600); font-size: 12px; height: 32px; padding: 4px 12px; }
+    .btn--complete:hover { background: var(--success-100); }
+    .btn-modal--success { background: var(--success-600); color: white; border: none; }
+    .btn-modal--success:hover { background: #008836; }
+
+    .card { background: var(--bg-primary); border-radius: var(--radius-md); box-shadow: var(--shadow-1); overflow: hidden; }
+    .card__header { display: flex; align-items: center; justify-content: space-between; padding: 16px 24px; border-bottom: 1px solid var(--neutral-200); }
+    .card__title { font-size: 18px; font-weight: 600; }
+    .badge { display: inline-flex; align-items: center; padding: 2px 8px; font-size: 12px; font-weight: 500; text-transform: uppercase; letter-spacing: 1px; border-radius: var(--radius-full); }
+    .badge--success { background: var(--success-100); color: var(--success-600); }
+    .badge--warning { background: var(--warning-100); color: var(--warning-600); }
+    .badge--error { background: var(--error-100); color: var(--error-600); }
+    .badge--info { background: var(--info-100); color: var(--info-600); }
+    .badge--neutral { background: var(--neutral-100); color: var(--neutral-600); }
+
+    .data-table { width: 100%; border-collapse: collapse; }
+    .data-table thead th { padding: 12px 16px; text-align: left; font-size: 14px; font-weight: 600; color: var(--neutral-700); background: var(--neutral-50); border-bottom: 1px solid var(--neutral-200); }
+    .data-table tbody td { padding: 12px 16px; font-size: 14px; color: var(--neutral-700); border-bottom: 1px solid var(--neutral-100); vertical-align: middle; }
+    .data-table tbody tr { transition: background var(--transition); }
+    .data-table tbody tr:hover { background: var(--neutral-50); }
+    .row-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+
+    /* Tooltip */
+    .tooltip-wrapper { position: relative; display: inline-block; }
+    .tooltip-wrapper .tooltip-text { visibility: hidden; position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%); background: var(--neutral-900); color: white; font-size: 12px; padding: 4px 8px; border-radius: var(--radius-sm); white-space: nowrap; margin-bottom: 4px; z-index: 10; }
+    .tooltip-wrapper:hover .tooltip-text { visibility: visible; }
+
+    /* Modal */
+    .modal-overlay { display: none; position: fixed; inset: 0; background: var(--bg-overlay); z-index: 1100; display: flex; align-items: center; justify-content: center; }
+    .modal { background: var(--bg-primary); border-radius: var(--radius-lg); box-shadow: var(--shadow-3); width: 100%; max-width: 440px; }
+    .modal__header { display: flex; align-items: center; justify-content: space-between; padding: 20px 24px; border-bottom: 1px solid var(--neutral-200); }
+    .modal__title { font-size: 20px; font-weight: 600; }
+    .modal__close { width: 36px; height: 36px; border: none; background: none; cursor: pointer; font-size: 20px; border-radius: var(--radius-full); color: var(--neutral-600); }
+    .modal__close:hover { background: var(--neutral-100); }
+    .modal__close:focus-visible { box-shadow: var(--focus-ring); outline: none; }
+    .modal__body { padding: 24px; font-size: 14px; color: var(--neutral-700); line-height: 20px; }
+    .modal__footer { padding: 16px 24px; border-top: 1px solid var(--neutral-200); display: flex; gap: 12px; justify-content: flex-end; }
+    .btn-modal { height: 40px; padding: 8px 24px; font-size: 14px; font-weight: 500; border-radius: var(--radius-md); cursor: pointer; font-family: var(--font-family); transition: all var(--transition); }
+    .btn-modal:focus-visible { box-shadow: var(--focus-ring); outline: none; }
+    .btn-modal--cancel { background: none; color: var(--neutral-700); border: 1px solid var(--neutral-300); }
+    .btn-modal--cancel:hover { background: var(--neutral-50); }
+    .btn-modal--danger { background: var(--error-600); color: white; border: none; }
+    .btn-modal--danger:hover { background: #A02A2A; }
+
+    @media (max-width: 1023px) { .sidebar { display: none; } .main { margin-left: 0; } }
+    @media (max-width: 767px) { .main { padding: 16px; } .page-title { font-size: 24px; } .page-header { flex-direction: column; align-items: flex-start; gap: 16px; } }
+  </style>
+</head>
+<body>
+  <!-- Navigation Map
+    Element: Breadcrumb Dashboard | Action: Navigate back | Target: SCR-003
+    Element: Mark No Show Button | Action: Open modal | Target: Confirmation Dialog
+    Element: Mark Complete Button | Action: Open modal | Target: Complete Confirmation Dialog
+    Element: Reschedule Button | Action: Open modal | Target: Reschedule Modal
+  -->
+
+  <header class="header" role="banner">
+    <div class="header__logo">UPACI</div>
+    <div class="header__title">Appointment Summary</div>
+    <div class="header__avatar" role="button" aria-label="User menu" tabindex="0">SM</div>
+  </header>
+
+  <nav class="sidebar" role="navigation" aria-label="Main navigation">
+    <div class="sidebar__role">Staff</div>
+    <ul class="sidebar__nav">
+      <li><a href="wireframe-SCR-003-staff-dashboard.html" class="sidebar__item"><span class="sidebar__icon">🏠</span> Dashboard</a></li>
+      <li><a href="wireframe-SCR-009-queue-management.html" class="sidebar__item"><span class="sidebar__icon">📊</span> Queue Management</a></li>
+      <li><a href="wireframe-SCR-010-clinical-data-review.html" class="sidebar__item"><span class="sidebar__icon">🩺</span> Clinical Review</a></li>
+      <li><a href="wireframe-SCR-011-appointment-management.html" class="sidebar__item sidebar__item--active"><span class="sidebar__icon">📅</span> Appointments</a></li>
+      <li><a href="wireframe-SCR-005-staff-profile-settings.html" class="sidebar__item"><span class="sidebar__icon">👤</span> Profile &amp; Settings</a></li>
+    </ul>
+  </nav>
+
+  <main class="main" role="main">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="wireframe-SCR-003-staff-dashboard.html">Dashboard</a>
+      <span class="breadcrumb__separator" aria-hidden="true">›</span>
+      <span aria-current="page">Appointment Summary</span>
+    </nav>
+
+    <div class="page-header">
+      <h1 class="page-title">Appointment Summary</h1>
+    </div>
+
+    <div class="card">
+      <div class="card__header">
+        <div style="display: flex; align-items: center; gap: 16px;">
+          <h2 class="card__title">Appointments</h2>
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <label for="apptDate" style="font-size: 14px; font-weight: 500; color: var(--neutral-700);">Date:</label>
+            <input type="date" id="apptDate" aria-label="Select appointment date" style="height: 36px; padding: 4px 12px; font-size: 14px; font-family: var(--font-family); border: 1px solid var(--neutral-300); border-radius: var(--radius-md); color: var(--neutral-800); cursor: pointer;" />
+          </div>
+        </div>
+        <span class="badge badge--info">18 TOTAL</span>
+      </div>
+      <div>
+        <table class="data-table" aria-label="Today's appointments">
+          <thead>
+            <tr>
+              <th scope="col">Time</th>              <th scope="col">Patient ID</th>              <th scope="col">Patient</th>
+              <th scope="col">Type</th>
+              <th scope="col">Department</th>
+              <th scope="col">Insurance</th>
+              <th scope="col">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>8:00 AM</td>
+              <td>PAT-1001</td>
+              <td>Jane Doe</td>
+              <td>General Checkup</td>
+              <td>General Medicine</td>
+              <td><span class="badge badge--success" title="BlueCross PPO — BCX-9920-4417">✓ Verified</span></td>
+              <td><span class="badge badge--success">Completed</span></td>
+            </tr>
+            <tr>
+              <td>8:30 AM</td>
+              <td>PAT-1002</td>
+              <td>Robert Chen</td>
+              <td>Follow-up</td>
+              <td>Cardiology</td>
+              <td><span class="badge badge--success" title="UnitedHealth PPO — UHC-5521-3390">✓ Verified</span></td>
+              <td><span class="badge badge--info">In Progress</span></td>
+            </tr>
+            <tr>
+              <td>9:00 AM</td>
+              <td>PAT-1003</td>
+              <td>Maria Garcia</td>
+              <td>Lab Review</td>
+              <td>Orthopedics</td>
+              <td><span class="badge badge--error" title="Aetna HMO — AET-0033-7781 — Policy not in active records">✕ Failed</span></td>
+              <td><span class="badge badge--warning">Scheduled</span></td>
+            </tr>
+            <tr>
+              <td>9:30 AM</td>
+              <td>PAT-1004</td>
+              <td>David Kim</td>
+              <td>New Patient</td>
+              <td>Dermatology</td>
+              <td><span class="badge badge--warning" title="Pending — No insurance on file">⏳ Pending</span></td>
+              <td><span class="badge badge--error">No Show</span></td>
+            </tr>
+            <tr>
+              <td>10:00 AM</td>
+              <td>PAT-1005</td>
+              <td>Emily Watson</td>
+              <td>Medication Review</td>
+              <td>Neurology</td>
+              <td><span class="badge badge--success" title="Cigna PPO — CIG-8834-1102">✓ Verified</span></td>
+              <td><span class="badge badge--warning">Scheduled</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <!-- Pagination -->
+      <div style="display: flex; align-items: center; justify-content: space-between; padding: 16px 24px; border-top: 1px solid var(--neutral-200);">
+        <span style="font-size: 14px; color: var(--neutral-600);">Showing 1–5 of 18 appointments</span>
+        <nav aria-label="Pagination" style="display: flex; align-items: center; gap: 4px;">
+          <button class="btn btn--secondary" disabled aria-label="Previous page" style="font-size: 13px; height: 32px; min-width: 32px; padding: 4px 8px;">‹</button>
+          <button class="btn btn--primary" aria-current="page" aria-label="Page 1" style="font-size: 13px; height: 32px; min-width: 32px; padding: 4px 8px;">1</button>
+          <button class="btn btn--secondary" aria-label="Page 2" style="font-size: 13px; height: 32px; min-width: 32px; padding: 4px 8px;">2</button>
+          <button class="btn btn--secondary" aria-label="Page 3" style="font-size: 13px; height: 32px; min-width: 32px; padding: 4px 8px;">3</button>
+          <button class="btn btn--secondary" aria-label="Page 4" style="font-size: 13px; height: 32px; min-width: 32px; padding: 4px 8px;">4</button>
+          <button class="btn btn--secondary" aria-label="Next page" style="font-size: 13px; height: 32px; min-width: 32px; padding: 4px 8px;">›</button>
+        </nav>
+      </div>
+    </div>
+  </main>
+
+  <!-- Mark Complete Confirmation Modal -->
+  <div class="modal-overlay" id="completeModal" role="dialog" aria-modal="true" aria-labelledby="complete-title" style="display: none;">
+    <div class="modal">
+      <div class="modal__header">
+        <h2 class="modal__title" id="complete-title">✓ Mark as Completed?</h2>
+        <button class="modal__close" aria-label="Close dialog" onclick="closeCompleteModal();">✕</button>
+      </div>
+      <div class="modal__body">
+        <p>Are you sure you want to mark <strong id="complete-name">—</strong>'s (<span id="complete-id">—</span>) <strong id="complete-type">—</strong> appointment at <strong id="complete-time">—</strong> as completed?</p>
+        <p style="margin-top: 12px; color: var(--secondary-600);">
+          ✓ This will update the appointment status and be logged in the audit trail.
+        </p>
+      </div>
+      <div class="modal__footer">
+        <button class="btn-modal btn-modal--cancel" onclick="closeCompleteModal();">Cancel</button>
+        <button class="btn-modal btn-modal--success" onclick="closeCompleteModal();">Mark Complete</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- No Show Confirmation Modal (FL-006) -->
+  <div class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="noshow-title" style="display: none;">
+    <div class="modal">
+      <div class="modal__header">
+        <h2 class="modal__title" id="noshow-title">⚠ Mark as No Show?</h2>
+        <button class="modal__close" aria-label="Close dialog">✕</button>
+      </div>
+      <div class="modal__body">
+        <p>Are you sure you want to mark <strong>Emily Watson's</strong> appointment as a no-show?</p>
+        <p style="margin-top: 12px; color: var(--warning-600);">
+          ⚠ This action will be logged in the audit trail.
+        </p>
+      </div>
+      <div class="modal__footer">
+        <button class="btn-modal btn-modal--cancel">Cancel</button>
+        <button class="btn-modal btn-modal--danger">Confirm No Show</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function openCompleteModal(name, id, type, time) {
+      document.getElementById('complete-name').textContent = name;
+      document.getElementById('complete-id').textContent = id;
+      document.getElementById('complete-type').textContent = type;
+      document.getElementById('complete-time').textContent = time;
+      document.getElementById('completeModal').style.display = 'flex';
+    }
+    function closeCompleteModal() {
+      document.getElementById('completeModal').style.display = 'none';
+    }
+    document.getElementById('completeModal').addEventListener('click', function(e) { if (e.target === this) closeCompleteModal(); });
+    document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeCompleteModal(); });
+
+    // Set date picker to current date
+    (function() {
+      var today = new Date();
+      var yyyy = today.getFullYear();
+      var mm = String(today.getMonth() + 1).padStart(2, '0');
+      var dd = String(today.getDate()).padStart(2, '0');
+      document.getElementById('apptDate').value = yyyy + '-' + mm + '-' + dd;
+    })();
+  </script>
+</body>
+</html>

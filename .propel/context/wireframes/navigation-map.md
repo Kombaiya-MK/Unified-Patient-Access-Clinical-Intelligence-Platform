@@ -1,103 +1,168 @@
----
-title: Navigation Map — Unified Patient Access & Clinical Intelligence Platform
-source: .propel/context/docs/figma_spec.md
-date: 2026-03-16
----
+# Navigation Map - Unified Patient Access & Clinical Intelligence Platform
 
-# Navigation Map — Unified Patient Access & Clinical Intelligence Platform
+## Overview
 
-## Flow Index
+This document defines the cross-screen navigation index for all 13 screens and 7 modals/overlays. Each entry specifies the source screen, trigger element, action, and target destination with corresponding wireframe file references.
 
-| Flow ID | Flow Name | Persona | Screens | Entry | Exit |
-|---|---|---|---|---|---|
-| FL-001 | Patient Appointment Booking | Patient | SCR-003 → SCR-006 → SCR-007 → SCR-031 → SCR-010 → SCR-015 | SCR-003 | SCR-015 |
-| FL-002 | Patient Intake | Patient | SCR-006 → SCR-018 / SCR-019 | SCR-006 | SCR-018 / SCR-019 |
-| FL-003 | Staff Walk-in Management | Staff | SCR-002 → SCR-005 → SCR-025 → SCR-026 / SCR-027 → SCR-028 | SCR-002 | SCR-028 |
-| FL-004 | Admin User Management | Admin | SCR-001 → SCR-004 → SCR-020 → SCR-023 → SCR-024 | SCR-001 | SCR-024 |
-| FL-005 | Clinical Document Flow | Patient/Staff | SCR-006 → SCR-016 → SCR-017 → SCR-030 → SCR-029 | SCR-006 | SCR-029 |
-| FL-006 | Appointment Reschedule/Cancel | Patient | SCR-006 → SCR-010 → SCR-008 / SCR-009 | SCR-006 | SCR-008 / SCR-009 |
-| FL-007 | Insurance Pre-check | Patient | SCR-007 → SCR-031 → SCR-010 | SCR-007 | SCR-010 |
+## Navigation Index
 
-## Cross-Screen Navigation Index
+### SCR-001 Login/Register
+| Element | Action | Target Screen | Wireframe |
+|---------|--------|---------------|-----------|
+| Login Button | Submit credentials | SCR-002 (Patient) / SCR-003 (Staff) / SCR-004 (Admin) | wireframe-SCR-002/003/004 |
+| Register Link | Toggle to register form | SCR-001 (Register state) | wireframe-SCR-001 |
+| Forgot Password Link | Navigate to reset | SCR-001 (Reset state) | wireframe-SCR-001 |
 
-| Source Screen | Target Screen | Trigger Element | Trigger Action | Flow(s) |
-|---|---|---|---|---|
-| SCR-001 | SCR-004 | #login-btn | Submit login | FL-004 |
-| SCR-002 | SCR-005 | #login-btn | Submit login | FL-003 |
-| SCR-003 | SCR-006 | #login-btn | Submit login | FL-001, FL-002, FL-005, FL-006 |
-| SCR-004 | SCR-020 | #create-user-btn | Click "Create User" | FL-004 |
-| SCR-004 | SCR-021 | .edit-user-link | Click "Edit" on user row | FL-004 |
-| SCR-004 | SCR-024 | #audit-log-nav | Click "Audit Log" nav | FL-004 |
-| SCR-005 | SCR-025 | #walkin-queue-nav | Click "Walk-in Queue" nav | FL-003 |
-| SCR-005 | SCR-028 | #alerts-nav | Click "Alerts" nav | FL-003 |
-| SCR-005 | SCR-010 | .appointment-row | Click appointment row | — |
-| SCR-005 | SCR-011 | #waitlist-nav | Click "Waitlist" nav | — |
-| SCR-006 | SCR-007 | #book-appointment-btn | Click "Book Appointment" | FL-001 |
-| SCR-006 | SCR-010 | .appointment-card | Click appointment card | FL-006 |
-| SCR-006 | SCR-016 | #upload-docs-btn | Click "Upload Documents" | FL-005 |
-| SCR-006 | SCR-018 | #ai-intake-btn | Click "AI Intake" | FL-002 |
-| SCR-006 | SCR-019 | #manual-intake-btn | Click "Manual Intake" | FL-002 |
-| SCR-006 | SCR-013 | #reminders-nav | Click "Reminders" nav | — |
-| SCR-006 | SCR-014 | #calendar-sync-nav | Click "Calendar Sync" nav | — |
-| SCR-006 | SCR-011 | #waitlist-nav | Click "Waitlist" nav | — |
-| SCR-007 | SCR-031 | #check-insurance-btn | Click "Check Insurance" step | FL-001, FL-007 |
-| SCR-007 | SCR-010 | #confirm-booking-btn | Submit booking | FL-001 |
-| SCR-010 | SCR-008 | #reschedule-btn | Click "Reschedule" | FL-006 |
-| SCR-010 | SCR-009 | #cancel-btn | Click "Cancel Appointment" | FL-006 |
-| SCR-010 | SCR-012 | #slot-swap-btn | Click "Swap Slot" | — |
-| SCR-010 | SCR-015 | #view-confirmation-btn | Click "View Confirmation" | FL-001 |
-| SCR-016 | SCR-017 | #view-documents-btn | Click "View Documents" | FL-005 |
-| SCR-017 | SCR-030 | #medical-coding-btn | Click "Medical Coding" | FL-005 |
-| SCR-017 | SCR-029 | #conflicts-alert | Click conflict alert | FL-005 |
-| SCR-018 | SCR-019 | #switch-to-manual | Click "Switch to Manual" | FL-002 |
-| SCR-019 | SCR-018 | #switch-to-ai | Click "Switch to AI" | FL-002 |
-| SCR-020 | SCR-023 | #assign-roles-btn | Click "Assign Roles" | FL-004 |
-| SCR-021 | SCR-022 | #deactivate-btn | Click "Deactivate User" | FL-004 |
-| SCR-021 | SCR-023 | #assign-roles-btn | Click "Assign Roles" | FL-004 |
-| SCR-025 | SCR-026 | .mark-arrival-btn | Click "Mark Arrived" | FL-003 |
-| SCR-025 | SCR-027 | .mark-noshow-btn | Click "No Show" | FL-003 |
-| SCR-031 | SCR-010 | #proceed-btn | Click "Proceed to Confirm" | FL-007 |
+### SCR-002 Patient Dashboard
+| Element | Action | Target Screen | Wireframe |
+|---------|--------|---------------|-----------|
+| Sidebar: Dashboard | Active item | SCR-002 | wireframe-SCR-002 |
+| Sidebar: Book Appointment | Navigate | SCR-006 | wireframe-SCR-006 |
+| Sidebar: Patient Intake | Navigate | SCR-007 | wireframe-SCR-007 |
+| Sidebar: Documents | Navigate | SCR-008 | wireframe-SCR-008 |
+| Sidebar: Profile | Navigate | SCR-005 | wireframe-SCR-005 |
+| "Book Appointment" CTA | FL-001 entry | SCR-006 | wireframe-SCR-006 |
+| "Complete Intake" CTA | FL-002 entry | SCR-007 | wireframe-SCR-007 |
+| "Upload Document" CTA | Navigate | SCR-008 | wireframe-SCR-008 |
+| Notification Bell | Open drawer | Notification Center Drawer | wireframe-SCR-002 |
+| User Menu > Profile | Navigate | SCR-005 | wireframe-SCR-005 |
+| User Menu > Logout | Redirect | SCR-001 | wireframe-SCR-001 |
 
-## Dead-End Analysis
+### SCR-003 Staff Dashboard
+| Element | Action | Target Screen | Wireframe |
+|---------|--------|---------------|-----------|
+| Sidebar: Dashboard | Active item | SCR-003 | wireframe-SCR-003 |
+| Sidebar: Queue | Navigate | SCR-009 | wireframe-SCR-009 |
+| Sidebar: Clinical Review | Navigate | SCR-010 | wireframe-SCR-010 |
+| Sidebar: Appointments | Navigate | SCR-011 | wireframe-SCR-011 |
+| Sidebar: Profile | Navigate | SCR-005 | wireframe-SCR-005 |
+| "Queue Management" link | FL-003 entry | SCR-009 | wireframe-SCR-009 |
+| Patient Name (row click) | FL-004 entry | SCR-010 | wireframe-SCR-010 |
+| "Appointment Management" link | FL-006 entry | SCR-011 | wireframe-SCR-011 |
+| Notification Bell | Open drawer | Notification Center Drawer | wireframe-SCR-003 |
+| User Menu > Profile | Navigate | SCR-005 | wireframe-SCR-005 |
+| User Menu > Logout | Redirect | SCR-001 | wireframe-SCR-001 |
 
-All screens have at minimum one outbound navigation path (back to parent dashboard via sidebar). No dead-end screens identified.
+### SCR-004 Admin Dashboard
+| Element | Action | Target Screen | Wireframe |
+|---------|--------|---------------|-----------|
+| Sidebar: Dashboard | Active item | SCR-004 | wireframe-SCR-004 |
+| Sidebar: User Management | Navigate | SCR-013 | wireframe-SCR-013 |
+| Sidebar: Audit Logs | Navigate | SCR-012 | wireframe-SCR-012 |
+| Sidebar: Profile | Navigate | SCR-005 | wireframe-SCR-005 |
+| "User Management" link | FL-005 entry | SCR-013 | wireframe-SCR-013 |
+| "View Audit Logs" link | Navigate | SCR-012 | wireframe-SCR-012 |
+| Notification Bell | Open drawer | Notification Center Drawer | wireframe-SCR-004 |
+| User Menu > Profile | Navigate | SCR-005 | wireframe-SCR-005 |
+| User Menu > Logout | Redirect | SCR-001 | wireframe-SCR-001 |
 
-## Sidebar Navigation Structure
+### SCR-005 Profile & Settings
+| Element | Action | Target Screen | Wireframe |
+|---------|--------|---------------|-----------|
+| Breadcrumb: Dashboard | Navigate back | SCR-002/003/004 (role-based) | wireframe-SCR-002/003/004 |
+| Save Button | Stay on page | SCR-005 (success toast) | wireframe-SCR-005 |
+| Cancel Button | Navigate back | Previous screen | — |
+| Sidebar items | Standard nav | Role-specific screens | — |
+
+### SCR-006 Appointment Booking
+| Element | Action | Target Screen | Wireframe |
+|---------|--------|---------------|-----------|
+| Breadcrumb: Dashboard | Navigate back | SCR-002 | wireframe-SCR-002 |
+| Calendar Date | Select date | SCR-006 (slot list updates) | wireframe-SCR-006 |
+| Time Slot RadioGroup | Select slot | SCR-006 (slot selected) | wireframe-SCR-006 |
+| "Confirm Booking" Button | Submit booking | SCR-002 (success toast) | wireframe-SCR-002 |
+| "Join Waitlist" Button | Waitlist action | SCR-002 (waitlist toast) | wireframe-SCR-002 |
+| Slot Details | Open drawer | Slot Details Drawer | wireframe-SCR-006 |
+| Back Button (mobile) | Navigate back | SCR-002 | wireframe-SCR-002 |
+
+### SCR-007 Patient Intake
+| Element | Action | Target Screen | Wireframe |
+|---------|--------|---------------|-----------|
+| Breadcrumb: Dashboard | Navigate back | SCR-002 | wireframe-SCR-002 |
+| AI/Manual Toggle | Switch mode | SCR-007 (mode switch) | wireframe-SCR-007 |
+| "Submit Intake" Button | Submit form | SCR-002 (success toast) | wireframe-SCR-002 |
+| Back Button (mobile) | Navigate back | SCR-002 | wireframe-SCR-002 |
+
+### SCR-008 Document Upload
+| Element | Action | Target Screen | Wireframe |
+|---------|--------|---------------|-----------|
+| Breadcrumb: Dashboard | Navigate back | SCR-002 | wireframe-SCR-002 |
+| File Upload Zone | Upload action | SCR-008 (progress state) | wireframe-SCR-008 |
+| "Done" Button | Navigate back | SCR-002 | wireframe-SCR-002 |
+| Back Button (mobile) | Navigate back | SCR-002 | wireframe-SCR-002 |
+
+### SCR-009 Queue Management
+| Element | Action | Target Screen | Wireframe |
+|---------|--------|---------------|-----------|
+| Breadcrumb: Dashboard | Navigate back | SCR-003 | wireframe-SCR-003 |
+| "Add Walk-in" Button | Open modal | Add Walk-in Modal | wireframe-SCR-009 |
+| Patient Name (row click) | Open drawer | Patient Details Drawer | wireframe-SCR-009 |
+| "Mark Arrived" Button | Row action | SCR-009 (badge update) | wireframe-SCR-009 |
+| Back Button (mobile) | Navigate back | SCR-003 | wireframe-SCR-003 |
+
+### SCR-010 Clinical Data Review
+| Element | Action | Target Screen | Wireframe |
+|---------|--------|---------------|-----------|
+| Breadcrumb: Dashboard | Navigate back | SCR-003 | wireframe-SCR-003 |
+| Conflict Badge (click) | Open modal | Conflict Details Modal | wireframe-SCR-010 |
+| "Approve Profile" Button | Navigate back | SCR-003 (success toast) | wireframe-SCR-003 |
+| Back Button (mobile) | Navigate back | SCR-003 | wireframe-SCR-003 |
+
+### SCR-011 Appointment Management
+| Element | Action | Target Screen | Wireframe |
+|---------|--------|---------------|-----------|
+| Breadcrumb: Dashboard | Navigate back | SCR-003 | wireframe-SCR-003 |
+| "Mark No Show" Button | Open modal | Confirmation Dialog | wireframe-SCR-011 |
+| "Reschedule" Button | Open modal | Reschedule Modal | wireframe-SCR-011 |
+| Back Button (mobile) | Navigate back | SCR-003 | wireframe-SCR-003 |
+
+### SCR-012 Audit Logs
+| Element | Action | Target Screen | Wireframe |
+|---------|--------|---------------|-----------|
+| Breadcrumb: Dashboard | Navigate back | SCR-004 | wireframe-SCR-004 |
+| Search TextField | Filter in-page | SCR-012 (filtered) | wireframe-SCR-012 |
+| Filter Select | Filter in-page | SCR-012 (filtered) | wireframe-SCR-012 |
+| Pagination | Page navigation | SCR-012 (page change) | wireframe-SCR-012 |
+| Back Button (mobile) | Navigate back | SCR-004 | wireframe-SCR-004 |
+
+### SCR-013 User Management
+| Element | Action | Target Screen | Wireframe |
+|---------|--------|---------------|-----------|
+| Breadcrumb: Dashboard | Navigate back | SCR-004 | wireframe-SCR-004 |
+| "Add User" Button | Open drawer | User Form Drawer | wireframe-SCR-013 |
+| Edit icon (row) | Open drawer | User Form Drawer (prefilled) | wireframe-SCR-013 |
+| Deactivate icon (row) | Open modal | Confirmation Dialog | wireframe-SCR-013 |
+| Back Button (mobile) | Navigate back | SCR-004 | wireframe-SCR-004 |
+
+## Flow Navigation Summary
+
+| Flow ID | Name | Screen Sequence | Trigger |
+|---------|------|----------------|---------|
+| FL-001 | Patient Booking | SCR-002 → SCR-006 → SCR-002 | "Book Appointment" CTA |
+| FL-002 | Patient Intake | SCR-002 → SCR-007 → SCR-002 | "Complete Intake" CTA |
+| FL-003 | Staff Queue | SCR-003 → SCR-009 → Modal/Queue update | "Queue Management" nav |
+| FL-004 | Staff Clinical Review | SCR-003 → SCR-010 → Modal/SCR-003 | Patient name click |
+| FL-005 | Admin User Mgmt | SCR-004 → SCR-013 → Drawer/SCR-013 | "User Management" nav |
+| FL-006 | Staff No Show | SCR-003 → SCR-011 → Modal/SCR-011 | "Appointment Management" nav |
+
+## Sidebar Menu Structure
 
 ### Patient Sidebar
-
-| Order | Label | Target | Icon |
-|---|---|---|---|
-| 1 | Dashboard | SCR-006 | 🏠 |
-| 2 | Book Appointment | SCR-007 | 📅 |
-| 3 | My Appointments | SCR-010 | 📋 |
-| 4 | Waitlist | SCR-011 | ⏳ |
-| 5 | Upload Documents | SCR-016 | 📁 |
-| 6 | My Documents | SCR-017 | 📄 |
-| 7 | Intake | SCR-018 | 💬 |
-| 8 | Reminders | SCR-013 | 🔔 |
-| 9 | Calendar Sync | SCR-014 | 🗓️ |
+1. Dashboard (SCR-002) — icon: home
+2. Book Appointment (SCR-006) — icon: calendar
+3. Patient Intake (SCR-007) — icon: clipboard
+4. Documents (SCR-008) — icon: file-upload
+5. Profile & Settings (SCR-005) — icon: user
 
 ### Staff Sidebar
-
-| Order | Label | Target | Icon |
-|---|---|---|---|
-| 1 | Dashboard | SCR-005 | 🏠 |
-| 2 | Walk-in Queue | SCR-025 | 👥 |
-| 3 | Appointments | SCR-010 | 📋 |
-| 4 | Waitlist | SCR-011 | ⏳ |
-| 5 | No-Show Alerts | SCR-028 | ⚠️ |
-| 6 | Medication Conflicts | SCR-029 | 💊 |
-| 7 | Medical Coding | SCR-030 | 🏥 |
-| 8 | Reminders | SCR-013 | 🔔 |
-| 9 | Notifications | SCR-015 | ✉️ |
+1. Dashboard (SCR-003) — icon: home
+2. Queue Management (SCR-009) — icon: queue
+3. Clinical Review (SCR-010) — icon: stethoscope
+4. Appointments (SCR-011) — icon: calendar-check
+5. Profile & Settings (SCR-005) — icon: user
 
 ### Admin Sidebar
-
-| Order | Label | Target | Icon |
-|---|---|---|---|
-| 1 | Dashboard | SCR-004 | 🏠 |
-| 2 | Create User | SCR-020 | ➕ |
-| 3 | Manage Users | SCR-021 | 👤 |
-| 4 | Assign Roles | SCR-023 | 🔑 |
-| 5 | Audit Log | SCR-024 | 📜 |
+1. Dashboard (SCR-004) — icon: home
+2. User Management (SCR-013) — icon: users
+3. Audit Logs (SCR-012) — icon: shield
+4. Profile & Settings (SCR-005) — icon: user

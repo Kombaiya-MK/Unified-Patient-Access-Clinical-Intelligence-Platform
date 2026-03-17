@@ -1,0 +1,29 @@
+{
+  "users": [
+    {
+      "full_name": "Jane Smith",
+      "email": "jane.smith@example.com",
+      "role": "Staff",
+      "department": "Cardiology",
+      "phone": "+1-555-0123"
+    },
+    {
+      "full_name": "John Admin",
+      "email": "john.admin@example.com",
+      "role": "Admin",
+      "department": "Administration",
+      "phone": "+1-555-0124"
+    }
+  ],
+  "role_update": {
+    "email": "jane.smith@example.com",
+    "current_role": "Staff",
+    "new_role": "Admin"
+  },
+  "deactivation": {
+    "email": "jane.smith@example.com",
+    "current_status": "Active",
+    "new_status": "Inactive",
+    "reason": "Employee left organization"
+  }
+}

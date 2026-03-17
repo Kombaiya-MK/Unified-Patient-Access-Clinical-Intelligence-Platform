@@ -1,0 +1,21 @@
+{
+  "ai_intake": {
+    "chief_complaint": "Persistent cough for 3 weeks",
+    "severity": "Moderate, worse at night",
+    "intake_method": "AI-assisted"
+  },
+  "manual_intake": {
+    "chief_complaint": "Persistent cough for 3 weeks",
+    "duration_days": 21,
+    "severity": "Moderate",
+    "additional_notes": "Worse at night, no fever",
+    "intake_method": "Manual"
+  },
+  "switch_to_manual": {
+    "initial_ai_complaint": "I have a headache",
+    "manual_duration": 2
+  },
+  "switch_to_ai": {
+    "initial_manual_complaint": "Fever and chills"
+  }
+}

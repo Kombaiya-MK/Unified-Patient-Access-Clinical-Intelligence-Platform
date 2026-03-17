@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SCR-014 Department Management — Unified Patient Access Platform</title>
+  <!-- SCR-014 | Derived From: Admin Department Administration | Personas: Admin | Priority: P1 -->
+  <style>
+    :root {
+      --primary-900: #003D7A; --primary-800: #004C99; --primary-600: #0066CC;
+      --primary-200: #CCE0F5; --primary-100: #E6F0FA;
+      --secondary-600: #00A86B; --secondary-100: #E6F6F0;
+      --success-600: #00A145; --success-100: #E6F9EF;
+      --warning-600: #FF8800; --warning-100: #FFF2E6;
+      --error-600: #DC3545; --error-100: #FCE8EA;
+      --info-600: #0077B6; --info-100: #E6F3F9;
+      --neutral-900: #1A1A1A; --neutral-800: #333333; --neutral-700: #4D4D4D;
+      --neutral-600: #666666; --neutral-500: #808080; --neutral-400: #999999;
+      --neutral-300: #CCCCCC; --neutral-200: #E5E5E5; --neutral-100: #F5F5F5; --neutral-50: #FAFAFA;
+      --bg-primary: #FFFFFF; --bg-tertiary: #FAFAFA;
+      --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      --radius-sm: 4px; --radius-md: 8px; --radius-lg: 12px; --radius-full: 9999px;
+      --shadow-1: 0px 1px 3px rgba(0,0,0,0.12), 0px 1px 2px rgba(0,0,0,0.24);
+      --shadow-3: 0px 10px 20px rgba(0,0,0,0.19), 0px 6px 6px rgba(0,0,0,0.23);
+      --focus-ring: 0 0 0 2px #FFFFFF, 0 0 0 4px #0066CC;
+      --transition: 200ms ease;
+      --sidebar-width: 240px; --header-height: 64px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: var(--font-family); background: var(--bg-tertiary); color: var(--neutral-900); }
+    a { color: var(--primary-600); text-decoration: none; }
+    a:hover { color: var(--primary-800); }
+    a:focus-visible { outline: none; box-shadow: var(--focus-ring); border-radius: var(--radius-sm); }
+
+    .header { position: fixed; top: 0; left: 0; right: 0; height: var(--header-height); z-index: 1000; background: var(--bg-primary); border-bottom: 1px solid var(--neutral-200); display: flex; align-items: center; padding: 0 24px; gap: 16px; }
+    .header__logo { font-size: 20px; font-weight: 700; color: var(--primary-600); }
+    .header__title { flex: 1; font-size: 16px; font-weight: 600; color: var(--neutral-800); margin-left: 16px; }
+    .header__avatar { width: 36px; height: 36px; border-radius: var(--radius-full); background: var(--error-100); color: var(--error-600); font-size: 14px; font-weight: 600; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+
+    .sidebar { position: fixed; top: var(--header-height); left: 0; bottom: 0; width: var(--sidebar-width); background: var(--bg-primary); border-right: 1px solid var(--neutral-200); padding: 16px 0; z-index: 900; display: flex; flex-direction: column; }
+    .sidebar__role { padding: 8px 16px; margin: 0 16px 16px; font-size: 12px; font-weight: 500; text-transform: uppercase; letter-spacing: 1px; color: var(--error-600); background: var(--error-100); border-radius: var(--radius-full); text-align: center; }
+    .sidebar__nav { flex: 1; list-style: none; }
+    .sidebar__item { display: flex; align-items: center; gap: 12px; padding: 12px 24px; font-size: 14px; font-weight: 500; color: var(--neutral-700); cursor: pointer; transition: all var(--transition); border-left: 3px solid transparent; text-decoration: none; }
+    .sidebar__item:hover { background: var(--neutral-50); color: var(--primary-600); }
+    .sidebar__item--active { color: var(--primary-600); background: var(--primary-100); border-left-color: var(--primary-600); font-weight: 600; }
+    .sidebar__item:focus-visible { box-shadow: var(--focus-ring); outline: none; }
+    .sidebar__icon { width: 20px; text-align: center; font-size: 16px; }
+
+    .main { margin-left: var(--sidebar-width); margin-top: var(--header-height); padding: 32px; min-height: calc(100vh - var(--header-height)); }
+    .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 14px; color: var(--neutral-500); margin-bottom: 24px; }
+    .breadcrumb a { color: var(--primary-600); }
+    .breadcrumb__separator { color: var(--neutral-400); }
+    .page-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; }
+    .page-title { font-size: 32px; font-weight: 700; line-height: 40px; letter-spacing: -0.25px; }
+
+    /* Stats Row */
+    .stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 32px; }
+    .stat-card { background: var(--bg-primary); border-radius: var(--radius-md); padding: 20px 24px; box-shadow: var(--shadow-1); }
+    .stat-card__label { font-size: 14px; color: var(--neutral-600); margin-bottom: 4px; }
+    .stat-card__value { font-size: 28px; font-weight: 700; line-height: 36px; }
+    .stat-card__value--primary { color: var(--primary-600); }
+    .stat-card__value--success { color: var(--secondary-600); }
+    .stat-card__value--warning { color: var(--warning-600); }
+    .stat-card__value--error { color: var(--error-600); }
+
+    /* Search */
+    .search-bar { display: flex; gap: 12px; margin-bottom: 24px; }
+    .search-bar input { flex: 1; max-width: 400px; height: 40px; padding: 8px 12px; font-size: 14px; font-family: var(--font-family); border: 1px solid var(--neutral-300); border-radius: var(--radius-md); }
+    .search-bar input:focus { border-color: var(--primary-600); box-shadow: 0 0 0 2px var(--primary-100); outline: none; }
+
+    /* Buttons */
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; height: 40px; padding: 8px 20px; font-size: 14px; font-weight: 500; font-family: var(--font-family); border: none; border-radius: var(--radius-md); cursor: pointer; transition: all var(--transition); }
+    .btn:focus-visible { box-shadow: var(--focus-ring); outline: none; }
+    .btn--primary { background: var(--primary-600); color: white; }
+    .btn--primary:hover { background: var(--primary-800); }
+    .btn--secondary { background: none; color: var(--neutral-700); border: 1px solid var(--neutral-300); }
+    .btn--secondary:hover { background: var(--neutral-50); }
+    .btn--danger { background: var(--error-600); color: white; }
+    .btn--danger:hover { background: #C82333; }
+    .btn--icon { width: 32px; height: 32px; min-width: 32px; padding: 0; border: none; background: none; cursor: pointer; font-size: 16px; border-radius: var(--radius-full); transition: all var(--transition); display: inline-flex; align-items: center; justify-content: center; }
+    .btn--icon:hover { background: var(--neutral-100); }
+    .btn--icon:focus-visible { box-shadow: var(--focus-ring); outline: none; }
+
+    /* Card & Table */
+    .card { background: var(--bg-primary); border-radius: var(--radius-md); box-shadow: var(--shadow-1); overflow: hidden; }
+    .badge { display: inline-flex; align-items: center; padding: 2px 8px; font-size: 12px; font-weight: 500; text-transform: uppercase; letter-spacing: 1px; border-radius: var(--radius-full); }
+    .badge--success { background: var(--success-100); color: var(--success-600); }
+    .badge--warning { background: var(--warning-100); color: var(--warning-600); }
+    .badge--error { background: var(--error-100); color: var(--error-600); }
+    .badge--info { background: var(--info-100); color: var(--info-600); }
+    .badge--neutral { background: var(--neutral-100); color: var(--neutral-600); }
+
+    .data-table { width: 100%; border-collapse: collapse; }
+    .data-table thead th { padding: 12px 16px; text-align: left; font-size: 14px; font-weight: 600; color: var(--neutral-700); background: var(--neutral-50); border-bottom: 1px solid var(--neutral-200); }
+    .data-table tbody td { padding: 12px 16px; font-size: 14px; color: var(--neutral-700); border-bottom: 1px solid var(--neutral-100); vertical-align: middle; }
+    .data-table tbody tr { transition: background var(--transition); }
+    .data-table tbody tr:hover { background: var(--neutral-50); }
+    .actions-cell { display: flex; gap: 4px; }
+
+    /* Dept icon badge */
+    .dept-icon { width: 36px; height: 36px; border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+    .dept-cell { display: flex; align-items: center; gap: 12px; }
+    .dept-cell__info { display: flex; flex-direction: column; }
+    .dept-cell__name { font-weight: 500; color: var(--neutral-900); }
+    .dept-cell__code { font-size: 12px; color: var(--neutral-500); font-family: monospace; }
+
+    /* Modal */
+    .modal-overlay { display: none; position: fixed; inset: 0; z-index: 2000; background: rgba(0,0,0,0.5); align-items: center; justify-content: center; }
+    .modal-overlay--open { display: flex; }
+    .modal { background: var(--bg-primary); border-radius: var(--radius-lg); box-shadow: var(--shadow-3); width: 100%; max-width: 520px; max-height: 90vh; overflow-y: auto; }
+    .modal__header { display: flex; align-items: center; justify-content: space-between; padding: 20px 24px; border-bottom: 1px solid var(--neutral-200); }
+    .modal__title { font-size: 20px; font-weight: 600; }
+    .modal__close { width: 36px; height: 36px; border: none; background: none; cursor: pointer; font-size: 20px; border-radius: var(--radius-full); transition: background var(--transition); color: var(--neutral-600); display: flex; align-items: center; justify-content: center; }
+    .modal__close:hover { background: var(--neutral-100); }
+    .modal__close:focus-visible { box-shadow: var(--focus-ring); outline: none; }
+    .modal__body { padding: 24px; }
+    .modal__footer { padding: 16px 24px; border-top: 1px solid var(--neutral-200); display: flex; gap: 12px; justify-content: flex-end; }
+
+    /* Confirmation modal (smaller) */
+    .modal--confirm { max-width: 440px; padding: 32px; }
+    .modal--confirm .modal__icon { width: 48px; height: 48px; border-radius: var(--radius-full); display: flex; align-items: center; justify-content: center; font-size: 24px; margin-bottom: 16px; }
+    .modal--confirm .modal__icon--danger { background: var(--error-100); color: var(--error-600); }
+    .modal--confirm .modal__title { margin-bottom: 8px; }
+    .modal--confirm .modal__text { font-size: 14px; color: var(--neutral-600); line-height: 1.6; margin-bottom: 24px; }
+    .modal--confirm .modal__actions { display: flex; justify-content: flex-end; gap: 12px; }
+
+    /* Form */
+    .form-group { margin-bottom: 16px; }
+    .form-label { display: block; font-size: 14px; font-weight: 500; color: var(--neutral-800); margin-bottom: 4px; }
+    .form-required { color: var(--error-600); }
+    .form-input { width: 100%; height: 40px; padding: 8px 12px; font-size: 16px; font-family: var(--font-family); border: 1px solid var(--neutral-300); border-radius: var(--radius-md); transition: all var(--transition); }
+    .form-input:focus { border-color: var(--primary-600); box-shadow: 0 0 0 2px var(--primary-100); outline: none; }
+    .form-textarea { width: 100%; min-height: 80px; padding: 8px 12px; font-size: 16px; font-family: var(--font-family); border: 1px solid var(--neutral-300); border-radius: var(--radius-md); resize: vertical; transition: all var(--transition); }
+    .form-textarea:focus { border-color: var(--primary-600); box-shadow: 0 0 0 2px var(--primary-100); outline: none; }
+    .form-select { width: 100%; height: 40px; padding: 8px 12px; font-size: 16px; font-family: var(--font-family); border: 1px solid var(--neutral-300); border-radius: var(--radius-md); background: var(--bg-primary); transition: all var(--transition); appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M6 8L1 3h10z' fill='%23666'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; }
+    .form-select:focus { border-color: var(--primary-600); box-shadow: 0 0 0 2px var(--primary-100); outline: none; }
+    .form-hint { font-size: 12px; color: var(--neutral-500); margin-top: 4px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+    /* Color picker pills */
+    .color-options { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
+    .color-pill { width: 32px; height: 32px; border-radius: var(--radius-full); border: 2px solid transparent; cursor: pointer; transition: all var(--transition); }
+    .color-pill:hover { transform: scale(1.15); }
+    .color-pill--selected { border-color: var(--neutral-900); box-shadow: 0 0 0 2px white, 0 0 0 4px var(--neutral-900); }
+
+    @media (max-width: 1023px) { .sidebar { display: none; } .main { margin-left: 0; } .stats-row { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 767px) { .main { padding: 16px; } .page-title { font-size: 24px; } .stats-row { grid-template-columns: 1fr; } .page-header { flex-direction: column; align-items: flex-start; gap: 16px; } .modal { max-width: 100%; margin: 16px; } .modal__footer { flex-direction: column; } .modal__footer .btn { width: 100%; } .form-row { grid-template-columns: 1fr; } .search-bar { flex-direction: column; } .search-bar input { max-width: 100%; } }
+  </style>
+</head>
+<body>
+  <!-- Navigation Map
+    Element: Breadcrumb Dashboard | Action: Navigate back | Target: SCR-004
+    Element: Add Department button | Action: Open Create modal | Target: Create Department Modal
+    Element: Edit icon (row) | Action: Open Edit modal | Target: Edit Department Modal
+    Element: Delete icon (row) | Action: Open Delete confirm | Target: Delete Confirmation Modal
+  -->
+
+  <header class="header" role="banner">
+    <div class="header__logo">UPACI</div>
+    <div class="header__title">Department Management</div>
+    <div class="header__avatar" role="button" aria-label="User menu" tabindex="0">AD</div>
+  </header>
+
+  <nav class="sidebar" role="navigation" aria-label="Main navigation">
+    <div class="sidebar__role">Admin</div>
+    <ul class="sidebar__nav">
+      <li><a href="wireframe-SCR-004-admin-dashboard.html" class="sidebar__item"><span class="sidebar__icon">🏠</span> Dashboard</a></li>
+      <li><a href="wireframe-SCR-013-user-management.html" class="sidebar__item"><span class="sidebar__icon">👥</span> User Management</a></li>
+      <li><a href="wireframe-SCR-014-department-management.html" class="sidebar__item sidebar__item--active"><span class="sidebar__icon">🏢</span> Departments</a></li>
+      <li><a href="wireframe-SCR-012-audit-logs.html" class="sidebar__item"><span class="sidebar__icon">🛡️</span> Audit Logs</a></li>
+      <li><a href="wireframe-SCR-005-admin-profile-settings.html" class="sidebar__item"><span class="sidebar__icon">👤</span> Profile &amp; Settings</a></li>
+    </ul>
+  </nav>
+
+  <main class="main" role="main">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="wireframe-SCR-004-admin-dashboard.html">Dashboard</a>
+      <span class="breadcrumb__separator" aria-hidden="true">›</span>
+      <span aria-current="page">Department Management</span>
+    </nav>
+
+    <div class="page-header">
+      <h1 class="page-title">Departments</h1>
+      <button class="btn btn--primary" aria-label="Add new department" onclick="openCreateModal();">
+        <span aria-hidden="true">+</span> Add Department
+      </button>
+    </div>
+
+    <!-- Search -->
+    <div class="search-bar">
+      <input type="search" placeholder="Search departments by name or code..." aria-label="Search departments">
+    </div>
+
+    <!-- Departments Table -->
+    <div class="card">
+      <table class="data-table" aria-label="Departments list">
+        <thead>
+          <tr>
+            <th scope="col">Department</th>
+            <th scope="col">Head</th>
+            <th scope="col">Staff Count</th>
+            <th scope="col">Status</th>
+            <th scope="col">Created</th>
+            <th scope="col">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <div class="dept-cell">
+                <div class="dept-icon" style="background: var(--primary-100); color: var(--primary-600);">🏥</div>
+                <div class="dept-cell__info">
+                  <span class="dept-cell__name">General Medicine</span>
+                  <span class="dept-cell__code">DEPT-GM</span>
+                </div>
+              </div>
+            </td>
+            <td>Dr. Sarah Mitchell</td>
+            <td>8</td>
+            <td><span class="badge badge--success">Active</span></td>
+            <td>2025-01-15</td>
+            <td>
+              <div class="actions-cell">
+                <button class="btn btn--icon" aria-label="Edit General Medicine" title="Edit department" onclick="openEditModal('DEPT-GM','General Medicine','Dr. Sarah Mitchell','General patient consultations, physicals, and primary care services.','active','🏥');">✏️</button>
+                <button class="btn btn--icon" aria-label="Delete General Medicine" title="Delete department" style="color: var(--error-600);" onclick="openDeleteModal('General Medicine','DEPT-GM',8);">🗑️</button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="dept-cell">
+                <div class="dept-icon" style="background: var(--error-100); color: var(--error-600);">❤️</div>
+                <div class="dept-cell__info">
+                  <span class="dept-cell__name">Cardiology</span>
+                  <span class="dept-cell__code">DEPT-CD</span>
+                </div>
+              </div>
+            </td>
+            <td>Dr. James Patel</td>
+            <td>5</td>
+            <td><span class="badge badge--success">Active</span></td>
+            <td>2025-01-15</td>
+            <td>
+              <div class="actions-cell">
+                <button class="btn btn--icon" aria-label="Edit Cardiology" title="Edit department" onclick="openEditModal('DEPT-CD','Cardiology','Dr. James Patel','Heart and cardiovascular system diagnosis and treatment.','active','❤️');">✏️</button>
+                <button class="btn btn--icon" aria-label="Delete Cardiology" title="Delete department" style="color: var(--error-600);" onclick="openDeleteModal('Cardiology','DEPT-CD',5);">🗑️</button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="dept-cell">
+                <div class="dept-icon" style="background: var(--info-100); color: var(--info-600);">🧬</div>
+                <div class="dept-cell__info">
+                  <span class="dept-cell__name">Dermatology</span>
+                  <span class="dept-cell__code">DEPT-DM</span>
+                </div>
+              </div>
+            </td>
+            <td>Dr. Emily Zhao</td>
+            <td>4</td>
+            <td><span class="badge badge--success">Active</span></td>
+            <td>2025-02-10</td>
+            <td>
+              <div class="actions-cell">
+                <button class="btn btn--icon" aria-label="Edit Dermatology" title="Edit department" onclick="openEditModal('DEPT-DM','Dermatology','Dr. Emily Zhao','Skin conditions, treatments, and cosmetic procedures.','active','🧬');">✏️</button>
+                <button class="btn btn--icon" aria-label="Delete Dermatology" title="Delete department" style="color: var(--error-600);" onclick="openDeleteModal('Dermatology','DEPT-DM',4);">🗑️</button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="dept-cell">
+                <div class="dept-icon" style="background: var(--warning-100); color: var(--warning-600);">⚗️</div>
+                <div class="dept-cell__info">
+                  <span class="dept-cell__name">Endocrinology</span>
+                  <span class="dept-cell__code">DEPT-EN</span>
+                </div>
+              </div>
+            </td>
+            <td>Dr. Jay Patel</td>
+            <td>3</td>
+            <td><span class="badge badge--success">Active</span></td>
+            <td>2025-03-05</td>
+            <td>
+              <div class="actions-cell">
+                <button class="btn btn--icon" aria-label="Edit Endocrinology" title="Edit department" onclick="openEditModal('DEPT-EN','Endocrinology','Dr. Jay Patel','Hormone and metabolic disorder management.','active','⚗️');">✏️</button>
+                <button class="btn btn--icon" aria-label="Delete Endocrinology" title="Delete department" style="color: var(--error-600);" onclick="openDeleteModal('Endocrinology','DEPT-EN',3);">🗑️</button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="dept-cell">
+                <div class="dept-icon" style="background: var(--secondary-100); color: var(--secondary-600);">🧠</div>
+                <div class="dept-cell__info">
+                  <span class="dept-cell__name">Neurology</span>
+                  <span class="dept-cell__code">DEPT-NR</span>
+                </div>
+              </div>
+            </td>
+            <td>Dr. Lisa Wang</td>
+            <td>6</td>
+            <td><span class="badge badge--success">Active</span></td>
+            <td>2025-04-20</td>
+            <td>
+              <div class="actions-cell">
+                <button class="btn btn--icon" aria-label="Edit Neurology" title="Edit department" onclick="openEditModal('DEPT-NR','Neurology','Dr. Lisa Wang','Brain, spinal cord, and nervous system disorders.','active','🧠');">✏️</button>
+                <button class="btn btn--icon" aria-label="Delete Neurology" title="Delete department" style="color: var(--error-600);" onclick="openDeleteModal('Neurology','DEPT-NR',6);">🗑️</button>
+              </div>
+            </td>
+          </tr>
+          <tr style="opacity: 0.7;">
+            <td>
+              <div class="dept-cell">
+                <div class="dept-icon" style="background: var(--neutral-100); color: var(--neutral-500);">🦷</div>
+                <div class="dept-cell__info">
+                  <span class="dept-cell__name">Dental</span>
+                  <span class="dept-cell__code">DEPT-DT</span>
+                </div>
+              </div>
+            </td>
+            <td>—</td>
+            <td>2</td>
+            <td><span class="badge badge--neutral">Inactive</span></td>
+            <td>2025-05-01</td>
+            <td>
+              <div class="actions-cell">
+                <button class="btn btn--icon" aria-label="Edit Dental" title="Edit department" onclick="openEditModal('DEPT-DT','Dental','','Dental care and oral health services.','inactive','🦷');">✏️</button>
+                <button class="btn btn--icon" aria-label="Delete Dental" title="Delete department" style="color: var(--error-600);" onclick="openDeleteModal('Dental','DEPT-DT',2);">🗑️</button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <!-- Create / Edit Department Modal -->
+  <div class="modal-overlay" id="deptModal" role="dialog" aria-modal="true" aria-labelledby="dept-modal-title">
+    <div class="modal">
+      <div class="modal__header">
+        <h2 class="modal__title" id="dept-modal-title">Add Department</h2>
+        <button class="modal__close" aria-label="Close dialog" onclick="closeDeptModal();">✕</button>
+      </div>
+      <div class="modal__body">
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="dept-name">Department Name <span class="form-required">*</span></label>
+            <input class="form-input" type="text" id="dept-name" placeholder="e.g. Orthopedics">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="dept-code">Department Code <span class="form-required">*</span></label>
+            <input class="form-input" type="text" id="dept-code" placeholder="e.g. DEPT-OR" style="font-family: monospace;">
+            <div class="form-hint">Unique identifier — cannot be changed later</div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="dept-desc">Description</label>
+          <textarea class="form-textarea" id="dept-desc" placeholder="Brief description of the department's services..."></textarea>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="dept-head">Department Head</label>
+          <select class="form-select" id="dept-head">
+            <option value="" disabled selected>Select department head...</option>
+            <option value="STF-2001">Dr. Sarah Mitchell (STF-2001)</option>
+            <option value="STF-2002">Dr. James Patel (STF-2002)</option>
+            <option value="STF-2003">Dr. Emily Zhao (STF-2003)</option>
+            <option value="STF-2004">Dr. Jay Patel (STF-2002)</option>
+            <option value="ADM-3001">Dr. Lisa Wang (ADM-3001)</option>
+          </select>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="dept-status">Status <span class="form-required">*</span></label>
+            <select class="form-select" id="dept-status">
+              <option value="active" selected>Active</option>
+              <option value="inactive">Inactive</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="dept-location">Location / Floor</label>
+            <input class="form-input" type="text" id="dept-location" placeholder="e.g. Building A, Floor 3">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Department Icon</label>
+          <div class="color-options" role="radiogroup" aria-label="Select department icon">
+            <span class="color-pill color-pill--selected" role="radio" aria-checked="true" tabindex="0" title="Hospital" style="background: var(--primary-100); font-size: 18px; display: flex; align-items: center; justify-content: center;">🏥</span>
+            <span class="color-pill" role="radio" aria-checked="false" tabindex="0" title="Heart" style="background: var(--error-100); font-size: 18px; display: flex; align-items: center; justify-content: center;">❤️</span>
+            <span class="color-pill" role="radio" aria-checked="false" tabindex="0" title="DNA" style="background: var(--info-100); font-size: 18px; display: flex; align-items: center; justify-content: center;">🧬</span>
+            <span class="color-pill" role="radio" aria-checked="false" tabindex="0" title="Lab" style="background: var(--warning-100); font-size: 18px; display: flex; align-items: center; justify-content: center;">⚗️</span>
+            <span class="color-pill" role="radio" aria-checked="false" tabindex="0" title="Brain" style="background: var(--secondary-100); font-size: 18px; display: flex; align-items: center; justify-content: center;">🧠</span>
+            <span class="color-pill" role="radio" aria-checked="false" tabindex="0" title="Tooth" style="background: var(--neutral-100); font-size: 18px; display: flex; align-items: center; justify-content: center;">🦷</span>
+            <span class="color-pill" role="radio" aria-checked="false" tabindex="0" title="Bone" style="background: var(--info-100); font-size: 18px; display: flex; align-items: center; justify-content: center;">🦴</span>
+            <span class="color-pill" role="radio" aria-checked="false" tabindex="0" title="Eye" style="background: var(--primary-100); font-size: 18px; display: flex; align-items: center; justify-content: center;">👁️</span>
+          </div>
+        </div>
+      </div>
+      <div class="modal__footer">
+        <button class="btn btn--secondary" onclick="closeDeptModal();">Cancel</button>
+        <button class="btn btn--primary" id="dept-modal-save">Create Department</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Delete Confirmation Modal -->
+  <div class="modal-overlay" id="deleteModal" role="dialog" aria-modal="true" aria-labelledby="delete-modal-title">
+    <div class="modal modal--confirm">
+      <div class="modal__icon modal__icon--danger" aria-hidden="true">⚠️</div>
+      <h2 class="modal__title" id="delete-modal-title">Delete Department?</h2>
+      <div class="modal__text">
+        Are you sure you want to delete <strong id="delete-dept-name">—</strong> (<span id="delete-dept-code">—</span>)? 
+        <span id="delete-staff-warning"></span>
+        This action cannot be undone and will be logged in the audit trail.
+      </div>
+      <div class="modal__actions">
+        <button class="btn btn--secondary" onclick="closeDeleteModal();">Cancel</button>
+        <button class="btn btn--danger" onclick="closeDeleteModal();">Delete Department</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /* Create Modal */
+    function openCreateModal() {
+      document.getElementById('dept-modal-title').textContent = 'Add Department';
+      document.getElementById('dept-modal-save').textContent = 'Create Department';
+      document.getElementById('dept-name').value = '';
+      document.getElementById('dept-code').value = '';
+      document.getElementById('dept-code').removeAttribute('disabled');
+      document.getElementById('dept-desc').value = '';
+      document.getElementById('dept-head').selectedIndex = 0;
+      document.getElementById('dept-status').value = 'active';
+      document.getElementById('dept-location').value = '';
+      document.getElementById('deptModal').classList.add('modal-overlay--open');
+    }
+
+    /* Edit Modal */
+    function openEditModal(code, name, head, desc, status, icon) {
+      document.getElementById('dept-modal-title').textContent = 'Edit Department';
+      document.getElementById('dept-modal-save').textContent = 'Save Changes';
+      document.getElementById('dept-name').value = name;
+      document.getElementById('dept-code').value = code;
+      document.getElementById('dept-code').setAttribute('disabled', 'true');
+      document.getElementById('dept-desc').value = desc;
+      document.getElementById('dept-status').value = status;
+      // Set head dropdown
+      var headSelect = document.getElementById('dept-head');
+      for (var i = 0; i < headSelect.options.length; i++) {
+        if (headSelect.options[i].textContent.indexOf(head) !== -1) {
+          headSelect.selectedIndex = i; break;
+        }
+      }
+      document.getElementById('deptModal').classList.add('modal-overlay--open');
+    }
+
+    function closeDeptModal() {
+      document.getElementById('deptModal').classList.remove('modal-overlay--open');
+    }
+
+    /* Delete Modal */
+    function openDeleteModal(name, code, staffCount) {
+      document.getElementById('delete-dept-name').textContent = name;
+      document.getElementById('delete-dept-code').textContent = code;
+      var warning = staffCount > 0 
+        ? 'This department has ' + staffCount + ' staff member(s) who will need to be reassigned. ' 
+        : '';
+      document.getElementById('delete-staff-warning').textContent = warning;
+      document.getElementById('deleteModal').classList.add('modal-overlay--open');
+    }
+
+    function closeDeleteModal() {
+      document.getElementById('deleteModal').classList.remove('modal-overlay--open');
+    }
+
+    /* Overlay & Escape */
+    document.getElementById('deptModal').addEventListener('click', function(e) { if (e.target === this) closeDeptModal(); });
+    document.getElementById('deleteModal').addEventListener('click', function(e) { if (e.target === this) closeDeleteModal(); });
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') { closeDeptModal(); closeDeleteModal(); }
+    });
+  </script>
+</body>
+</html>

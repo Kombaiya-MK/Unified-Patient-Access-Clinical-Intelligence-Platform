@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SCR-008 Document Upload — Unified Patient Access Platform</title>
+  <!-- SCR-008 | Derived From: UC-005 Document Upload & Extraction | Personas: Patient | Priority: P1 -->
+  <!-- UXR Mapped: UXR-001, UXR-101, UXR-201, UXR-301, UXR-401, UXR-501 -->
+  <style>
+    :root {
+      --primary-900: #003D7A; --primary-800: #004C99; --primary-600: #0066CC;
+      --primary-200: #CCE0F5; --primary-100: #E6F0FA;
+      --secondary-600: #00A86B; --secondary-100: #E6F6F0;
+      --success-600: #00A145; --success-100: #E6F9EF;
+      --warning-600: #FF8800; --warning-100: #FFF2E6;
+      --error-600: #DC3545; --error-100: #FCE8EA;
+      --info-600: #0077B6; --info-100: #E6F3F9;
+      --neutral-900: #1A1A1A; --neutral-800: #333333; --neutral-700: #4D4D4D;
+      --neutral-600: #666666; --neutral-500: #808080; --neutral-400: #999999;
+      --neutral-300: #CCCCCC; --neutral-200: #E5E5E5; --neutral-100: #F5F5F5; --neutral-50: #FAFAFA;
+      --bg-primary: #FFFFFF; --bg-tertiary: #FAFAFA;
+      --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      --radius-sm: 4px; --radius-md: 8px; --radius-lg: 12px; --radius-full: 9999px;
+      --shadow-1: 0px 1px 3px rgba(0,0,0,0.12), 0px 1px 2px rgba(0,0,0,0.24);
+      --focus-ring: 0 0 0 2px #FFFFFF, 0 0 0 4px #0066CC;
+      --transition: 200ms ease;
+      --sidebar-width: 240px; --header-height: 64px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: var(--font-family); background: var(--bg-tertiary); color: var(--neutral-900); }
+    a { color: var(--primary-600); text-decoration: none; }
+    a:hover { color: var(--primary-800); }
+    a:focus-visible { outline: none; box-shadow: var(--focus-ring); border-radius: var(--radius-sm); }
+
+    .header { position: fixed; top: 0; left: 0; right: 0; height: var(--header-height); z-index: 1000; background: var(--bg-primary); border-bottom: 1px solid var(--neutral-200); display: flex; align-items: center; padding: 0 24px; gap: 16px; }
+    .header__logo { font-size: 20px; font-weight: 700; color: var(--primary-600); }
+    .header__title { flex: 1; font-size: 16px; font-weight: 600; color: var(--neutral-800); margin-left: 16px; }
+    .header__avatar { width: 36px; height: 36px; border-radius: var(--radius-full); background: var(--primary-100); color: var(--primary-600); font-size: 14px; font-weight: 600; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+
+    .sidebar { position: fixed; top: var(--header-height); left: 0; bottom: 0; width: var(--sidebar-width); background: var(--bg-primary); border-right: 1px solid var(--neutral-200); padding: 16px 0; z-index: 900; display: flex; flex-direction: column; }
+    .sidebar__role { padding: 8px 16px; margin: 0 16px 16px; font-size: 12px; font-weight: 500; text-transform: uppercase; letter-spacing: 1px; color: var(--primary-600); background: var(--primary-100); border-radius: var(--radius-full); text-align: center; }
+    .sidebar__nav { flex: 1; list-style: none; }
+    .sidebar__item { display: flex; align-items: center; gap: 12px; padding: 12px 24px; font-size: 14px; font-weight: 500; color: var(--neutral-700); cursor: pointer; transition: all var(--transition); border-left: 3px solid transparent; text-decoration: none; }
+    .sidebar__item:hover { background: var(--neutral-50); color: var(--primary-600); }
+    .sidebar__item--active { color: var(--primary-600); background: var(--primary-100); border-left-color: var(--primary-600); font-weight: 600; }
+    .sidebar__item:focus-visible { box-shadow: var(--focus-ring); outline: none; }
+    .sidebar__icon { width: 20px; text-align: center; font-size: 16px; }
+
+    .main { margin-left: var(--sidebar-width); margin-top: var(--header-height); padding: 32px; min-height: calc(100vh - var(--header-height)); max-width: 800px; }
+    .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 14px; color: var(--neutral-500); margin-bottom: 24px; }
+    .breadcrumb a { color: var(--primary-600); }
+    .breadcrumb__separator { color: var(--neutral-400); }
+    .page-title { font-size: 32px; font-weight: 700; line-height: 40px; letter-spacing: -0.25px; margin-bottom: 8px; }
+    .page-subtitle { font-size: 16px; color: var(--neutral-600); margin-bottom: 32px; }
+
+    .card { background: var(--bg-primary); border-radius: var(--radius-md); box-shadow: var(--shadow-1); overflow: hidden; margin-bottom: 24px; }
+    .card__header { padding: 16px 24px; border-bottom: 1px solid var(--neutral-200); }
+    .card__title { font-size: 18px; font-weight: 600; }
+    .card__body { padding: 24px; }
+
+    /* Upload Zone */
+    .upload-zone {
+      border: 2px dashed var(--neutral-300); border-radius: var(--radius-md);
+      padding: 48px 24px; text-align: center; cursor: pointer;
+      transition: all var(--transition); background: var(--neutral-50);
+    }
+    .upload-zone:hover { border-color: var(--primary-400); background: var(--primary-100); }
+    .upload-zone:focus-within { border-color: var(--primary-600); box-shadow: 0 0 0 2px var(--primary-100); }
+    .upload-zone--active { border-color: var(--primary-600); background: var(--primary-100); border-style: solid; }
+    .upload-zone__icon { font-size: 48px; margin-bottom: 16px; display: block; }
+    .upload-zone__title { font-size: 18px; font-weight: 600; color: var(--neutral-900); margin-bottom: 8px; }
+    .upload-zone__desc { font-size: 14px; color: var(--neutral-600); margin-bottom: 16px; }
+    .upload-zone__formats { font-size: 12px; color: var(--neutral-500); }
+    .upload-zone input[type="file"] { position: absolute; opacity: 0; width: 0; height: 0; }
+    .btn { display: inline-flex; align-items: center; justify-content: center; height: 40px; min-width: 80px; padding: 8px 16px; font-size: 14px; font-weight: 500; font-family: var(--font-family); border: none; border-radius: var(--radius-md); cursor: pointer; transition: all var(--transition); }
+    .btn:focus-visible { box-shadow: var(--focus-ring); outline: none; }
+    .btn--primary { background: var(--primary-600); color: white; }
+    .btn--primary:hover { background: var(--primary-800); }
+    .btn--secondary { background: none; color: var(--primary-600); border: 1px solid var(--primary-600); }
+    .btn--secondary:hover { background: var(--primary-100); }
+
+    /* File List */
+    .file-list { list-style: none; }
+    .file-item { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--neutral-100); }
+    .file-item:last-child { border-bottom: none; }
+    .file-icon { width: 40px; height: 40px; border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; font-size: 20px; }
+    .file-icon--pdf { background: var(--error-100); color: var(--error-600); }
+    .file-icon--img { background: var(--info-100); color: var(--info-600); }
+    .file-info { flex: 1; }
+    .file-name { font-size: 14px; font-weight: 500; color: var(--neutral-900); }
+    .file-meta { font-size: 12px; color: var(--neutral-500); margin-top: 2px; }
+
+    /* Progress Bar */
+    .progress-bar__track { width: 100%; height: 4px; background: var(--neutral-200); border-radius: var(--radius-full); margin-top: 8px; overflow: hidden; }
+    .progress-bar__fill { height: 100%; border-radius: var(--radius-full); transition: width var(--transition); }
+    .progress-bar__fill--complete { background: var(--success-600); width: 100%; }
+    .progress-bar__fill--active { background: var(--primary-600); width: 65%; }
+    .progress-bar__fill--extracting { background: var(--info-600); width: 40%; animation: pulse 1.5s infinite; }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
+
+    .file-status { font-size: 12px; font-weight: 500; padding: 2px 8px; border-radius: var(--radius-full); text-transform: uppercase; letter-spacing: 1px; }
+    .file-status--complete { background: var(--success-100); color: var(--success-600); }
+    .file-status--uploading { background: var(--info-100); color: var(--info-600); }
+    .file-status--extracting { background: var(--warning-100); color: var(--warning-600); }
+    .file-status--error { background: var(--error-100); color: var(--error-600); }
+    .file-remove { width: 32px; height: 32px; border: none; background: none; cursor: pointer; font-size: 16px; color: var(--neutral-400); border-radius: var(--radius-full); transition: all var(--transition); }
+    .file-remove:hover { background: var(--error-100); color: var(--error-600); }
+    .file-remove:focus-visible { box-shadow: var(--focus-ring); outline: none; }
+
+    .form-actions { display: flex; gap: 12px; justify-content: flex-end; }
+
+    /* Remove Confirmation Modal */
+    .modal-overlay { display: none; position: fixed; inset: 0; z-index: 2000; background: rgba(0,0,0,0.5); align-items: center; justify-content: center; }
+    .modal-overlay--open { display: flex; }
+    .modal { background: var(--bg-primary); border-radius: var(--radius-lg); box-shadow: 0 8px 32px rgba(0,0,0,0.2); max-width: 420px; width: calc(100% - 32px); padding: 32px; text-align: center; }
+    .modal__icon { font-size: 48px; margin-bottom: 16px; }
+    .modal__title { font-size: 20px; font-weight: 700; color: var(--neutral-900); margin-bottom: 8px; }
+    .modal__body { font-size: 14px; color: var(--neutral-600); margin-bottom: 16px; line-height: 1.5; }
+    .modal__filename { font-size: 14px; font-weight: 600; color: var(--neutral-900); background: var(--neutral-100); padding: 8px 12px; border-radius: var(--radius-md); margin-bottom: 24px; word-break: break-all; }
+    .modal__actions { display: flex; gap: 12px; justify-content: center; }
+    .btn--danger { background: var(--error-600); color: white; }
+    .btn--danger:hover { background: #C82333; }
+    @media (max-width: 767px) { .modal__actions { flex-direction: column; } .modal__actions .btn { width: 100%; } }
+
+    @media (max-width: 1023px) { .sidebar { display: none; } .main { margin-left: 0; max-width: 100%; } }
+    @media (max-width: 767px) { .main { padding: 16px; } .page-title { font-size: 24px; } .upload-zone { padding: 32px 16px; } .form-actions { flex-direction: column; } .btn { width: 100%; } }
+  </style>
+</head>
+<body>
+  <!-- Navigation Map
+    Element: Breadcrumb Dashboard | Action: Navigate back | Target: SCR-002
+    Element: File Upload Zone | Action: Upload action | Target: SCR-008 (progress state)
+    Element: Done Button | Action: Navigate back | Target: SCR-002
+  -->
+
+  <header class="header" role="banner">
+    <div class="header__logo">UPACI</div>
+    <div class="header__title">Document Upload</div>
+    <div class="header__avatar" role="button" aria-label="User menu" tabindex="0">JD</div>
+  </header>
+
+  <nav class="sidebar" role="navigation" aria-label="Main navigation">
+    <div class="sidebar__role">Patient</div>
+    <ul class="sidebar__nav">
+      <li><a href="wireframe-SCR-002-patient-dashboard.html" class="sidebar__item"><span class="sidebar__icon">🏠</span> Dashboard</a></li>
+      <li><a href="wireframe-SCR-006-appointment-booking.html" class="sidebar__item"><span class="sidebar__icon">📅</span> Book Appointment</a></li>
+      <li><a href="wireframe-SCR-007-patient-intake.html" class="sidebar__item"><span class="sidebar__icon">📋</span> Patient Intake</a></li>
+      <li><a href="wireframe-SCR-008-document-upload.html" class="sidebar__item sidebar__item--active"><span class="sidebar__icon">📁</span> Documents</a></li>
+      <li><a href="wireframe-SCR-005-profile-settings.html" class="sidebar__item"><span class="sidebar__icon">👤</span> Profile &amp; Settings</a></li>
+    </ul>
+  </nav>
+
+  <main class="main" role="main">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="wireframe-SCR-002-patient-dashboard.html">Dashboard</a>
+      <span class="breadcrumb__separator" aria-hidden="true">›</span>
+      <span aria-current="page">Document Upload</span>
+    </nav>
+
+    <h1 class="page-title">Upload Documents</h1>
+    <p class="page-subtitle">Upload medical records, lab results, and other documents for AI-powered extraction</p>
+
+    <!-- Upload Zone -->
+    <div class="card">
+      <div class="card__header"><h2 class="card__title">Upload Files</h2></div>
+      <div class="card__body">
+        <label class="upload-zone" tabindex="0" role="button" aria-label="Click or drag to upload files">
+          <input type="file" multiple accept=".pdf,.jpg,.jpeg,.png" aria-label="File input">
+          <span class="upload-zone__icon">📄</span>
+          <div class="upload-zone__title">Drag &amp; drop files here, or click to browse</div>
+          <div class="upload-zone__desc">Upload medical records, lab results, and prescriptions</div>
+          <div class="upload-zone__formats">Supported formats: PDF, JPG, PNG — Max 10MB per file</div>
+        </label>
+      </div>
+    </div>
+
+    <!-- Uploaded Files -->
+    <div class="card">
+      <div class="card__header"><h2 class="card__title">Uploaded Documents</h2></div>
+      <div class="card__body">
+        <ul class="file-list" aria-label="Uploaded files">
+          <!-- Complete -->
+          <li class="file-item">
+            <div class="file-icon file-icon--pdf" aria-hidden="true">📕</div>
+            <div class="file-info">
+              <div class="file-name">lab-results-march-2026.pdf</div>
+              <div class="file-meta">2.4 MB — Uploaded Mar 15, 2026</div>
+              <div class="progress-bar__track"><div class="progress-bar__fill progress-bar__fill--complete"></div></div>
+            </div>
+            <span class="file-status file-status--complete" role="status">Complete</span>
+            <button class="file-remove" aria-label="Remove lab-results-march-2026.pdf" onclick="openRemoveModal('lab-results-march-2026.pdf');">✕</button>
+          </li>
+
+          <!-- Uploading -->
+          <li class="file-item">
+            <div class="file-icon file-icon--img" aria-hidden="true">🖼️</div>
+            <div class="file-info">
+              <div class="file-name">prescription-scan.jpg</div>
+              <div class="file-meta">1.1 MB — Uploading...</div>
+              <div class="progress-bar__track"><div class="progress-bar__fill progress-bar__fill--active"></div></div>
+            </div>
+            <span class="file-status file-status--uploading" role="status">65%</span>
+            <button class="file-remove" aria-label="Cancel upload prescription-scan.jpg" onclick="openRemoveModal('prescription-scan.jpg');">✕</button>
+          </li>
+
+          <!-- Extracting -->
+          <li class="file-item">
+            <div class="file-icon file-icon--pdf" aria-hidden="true">📕</div>
+            <div class="file-info">
+              <div class="file-name">medical-history-summary.pdf</div>
+              <div class="file-meta">3.8 MB — AI extracting data...</div>
+              <div class="progress-bar__track"><div class="progress-bar__fill progress-bar__fill--extracting"></div></div>
+            </div>
+            <span class="file-status file-status--extracting" role="status">Extracting</span>
+            <button class="file-remove" aria-label="Remove medical-history-summary.pdf" onclick="openRemoveModal('medical-history-summary.pdf');">✕</button>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button class="btn btn--secondary" onclick="window.location.href='wireframe-SCR-002-patient-dashboard.html';">Back to Dashboard</button>
+      <button class="btn btn--primary" onclick="window.location.href='wireframe-SCR-002-patient-dashboard.html';">Done</button>
+    </div>
+  </main>
+
+  <!-- Remove Document Confirmation Modal -->
+  <div class="modal-overlay" id="removeModal" role="dialog" aria-modal="true" aria-labelledby="remove-modal-title">
+    <div class="modal">
+      <div class="modal__icon" aria-hidden="true">🗑️</div>
+      <h2 class="modal__title" id="remove-modal-title">Remove Document?</h2>
+      <div class="modal__body">Are you sure you want to remove this document? This action cannot be undone.</div>
+      <div class="modal__filename" id="remove-modal-filename">filename.pdf</div>
+      <div class="modal__actions">
+        <button class="btn btn--secondary" onclick="closeRemoveModal();">Keep Document</button>
+        <button class="btn btn--danger" onclick="closeRemoveModal();">Yes, Remove</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function openRemoveModal(filename) {
+      document.getElementById('remove-modal-filename').textContent = filename;
+      document.getElementById('removeModal').classList.add('modal-overlay--open');
+    }
+    function closeRemoveModal() {
+      document.getElementById('removeModal').classList.remove('modal-overlay--open');
+    }
+    document.getElementById('removeModal').addEventListener('click', function(e) {
+      if (e.target === this) closeRemoveModal();
+    });
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') closeRemoveModal();
+    });
+  </script>
+</body>
+</html>

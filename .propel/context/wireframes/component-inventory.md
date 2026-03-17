@@ -1,564 +1,481 @@
----
-title: Component Inventory — Unified Patient Access & Clinical Intelligence Platform
-source: .propel/context/docs/figma_spec.md
-date: 2026-03-16
----
-
-# Component Inventory — Unified Patient Access & Clinical Intelligence Platform
+# Component Inventory - Unified Patient Access & Clinical Intelligence Platform
 
 ## Component Specification
 
-**Fidelity Level**: High
-**Screen Type**: Web
-**Viewport**: 1440 × 900 px
+**Fidelity Level**: High  
+**Screen Type**: Web (Responsive)  
+**Viewport**: 1440 x 900  
 
 ## Component Summary
 
 | Component Name | Type | Screens Used | Priority | Implementation Status |
-|---|---|---|---|---|
-| Sidebar Navigation | Layout | All authenticated screens | High | Pending |
-| Top Bar | Layout | All authenticated screens | High | Pending |
-| Login Card | Layout | SCR-001, SCR-002, SCR-003 | High | Pending |
-| Stat Card | Content | SCR-004, SCR-005, SCR-006 | High | Pending |
-| Data Table | Content | SCR-011, SCR-024, SCR-025, SCR-028, SCR-030 | High | Pending |
-| Appointment Card | Content | SCR-006, SCR-010, SCR-011 | High | Pending |
-| Patient Card | Content | SCR-025, SCR-026, SCR-027 | High | Pending |
-| Document Card | Content | SCR-016, SCR-017 | Medium | Pending |
-| Alert Card | Content | SCR-028, SCR-029 | Medium | Pending |
-| Button (Primary) | Interactive | All screens | High | Pending |
-| Button (Secondary) | Interactive | All screens | High | Pending |
-| Button (Danger) | Interactive | SCR-009, SCR-022, SCR-027 | Medium | Pending |
-| Form Input | Interactive | SCR-007, SCR-019, SCR-020, SCR-021 | High | Pending |
-| Form Select | Interactive | SCR-007, SCR-020, SCR-023 | High | Pending |
-| Date Picker | Interactive | SCR-007, SCR-008, SCR-024 | High | Pending |
-| Search Input | Interactive | SCR-011, SCR-024, SCR-025, SCR-030 | Medium | Pending |
-| Toggle Switch | Interactive | SCR-013, SCR-014, SCR-018 | Medium | Pending |
-| Step Indicator | Navigation | SCR-007, SCR-019 | High | Pending |
-| Tab Bar | Navigation | SCR-004, SCR-005, SCR-006, SCR-017 | High | Pending |
-| Breadcrumb | Navigation | All authenticated screens | Medium | Pending |
-| Pagination | Navigation | SCR-011, SCR-024, SCR-025, SCR-030 | Medium | Pending |
-| Modal Dialog | Feedback | SCR-009, SCR-022, SCR-027, SCR-012 | High | Pending |
-| Confirmation Dialog | Feedback | Multiple screens (delete, logout) | High | Pending |
-| Alert Banner | Feedback | SCR-029, error states | Medium | Pending |
-| Success Toast | Feedback | Post-save actions | Medium | Pending |
-| Badge (Status) | Feedback | SCR-010, SCR-011, SCR-025, SCR-028 | High | Pending |
-| Badge (Role) | Feedback | SCR-004, SCR-023 | Medium | Pending |
-| Progress Bar | Feedback | SCR-016, SCR-019 | Medium | Pending |
-| Avatar | Content | Sidebar, SCR-004, SCR-025 | Medium | Pending |
-| Drop Zone | Interactive | SCR-016 | Medium | Pending |
-| Chat Bubble | Content | SCR-018 | Medium | Pending |
-| Chat Input Bar | Interactive | SCR-018 | Medium | Pending |
-| HIPAA Badge | Feedback | All authenticated screens | High | Pending |
-| Time Slot Grid | Interactive | SCR-007, SCR-008, SCR-012 | High | Pending |
-| Role Matrix | Interactive | SCR-023 | Medium | Pending |
+|---------------|------|-------------|----------|---------------------|
+| Header | Layout | All (SCR-001 to SCR-013) | High | Pending |
+| Sidebar | Navigation | SCR-002 to SCR-013 | High | Pending |
+| Bottom Nav | Navigation | SCR-002 to SCR-013 (mobile) | High | Pending |
+| Card | Content | SCR-002, SCR-003, SCR-004, SCR-010 | High | Pending |
+| Table | Content | SCR-003, SCR-004, SCR-009, SCR-011, SCR-012, SCR-013 | High | Pending |
+| Button | Interactive | All (SCR-001 to SCR-013) | High | Pending |
+| TextField | Interactive | SCR-001, SCR-005, SCR-007, SCR-012 | High | Pending |
+| Select | Interactive | SCR-012, SCR-013 | Medium | Pending |
+| RadioGroup | Interactive | SCR-006, SCR-007 | Medium | Pending |
+| Checkbox | Interactive | SCR-001 | Low | Pending |
+| Toggle | Interactive | SCR-007 | Medium | Pending |
+| Calendar | Interactive | SCR-006 | High | Pending |
+| FileUpload | Interactive | SCR-008 | Medium | Pending |
+| Badge | Feedback | SCR-002, SCR-003, SCR-009, SCR-010, SCR-011, SCR-013 | High | Pending |
+| Alert | Feedback | SCR-006, SCR-007, SCR-010 | Medium | Pending |
+| Toast | Feedback | All screens (transient) | High | Pending |
+| Modal | Feedback | SCR-009, SCR-010, SCR-011, SCR-013 | High | Pending |
+| Drawer | Feedback | SCR-006, SCR-009, SCR-013 | High | Pending |
+| ProgressBar | Feedback | SCR-008 | Medium | Pending |
+| Avatar | Content | SCR-002, SCR-005 | Low | Pending |
+| Skeleton | Feedback | All screens (loading) | Medium | Pending |
+| Pagination | Navigation | SCR-012 | Low | Pending |
 
 ## Detailed Component Specifications
 
 ### Layout Components
 
-#### Sidebar Navigation
-
+#### Header
 - **Type**: Layout
-- **Used In Screens**: All authenticated screens (SCR-004 through SCR-031)
-- **Description**: Persistent left sidebar with logo, role-based navigation sections, and user footer
-- **Variants**: Admin Sidebar, Staff Sidebar, Patient Sidebar
-- **Interactive States**: Default, Hover (nav items), Active (current page), Focus
+- **Used In Screens**: All screens (SCR-001 through SCR-013)
+- **Wireframe References**: All wireframe files
+- **Description**: Top application bar with logo, page title, notification bell, and user menu dropdown
+- **Variants**: Authenticated (with user menu), Unauthenticated (login page, logo only)
+- **Interactive States**: Default, UserMenu-Open, Notification-Open
 - **Responsive Behavior**:
-  - Desktop (1440px): Expanded with labels (260px wide)
-  - Tablet (768px): Collapsed icon-only mode (60px wide)
-  - Mobile (375px): Off-canvas drawer triggered by hamburger
-- **Implementation Notes**: Fixed position, scrollable if content exceeds viewport; role-based menu filtering via data attributes
+  - Desktop (1440px): Full width, logo + page title + notification + user menu
+  - Tablet (768px): Full width, hamburger menu replaces sidebar toggle
+  - Mobile (375px): Compact header, logo + notification + avatar only
+- **Implementation Notes**: Sticky position, z-index 1000, height 64px desktop / 56px mobile
 
-#### Top Bar
-
+#### Sidebar
 - **Type**: Layout
-- **Used In Screens**: All authenticated screens
-- **Description**: Sticky header with breadcrumb navigation, search, notifications bell, and user avatar/menu
-- **Variants**: Default
-- **Interactive States**: Default, Search focused, Notification badge visible
+- **Used In Screens**: SCR-002 through SCR-013 (all authenticated screens)
+- **Wireframe References**: All authenticated wireframe files
+- **Description**: Left navigation panel with role-specific menu items, icons, labels, and active state
+- **Variants**: Patient (6 items), Staff (6 items), Admin (4 items)
+- **Interactive States**: Default, Collapsed (icon-only), Item-Hover, Item-Active
 - **Responsive Behavior**:
-  - Desktop (1440px): Full breadcrumb + search + actions
-  - Tablet (768px): Condensed breadcrumb, icon-only actions
-  - Mobile (375px): Hamburger trigger replaces breadcrumb; actions in overflow menu
-- **Implementation Notes**: Sticky top positioning; z-index above content, below modals
-
-#### Login Card
-
-- **Type**: Layout
-- **Used In Screens**: SCR-001, SCR-002, SCR-003
-- **Description**: Centered authentication card with logo, form fields, and submit button
-- **Variants**: Admin Login, Staff Login, Patient Login (branding label differs)
-- **Interactive States**: Default, Loading (spinner on button), Error (alert banner)
-- **Responsive Behavior**:
-  - Desktop (1440px): Centered card (440px max-width)
-  - Tablet (768px): Same centered card
-  - Mobile (375px): Full-width with padding
-- **Implementation Notes**: Full-page background; auto-focus on first input
-
-### Content Components
-
-#### Stat Card
-
-- **Type**: Content
-- **Used In Screens**: SCR-004, SCR-005, SCR-006
-- **Description**: Compact KPI card showing label, value, and change indicator
-- **Variants**: Default, Positive trend, Negative trend
-- **Interactive States**: Default, Hover (subtle shadow lift)
-- **Responsive Behavior**:
-  - Desktop (1440px): 4-column grid
-  - Tablet (768px): 2-column grid
-  - Mobile (375px): Stacked single column
-- **Implementation Notes**: Use `font-variant-numeric: tabular-nums` for aligned numbers
-
-#### Data Table
-
-- **Type**: Content
-- **Used In Screens**: SCR-011, SCR-024, SCR-025, SCR-028, SCR-030
-- **Description**: Full-featured data table with sorting, filtering, search, and pagination
-- **Variants**: Default, Selectable (with checkboxes), Expandable (with row details)
-- **Interactive States**: Default, Row hover, Sort active, Loading skeleton
-- **Responsive Behavior**:
-  - Desktop (1440px): Full table with all columns visible
-  - Tablet (768px): Horizontal scroll, sticky first column
-  - Mobile (375px): Card-based list view (table hidden)
-- **Implementation Notes**: Left-align text, right-align numbers, bold headers; virtual scroll for 100+ rows
-
-#### Appointment Card
-
-- **Type**: Content
-- **Used In Screens**: SCR-006, SCR-010, SCR-011
-- **Description**: Card displaying appointment summary with status, date/time, provider, and actions
-- **Variants**: Upcoming, Past, Cancelled, Waitlisted
-- **Interactive States**: Default, Hover, Active (clicked)
-- **Responsive Behavior**:
-  - Desktop (1440px): Horizontal layout with actions on right
-  - Tablet (768px): Same layout with reduced padding
-  - Mobile (375px): Stacked layout, actions below content
-- **Implementation Notes**: Status badge color-coded; click navigates to SCR-010
-
-#### Patient Card
-
-- **Type**: Content
-- **Used In Screens**: SCR-025, SCR-026, SCR-027
-- **Description**: Card showing patient name, avatar, appointment time, and queue actions
-- **Variants**: In Queue, Arrived, No-Show
-- **Interactive States**: Default, Hover, Selected
-- **Responsive Behavior**:
-  - Desktop (1440px): Horizontal card with inline actions
-  - Mobile (375px): Stacked with bottom actions
-- **Implementation Notes**: Real-time status updates via badge; action buttons min-height 44px
-
-#### Document Card
-
-- **Type**: Content
-- **Used In Screens**: SCR-016, SCR-017
-- **Description**: File card showing document name, type icon, upload date, and extraction status
-- **Variants**: Uploaded, Processing, Extracted, Error
-- **Interactive States**: Default, Hover, Loading (skeleton)
-- **Responsive Behavior**:
-  - Desktop (1440px): Grid of cards (3 columns)
-  - Mobile (375px): Stacked list view
-- **Implementation Notes**: Click opens document viewer or extracted data panel
-
-#### Alert Card
-
-- **Type**: Content
-- **Used In Screens**: SCR-028, SCR-029
-- **Description**: Highlighted card for warnings and risk indicators
-- **Variants**: High Risk (red), Medium Risk (orange), Low Risk (yellow), Info (blue)
-- **Interactive States**: Default, Hover, Dismissed
-- **Responsive Behavior**: Full-width on all breakpoints
-- **Implementation Notes**: Color-coded border-left indicator; dismiss button optional
-
-#### Chat Bubble
-
-- **Type**: Content
-- **Used In Screens**: SCR-018
-- **Description**: Message bubble for AI conversational intake
-- **Variants**: Bot message (left-aligned, blue background), User message (right-aligned, primary)
-- **Interactive States**: Default, Loading (typing indicator)
-- **Responsive Behavior**: Max-width 75% on all breakpoints
-- **Implementation Notes**: `aria-live="polite"` region for new messages
-
-#### Avatar
-
-- **Type**: Content
-- **Used In Screens**: Sidebar footer, SCR-004, SCR-020, SCR-021, SCR-025
-- **Description**: Circular user avatar with initials fallback
-- **Variants**: Small (32px), Medium (40px — default), Large (56px)
-- **Interactive States**: Default
-- **Responsive Behavior**: Size scales down on mobile
-- **Implementation Notes**: Primary color background with white text initials
-
-### Interactive Components
-
-#### Button (Primary)
-
-- **Type**: Interactive
-- **Used In Screens**: All screens
-- **Description**: Primary action button with filled background
-- **Variants**: Primary, Secondary (outline), Danger (red), Ghost (text only), Icon-only
-- **Interactive States**: Default, Hover, Active, Focus (outline ≥3:1 contrast), Disabled (0.5 opacity), Loading (spinner)
-- **Responsive Behavior**: Full-width on mobile for primary CTAs
-- **Implementation Notes**: Min-height 44px, min-width 44px for touch targets
-
-#### Form Input
-
-- **Type**: Interactive
-- **Used In Screens**: SCR-001–003, SCR-007, SCR-019, SCR-020, SCR-021
-- **Description**: Text input field with label, placeholder, and optional helper/error text
-- **Variants**: Text, Password (with show/hide toggle), Email, Date, Number
-- **Interactive States**: Default, Hover, Focus (blue ring), Error (red border + message), Disabled, Read-only
-- **Responsive Behavior**: Full-width on all breakpoints
-- **Implementation Notes**: Min-height 44px; `aria-describedby` for errors/hints; `aria-invalid` on error
-
-#### Form Select
-
-- **Type**: Interactive
-- **Used In Screens**: SCR-007, SCR-009, SCR-020, SCR-023
-- **Description**: Dropdown select with label and optional placeholder
-- **Variants**: Single select, Multi-select (for roles)
-- **Interactive States**: Default, Hover, Focus, Open, Disabled
-- **Responsive Behavior**: Full-width, native select on mobile
-- **Implementation Notes**: Min-height 44px; keyboard navigable with arrow keys
-
-#### Date Picker
-
-- **Type**: Interactive
-- **Used In Screens**: SCR-007, SCR-008, SCR-024
-- **Description**: Calendar date selector with month navigation
-- **Variants**: Single date, Date range
-- **Interactive States**: Default, Hover (day cell), Selected, Today highlight, Disabled dates
-- **Responsive Behavior**: Dropdown on desktop; full-screen on mobile
-- **Implementation Notes**: `aria-label` on each day cell; navigable via arrow keys
-
-#### Search Input
-
-- **Type**: Interactive
-- **Used In Screens**: SCR-011, SCR-024, SCR-025, SCR-030
-- **Description**: Search field with magnifying glass icon
-- **Variants**: Default, With filter dropdown
-- **Interactive States**: Default, Focus, Active (has value), Loading
-- **Responsive Behavior**: Full-width on mobile; 280px on desktop
-- **Implementation Notes**: Debounced search (300ms); `role="search"` landmark
-
-#### Toggle Switch
-
-- **Type**: Interactive
-- **Used In Screens**: SCR-013, SCR-014, SCR-018
-- **Description**: Binary on/off toggle
-- **Variants**: Default, With label
-- **Interactive States**: Off, On, Hover, Focus, Disabled
-- **Responsive Behavior**: Same on all breakpoints
-- **Implementation Notes**: `role="switch"`, `aria-checked`; min-height 44px
-
-#### Drop Zone
-
-- **Type**: Interactive
-- **Used In Screens**: SCR-016
-- **Description**: Drag-and-drop file upload area with click fallback
-- **Variants**: Empty, Dragging over, Files added
-- **Interactive States**: Default, Drag-hover (blue dashed border), Active, Error
-- **Responsive Behavior**: Full-width on all breakpoints
-- **Implementation Notes**: `aria-label="Upload clinical documents"`; accepted types listed
-
-#### Chat Input Bar
-
-- **Type**: Interactive
-- **Used In Screens**: SCR-018
-- **Description**: Text input with send button for AI chat
-- **Variants**: Default, With "Switch to Manual" button
-- **Interactive States**: Default, Focus, Sending (disabled + spinner)
-- **Responsive Behavior**: Sticky bottom on all breakpoints
-- **Implementation Notes**: Enter to send; `aria-label="Type your message"`
-
-#### Time Slot Grid
-
-- **Type**: Interactive
-- **Used In Screens**: SCR-007, SCR-008, SCR-012
-- **Description**: Grid of available time slots for appointment selection
-- **Variants**: Available, Selected, Unavailable, Preferred (for swap)
-- **Interactive States**: Default, Hover, Selected, Disabled
-- **Responsive Behavior**: 4-column grid on desktop → 2-column on mobile
-- **Implementation Notes**: `role="radiogroup"` with `role="radio"` per slot; arrow key navigation
-
-#### Role Matrix
-
-- **Type**: Interactive
-- **Used In Screens**: SCR-023
-- **Description**: Permission assignment matrix with roles as columns and permissions as rows
-- **Variants**: Default
-- **Interactive States**: Checkbox checked, unchecked, indeterminate
-- **Responsive Behavior**: Horizontal scroll on mobile
-- **Implementation Notes**: `aria-label` on each checkbox describing role+permission
+  - Desktop (1440px): Persistent, 240px width, expanded with icons and labels
+  - Tablet (768px): Collapsible, 64px collapsed (icon-only), 240px expanded overlay
+  - Mobile (375px): Hidden, replaced by Bottom Nav
+- **Implementation Notes**: Fixed position, z-index 900, transition 200ms ease
 
 ### Navigation Components
 
-#### Step Indicator
-
+#### Bottom Nav (Mobile)
 - **Type**: Navigation
-- **Used In Screens**: SCR-007, SCR-019
-- **Description**: Horizontal step progress indicator for multi-step flows
-- **Variants**: Default (numbered steps), With labels
-- **Interactive States**: Completed (checkmark), Current (`aria-current="step"`), Upcoming (dimmed)
-- **Responsive Behavior**: Compact (numbers only) on mobile
-- **Implementation Notes**: `aria-label="Step X of Y"` on each step; clickable for completed steps
-
-#### Tab Bar
-
-- **Type**: Navigation
-- **Used In Screens**: SCR-004, SCR-005, SCR-006, SCR-017
-- **Description**: Horizontal tab navigation for content sections
-- **Variants**: Default, With badge counts
-- **Interactive States**: Default, Hover, Active, Focus
-- **Responsive Behavior**: Horizontal scroll on mobile if tabs exceed viewport
-- **Implementation Notes**: `role="tablist"` / `role="tab"` / `role="tabpanel"`; arrow key navigation
+- **Used In Screens**: SCR-002 through SCR-013 (mobile only)
+- **Wireframe References**: All authenticated wireframe files
+- **Description**: Mobile bottom navigation bar with 4-5 primary action icons
+- **Variants**: Patient (Dashboard, Book, Intake, Profile), Staff (Dashboard, Queue, Clinical, Profile), Admin (Dashboard, Users, Logs, Profile)
+- **Interactive States**: Default, Active (primary-600 highlight), Disabled
+- **Responsive Behavior**:
+  - Desktop (1440px): Hidden
+  - Tablet (768px): Hidden
+  - Mobile (375px): Visible, fixed bottom, height 56px
+- **Implementation Notes**: Fixed position bottom, z-index 800, safe area padding for notch devices
 
 #### Breadcrumb
-
 - **Type**: Navigation
-- **Used In Screens**: All authenticated screens
-- **Description**: Hierarchical path indicator in top bar
-- **Variants**: Default
-- **Interactive States**: Links hover underline; current page non-interactive
-- **Responsive Behavior**: Truncated to last 2 items on mobile
-- **Implementation Notes**: `aria-label="Breadcrumb"` on nav; `aria-current="page"` on last item
+- **Used In Screens**: SCR-005 through SCR-013 (non-dashboard screens, desktop only)
+- **Wireframe References**: All non-dashboard wireframe files
+- **Description**: Breadcrumb trail showing navigation hierarchy
+- **Variants**: 2-level (Dashboard > Page), 3-level (Dashboard > Page > Detail)
+- **Interactive States**: Link-hover, Current (non-interactive)
+- **Responsive Behavior**:
+  - Desktop (1440px): Visible, horizontal breadcrumb trail
+  - Tablet (768px): Visible
+  - Mobile (375px): Hidden, replaced by back button
+- **Implementation Notes**: Use nav element with aria-label="Breadcrumb"
 
 #### Pagination
-
 - **Type**: Navigation
-- **Used In Screens**: SCR-011, SCR-024, SCR-025, SCR-030
-- **Description**: Page navigation for tabular data
-- **Variants**: Default (numbered), Compact (prev/next only)
-- **Interactive States**: Default, Hover, Active (current page), Disabled (no prev/next)
-- **Responsive Behavior**: Compact mode on mobile
-- **Implementation Notes**: `aria-label="Pagination"`; `aria-current="page"` on active; min-height 44px per button
+- **Used In Screens**: SCR-012
+- **Wireframe References**: wireframe-SCR-012-audit-logs.html
+- **Description**: Page navigation for audit log table
+- **Variants**: Default (numbered), Compact (prev/next only on mobile)
+- **Interactive States**: Default, Page-Active, Page-Hover, Disabled (prev/next at bounds)
+- **Responsive Behavior**:
+  - Desktop (1440px): Full pagination with page numbers
+  - Tablet (768px): Condensed page numbers
+  - Mobile (375px): Prev/Next buttons only
+- **Implementation Notes**: Use nav element with aria-label="Pagination"
+
+### Content Components
+
+#### Card
+- **Type**: Content
+- **Used In Screens**: SCR-002, SCR-003, SCR-004, SCR-010
+- **Wireframe References**: wireframe-SCR-002, wireframe-SCR-003, wireframe-SCR-004, wireframe-SCR-010
+- **Description**: Elevated content container for dashboard widgets and data sections
+- **Variants**: Default, Interactive (clickable), Alert (with colored border), Expandable
+- **Interactive States**: Default, Hover (elevated shadow), Focus, Loading (skeleton)
+- **Responsive Behavior**:
+  - Desktop (1440px): Multi-column grid (3 or 4 cards per row)
+  - Tablet (768px): 2 cards per row
+  - Mobile (375px): Full width, stacked
+- **Implementation Notes**: border-radius 8px, elevation level-1, padding 16px, gap 16px
+
+#### Table
+- **Type**: Content
+- **Used In Screens**: SCR-003, SCR-004, SCR-009, SCR-011, SCR-012, SCR-013
+- **Wireframe References**: wireframe-SCR-003, wireframe-SCR-004, wireframe-SCR-009, wireframe-SCR-011, wireframe-SCR-012, wireframe-SCR-013
+- **Description**: Data table with sortable columns, row actions, and status badges
+- **Variants**: Default, Sortable, Filterable, Real-time (SCR-009 with WebSocket updates)
+- **Interactive States**: Default, Row-Hover, Row-Selected, Column-Sort-Asc, Column-Sort-Desc, Loading (skeleton rows)
+- **Responsive Behavior**:
+  - Desktop (1440px): Full table with all columns visible
+  - Tablet (768px): Horizontal scroll or condensed columns
+  - Mobile (375px): Card-based list view (table rows become cards)
+- **Implementation Notes**: Cell padding 12px 16px, alternate row bg neutral-50, border-bottom neutral-200
+
+#### Avatar
+- **Type**: Content
+- **Used In Screens**: SCR-002, SCR-005, Header (all screens)
+- **Wireframe References**: wireframe-SCR-002, wireframe-SCR-005
+- **Description**: User profile image or initials circle
+- **Variants**: Small (32px), Medium (40px), Large (64px), XLarge (96px - profile page)
+- **Interactive States**: Default, Hover (scale 1.05)
+- **Responsive Behavior**: Consistent across all breakpoints
+- **Implementation Notes**: border-radius full (9999px), bg primary-100 for initials
+
+### Interactive Components
+
+#### Button
+- **Type**: Interactive
+- **Used In Screens**: All screens (SCR-001 through SCR-013)
+- **Wireframe References**: All wireframe files
+- **Description**: Action trigger with multiple visual variants
+- **Variants**: Primary (filled primary-600), Secondary (outlined), Tertiary (text-only), Danger (error-600), Icon-only
+- **Interactive States**: Default, Hover, Active (pressed), Focus (ring), Disabled, Loading (spinner)
+- **Responsive Behavior**:
+  - Desktop (1440px): Inline, auto-width
+  - Tablet (768px): Inline, auto-width
+  - Mobile (375px): Full-width for primary CTAs, inline for secondary
+- **Implementation Notes**: border-radius 8px, height 40px (md), min-width 80px, transition 200ms ease
+
+#### TextField
+- **Type**: Interactive
+- **Used In Screens**: SCR-001, SCR-005, SCR-007, SCR-012
+- **Wireframe References**: wireframe-SCR-001, wireframe-SCR-005, wireframe-SCR-007, wireframe-SCR-012
+- **Description**: Text input field with label, placeholder, and validation
+- **Variants**: Default, Password (with toggle), Search (with icon), Multiline (textarea)
+- **Interactive States**: Default, Focus (primary-600 border), Error (error-600 border + message), Disabled (gray bg), Filled
+- **Responsive Behavior**:
+  - Desktop (1440px): Width follows grid column
+  - Tablet (768px): Width follows grid column
+  - Mobile (375px): Full width
+- **Implementation Notes**: Height 40px, border 1px neutral-300, border-radius 8px, padding 8px 12px
+
+#### Select
+- **Type**: Interactive
+- **Used In Screens**: SCR-012, SCR-013
+- **Wireframe References**: wireframe-SCR-012, wireframe-SCR-013
+- **Description**: Dropdown select for role assignment and log filtering
+- **Variants**: Default, Multi-select
+- **Interactive States**: Default, Open (dropdown visible), Selected, Focus, Disabled, Error
+- **Responsive Behavior**:
+  - Desktop (1440px): Inline dropdown
+  - Tablet (768px): Inline dropdown
+  - Mobile (375px): Native select or full-screen picker
+- **Implementation Notes**: Height 40px, elevation level-2 for dropdown, max-height 200px with scroll
+
+#### RadioGroup
+- **Type**: Interactive
+- **Used In Screens**: SCR-006, SCR-007
+- **Wireframe References**: wireframe-SCR-006, wireframe-SCR-007
+- **Description**: Radio button group for single-option selection (time slots, form choices)
+- **Variants**: Vertical list, Horizontal inline, Card-style (slot selection)
+- **Interactive States**: Default, Selected, Hover, Focus, Disabled
+- **Responsive Behavior**: Consistent across breakpoints; card-style stacks vertically on mobile
+- **Implementation Notes**: Gap 8px between options, 20px radio circle, touch target 44px
+
+#### Checkbox
+- **Type**: Interactive
+- **Used In Screens**: SCR-001
+- **Wireframe References**: wireframe-SCR-001
+- **Description**: Checkbox for "Remember me" on login
+- **Variants**: Default
+- **Interactive States**: Unchecked, Checked, Indeterminate, Focus, Disabled
+- **Responsive Behavior**: Consistent across all breakpoints
+- **Implementation Notes**: 20px checkbox, touch target 44px, gap 8px to label
+
+#### Toggle
+- **Type**: Interactive
+- **Used In Screens**: SCR-007
+- **Wireframe References**: wireframe-SCR-007
+- **Description**: AI/Manual mode switch for intake form
+- **Variants**: Default (with labels)
+- **Interactive States**: Off (Manual), On (AI), Focus, Disabled
+- **Responsive Behavior**: Consistent across all breakpoints
+- **Implementation Notes**: Width 48px, height 24px, transition 200ms, aria-checked
+
+#### Calendar
+- **Type**: Interactive
+- **Used In Screens**: SCR-006
+- **Wireframe References**: wireframe-SCR-006
+- **Description**: Date picker calendar for appointment slot selection
+- **Variants**: Month view (default)
+- **Interactive States**: Default, Date-Hover, Date-Selected, Date-Today, Date-Disabled (past), Date-Available (has slots)
+- **Responsive Behavior**:
+  - Desktop (1440px): Inline calendar grid
+  - Tablet (768px): Inline calendar grid
+  - Mobile (375px): Full-width calendar
+- **Implementation Notes**: 7-column grid, cell 44px min height for touch, keyboard arrow navigation
+
+#### FileUpload
+- **Type**: Interactive
+- **Used In Screens**: SCR-008
+- **Wireframe References**: wireframe-SCR-008
+- **Description**: Drag-and-drop file upload zone with click fallback
+- **Variants**: Default (empty), Uploading (progress), Complete (file list)
+- **Interactive States**: Default, Drag-Over (highlighted border), Uploading, Error, Complete
+- **Responsive Behavior**: Full width across all breakpoints
+- **Implementation Notes**: Dashed border, center-aligned icon and text, accept PDF/JPG/PNG
 
 ### Feedback Components
 
-#### Modal Dialog
-
+#### Badge
 - **Type**: Feedback
-- **Used In Screens**: SCR-009, SCR-012, SCR-022, SCR-027
-- **Description**: Overlay dialog for confirmations and forms
-- **Variants**: Confirmation, Form, Danger (red accent)
-- **Interactive States**: Open, Closing (fade out)
-- **Responsive Behavior**: Centered (520px max-width) on desktop; full-screen on mobile
-- **Implementation Notes**: `role="dialog"`, `aria-modal="true"`, focus trap, ESC to close
+- **Used In Screens**: SCR-002, SCR-003, SCR-009, SCR-010, SCR-011, SCR-013
+- **Wireframe References**: wireframe-SCR-002, wireframe-SCR-003, wireframe-SCR-009, wireframe-SCR-010, wireframe-SCR-011, wireframe-SCR-013
+- **Description**: Status indicator for appointments, queue items, users
+- **Variants**: Success (green), Warning (amber), Error (red), Info (blue), Neutral (gray)
+- **Interactive States**: Default (static)
+- **Responsive Behavior**: Consistent across all breakpoints
+- **Implementation Notes**: border-radius full, padding 2px 8px, font overline 12px uppercase, min-width 60px
 
-#### Alert Banner
-
+#### Alert
 - **Type**: Feedback
-- **Used In Screens**: SCR-029, error states across all screens
-- **Description**: Inline alert with icon, message, and optional dismiss
-- **Variants**: Success (green), Warning (orange), Error (red), Info (blue)
-- **Interactive States**: Default, Dismissed (hidden)
-- **Responsive Behavior**: Full-width on all breakpoints
-- **Implementation Notes**: `role="alert"` for error/warning; `role="status"` for success/info
+- **Used In Screens**: SCR-006, SCR-007, SCR-010
+- **Wireframe References**: wireframe-SCR-006, wireframe-SCR-007, wireframe-SCR-010
+- **Description**: Inline alert banner for important messages
+- **Variants**: Success, Warning, Error, Info
+- **Interactive States**: Default, Dismissable (with close button)
+- **Responsive Behavior**: Full width across all breakpoints
+- **Implementation Notes**: border-left 4px colored, bg tinted, padding 12px 16px, role="alert"
 
-#### Badge (Status)
-
+#### Toast
 - **Type**: Feedback
-- **Used In Screens**: SCR-010, SCR-011, SCR-025, SCR-028, SCR-031
-- **Description**: Inline status indicator pill
-- **Variants**: Success, Warning, Error, Info, Neutral
-- **Interactive States**: Static (non-interactive)
-- **Responsive Behavior**: Same on all breakpoints
-- **Implementation Notes**: Semantic color; `aria-label` describing status when not adjacent to text
+- **Used In Screens**: All screens (transient notifications)
+- **Wireframe References**: All wireframe files
+- **Description**: Temporary notification message that auto-dismisses
+- **Variants**: Success, Warning, Error, Info
+- **Interactive States**: Enter (slide-in), Visible, Exit (fade-out)
+- **Responsive Behavior**:
+  - Desktop (1440px): Top-right corner, 360px width
+  - Mobile (375px): Full width, bottom of screen
+- **Implementation Notes**: z-index 1100, auto-dismiss 5s, aria-live="polite"
 
-#### Progress Bar
-
+#### Modal
 - **Type**: Feedback
-- **Used In Screens**: SCR-016, SCR-019
-- **Description**: Horizontal progress indicator for upload and form completion
-- **Variants**: Determinate (with %), Indeterminate (animated)
-- **Interactive States**: In progress, Complete, Error
-- **Responsive Behavior**: Full-width on all breakpoints
-- **Implementation Notes**: `role="progressbar"`, `aria-valuenow`, `aria-valuemin`, `aria-valuemax`
+- **Used In Screens**: SCR-009, SCR-010, SCR-011, SCR-013
+- **Wireframe References**: wireframe-SCR-009, wireframe-SCR-010, wireframe-SCR-011, wireframe-SCR-013
+- **Description**: Overlay dialog for confirmations and complex interactions
+- **Variants**: Confirmation (small), Form (medium), Detail (large)
+- **Interactive States**: Open (visible + backdrop), Closed
+- **Responsive Behavior**:
+  - Desktop (1440px): Centered modal, max-width 560px
+  - Tablet (768px): Centered modal, max-width 480px
+  - Mobile (375px): Full-screen bottom sheet
+- **Implementation Notes**: border-radius 12px, elevation level-3, backdrop rgba(0,0,0,0.5), focus trap, ESC to close
 
-#### HIPAA Badge
-
+#### Drawer
 - **Type**: Feedback
-- **Used In Screens**: All authenticated screens (sidebar footer)
-- **Description**: Small badge indicating HIPAA-compliant data handling
-- **Variants**: Default (green lock icon + text)
-- **Interactive States**: Static
-- **Responsive Behavior**: Hidden on icon-only sidebar; tooltip on hover
-- **Implementation Notes**: Visual trust indicator; decorative (no interactive purpose)
+- **Used In Screens**: SCR-006, SCR-009, SCR-013
+- **Wireframe References**: wireframe-SCR-006, wireframe-SCR-009, wireframe-SCR-013
+- **Description**: Side panel for detailed views and forms
+- **Variants**: Right-side (default), Right-side with form
+- **Interactive States**: Open (slide-in from right), Closed
+- **Responsive Behavior**:
+  - Desktop (1440px): Right side, width 400px
+  - Tablet (768px): Right side, width 360px
+  - Mobile (375px): Full-screen overlay
+- **Implementation Notes**: border-radius 12px 0 0 12px, elevation level-3, transition slide 300ms, focus trap
+
+#### ProgressBar
+- **Type**: Feedback
+- **Used In Screens**: SCR-008
+- **Wireframe References**: wireframe-SCR-008
+- **Description**: Upload progress indicator
+- **Variants**: Determinate (percentage), Indeterminate (pulsing)
+- **Interactive States**: Active (animating), Complete (100%, green)
+- **Responsive Behavior**: Full width across all breakpoints
+- **Implementation Notes**: Height 4px, border-radius full, bg neutral-200, fill primary-600, transition width 200ms
+
+#### Skeleton
+- **Type**: Feedback
+- **Used In Screens**: All screens (loading states)
+- **Wireframe References**: All wireframe files
+- **Description**: Content placeholder during data loading
+- **Variants**: Text line, Card, Table row, Avatar
+- **Interactive States**: Pulsing animation
+- **Responsive Behavior**: Matches component it replaces
+- **Implementation Notes**: bg neutral-200, border-radius matching target, animation pulse 1.5s infinite
 
 ## Component Relationships
 
 ```
-Shell Layout
-├── Sidebar Navigation
-│   ├── Sidebar Logo
-│   ├── Nav Section Labels
-│   ├── Nav Items (with icons + badges)
-│   ├── Avatar (user profile)
-│   └── HIPAA Badge
-├── Top Bar
-│   ├── Breadcrumb
-│   ├── Search Input
-│   ├── Notification Bell (badge)
-│   └── Avatar (user menu)
-└── Content Area
-    ├── Page Header (H1 + action buttons)
-    ├── Stat Row (grid of Stat Cards)
-    ├── Filter Bar (Search + Filters)
-    ├── Tab Bar
-    ├── Card / Data Table / Form
-    │   ├── Table Header (sortable)
-    │   ├── Table Rows (selectable)
-    │   └── Pagination
-    ├── Chat Container (AI Intake)
-    │   ├── Chat Bubbles (bot/user)
-    │   └── Chat Input Bar
-    └── Modal Overlay
-        └── Modal (header + body + footer)
+Header (Layout)
++-- Logo (Static)
++-- Page Title (h1)
++-- Notification Bell (IconButton + Badge count)
++-- User Menu (Avatar + Dropdown)
+    +-- Profile Link
+    +-- Settings Link
+    +-- Logout Button
+
+Sidebar (Layout)
++-- Role Badge (Badge)
++-- Nav Items (List)
+    +-- Nav Item (Link + Icon + Label)
+    +-- Active Indicator (Border-left primary-600)
+
+Dashboard (Page)
++-- Card (Content)
+|   +-- Card Header (h2 + Badge)
+|   +-- Card Body (Content varies)
+|   +-- Card Actions (Button group)
++-- Table (Content)
+    +-- Table Header (Sortable columns)
+    +-- Table Row (Data + Badge + Actions)
+    +-- Table Footer (Pagination)
+
+Form Page (Page)
++-- Form Group (fieldset)
+    +-- Label
+    +-- TextField / Select / RadioGroup
+    +-- Helper Text / Error Text
+    +-- Button Group (Submit + Cancel)
 ```
 
 ## Component States Matrix
 
 | Component | Default | Hover | Active | Focus | Disabled | Error | Loading | Empty |
-|---|---|---|---|---|---|---|---|---|
-| Button (Primary) | ✓ | ✓ | ✓ | ✓ | ✓ | — | ✓ | — |
-| Button (Secondary) | ✓ | ✓ | ✓ | ✓ | ✓ | — | ✓ | — |
-| Button (Danger) | ✓ | ✓ | ✓ | ✓ | ✓ | — | — | — |
-| Form Input | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | — | ✓ |
-| Form Select | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | — | — |
-| Date Picker | ✓ | ✓ | ✓ | ✓ | ✓ | — | — | — |
-| Search Input | ✓ | — | ✓ | ✓ | — | — | ✓ | ✓ |
-| Toggle Switch | ✓ | ✓ | — | ✓ | ✓ | — | — | — |
-| Data Table | ✓ | ✓ (row) | — | — | — | — | ✓ | ✓ |
-| Card (Stat/Appt/Doc) | ✓ | ✓ | — | — | — | — | ✓ | ✓ |
-| Modal Dialog | ✓ | — | — | ✓ | — | — | — | — |
-| Alert Banner | ✓ | — | — | — | — | — | — | — |
-| Badge | ✓ | — | — | — | — | — | — | — |
-| Tab Bar | ✓ | ✓ | ✓ | ✓ | — | — | — | — |
-| Pagination | ✓ | ✓ | ✓ | ✓ | ✓ | — | — | — |
-| Chat Bubble | ✓ | — | — | — | — | — | ✓ | — |
-| Drop Zone | ✓ | — | ✓ | ✓ | — | ✓ | — | ✓ |
-| Time Slot | ✓ | ✓ | ✓ | ✓ | ✓ | — | — | — |
-| Progress Bar | ✓ | — | — | — | — | ✓ | ✓ | — |
-| Avatar | ✓ | — | — | — | — | — | — | — |
-| Step Indicator | ✓ | — | ✓ | — | — | — | — | — |
+|-----------|---------|-------|--------|-------|----------|-------|---------|-------|
+| Button | x | x | x | x | x | - | x | - |
+| TextField | x | x | x | x | x | x | - | x |
+| Select | x | x | x | x | x | x | x | x |
+| RadioGroup | x | x | - | x | x | - | - | - |
+| Checkbox | x | x | - | x | x | - | - | - |
+| Toggle | x | x | - | x | x | - | - | - |
+| Calendar | x | x | x | x | x | - | x | - |
+| Card | x | x | - | - | - | - | x | x |
+| Table | x | x | - | - | - | - | x | x |
+| Modal | x | - | - | x | - | - | - | - |
+| Drawer | x | - | - | x | - | - | - | - |
+| Badge | x | - | - | - | - | - | - | - |
+| Alert | x | - | - | - | - | - | - | - |
+| Toast | x | - | - | - | - | - | - | - |
+| FileUpload | x | x | x | x | x | x | x | - |
 
 ## Reusability Analysis
 
 | Component | Reuse Count | Screens | Recommendation |
-|---|---|---|---|
-| Button (Primary) | 31 screens | All | Shared component |
-| Sidebar Navigation | 28 screens | All authenticated | Shared component (3 role variants) |
-| Top Bar | 28 screens | All authenticated | Shared component |
-| Form Input | 14 screens | Login, Booking, Intake, Admin | Shared component |
-| Badge (Status) | 12 screens | Appointments, Queue, Insurance | Shared component |
-| Data Table | 8 screens | Admin, Queue, Coding | Shared component |
-| Card | 10 screens | Dashboards, Details, Alerts | Shared component (variant per type) |
-| Modal Dialog | 5 screens | Cancel, Deactivate, No-Show, Swap | Shared component |
-| Avatar | 6 screens | Sidebar, Admin, Queue | Shared component |
-| Drop Zone | 1 screen | SCR-016 | Screen-specific |
-| Chat UI | 1 screen | SCR-018 | Screen-specific |
-| Role Matrix | 1 screen | SCR-023 | Screen-specific |
+|-----------|-------------|---------|----------------|
+| Header | 13 screens | All | Create as shared layout component |
+| Sidebar | 12 screens | All authenticated | Create as shared layout component |
+| Button | 13 screens | All | Create as shared component with 5 variants |
+| Badge | 6 screens | SCR-002, 003, 009, 010, 011, 013 | Create as shared component with 5 variants |
+| Table | 6 screens | SCR-003, 004, 009, 011, 012, 013 | Create as shared component with sortable option |
+| Card | 4 screens | SCR-002, 003, 004, 010 | Create as shared component with 4 variants |
+| Toast | 13 screens | All | Create as shared component with 4 variants |
+| Modal | 4 screens | SCR-009, 010, 011, 013 | Create as shared component with 3 sizes |
+| TextField | 4 screens | SCR-001, 005, 007, 012 | Create as shared component with 4 variants |
+| Drawer | 3 screens | SCR-006, 009, 013 | Create as shared component |
+| Calendar | 1 screen | SCR-006 | Screen-specific component |
+| FileUpload | 1 screen | SCR-008 | Screen-specific component |
+| Toggle | 1 screen | SCR-007 | Screen-specific component |
 
 ## Responsive Breakpoints Summary
 
 | Breakpoint | Width | Components Affected | Key Adaptations |
-|---|---|---|---|
-| Mobile | 375px | Sidebar, Tables, Cards, Forms, Pagination | Off-canvas sidebar, stacked cards, card-based tables, full-width inputs, compact pagination |
-| Tablet | 768px | Sidebar, Stat Grid, Tables | Icon-only sidebar, 2-column grid, horizontal scroll tables |
-| Desktop | 1440px | All | Full sidebar, multi-column grids, complete tables, side panels |
+|-----------|-------|-------------------|-----------------|
+| Mobile | 375px | Sidebar→BottomNav, Table→CardList, Modal→BottomSheet, Button→FullWidth | Stacked layout, bottom nav, full-screen overlays |
+| Tablet | 768px | Sidebar→Collapsible, Table→HorizontalScroll, Card→2-col grid | 2-column grids, collapsible sidebar |
+| Desktop | 1440px | All at full fidelity | 12-column grid, persistent sidebar, inline modals |
 
 ## Implementation Priority Matrix
 
 ### High Priority (Core Components)
-
-- [ ] Sidebar Navigation — Used in all authenticated screens
-- [ ] Top Bar — Used in all authenticated screens
-- [ ] Button (Primary/Secondary) — Universal interaction component
-- [ ] Form Input / Select — Required for all forms
-- [ ] Data Table — Required for admin, queue, and coding screens
-- [ ] Stat Card — Required for all dashboards
-- [ ] Badge (Status) — Required for appointment and queue status
-- [ ] Modal Dialog — Required for confirmations
-- [ ] Login Card — Required for authentication entry points
+- [x] Header — Used in all screens, critical for navigation
+- [x] Sidebar — Primary navigation for all authenticated users
+- [x] Button — Primary user interaction across all screens
+- [x] Table — Core data display for 6 screens
+- [x] Card — Dashboard widgets for 4 screens
+- [x] Badge — Status indicators across 6 screens
+- [x] Toast — User feedback across all screens
+- [x] Modal — Confirmations and forms in 4 screens
 
 ### Medium Priority (Feature Components)
-
-- [ ] Appointment Card — Patient dashboard and details
-- [ ] Patient Card — Queue management
-- [ ] Document Card — Document management
-- [ ] Alert Card — Risk and conflict alerts
-- [ ] Step Indicator — Multi-step booking and intake
-- [ ] Tab Bar — Dashboard sections and document views
-- [ ] Date Picker — Booking and audit filtering
-- [ ] Search Input — Table filtering
-- [ ] Time Slot Grid — Appointment booking
-- [ ] Progress Bar — Upload and intake progress
+- [ ] TextField — Forms and search in 4 screens
+- [ ] Select — Filtering and role assignment
+- [ ] Drawer — Side panels in 3 screens
+- [ ] Alert — Important messages in 3 screens
+- [ ] RadioGroup — Booking and intake selection
+- [ ] Calendar — Appointment date selection
+- [ ] Toggle — AI/Manual mode switch
+- [ ] Skeleton — Loading states
 
 ### Low Priority (Enhancement Components)
-
-- [ ] Chat Bubble / Chat Input — AI intake only
-- [ ] Drop Zone — Document upload only
-- [ ] Role Matrix — Admin role assignment only
-- [ ] Toggle Switch — Settings screens
-- [ ] HIPAA Badge — Trust indicator
+- [ ] Avatar — User profile display
+- [ ] Checkbox — Remember me on login
+- [ ] Pagination — Audit log table navigation
+- [ ] ProgressBar — File upload progress
+- [ ] FileUpload — Document upload interface
 
 ## Framework-Specific Notes
-
-**Detected Framework**: React (from Technology Stack in spec.md)
-**Component Library**: Custom (design token-based; no external UI library specified)
+**Detected Framework**: React 18.x  
+**Component Library**: Custom (based on designsystem.md tokens)
 
 ### Framework Patterns Applied
-
-- Component composition via props and children
-- State management for form handling and table data
-- Role-based conditional rendering for sidebar menus
-- React Router for client-side navigation between screens
+- Functional Components with hooks for state management
+- CSS Custom Properties for design token consumption
+- Media queries for responsive behavior
+- CSS transitions (200ms ease) for interactive states
 
 ### Component Library Mappings
-
-| Wireframe Component | Suggested React Component | Customization Required |
-|---|---|---|
-| Button | `<Button variant="primary">` | Color, size, loading state |
-| Form Input | `<Input type="text" error={boolean}>` | Validation integration |
-| Data Table | `<DataTable columns={[]} data={[]}>` | Sort, filter, pagination |
-| Modal | `<Modal open={boolean} onClose={fn}>` | Focus trap, ARIA |
-| Badge | `<Badge variant="success">` | Semantic color mapping |
+| Wireframe Component | React Component | Customization Required |
+|-------------------|-------------------|----------------------|
+| Button | `<Button variant="primary" size="md">` | 5 variants, 3 sizes, 6 states |
+| TextField | `<TextField label="" error="">` | Validation styling, password toggle |
+| Select | `<Select options={[]} />` | Dropdown styling, multi-select |
+| Table | `<DataTable columns={[]} data={[]} />` | Sortable headers, row actions |
+| Modal | `<Modal size="md" open={}>` | 3 sizes, focus trap |
+| Card | `<Card variant="default">` | 4 variants, clickable option |
 
 ## Accessibility Considerations
 
 | Component | ARIA Attributes | Keyboard Navigation | Screen Reader Notes |
-|---|---|---|---|
-| Sidebar Nav | `role="navigation"`, `aria-label="Main"` | Tab between items | Section labels announced |
-| Data Table | `role="table"`, `aria-sort` on headers | Tab to table, arrow keys in cells | Sort state announced |
-| Modal | `role="dialog"`, `aria-modal="true"`, `aria-labelledby` | Tab trapped, ESC to close | Title announced on open |
-| Tab Bar | `role="tablist"`, `role="tab"`, `role="tabpanel"` | Arrow keys between tabs | Selected tab announced |
-| Form Input | `aria-describedby` (hint/error), `aria-invalid` | Tab to input | Error announced via `aria-live` |
-| Toggle | `role="switch"`, `aria-checked` | Space to toggle | State change announced |
-| Button | `aria-label` (icon-only), `aria-disabled` | Enter/Space to activate | Label or text announced |
-| Progress Bar | `role="progressbar"`, `aria-valuenow` | Non-interactive | Percentage announced |
-| Chat | `aria-live="polite"` on container | Tab to input, Enter to send | New messages announced |
-| Pagination | `aria-label="Pagination"`, `aria-current="page"` | Tab between buttons | Current page announced |
-| Step Indicator | `aria-current="step"`, `aria-label="Step X of Y"` | Non-interactive | Current step announced |
+|-----------|----------------|-------------------|-------------------|
+| Button | role="button", aria-disabled | Enter/Space to activate | Announce label + state |
+| TextField | aria-label, aria-describedby, aria-invalid | Tab to focus, type to input | Announce label, error msg |
+| Modal | role="dialog", aria-labelledby, aria-modal="true" | Tab trap, ESC to close | Announce title on open |
+| Drawer | role="dialog", aria-labelledby | Tab trap, ESC to close | Announce title on open |
+| Table | role="table", aria-sort on headers | Tab through cells, arrow keys | Announce column + cell content |
+| Badge | role="status", aria-label | Not focusable | Announce status text |
+| Alert | role="alert", aria-live="assertive" | Not focusable | Auto-announced on appearance |
+| Toast | aria-live="polite" | Dismiss with ESC | Auto-announced after delay |
+| Calendar | role="grid", aria-label | Arrow keys navigate dates | Announce date + availability |
+| Toggle | role="switch", aria-checked | Space to toggle | Announce label + state |
 
 ## Design System Integration
 
-**Design System Reference**: [designsystem.md](../docs/designsystem.md)
+**Design System Reference**: See [designsystem.md](../docs/designsystem.md)
 
 ### Components Matching Design System
-
-- [x] Button — Uses primary/secondary/error color tokens
-- [x] Form Input — Uses border, focus ring, error color tokens
-- [x] Card — Uses surface background, card shadow, border radius tokens
-- [x] Badge — Uses semantic color tokens (success, warning, error)
-- [x] Typography — Uses modular scale (H1→Caption) and weight tokens
-- [x] Spacing — Uses 8px base unit scale throughout
-- [x] Avatar — Uses primary color token
+- [x] Button — Uses primary-600, border-radius md (8px), Inter font
+- [x] TextField — Uses neutral-300 border, primary-600 focus, error-600 error
+- [x] Card — Uses level-1 elevation, border-radius md (8px), 16px padding
+- [x] Table — Uses neutral-200 borders, neutral-50 alternate rows
+- [x] Badge — Uses semantic colors, border-radius full, overline typography
+- [x] Modal — Uses level-3 elevation, border-radius lg (12px)
+- [x] Alert — Uses semantic color tints, 4px left border
 
 ### New Components to Add to Design System
-
-- [ ] Chat Bubble — New pattern for AI Intake
-- [ ] Drop Zone — File upload interaction pattern
-- [ ] Time Slot Grid — Domain-specific appointment component
-- [ ] Role Matrix — Admin-specific permission grid
-- [ ] HIPAA Badge — Compliance trust indicator
+- [ ] Calendar — Custom date picker grid with availability states
+- [ ] FileUpload — Drag-and-drop zone with dashed border pattern
+- [ ] Chat Bubbles — AI conversation interface for intake (SCR-007)

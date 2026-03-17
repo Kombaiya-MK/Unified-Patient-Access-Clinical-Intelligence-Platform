@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SCR-002 Patient Dashboard — Unified Patient Access Platform</title>
+  <!-- SCR-002 | Derived From: UC-001, UC-002, UC-004, UC-005 | Personas: Patient | Priority: P0 -->
+  <!-- UXR Mapped: UXR-001, UXR-002, UXR-101, UXR-201, UXR-301, UXR-401, UXR-402 -->
+  <style>
+    :root {
+      --primary-900: #003D7A; --primary-800: #004C99; --primary-700: #005BB8;
+      --primary-600: #0066CC; --primary-500: #3385D6; --primary-400: #66A3E0;
+      --primary-300: #99C2EB; --primary-200: #CCE0F5; --primary-100: #E6F0FA;
+      --secondary-600: #00A86B; --secondary-100: #E6F6F0;
+      --success-600: #00A145; --success-100: #E6F9EF;
+      --warning-600: #FF8800; --warning-100: #FFF2E6;
+      --error-600: #DC3545; --error-100: #FCE8EA;
+      --info-600: #0077B6; --info-100: #E6F3F9;
+      --neutral-900: #1A1A1A; --neutral-800: #333333; --neutral-700: #4D4D4D;
+      --neutral-600: #666666; --neutral-500: #808080; --neutral-400: #999999;
+      --neutral-300: #CCCCCC; --neutral-200: #E5E5E5; --neutral-100: #F5F5F5;
+      --neutral-50: #FAFAFA;
+      --bg-primary: #FFFFFF; --bg-secondary: #F5F5F5; --bg-tertiary: #FAFAFA;
+      --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      --radius-sm: 4px; --radius-md: 8px; --radius-lg: 12px; --radius-full: 9999px;
+      --shadow-1: 0px 1px 3px rgba(0,0,0,0.12), 0px 1px 2px rgba(0,0,0,0.24);
+      --shadow-2: 0px 3px 6px rgba(0,0,0,0.15), 0px 2px 4px rgba(0,0,0,0.12);
+      --shadow-3: 0px 10px 20px rgba(0,0,0,0.15), 0px 3px 6px rgba(0,0,0,0.10);
+      --focus-ring: 0 0 0 2px #FFFFFF, 0 0 0 4px #0066CC;
+      --transition: 200ms ease;
+      --sidebar-width: 240px;
+      --header-height: 64px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: var(--font-family); background: var(--bg-tertiary); color: var(--neutral-900); }
+    a { color: var(--primary-600); text-decoration: none; transition: color var(--transition); }
+    a:hover { color: var(--primary-800); }
+    a:focus-visible { outline: none; box-shadow: var(--focus-ring); border-radius: var(--radius-sm); }
+
+    /* === Header === */
+    .header {
+      position: fixed; top: 0; left: 0; right: 0; height: var(--header-height); z-index: 1000;
+      background: var(--bg-primary); border-bottom: 1px solid var(--neutral-200);
+      display: flex; align-items: center; padding: 0 24px; gap: 16px;
+    }
+    .header__logo { font-size: 20px; font-weight: 700; color: var(--primary-600); }
+    .header__title { flex: 1; font-size: 16px; font-weight: 600; color: var(--neutral-800); margin-left: 16px; }
+    .header__actions { display: flex; align-items: center; gap: 16px; }
+    .header__notification {
+      position: relative; width: 40px; height: 40px; border-radius: var(--radius-full);
+      border: none; background: none; cursor: pointer; font-size: 20px;
+      display: flex; align-items: center; justify-content: center; transition: background var(--transition);
+    }
+    .header__notification:hover { background: var(--neutral-100); }
+    .header__notification:focus-visible { box-shadow: var(--focus-ring); outline: none; }
+    .header__notification-badge {
+      position: absolute; top: 4px; right: 4px; width: 18px; height: 18px;
+      background: var(--error-600); color: white; font-size: 11px; font-weight: 700;
+      border-radius: var(--radius-full); display: flex; align-items: center; justify-content: center;
+    }
+    .header__avatar {
+      width: 36px; height: 36px; border-radius: var(--radius-full);
+      background: var(--primary-100); color: var(--primary-600);
+      font-size: 14px; font-weight: 600; display: flex; align-items: center; justify-content: center;
+      cursor: pointer; transition: transform var(--transition);
+    }
+    .header__avatar:hover { transform: scale(1.05); }
+
+    /* Notification Popup */
+    .notif-popup { display: none; position: absolute; top: calc(100% + 8px); right: 0; width: 400px; background: var(--bg-primary); border-radius: 12px; box-shadow: 0px 10px 30px rgba(0,0,0,0.18), 0px 4px 8px rgba(0,0,0,0.10); z-index: 1100; overflow: hidden; }
+    .notif-popup--open { display: block; }
+    .notif-popup__header { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; border-bottom: 1px solid var(--neutral-200); }
+    .notif-popup__title { font-size: 16px; font-weight: 700; color: var(--neutral-900); }
+    .notif-popup__count { padding: 2px 8px; font-size: 11px; font-weight: 600; border-radius: 9999px; background: var(--error-600); color: white; }
+    .notif-popup__body { max-height: 380px; overflow-y: auto; }
+    .notif-entry { display: flex; align-items: flex-start; gap: 12px; padding: 14px 20px; border-bottom: 1px solid var(--neutral-100); transition: background 200ms ease; cursor: default; }
+    .notif-entry:hover { background: var(--neutral-50); }
+    .notif-entry:last-child { border-bottom: none; }
+    .notif-entry--unread { background: #E6F0FA; }
+    .notif-entry--unread:hover { background: #d9ebf9; }
+    .notif-icon { width: 36px; height: 36px; border-radius: 9999px; display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
+    .notif-icon--scheduled { background: var(--info-100); color: var(--info-600); }
+    .notif-icon--arrived { background: var(--primary-100); color: var(--primary-600); }
+    .notif-icon--inprogress { background: #FFF2E6; color: var(--warning-600); }
+    .notif-icon--completed { background: #E6F9EF; color: #00A145; }
+    .notif-body { flex: 1; min-width: 0; }
+    .notif-text { font-size: 13px; color: var(--neutral-800); line-height: 1.4; }
+    .notif-text strong { font-weight: 600; color: var(--neutral-900); }
+    .notif-meta { font-size: 12px; color: var(--neutral-500); margin-top: 2px; }
+    .notif-status { display: inline-block; padding: 1px 6px; font-size: 10px; font-weight: 600; border-radius: 4px; text-transform: uppercase; letter-spacing: 0.5px; margin-left: 6px; }
+    .notif-status--scheduled { background: var(--info-100); color: var(--info-600); }
+    .notif-status--arrived { background: var(--primary-100); color: var(--primary-600); }
+    .notif-status--inprogress { background: #FFF2E6; color: var(--warning-600); }
+    .notif-status--completed { background: #E6F9EF; color: #00A145; }
+    .notif-popup__footer { padding: 12px 20px; border-top: 1px solid var(--neutral-200); text-align: center; }
+    .notif-popup__footer a { font-size: 13px; font-weight: 600; color: var(--primary-600); text-decoration: none; }
+    .notif-popup__footer a:hover { text-decoration: underline; }
+
+    /* === Sidebar === */
+    .sidebar {
+      position: fixed; top: var(--header-height); left: 0; bottom: 0;
+      width: var(--sidebar-width); background: var(--bg-primary);
+      border-right: 1px solid var(--neutral-200); padding: 16px 0; z-index: 900;
+      display: flex; flex-direction: column;
+    }
+    .sidebar__role {
+      padding: 8px 16px; margin: 0 16px 16px; font-size: 12px; font-weight: 500;
+      text-transform: uppercase; letter-spacing: 1px; color: var(--primary-600);
+      background: var(--primary-100); border-radius: var(--radius-full); text-align: center;
+    }
+    .sidebar__nav { flex: 1; list-style: none; }
+    .sidebar__item {
+      display: flex; align-items: center; gap: 12px; padding: 12px 24px;
+      font-size: 14px; font-weight: 500; color: var(--neutral-700);
+      cursor: pointer; transition: all var(--transition); border-left: 3px solid transparent;
+      text-decoration: none;
+    }
+    .sidebar__item:hover { background: var(--neutral-50); color: var(--primary-600); }
+    .sidebar__item--active {
+      color: var(--primary-600); background: var(--primary-100);
+      border-left-color: var(--primary-600); font-weight: 600;
+    }
+    .sidebar__item:focus-visible { box-shadow: var(--focus-ring); outline: none; }
+    .sidebar__icon { width: 20px; text-align: center; font-size: 16px; }
+
+    /* === Main Content === */
+    .main {
+      margin-left: var(--sidebar-width); margin-top: var(--header-height);
+      padding: 32px; min-height: calc(100vh - var(--header-height));
+    }
+    .page-title { font-size: 32px; font-weight: 700; line-height: 40px; letter-spacing: -0.25px; margin-bottom: 8px; }
+    .page-subtitle { font-size: 16px; color: var(--neutral-600); margin-bottom: 32px; line-height: 24px; }
+
+    /* === Quick Actions === */
+    .quick-actions { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 32px; }
+    .action-card {
+      background: var(--bg-primary); border-radius: var(--radius-md); padding: 24px;
+      box-shadow: var(--shadow-1); cursor: pointer; transition: all var(--transition);
+      display: flex; flex-direction: column; align-items: center; text-align: center; gap: 12px;
+      border: 2px solid transparent; text-decoration: none; color: inherit;
+    }
+    .action-card:hover { box-shadow: var(--shadow-2); border-color: var(--primary-200); transform: translateY(-2px); }
+    .action-card:focus-visible { box-shadow: var(--focus-ring); outline: none; }
+    .action-card__icon {
+      width: 56px; height: 56px; border-radius: var(--radius-full); display: flex;
+      align-items: center; justify-content: center; font-size: 24px;
+    }
+    .action-card__icon--booking { background: var(--primary-100); color: var(--primary-600); }
+    .action-card__icon--intake { background: var(--secondary-100); color: var(--secondary-600); }
+    .action-card__icon--upload { background: var(--info-100); color: var(--info-600); }
+    .action-card__title { font-size: 16px; font-weight: 600; color: var(--neutral-900); }
+    .action-card__desc { font-size: 14px; color: var(--neutral-600); line-height: 20px; }
+
+    /* === Dashboard Grid === */
+    .dashboard-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 24px; }
+    .card {
+      background: var(--bg-primary); border-radius: var(--radius-md);
+      box-shadow: var(--shadow-1); overflow: hidden;
+    }
+    .card__header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 16px 24px; border-bottom: 1px solid var(--neutral-200);
+    }
+    .card__title { font-size: 18px; font-weight: 600; color: var(--neutral-900); }
+    .card__badge {
+      display: inline-flex; align-items: center; padding: 2px 8px;
+      font-size: 12px; font-weight: 500; text-transform: uppercase;
+      letter-spacing: 1px; border-radius: var(--radius-full);
+    }
+    .badge--success { background: var(--success-100); color: var(--success-600); }
+    .badge--warning { background: var(--warning-100); color: var(--warning-600); }
+    .badge--info { background: var(--info-100); color: var(--info-600); }
+    .badge--error { background: var(--error-100); color: var(--error-600); }
+    .card__body { padding: 24px; }
+
+    /* === Appointment List === */
+    .appointment-list { list-style: none; }
+    .appointment-item {
+      display: flex; align-items: center; gap: 16px; padding: 16px 0;
+      border-bottom: 1px solid var(--neutral-100);
+      cursor: pointer; border-radius: var(--radius-md); padding: 12px 16px; margin: 0 -16px;
+      transition: background var(--transition);
+    }
+    .appointment-item:hover { background: var(--neutral-50); }
+    .appointment-item:focus-visible { box-shadow: var(--focus-ring); outline: none; }
+    .appointment-item:last-child { border-bottom: none; }
+    .appointment-date {
+      width: 48px; height: 48px; border-radius: var(--radius-md);
+      background: var(--primary-100); color: var(--primary-600);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      font-size: 12px; font-weight: 600;
+    }
+    .appointment-date__day { font-size: 18px; font-weight: 700; }
+    .appointment-info { flex: 1; }
+    .appointment-info__title { font-size: 14px; font-weight: 600; color: var(--neutral-900); }
+    .appointment-info__detail { font-size: 12px; color: var(--neutral-600); margin-top: 2px; }
+    .appointment-status { padding: 2px 8px; font-size: 12px; font-weight: 500; border-radius: var(--radius-full); text-transform: uppercase; letter-spacing: 1px; }
+    .appointment-actions { display: none; gap: 8px; margin-left: auto; flex-shrink: 0; }
+    .appointment-item:focus .appointment-actions,
+    .appointment-item:focus-within .appointment-actions,
+    .appointment-item--selected .appointment-actions { display: flex; }
+    .btn-sm { display: inline-flex; align-items: center; justify-content: center; height: 32px; padding: 4px 12px; font-size: 12px; font-weight: 500; font-family: var(--font-family); border: none; border-radius: var(--radius-md); cursor: pointer; transition: all var(--transition); }
+    .btn-sm:focus-visible { box-shadow: var(--focus-ring); outline: none; }
+    .btn-sm--reschedule { background: none; color: var(--primary-600); border: 1px solid var(--primary-600); }
+    .btn-sm--reschedule:hover { background: var(--primary-100); color: var(--primary-800); }
+    .btn-sm--cancel { background: none; color: var(--error-600); border: 1px solid var(--error-600); }
+    .btn-sm--cancel:hover { background: var(--error-100); }
+
+    /* === Cancel Confirmation Modal === */
+    .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 1300; align-items: center; justify-content: center; }
+    .modal-overlay--open { display: flex; }
+    .modal { background: var(--bg-primary); border-radius: var(--radius-lg); box-shadow: 0px 10px 20px rgba(0,0,0,0.19), 0px 6px 6px rgba(0,0,0,0.23); width: 100%; max-width: 480px; padding: 32px; }
+    .modal__icon { width: 48px; height: 48px; border-radius: var(--radius-full); background: var(--error-100); color: var(--error-600); display: flex; align-items: center; justify-content: center; font-size: 24px; margin-bottom: 16px; }
+    .modal__title { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
+    .modal__body { font-size: 14px; color: var(--neutral-600); line-height: 1.6; margin-bottom: 24px; }
+    .modal__detail { background: var(--neutral-50); padding: 12px 16px; border-radius: var(--radius-md); margin-bottom: 16px; }
+    .modal__detail-row { display: flex; justify-content: space-between; font-size: 14px; padding: 4px 0; }
+    .modal__detail-label { color: var(--neutral-500); }
+    .modal__detail-value { font-weight: 500; color: var(--neutral-900); }
+    .modal__actions { display: flex; justify-content: flex-end; gap: 12px; }
+    .btn { display: inline-flex; align-items: center; justify-content: center; height: 40px; min-width: 80px; padding: 8px 16px; font-size: 14px; font-weight: 500; font-family: var(--font-family); border: none; border-radius: var(--radius-md); cursor: pointer; transition: all var(--transition); }
+    .btn:focus-visible { box-shadow: var(--focus-ring); outline: none; }
+    .btn--secondary { background: none; color: var(--neutral-700); border: 1px solid var(--neutral-300); }
+    .btn--secondary:hover { background: var(--neutral-50); }
+    .btn--danger { background: var(--error-600); color: white; }
+    .btn--danger:hover { background: #c82333; }
+
+    /* === Activity / Notifications Panel === */
+    .notification-list { list-style: none; }
+    .notification-item {
+      padding: 12px 0; border-bottom: 1px solid var(--neutral-100);
+      display: flex; gap: 12px;
+    }
+    .notification-item:last-child { border-bottom: none; }
+    .notification-dot {
+      width: 8px; height: 8px; min-width: 8px; border-radius: var(--radius-full);
+      margin-top: 6px;
+    }
+    .notification-dot--unread { background: var(--primary-600); }
+    .notification-dot--read { background: var(--neutral-300); }
+    .notification-text { font-size: 14px; color: var(--neutral-700); line-height: 20px; }
+    .notification-time { font-size: 12px; color: var(--neutral-500); margin-top: 4px; }
+
+    /* === Responsive === */
+    @media (max-width: 1023px) {
+      .sidebar { display: none; }
+      .main { margin-left: 0; }
+      .dashboard-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 767px) {
+      .main { padding: 16px; }
+      .quick-actions { grid-template-columns: 1fr; }
+      .page-title { font-size: 24px; line-height: 32px; }
+      .appointment-item { flex-wrap: wrap; }
+      .appointment-actions { width: 100%; justify-content: flex-end; margin-top: 8px; }
+      .modal { margin: 16px; }
+      .modal__actions { flex-direction: column; }
+      .btn { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation Map
+    Element: Sidebar Dashboard | Action: Active item | Target: SCR-002
+    Element: Sidebar Book Appointment | Action: Navigate | Target: SCR-006
+    Element: Sidebar Patient Intake | Action: Navigate | Target: SCR-007
+    Element: Sidebar Documents | Action: Navigate | Target: SCR-008
+    Element: Sidebar Profile | Action: Navigate | Target: SCR-005
+    Element: Book Appointment CTA | Action: FL-001 entry | Target: SCR-006
+    Element: Complete Intake CTA | Action: FL-002 entry | Target: SCR-007
+    Element: Upload Document CTA | Action: Navigate | Target: SCR-008
+    Element: Notification Bell | Action: Open drawer | Target: Notification Center Drawer
+    Element: Reschedule Button | Action: Navigate to booking with prefill | Target: SCR-006 (reschedule mode)
+    Element: Cancel Button | Action: Open cancel confirmation modal | Target: Cancel Modal (inline)
+    Element: Modal Confirm Cancel | Action: Cancel appointment | Target: SCR-002 (success toast)
+    Element: User Menu > Logout | Action: Redirect | Target: SCR-001
+  -->
+
+  <!-- Header -->
+  <header class="header" role="banner">
+    <div class="header__logo">UPACI</div>
+    <div class="header__title">Patient Dashboard</div>
+    <div class="header__actions">
+      <div style="position: relative;">
+        <button class="header__notification" aria-label="Notifications (4 unread)" onclick="toggleNotifPopup();">
+          🔔
+          <span class="header__notification-badge" aria-hidden="true">4</span>
+        </button>
+
+        <!-- Notification Popup -->
+        <div class="notif-popup" id="notifPopup" role="dialog" aria-label="Appointment notifications">
+          <div class="notif-popup__header">
+            <span class="notif-popup__title">Appointment Updates</span>
+            <span class="notif-popup__count">4 New</span>
+          </div>
+          <div class="notif-popup__body">
+            <div class="notif-entry notif-entry--unread">
+              <div class="notif-icon notif-icon--scheduled">📅</div>
+              <div class="notif-body">
+                <div class="notif-text"><strong>Appointment Scheduled</strong> with <strong>Dr. James Patel</strong><span class="notif-status notif-status--scheduled">Scheduled</span></div>
+                <div class="notif-meta">Lab Results Review · Mar 25 at 2:30 PM · 5 min ago</div>
+              </div>
+            </div>
+            <div class="notif-entry notif-entry--unread">
+              <div class="notif-icon notif-icon--arrived">🏥</div>
+              <div class="notif-body">
+                <div class="notif-text">You have <strong>checked in</strong> for your appointment with <strong>Dr. Sarah Mitchell</strong><span class="notif-status notif-status--arrived">Arrived</span></div>
+                <div class="notif-meta">General Checkup · Mar 22 at 10:00 AM · 20 min ago</div>
+              </div>
+            </div>
+            <div class="notif-entry notif-entry--unread">
+              <div class="notif-icon notif-icon--inprogress">⏳</div>
+              <div class="notif-body">
+                <div class="notif-text">Your appointment with <strong>Dr. Sarah Mitchell</strong> is now <strong>in progress</strong><span class="notif-status notif-status--inprogress">In Progress</span></div>
+                <div class="notif-meta">General Checkup · Mar 22 at 10:05 AM · 15 min ago</div>
+              </div>
+            </div>
+            <div class="notif-entry notif-entry--unread">
+              <div class="notif-icon notif-icon--completed">✅</div>
+              <div class="notif-body">
+                <div class="notif-text">Your appointment with <strong>Dr. Lisa Wang</strong> is <strong>completed</strong><span class="notif-status notif-status--completed">Completed</span></div>
+                <div class="notif-meta">Routine Screening · Mar 15 at 9:00 AM · 2 days ago</div>
+              </div>
+            </div>
+            <div class="notif-entry">
+              <div class="notif-icon notif-icon--scheduled">📅</div>
+              <div class="notif-body">
+                <div class="notif-text"><strong>Appointment Scheduled</strong> with <strong>Dr. Emily Zhao</strong><span class="notif-status notif-status--scheduled">Scheduled</span></div>
+                <div class="notif-meta">Follow-up · Apr 2 at 11:15 AM · 3 days ago</div>
+              </div>
+            </div>
+          </div>
+          <div class="notif-popup__footer">
+            <a href="#">View All Notifications</a>
+          </div>
+        </div>
+      </div>
+      <div class="header__avatar" role="button" aria-label="User menu" tabindex="0">JD</div>
+    </div>
+  </header>
+
+  <!-- Sidebar -->
+  <nav class="sidebar" role="navigation" aria-label="Main navigation">
+    <div class="sidebar__role">Patient</div>
+    <ul class="sidebar__nav">
+      <li><a href="wireframe-SCR-002-patient-dashboard.html" class="sidebar__item sidebar__item--active"><span class="sidebar__icon">🏠</span> Dashboard</a></li>
+      <li><a href="wireframe-SCR-006-appointment-booking.html" class="sidebar__item"><span class="sidebar__icon">📅</span> Book Appointment</a></li>
+      <li><a href="wireframe-SCR-007-patient-intake.html" class="sidebar__item"><span class="sidebar__icon">📋</span> Patient Intake</a></li>
+      <li><a href="wireframe-SCR-008-document-upload.html" class="sidebar__item"><span class="sidebar__icon">📁</span> Documents</a></li>
+      <li><a href="wireframe-SCR-005-profile-settings.html" class="sidebar__item"><span class="sidebar__icon">👤</span> Profile &amp; Settings</a></li>
+    </ul>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="main" role="main">
+    <h1 class="page-title">Welcome, Jane</h1>
+    <p class="page-subtitle">Here's your health overview and quick actions</p>
+
+    <!-- Quick Actions (FL-001, FL-002 entry points) -->
+    <section class="quick-actions" aria-label="Quick actions">
+      <a href="wireframe-SCR-006-appointment-booking.html" class="action-card" aria-label="Book a new appointment">
+        <div class="action-card__icon action-card__icon--booking">📅</div>
+        <div class="action-card__title">Book Appointment</div>
+        <div class="action-card__desc">Find and book available time slots</div>
+      </a>
+      <a href="wireframe-SCR-007-patient-intake.html" class="action-card" aria-label="Complete patient intake">
+        <div class="action-card__icon action-card__icon--intake">📋</div>
+        <div class="action-card__title">Complete Intake</div>
+        <div class="action-card__desc">AI-assisted or manual intake form</div>
+      </a>
+      <a href="wireframe-SCR-008-document-upload.html" class="action-card" aria-label="Upload medical documents">
+        <div class="action-card__icon action-card__icon--upload">📁</div>
+        <div class="action-card__title">Upload Documents</div>
+        <div class="action-card__desc">Upload medical records and files</div>
+      </a>
+    </section>
+
+    <!-- Dashboard Grid -->
+    <div class="dashboard-grid">
+      <!-- Upcoming Appointments Card -->
+      <div class="card">
+        <div class="card__header">
+          <h2 class="card__title">Upcoming Appointments</h2>
+        </div>
+        <div class="card__body">
+          <ul class="appointment-list">
+            <!-- Completed appointment -->
+            <li class="appointment-item" tabindex="0" role="button" aria-label="Dr. Lisa Wang, Routine Screening, Mar 15 — Completed">
+              <div class="appointment-date"><span class="appointment-date__day">15</span>MAR</div>
+              <div class="appointment-info">
+                <div class="appointment-info__title">Dr. Lisa Wang — Routine Screening</div>
+                <div class="appointment-info__detail">9:00 AM — Room 105</div>
+              </div>
+              <span class="appointment-status badge--neutral" role="status" style="background: var(--success-100); color: var(--success-600);">Completed</span>
+            </li>
+            <!-- First appointment shown in selected/clicked state to demonstrate the interaction -->
+            <li class="appointment-item appointment-item--selected" tabindex="0" role="button" aria-label="Dr. Sarah Mitchell, General Checkup, Mar 22 at 10:00 AM — click to manage">
+              <div class="appointment-date"><span class="appointment-date__day">22</span>MAR</div>
+              <div class="appointment-info">
+                <div class="appointment-info__title">Dr. Sarah Mitchell — General Checkup</div>
+                <div class="appointment-info__detail">10:00 AM — Room 204</div>
+              </div>
+              <span class="appointment-status badge--success" role="status">Confirmed</span>
+              <div class="appointment-actions">
+                <button class="btn-sm btn-sm--reschedule" aria-label="Reschedule appointment with Dr. Mitchell on Mar 22" onclick="event.stopPropagation(); window.location.href='wireframe-SCR-006-appointment-booking.html';">Reschedule</button>
+                <button class="btn-sm btn-sm--cancel" aria-label="Cancel appointment with Dr. Mitchell on Mar 22" onclick="event.stopPropagation(); openCancelModal('Dr. Sarah Mitchell','March 22, 2026','10:00 AM','General Checkup');">Cancel</button>
+              </div>
+            </li>
+            <li class="appointment-item" tabindex="0" role="button" aria-label="Dr. James Patel, Lab Results Review, Mar 25 at 2:30 PM — click to manage">
+              <div class="appointment-date"><span class="appointment-date__day">25</span>MAR</div>
+              <div class="appointment-info">
+                <div class="appointment-info__title">Dr. James Patel — Lab Results Review</div>
+                <div class="appointment-info__detail">2:30 PM — Room 112</div>
+              </div>
+              <span class="appointment-status badge--info" role="status">Scheduled</span>
+              <div class="appointment-actions">
+                <button class="btn-sm btn-sm--reschedule" aria-label="Reschedule appointment with Dr. Patel on Mar 25" onclick="event.stopPropagation(); window.location.href='wireframe-SCR-006-appointment-booking.html';">Reschedule</button>
+                <button class="btn-sm btn-sm--cancel" aria-label="Cancel appointment with Dr. Patel on Mar 25" onclick="event.stopPropagation(); openCancelModal('Dr. James Patel','March 25, 2026','2:30 PM','Lab Results Review');">Cancel</button>
+              </div>
+            </li>
+            <li class="appointment-item" tabindex="0" role="button" aria-label="Dr. Emily Zhao, Follow-up, Apr 2 at 11:15 AM — Pending Intake — click to manage">
+              <div class="appointment-date"><span class="appointment-date__day">02</span>APR</div>
+              <div class="appointment-info">
+                <div class="appointment-info__title">Dr. Emily Zhao — Follow-up</div>
+                <div class="appointment-info__detail">11:15 AM — Room 301</div>
+                <div style="margin-top: 4px; font-size: 12px; color: var(--warning-600);">⚠ Please <a href="wireframe-SCR-007-patient-intake.html" style="font-weight: 600; color: var(--primary-600);" onclick="event.stopPropagation();">complete your intake form</a> before this appointment.</div>
+              </div>
+              <span class="appointment-status badge--warning" role="status">Pending Intake</span>
+              <div class="appointment-actions">
+                <button class="btn-sm btn-sm--reschedule" aria-label="Reschedule appointment with Dr. Zhao on Apr 2" onclick="event.stopPropagation(); window.location.href='wireframe-SCR-006-appointment-booking.html';">Reschedule</button>
+                <button class="btn-sm btn-sm--cancel" aria-label="Cancel appointment with Dr. Zhao on Apr 2" onclick="event.stopPropagation(); openCancelModal('Dr. Emily Zhao','April 2, 2026','11:15 AM','Follow-up');">Cancel</button>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Recent Notifications -->
+      <div class="card">
+        <div class="card__header">
+          <h2 class="card__title">Notifications</h2>
+        </div>
+        <div class="card__body">
+          <ul class="notification-list">
+            <li class="notification-item">
+              <span class="notification-dot notification-dot--unread"></span>
+              <div>
+                <div class="notification-text">Your appointment with Dr. Mitchell has been confirmed.</div>
+                <div class="notification-time">2 hours ago</div>
+              </div>
+            </li>
+            <li class="notification-item">
+              <span class="notification-dot notification-dot--unread"></span>
+              <div>
+                <div class="notification-text">Please complete your intake form before Mar 22.</div>
+                <div class="notification-time">5 hours ago</div>
+              </div>
+            </li>
+            <li class="notification-item">
+              <span class="notification-dot notification-dot--read"></span>
+              <div>
+                <div class="notification-text">Your lab results are ready for review.</div>
+                <div class="notification-time">1 day ago</div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Cancel Appointment Confirmation Modal -->
+  <div class="modal-overlay" id="cancelModal" role="dialog" aria-modal="true" aria-labelledby="cancel-modal-title">
+    <div class="modal">
+      <div class="modal__icon" aria-hidden="true">⚠️</div>
+      <h2 class="modal__title" id="cancel-modal-title">Cancel Appointment?</h2>
+      <div class="modal__body">Are you sure you want to cancel this appointment? This action cannot be undone.</div>
+      <div class="modal__detail">
+        <div class="modal__detail-row">
+          <span class="modal__detail-label">Doctor</span>
+          <span class="modal__detail-value" id="modal-doctor">Dr. Sarah Mitchell</span>
+        </div>
+        <div class="modal__detail-row">
+          <span class="modal__detail-label">Date</span>
+          <span class="modal__detail-value" id="modal-date">March 22, 2026</span>
+        </div>
+        <div class="modal__detail-row">
+          <span class="modal__detail-label">Time</span>
+          <span class="modal__detail-value" id="modal-time">10:00 AM</span>
+        </div>
+        <div class="modal__detail-row">
+          <span class="modal__detail-label">Type</span>
+          <span class="modal__detail-value" id="modal-type">General Checkup</span>
+        </div>
+      </div>
+      <div class="modal__actions">
+        <button class="btn btn--secondary" onclick="closeCancelModal();">Keep Appointment</button>
+        <button class="btn btn--danger" onclick="closeCancelModal();">Yes, Cancel Appointment</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // --- Notification Popup ---
+    function toggleNotifPopup() {
+      document.getElementById('notifPopup').classList.toggle('notif-popup--open');
+    }
+    document.addEventListener('click', function(e) {
+      var popup = document.getElementById('notifPopup');
+      var bell = document.querySelector('.header__notification');
+      if (!popup.contains(e.target) && !bell.contains(e.target)) {
+        popup.classList.remove('notif-popup--open');
+      }
+    });
+
+    // --- Cancel Modal ---
+    function openCancelModal(doctor, date, time, type) {
+      document.getElementById('modal-doctor').textContent = doctor;
+      document.getElementById('modal-date').textContent = date;
+      document.getElementById('modal-time').textContent = time;
+      document.getElementById('modal-type').textContent = type;
+      document.getElementById('cancelModal').classList.add('modal-overlay--open');
+    }
+    function closeCancelModal() {
+      document.getElementById('cancelModal').classList.remove('modal-overlay--open');
+    }
+    // Close modal on overlay click (outside the modal box)
+    document.getElementById('cancelModal').addEventListener('click', function(e) {
+      if (e.target === this) closeCancelModal();
+    });
+    // Close modal on Escape key
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') closeCancelModal();
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SCR-006 Appointment Booking — Unified Patient Access Platform</title>
+  <!-- SCR-006 | Derived From: UC-004 Appointment Booking | Personas: Patient | Priority: P0 -->
+  <!-- UXR Mapped: UXR-001, UXR-002, UXR-101, UXR-102, UXR-103, UXR-201, UXR-301, UXR-401, UXR-501, UXR-502 -->
+  <style>
+    :root {
+      --primary-900: #003D7A; --primary-800: #004C99; --primary-600: #0066CC;
+      --primary-200: #CCE0F5; --primary-100: #E6F0FA;
+      --secondary-600: #00A86B; --secondary-100: #E6F6F0;
+      --success-600: #00A145; --success-100: #E6F9EF;
+      --warning-600: #FF8800; --warning-100: #FFF2E6;
+      --error-600: #DC3545; --error-100: #FCE8EA;
+      --info-600: #0077B6; --info-100: #E6F3F9;
+      --neutral-900: #1A1A1A; --neutral-800: #333333; --neutral-700: #4D4D4D;
+      --neutral-600: #666666; --neutral-500: #808080; --neutral-400: #999999;
+      --neutral-300: #CCCCCC; --neutral-200: #E5E5E5; --neutral-100: #F5F5F5; --neutral-50: #FAFAFA;
+      --bg-primary: #FFFFFF; --bg-tertiary: #FAFAFA;
+      --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      --radius-sm: 4px; --radius-md: 8px; --radius-lg: 12px; --radius-full: 9999px;
+      --shadow-1: 0px 1px 3px rgba(0,0,0,0.12), 0px 1px 2px rgba(0,0,0,0.24);
+      --shadow-2: 0px 3px 6px rgba(0,0,0,0.15), 0px 2px 4px rgba(0,0,0,0.12);
+      --focus-ring: 0 0 0 2px #FFFFFF, 0 0 0 4px #0066CC;
+      --transition: 200ms ease;
+      --sidebar-width: 240px; --header-height: 64px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: var(--font-family); background: var(--bg-tertiary); color: var(--neutral-900); }
+    a { color: var(--primary-600); text-decoration: none; }
+    a:hover { color: var(--primary-800); }
+    a:focus-visible { outline: none; box-shadow: var(--focus-ring); border-radius: var(--radius-sm); }
+
+    .header { position: fixed; top: 0; left: 0; right: 0; height: var(--header-height); z-index: 1000; background: var(--bg-primary); border-bottom: 1px solid var(--neutral-200); display: flex; align-items: center; padding: 0 24px; gap: 16px; }
+    .header__logo { font-size: 20px; font-weight: 700; color: var(--primary-600); }
+    .header__title { flex: 1; font-size: 16px; font-weight: 600; color: var(--neutral-800); margin-left: 16px; }
+    .header__avatar { width: 36px; height: 36px; border-radius: var(--radius-full); background: var(--primary-100); color: var(--primary-600); font-size: 14px; font-weight: 600; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+
+    .sidebar { position: fixed; top: var(--header-height); left: 0; bottom: 0; width: var(--sidebar-width); background: var(--bg-primary); border-right: 1px solid var(--neutral-200); padding: 16px 0; z-index: 900; display: flex; flex-direction: column; }
+    .sidebar__role { padding: 8px 16px; margin: 0 16px 16px; font-size: 12px; font-weight: 500; text-transform: uppercase; letter-spacing: 1px; color: var(--primary-600); background: var(--primary-100); border-radius: var(--radius-full); text-align: center; }
+    .sidebar__nav { flex: 1; list-style: none; }
+    .sidebar__item { display: flex; align-items: center; gap: 12px; padding: 12px 24px; font-size: 14px; font-weight: 500; color: var(--neutral-700); cursor: pointer; transition: all var(--transition); border-left: 3px solid transparent; text-decoration: none; }
+    .sidebar__item:hover { background: var(--neutral-50); color: var(--primary-600); }
+    .sidebar__item--active { color: var(--primary-600); background: var(--primary-100); border-left-color: var(--primary-600); font-weight: 600; }
+    .sidebar__item:focus-visible { box-shadow: var(--focus-ring); outline: none; }
+    .sidebar__icon { width: 20px; text-align: center; font-size: 16px; }
+
+    .main { margin-left: var(--sidebar-width); margin-top: var(--header-height); padding: 32px; min-height: calc(100vh - var(--header-height)); }
+    .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 14px; color: var(--neutral-500); margin-bottom: 24px; }
+    .breadcrumb a { color: var(--primary-600); }
+    .breadcrumb__separator { color: var(--neutral-400); }
+    .page-title { font-size: 32px; font-weight: 700; line-height: 40px; letter-spacing: -0.25px; margin-bottom: 8px; }
+    .page-subtitle { font-size: 16px; color: var(--neutral-600); margin-bottom: 32px; }
+
+    /* Booking Layout */
+    .booking-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+    .card { background: var(--bg-primary); border-radius: var(--radius-md); box-shadow: var(--shadow-1); overflow: hidden; }
+    .card__header { padding: 16px 24px; border-bottom: 1px solid var(--neutral-200); }
+    .card__title { font-size: 18px; font-weight: 600; }
+    .card__body { padding: 24px; }
+
+    /* Calendar */
+    .calendar { width: 100%; }
+    .calendar__nav { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+    .calendar__month { font-size: 16px; font-weight: 600; }
+    .calendar__btn { width: 36px; height: 36px; border-radius: var(--radius-full); border: 1px solid var(--neutral-300); background: var(--bg-primary); cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; transition: all var(--transition); }
+    .calendar__btn:hover { background: var(--neutral-100); border-color: var(--neutral-400); }
+    .calendar__btn:focus-visible { box-shadow: var(--focus-ring); outline: none; }
+    .calendar__grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; text-align: center; }
+    .calendar__day-header { font-size: 12px; font-weight: 600; color: var(--neutral-500); padding: 8px 0; text-transform: uppercase; letter-spacing: 1px; }
+    .calendar__day {
+      width: 100%; aspect-ratio: 1; display: flex; align-items: center; justify-content: center;
+      font-size: 14px; border-radius: var(--radius-full); cursor: pointer; transition: all var(--transition);
+      border: 2px solid transparent; min-height: 44px;
+    }
+    .calendar__day:hover { background: var(--primary-100); }
+    .calendar__day:focus-visible { box-shadow: var(--focus-ring); outline: none; }
+    .calendar__day--today { font-weight: 700; border-color: var(--primary-600); }
+    .calendar__day--selected { background: var(--primary-600); color: white; font-weight: 600; }
+    .calendar__day--disabled { color: var(--neutral-400); cursor: not-allowed; pointer-events: none; }
+    .calendar__day--available { position: relative; }
+    .calendar__day--available::after { content: ""; position: absolute; bottom: 4px; width: 6px; height: 6px; border-radius: var(--radius-full); background: var(--secondary-600); }
+
+    /* Time Slots */
+    .slots-list { list-style: none; display: flex; flex-direction: column; gap: 8px; max-height: 400px; overflow-y: auto; }
+    .slot-item {
+      display: flex; align-items: center; gap: 12px; padding: 12px 16px;
+      border: 2px solid var(--neutral-200); border-radius: var(--radius-md);
+      cursor: pointer; transition: all var(--transition);
+    }
+    .slot-item:hover { border-color: var(--primary-400); background: var(--primary-100); }
+    .slot-item:focus-within { border-color: var(--primary-600); box-shadow: 0 0 0 2px var(--primary-100); }
+    .slot-item--selected { border-color: var(--primary-600); background: var(--primary-100); }
+    .slot-radio { width: 20px; height: 20px; accent-color: var(--primary-600); min-width: 20px; cursor: pointer; }
+    .slot-radio:focus-visible { box-shadow: var(--focus-ring); outline: none; }
+    .slot-info { flex: 1; }
+    .slot-time { font-size: 16px; font-weight: 600; color: var(--neutral-900); }
+    .slot-detail { font-size: 14px; color: var(--neutral-600); margin-top: 2px; }
+    .slot-badge { padding: 2px 8px; font-size: 12px; font-weight: 500; border-radius: var(--radius-full); text-transform: uppercase; letter-spacing: 1px; }
+    .slot-badge--available { background: var(--success-100); color: var(--success-600); }
+    .slot-badge--few { background: var(--warning-100); color: var(--warning-600); }
+
+    /* Alert */
+    .alert { padding: 12px 16px; border-radius: var(--radius-md); font-size: 14px; line-height: 20px; margin-top: 16px; border-left: 4px solid; display: flex; align-items: flex-start; gap: 12px; }
+    .alert--info { background: var(--info-100); border-left-color: var(--info-600); color: var(--info-600); }
+    .alert__icon { font-size: 16px; margin-top: 2px; }
+
+    /* Insurance Precheck Modal */
+    .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 1100; align-items: center; justify-content: center; }
+    .modal-overlay--open { display: flex; }
+    .modal { background: var(--bg-primary); border-radius: var(--radius-lg); box-shadow: 0px 10px 20px rgba(0,0,0,0.15), 0px 3px 6px rgba(0,0,0,0.10); width: 100%; max-width: 520px; overflow: hidden; }
+    .modal__header { display: flex; align-items: center; justify-content: space-between; padding: 20px 24px; border-bottom: 1px solid var(--neutral-200); }
+    .modal__title { font-size: 20px; font-weight: 700; }
+    .modal__close { width: 32px; height: 32px; border: none; background: none; cursor: pointer; font-size: 20px; color: var(--neutral-500); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; }
+    .modal__close:hover { background: var(--neutral-100); color: var(--neutral-900); }
+    .modal__close:focus-visible { box-shadow: var(--focus-ring); outline: none; }
+    .modal__body { padding: 24px; }
+    .modal__footer { padding: 16px 24px; border-top: 1px solid var(--neutral-200); display: flex; justify-content: flex-end; gap: 12px; }
+
+    .precheck-result { text-align: center; padding: 16px 0; }
+    .precheck-result__icon { width: 64px; height: 64px; border-radius: var(--radius-full); display: inline-flex; align-items: center; justify-content: center; font-size: 32px; margin-bottom: 16px; }
+    .precheck-result__icon--pass { background: var(--success-100); color: var(--success-600); }
+    .precheck-result__icon--fail { background: var(--error-100); color: var(--error-600); }
+    .precheck-result__title { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
+    .precheck-result__title--pass { color: var(--success-600); }
+    .precheck-result__title--fail { color: var(--error-600); }
+    .precheck-result__desc { font-size: 14px; color: var(--neutral-600); line-height: 1.6; max-width: 380px; margin: 0 auto; }
+    .precheck-details { margin-top: 20px; background: var(--neutral-50); border-radius: var(--radius-md); padding: 16px; text-align: left; }
+    .precheck-details__row { display: flex; justify-content: space-between; padding: 6px 0; font-size: 14px; border-bottom: 1px solid var(--neutral-100); }
+    .precheck-details__row:last-child { border-bottom: none; }
+    .precheck-details__label { color: var(--neutral-600); font-weight: 500; }
+    .precheck-details__value { color: var(--neutral-900); font-weight: 600; }
+    .precheck-details__value--pass { color: var(--success-600); }
+    .precheck-details__value--fail { color: var(--error-600); }
+
+    .btn-modal { display: inline-flex; align-items: center; justify-content: center; height: 40px; min-width: 100px; padding: 8px 20px; font-size: 14px; font-weight: 500; font-family: var(--font-family); border: none; border-radius: var(--radius-md); cursor: pointer; transition: all var(--transition); }
+    .btn-modal:focus-visible { box-shadow: var(--focus-ring); outline: none; }
+    .btn-modal--secondary { background: none; color: var(--neutral-700); border: 1px solid var(--neutral-300); }
+    .btn-modal--secondary:hover { background: var(--neutral-50); }
+    .btn-modal--primary { background: var(--primary-600); color: white; }
+    .btn-modal--primary:hover { background: var(--primary-800); }
+    .btn-modal--success { background: var(--success-600); color: white; }
+    .btn-modal--success:hover { background: #008836; }
+
+    /* Action Buttons */
+    .booking-actions { display: flex; gap: 12px; margin-top: 24px; }
+
+    /* Department Filter */
+    .dept-filter { background: var(--bg-primary); border-radius: var(--radius-md); box-shadow: var(--shadow-1); padding: 20px 24px; margin-bottom: 24px; }
+    .dept-filter__label { font-size: 14px; font-weight: 600; color: var(--neutral-800); margin-bottom: 8px; display: block; }
+    .dept-filter__row { display: flex; gap: 12px; align-items: flex-end; }
+    .dept-filter__select { flex: 1; height: 44px; padding: 8px 14px; font-size: 15px; font-family: var(--font-family); border: 1px solid var(--neutral-300); border-radius: var(--radius-md); background: var(--bg-primary); color: var(--neutral-900); cursor: pointer; }
+    .dept-filter__select:focus { border-color: var(--primary-600); box-shadow: 0 0 0 2px rgba(0,102,204,0.15); outline: none; }
+    .dept-filter__hint { font-size: 12px; color: var(--neutral-500); margin-top: 8px; }
+    .dept-selected-info { display: none; margin-top: 12px; padding: 12px 16px; background: var(--primary-100); border-radius: var(--radius-md); font-size: 14px; color: var(--primary-800); }
+    .dept-selected-info--show { display: flex; align-items: center; gap: 8px; }
+    .booking-layout--hidden { display: none; }
+    .btn { display: inline-flex; align-items: center; justify-content: center; height: 44px; min-width: 120px; padding: 8px 24px; font-size: 14px; font-weight: 500; font-family: var(--font-family); border: none; border-radius: var(--radius-md); cursor: pointer; transition: all var(--transition); }
+    .btn:focus-visible { box-shadow: var(--focus-ring); outline: none; }
+    .btn--primary { background: var(--primary-600); color: white; flex: 1; }
+    .btn--primary:hover { background: var(--primary-800); }
+    .btn--primary:disabled { background: var(--neutral-300); color: var(--neutral-500); cursor: not-allowed; }
+    .btn--secondary { background: none; color: var(--neutral-700); border: 1px solid var(--neutral-300); }
+    .btn--secondary:hover { background: var(--neutral-50); }
+
+    @media (max-width: 1023px) { .sidebar { display: none; } .main { margin-left: 0; } .booking-layout { grid-template-columns: 1fr; } }
+    @media (max-width: 767px) { .main { padding: 16px; } .page-title { font-size: 24px; } .booking-actions { flex-direction: column; } .btn { width: 100%; } }
+  </style>
+</head>
+<body>
+  <!-- Navigation Map
+    Element: Breadcrumb Dashboard | Action: Navigate back | Target: SCR-002
+    Element: Calendar Date | Action: Select date | Target: SCR-006 (slot list updates)
+    Element: Time Slot RadioGroup | Action: Select slot | Target: SCR-006 (slot selected)
+    Element: Confirm Booking Button | Action: Submit booking + insurance precheck | Target: Insurance Precheck Result Modal
+    Element: Join Waitlist Button | Action: Waitlist action | Target: SCR-002 (waitlist toast)
+    Element: Back Button (mobile) | Action: Navigate back | Target: SCR-002
+  -->
+
+  <header class="header" role="banner">
+    <div class="header__logo">UPACI</div>
+    <div class="header__title">Appointment Booking</div>
+    <div class="header__avatar" role="button" aria-label="User menu" tabindex="0">JD</div>
+  </header>
+
+  <nav class="sidebar" role="navigation" aria-label="Main navigation">
+    <div class="sidebar__role">Patient</div>
+    <ul class="sidebar__nav">
+      <li><a href="wireframe-SCR-002-patient-dashboard.html" class="sidebar__item"><span class="sidebar__icon">🏠</span> Dashboard</a></li>
+      <li><a href="wireframe-SCR-006-appointment-booking.html" class="sidebar__item sidebar__item--active"><span class="sidebar__icon">📅</span> Book Appointment</a></li>
+      <li><a href="wireframe-SCR-007-patient-intake.html" class="sidebar__item"><span class="sidebar__icon">📋</span> Patient Intake</a></li>
+      <li><a href="wireframe-SCR-008-document-upload.html" class="sidebar__item"><span class="sidebar__icon">📁</span> Documents</a></li>
+      <li><a href="wireframe-SCR-005-profile-settings.html" class="sidebar__item"><span class="sidebar__icon">👤</span> Profile &amp; Settings</a></li>
+    </ul>
+  </nav>
+
+  <main class="main" role="main">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="wireframe-SCR-002-patient-dashboard.html">Dashboard</a>
+      <span class="breadcrumb__separator" aria-hidden="true">›</span>
+      <span aria-current="page">Book Appointment</span>
+    </nav>
+
+    <h1 class="page-title">Book Appointment</h1>
+    <p class="page-subtitle">Select a department, date, and time slot for your visit</p>
+
+    <!-- Department Filter -->
+    <div class="dept-filter">
+      <label class="dept-filter__label" for="dept-select">Select Department <span style="color: var(--error-600);">*</span></label>
+      <div class="dept-filter__row">
+        <select class="dept-filter__select" id="dept-select" aria-required="true" onchange="onDeptChange(this.value);">
+          <option value="" disabled selected>Choose a department...</option>
+          <option value="general">General Medicine</option>
+          <option value="cardiology">Cardiology</option>
+          <option value="orthopedics">Orthopedics</option>
+          <option value="neurology">Neurology</option>
+          <option value="dermatology">Dermatology</option>
+          <option value="pediatrics">Pediatrics</option>
+          <option value="family">Family Medicine</option>
+          <option value="internal">Internal Medicine</option>
+        </select>
+      </div>
+      <div class="dept-filter__hint">Select a department to view available doctors and time slots.</div>
+      <div class="dept-selected-info" id="dept-info">
+        <span>🏥</span>
+        <span id="dept-info-text"></span>
+      </div>
+    </div>
+
+    <div class="booking-layout booking-layout--hidden" id="booking-area">
+      <!-- Calendar Card -->
+      <div class="card">
+        <div class="card__header"><h2 class="card__title">Select Date</h2></div>
+        <div class="card__body">
+          <div class="calendar" role="grid" aria-label="Appointment calendar">
+            <div class="calendar__nav">
+              <button class="calendar__btn" aria-label="Previous month">‹</button>
+              <span class="calendar__month">March 2026</span>
+              <button class="calendar__btn" aria-label="Next month">›</button>
+            </div>
+            <div class="calendar__grid">
+              <div class="calendar__day-header">Sun</div>
+              <div class="calendar__day-header">Mon</div>
+              <div class="calendar__day-header">Tue</div>
+              <div class="calendar__day-header">Wed</div>
+              <div class="calendar__day-header">Thu</div>
+              <div class="calendar__day-header">Fri</div>
+              <div class="calendar__day-header">Sat</div>
+              <!-- Row 1 -->
+              <div class="calendar__day calendar__day--disabled">1</div>
+              <div class="calendar__day calendar__day--disabled">2</div>
+              <div class="calendar__day calendar__day--disabled">3</div>
+              <div class="calendar__day calendar__day--disabled">4</div>
+              <div class="calendar__day calendar__day--disabled">5</div>
+              <div class="calendar__day calendar__day--disabled">6</div>
+              <div class="calendar__day calendar__day--disabled">7</div>
+              <!-- Row 2 -->
+              <div class="calendar__day calendar__day--disabled">8</div>
+              <div class="calendar__day calendar__day--disabled">9</div>
+              <div class="calendar__day calendar__day--disabled">10</div>
+              <div class="calendar__day calendar__day--disabled">11</div>
+              <div class="calendar__day calendar__day--disabled">12</div>
+              <div class="calendar__day calendar__day--disabled">13</div>
+              <div class="calendar__day calendar__day--disabled">14</div>
+              <!-- Row 3 -->
+              <div class="calendar__day calendar__day--disabled">15</div>
+              <div class="calendar__day calendar__day--disabled">16</div>
+              <div class="calendar__day calendar__day--today calendar__day--available" tabindex="0" role="gridcell" aria-label="March 17, today, slots available">17</div>
+              <div class="calendar__day calendar__day--available" tabindex="0" role="gridcell" aria-label="March 18, slots available">18</div>
+              <div class="calendar__day calendar__day--available" tabindex="0" role="gridcell" aria-label="March 19, slots available">19</div>
+              <div class="calendar__day calendar__day--available" tabindex="0" role="gridcell" aria-label="March 20, slots available">20</div>
+              <div class="calendar__day" tabindex="0" role="gridcell" aria-label="March 21">21</div>
+              <!-- Row 4 -->
+              <div class="calendar__day calendar__day--selected calendar__day--available" tabindex="0" role="gridcell" aria-label="March 22, selected, slots available" aria-selected="true">22</div>
+              <div class="calendar__day calendar__day--available" tabindex="0" role="gridcell" aria-label="March 23, slots available">23</div>
+              <div class="calendar__day calendar__day--available" tabindex="0" role="gridcell" aria-label="March 24, slots available">24</div>
+              <div class="calendar__day calendar__day--available" tabindex="0" role="gridcell" aria-label="March 25, slots available">25</div>
+              <div class="calendar__day" tabindex="0" role="gridcell" aria-label="March 26">26</div>
+              <div class="calendar__day calendar__day--available" tabindex="0" role="gridcell" aria-label="March 27, slots available">27</div>
+              <div class="calendar__day" tabindex="0" role="gridcell" aria-label="March 28">28</div>
+              <!-- Row 5 -->
+              <div class="calendar__day calendar__day--available" tabindex="0" role="gridcell" aria-label="March 29, slots available">29</div>
+              <div class="calendar__day calendar__day--available" tabindex="0" role="gridcell" aria-label="March 30, slots available">30</div>
+              <div class="calendar__day" tabindex="0" role="gridcell" aria-label="March 31">31</div>
+              <div class="calendar__day calendar__day--disabled"></div>
+              <div class="calendar__day calendar__day--disabled"></div>
+              <div class="calendar__day calendar__day--disabled"></div>
+              <div class="calendar__day calendar__day--disabled"></div>
+            </div>
+          </div>
+          <div class="alert alert--info" role="status">
+            <span class="alert__icon">ℹ️</span>
+            <span>Green dots indicate dates with available slots. Past dates are disabled.</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Time Slots Card -->
+      <div class="card">
+        <div class="card__header"><h2 class="card__title">Available Slots — March 22</h2></div>
+        <div class="card__body">
+          <fieldset style="border: none;">
+            <legend class="sr-only" style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0);">Select a time slot</legend>
+            <ul class="slots-list" role="radiogroup" aria-label="Available time slots">
+              <li class="slot-item slot-item--selected">
+                <input class="slot-radio" type="radio" name="slot" id="slot-1" checked aria-label="9:00 AM - Dr. Sarah Mitchell">
+                <label class="slot-info" for="slot-1">
+                  <div class="slot-time">9:00 AM</div>
+                  <div class="slot-detail">Dr. Sarah Mitchell — General Practice</div>
+                </label>
+                <span class="slot-badge slot-badge--available">Available</span>
+              </li>
+              <li class="slot-item">
+                <input class="slot-radio" type="radio" name="slot" id="slot-2" aria-label="10:00 AM - Dr. James Patel">
+                <label class="slot-info" for="slot-2">
+                  <div class="slot-time">10:00 AM</div>
+                  <div class="slot-detail">Dr. James Patel — Internal Medicine</div>
+                </label>
+                <span class="slot-badge slot-badge--available">Available</span>
+              </li>
+              <li class="slot-item">
+                <input class="slot-radio" type="radio" name="slot" id="slot-3" aria-label="11:30 AM - Dr. Emily Zhao">
+                <label class="slot-info" for="slot-3">
+                  <div class="slot-time">11:30 AM</div>
+                  <div class="slot-detail">Dr. Emily Zhao — Family Medicine</div>
+                </label>
+                <span class="slot-badge slot-badge--available">Available</span>
+              </li>
+              <li class="slot-item">
+                <input class="slot-radio" type="radio" name="slot" id="slot-4" aria-label="2:00 PM - Dr. Sarah Mitchell">
+                <label class="slot-info" for="slot-4">
+                  <div class="slot-time">2:00 PM</div>
+                  <div class="slot-detail">Dr. Sarah Mitchell — General Practice</div>
+                </label>
+                <span class="slot-badge slot-badge--available">Available</span>
+              </li>
+              <li class="slot-item">
+                <input class="slot-radio" type="radio" name="slot" id="slot-5" aria-label="3:30 PM - Dr. James Patel">
+                <label class="slot-info" for="slot-5">
+                  <div class="slot-time">3:30 PM</div>
+                  <div class="slot-detail">Dr. James Patel — Internal Medicine</div>
+                </label>
+                <span class="slot-badge slot-badge--available">Available</span>
+              </li>
+            </ul>
+          </fieldset>
+
+          <div class="booking-actions">
+            <button class="btn btn--secondary" type="button"
+                    onclick="window.location.href='wireframe-SCR-002-patient-dashboard.html';">
+              Cancel
+            </button>
+            <button class="btn btn--primary" type="button"
+                    onclick="showPrecheckPass();">
+              Confirm Booking
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Insurance Precheck — PASS Modal -->
+  <div class="modal-overlay" id="precheckPassModal" role="dialog" aria-modal="true" aria-labelledby="precheck-pass-title">
+    <div class="modal">
+      <div class="modal__header">
+        <h2 class="modal__title" id="precheck-pass-title">Insurance Pre-Check</h2>
+        <button class="modal__close" aria-label="Close" onclick="closePrecheckPass();">×</button>
+      </div>
+      <div class="modal__body">
+        <div class="precheck-result">
+          <div class="precheck-result__icon precheck-result__icon--pass" aria-hidden="true">✓</div>
+          <div class="precheck-result__title precheck-result__title--pass">Insurance Verified</div>
+          <p class="precheck-result__desc">Your insurance coverage has been verified successfully. Your appointment has been confirmed.</p>
+        </div>
+        <div class="precheck-details">
+          <div class="precheck-details__row">
+            <span class="precheck-details__label">Provider</span>
+            <span class="precheck-details__value">BlueCross PPO</span>
+          </div>
+          <div class="precheck-details__row">
+            <span class="precheck-details__label">Policy ID</span>
+            <span class="precheck-details__value">BCX-9920-4417</span>
+          </div>
+          <div class="precheck-details__row">
+            <span class="precheck-details__label">Coverage Status</span>
+            <span class="precheck-details__value precheck-details__value--pass">✓ Active</span>
+          </div>
+          <div class="precheck-details__row">
+            <span class="precheck-details__label">Visit Type</span>
+            <span class="precheck-details__value">General Checkup</span>
+          </div>
+          <div class="precheck-details__row">
+            <span class="precheck-details__label">Copay</span>
+            <span class="precheck-details__value">$25.00</span>
+          </div>
+        </div>
+      </div>
+      <div class="modal__footer">
+        <button class="btn-modal btn-modal--success" onclick="window.location.href='wireframe-SCR-002-patient-dashboard.html';">Go to Dashboard</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Insurance Precheck — FAIL Modal -->
+  <div class="modal-overlay" id="precheckFailModal" role="dialog" aria-modal="true" aria-labelledby="precheck-fail-title">
+    <div class="modal">
+      <div class="modal__header">
+        <h2 class="modal__title" id="precheck-fail-title">Insurance Pre-Check</h2>
+        <button class="modal__close" aria-label="Close" onclick="closePrecheckFail();">×</button>
+      </div>
+      <div class="modal__body">
+        <div class="precheck-result">
+          <div class="precheck-result__icon precheck-result__icon--fail" aria-hidden="true">✕</div>
+          <div class="precheck-result__title precheck-result__title--fail">Insurance Verification Failed</div>
+          <p class="precheck-result__desc">We could not verify your insurance coverage. You can still proceed with the booking, but please contact your insurance provider or the front desk for assistance.</p>
+        </div>
+        <div class="precheck-details">
+          <div class="precheck-details__row">
+            <span class="precheck-details__label">Provider</span>
+            <span class="precheck-details__value">Aetna HMO</span>
+          </div>
+          <div class="precheck-details__row">
+            <span class="precheck-details__label">Policy ID</span>
+            <span class="precheck-details__value">AET-0033-7781</span>
+          </div>
+          <div class="precheck-details__row">
+            <span class="precheck-details__label">Coverage Status</span>
+            <span class="precheck-details__value precheck-details__value--fail">✕ Not Found / Expired</span>
+          </div>
+          <div class="precheck-details__row">
+            <span class="precheck-details__label">Reason</span>
+            <span class="precheck-details__value precheck-details__value--fail">Policy not in active records</span>
+          </div>
+        </div>
+      </div>
+      <div class="modal__footer">
+        <button class="btn-modal btn-modal--secondary" onclick="closePrecheckFail();">Cancel Booking</button>
+        <button class="btn-modal btn-modal--primary" onclick="window.location.href='wireframe-SCR-002-patient-dashboard.html';">Proceed Anyway</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // --- Department Filter ---
+    var deptNames = {
+      general: 'General Medicine',
+      cardiology: 'Cardiology',
+      orthopedics: 'Orthopedics',
+      neurology: 'Neurology',
+      dermatology: 'Dermatology',
+      pediatrics: 'Pediatrics',
+      family: 'Family Medicine',
+      internal: 'Internal Medicine'
+    };
+    function onDeptChange(value) {
+      var bookingArea = document.getElementById('booking-area');
+      var deptInfo = document.getElementById('dept-info');
+      var deptInfoText = document.getElementById('dept-info-text');
+      if (value) {
+        bookingArea.classList.remove('booking-layout--hidden');
+        deptInfo.classList.add('dept-selected-info--show');
+        deptInfoText.textContent = deptNames[value] + ' — Showing available doctors and slots';
+      } else {
+        bookingArea.classList.add('booking-layout--hidden');
+        deptInfo.classList.remove('dept-selected-info--show');
+      }
+    }
+
+    // --- Insurance Precheck ---
+    function showPrecheckPass() {
+      document.getElementById('precheckPassModal').classList.add('modal-overlay--open');
+    }
+    function closePrecheckPass() {
+      document.getElementById('precheckPassModal').classList.remove('modal-overlay--open');
+    }
+    function showPrecheckFail() {
+      document.getElementById('precheckFailModal').classList.add('modal-overlay--open');
+    }
+    function closePrecheckFail() {
+      document.getElementById('precheckFailModal').classList.remove('modal-overlay--open');
+    }
+    document.getElementById('precheckPassModal').addEventListener('click', function(e) { if (e.target === this) closePrecheckPass(); });
+    document.getElementById('precheckFailModal').addEventListener('click', function(e) { if (e.target === this) closePrecheckFail(); });
+    document.addEventListener('keydown', function(e) { if (e.key === 'Escape') { closePrecheckPass(); closePrecheckFail(); } });
+  </script>
+</body>
+</html>

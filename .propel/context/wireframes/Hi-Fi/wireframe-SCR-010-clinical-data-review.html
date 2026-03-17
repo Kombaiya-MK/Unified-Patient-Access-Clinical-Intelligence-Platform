@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SCR-010 Clinical Data Review — Unified Patient Access Platform</title>
+  <!-- SCR-010 | Derived From: UC-003 Clinical Data Aggregation, UC-010 Medication Conflicts | Personas: Staff | Priority: P0 -->
+  <!-- UXR Mapped: UXR-001, UXR-002, UXR-101, UXR-102, UXR-201, UXR-301, UXR-302, UXR-401, UXR-501, UXR-503 -->
+  <style>
+    :root {
+      --primary-900: #003D7A; --primary-800: #004C99; --primary-600: #0066CC;
+      --primary-200: #CCE0F5; --primary-100: #E6F0FA;
+      --secondary-600: #00A86B; --secondary-100: #E6F6F0;
+      --success-600: #00A145; --success-100: #E6F9EF;
+      --warning-600: #FF8800; --warning-100: #FFF2E6;
+      --error-700: #A02A2A; --error-600: #DC3545; --error-200: #F8D7DA; --error-100: #FCE8EA;
+      --info-600: #0077B6; --info-100: #E6F3F9;
+      --neutral-900: #1A1A1A; --neutral-800: #333333; --neutral-700: #4D4D4D;
+      --neutral-600: #666666; --neutral-500: #808080; --neutral-400: #999999;
+      --neutral-300: #CCCCCC; --neutral-200: #E5E5E5; --neutral-100: #F5F5F5; --neutral-50: #FAFAFA;
+      --bg-primary: #FFFFFF; --bg-tertiary: #FAFAFA; --bg-overlay: rgba(0,0,0,0.5);
+      --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      --radius-sm: 4px; --radius-md: 8px; --radius-lg: 12px; --radius-full: 9999px;
+      --shadow-1: 0px 1px 3px rgba(0,0,0,0.12), 0px 1px 2px rgba(0,0,0,0.24);
+      --shadow-3: 0px 10px 20px rgba(0,0,0,0.15), 0px 3px 6px rgba(0,0,0,0.10);
+      --focus-ring: 0 0 0 2px #FFFFFF, 0 0 0 4px #0066CC;
+      --transition: 200ms ease;
+      --sidebar-width: 240px; --header-height: 64px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: var(--font-family); background: var(--bg-tertiary); color: var(--neutral-900); }
+    a { color: var(--primary-600); text-decoration: none; }
+    a:hover { color: var(--primary-800); }
+    a:focus-visible { outline: none; box-shadow: var(--focus-ring); border-radius: var(--radius-sm); }
+
+    .header { position: fixed; top: 0; left: 0; right: 0; height: var(--header-height); z-index: 1000; background: var(--bg-primary); border-bottom: 1px solid var(--neutral-200); display: flex; align-items: center; padding: 0 24px; gap: 16px; }
+    .header__logo { font-size: 20px; font-weight: 700; color: var(--primary-600); }
+    .header__title { flex: 1; font-size: 16px; font-weight: 600; color: var(--neutral-800); margin-left: 16px; }
+    .header__avatar { width: 36px; height: 36px; border-radius: var(--radius-full); background: var(--secondary-100); color: var(--secondary-600); font-size: 14px; font-weight: 600; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+
+    .sidebar { position: fixed; top: var(--header-height); left: 0; bottom: 0; width: var(--sidebar-width); background: var(--bg-primary); border-right: 1px solid var(--neutral-200); padding: 16px 0; z-index: 900; display: flex; flex-direction: column; }
+    .sidebar__role { padding: 8px 16px; margin: 0 16px 16px; font-size: 12px; font-weight: 500; text-transform: uppercase; letter-spacing: 1px; color: var(--secondary-600); background: var(--secondary-100); border-radius: var(--radius-full); text-align: center; }
+    .sidebar__nav { flex: 1; list-style: none; }
+    .sidebar__item { display: flex; align-items: center; gap: 12px; padding: 12px 24px; font-size: 14px; font-weight: 500; color: var(--neutral-700); cursor: pointer; transition: all var(--transition); border-left: 3px solid transparent; text-decoration: none; }
+    .sidebar__item:hover { background: var(--neutral-50); color: var(--primary-600); }
+    .sidebar__item--active { color: var(--primary-600); background: var(--primary-100); border-left-color: var(--primary-600); font-weight: 600; }
+    .sidebar__item:focus-visible { box-shadow: var(--focus-ring); outline: none; }
+    .sidebar__icon { width: 20px; text-align: center; font-size: 16px; }
+
+    .main { margin-left: var(--sidebar-width); margin-top: var(--header-height); padding: 32px; min-height: calc(100vh - var(--header-height)); }
+    .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 14px; color: var(--neutral-500); margin-bottom: 24px; }
+    .breadcrumb a { color: var(--primary-600); }
+    .breadcrumb__separator { color: var(--neutral-400); }
+
+    .page-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 24px; }
+    .page-title { font-size: 32px; font-weight: 700; line-height: 40px; letter-spacing: -0.25px; }
+    .page-subtitle { font-size: 16px; color: var(--neutral-600); margin-top: 4px; }
+
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; height: 40px; min-width: 80px; padding: 8px 16px; font-size: 14px; font-weight: 500; font-family: var(--font-family); border: none; border-radius: var(--radius-md); cursor: pointer; transition: all var(--transition); }
+    .btn:focus-visible { box-shadow: var(--focus-ring); outline: none; }
+    .btn--primary { background: var(--primary-600); color: white; }
+    .btn--primary:hover { background: var(--primary-800); }
+    .btn--primary:disabled { background: var(--neutral-300); color: var(--neutral-500); cursor: not-allowed; }
+    .btn--secondary { background: none; color: var(--neutral-700); border: 1px solid var(--neutral-300); }
+    .btn--secondary:hover { background: var(--neutral-50); }
+    .btn--success { background: var(--secondary-600); color: white; }
+    .btn--success:hover { background: #008057; }
+
+    /* Critical Alert Banner */
+    .alert-banner { padding: 12px 16px; border-radius: var(--radius-md); margin-bottom: 24px; display: flex; align-items: center; gap: 12px; font-size: 14px; font-weight: 500; }
+    .alert-banner--critical { background: var(--error-200); border: 1px solid var(--error-600); color: var(--error-700); }
+    .alert-banner__icon { font-size: 20px; }
+
+    /* Patient Info Header */
+    .patient-header { display: flex; align-items: center; gap: 16px; margin-bottom: 24px; padding: 16px 24px; background: var(--bg-primary); border-radius: var(--radius-md); box-shadow: var(--shadow-1); }
+    .patient-avatar { width: 56px; height: 56px; border-radius: var(--radius-full); background: var(--primary-100); color: var(--primary-600); font-size: 20px; font-weight: 700; display: flex; align-items: center; justify-content: center; }
+    .patient-info { flex: 1; }
+    .patient-name { font-size: 20px; font-weight: 600; }
+    .patient-meta { font-size: 14px; color: var(--neutral-600); margin-top: 2px; }
+
+    /* Data Cards Grid */
+    .data-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+    .card { background: var(--bg-primary); border-radius: var(--radius-md); box-shadow: var(--shadow-1); overflow: hidden; }
+    .card--conflict { border: 2px solid var(--error-600); }
+    .card__header { display: flex; align-items: center; justify-content: space-between; padding: 16px 24px; border-bottom: 1px solid var(--neutral-200); }
+    .card__title { font-size: 18px; font-weight: 600; }
+    .badge { display: inline-flex; align-items: center; padding: 2px 8px; font-size: 12px; font-weight: 500; text-transform: uppercase; letter-spacing: 1px; border-radius: var(--radius-full); }
+    .badge--success { background: var(--success-100); color: var(--success-600); }
+    .badge--warning { background: var(--warning-100); color: var(--warning-600); }
+    .badge--error { background: var(--error-100); color: var(--error-600); }
+    .badge--info { background: var(--info-100); color: var(--info-600); }
+    .conflict-badge { background: var(--error-600); color: white; width: 24px; height: 24px; border-radius: var(--radius-full); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; cursor: pointer; transition: transform var(--transition); }
+    .conflict-badge:hover { transform: scale(1.1); }
+    .conflict-badge:focus-visible { box-shadow: var(--focus-ring); outline: none; }
+    .card__body { padding: 24px; }
+
+    .data-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--neutral-100); font-size: 14px; }
+    .data-row:last-child { border-bottom: none; }
+    .data-row__label { color: var(--neutral-600); font-weight: 500; }
+    .data-row__value { color: var(--neutral-900); text-align: right; }
+    .data-row__value--conflict { color: var(--error-600); font-weight: 600; }
+
+    .med-item { display: flex; align-items: center; gap: 8px; padding: 8px 0; border-bottom: 1px solid var(--neutral-100); }
+    .med-item:last-child { border-bottom: none; }
+    .med-name { font-size: 14px; font-weight: 500; flex: 1; }
+    .med-dosage { font-size: 14px; color: var(--neutral-600); }
+
+    /* Modal */
+    .modal-overlay { display: none; position: fixed; inset: 0; background: var(--bg-overlay); z-index: 1100; display: flex; align-items: center; justify-content: center; }
+    .modal { background: var(--bg-primary); border-radius: var(--radius-lg); box-shadow: var(--shadow-3); width: 100%; max-width: 560px; }
+    .modal__header { display: flex; align-items: center; justify-content: space-between; padding: 20px 24px; border-bottom: 1px solid var(--neutral-200); }
+    .modal__title { font-size: 20px; font-weight: 600; color: var(--error-600); }
+    .modal__close { width: 36px; height: 36px; border: none; background: none; cursor: pointer; font-size: 20px; border-radius: var(--radius-full); color: var(--neutral-600); }
+    .modal__close:hover { background: var(--neutral-100); }
+    .modal__close:focus-visible { box-shadow: var(--focus-ring); outline: none; }
+    .modal__body { padding: 24px; }
+    .modal__footer { padding: 16px 24px; border-top: 1px solid var(--neutral-200); display: flex; gap: 12px; justify-content: flex-end; }
+
+    .conflict-compare { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+    .conflict-source { padding: 16px; border-radius: var(--radius-md); }
+    .conflict-source--a { background: var(--error-100); border: 1px solid var(--error-600); }
+    .conflict-source--b { background: var(--info-100); border: 1px solid var(--info-600); }
+    .conflict-source__label { font-size: 12px; font-weight: 500; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; color: var(--neutral-600); }
+    .conflict-source__value { font-size: 16px; font-weight: 600; }
+
+    /* Actions */
+    .page-actions { display: flex; gap: 12px; justify-content: flex-end; margin-top: 24px; }
+
+    /* Completed Appointments List */
+    .appt-list { background: var(--bg-primary); border-radius: var(--radius-md); box-shadow: var(--shadow-1); overflow: hidden; margin-bottom: 32px; }
+    .appt-list__header { display: flex; align-items: center; justify-content: space-between; padding: 16px 24px; border-bottom: 1px solid var(--neutral-200); }
+    .appt-list__title { font-size: 20px; font-weight: 700; }
+    .appt-table { width: 100%; border-collapse: collapse; }
+    .appt-table thead th { padding: 12px 16px; text-align: left; font-size: 14px; font-weight: 600; color: var(--neutral-700); background: var(--neutral-50); border-bottom: 1px solid var(--neutral-200); }
+    .appt-table tbody td { padding: 12px 16px; font-size: 14px; color: var(--neutral-700); border-bottom: 1px solid var(--neutral-100); vertical-align: middle; }
+    .appt-table tbody tr { transition: background var(--transition); cursor: pointer; }
+    .appt-table tbody tr:hover { background: var(--primary-100); }
+    .appt-table tbody tr.appt-row--active { background: var(--primary-100); border-left: 3px solid var(--primary-600); }
+    .coding-pills { display: flex; gap: 6px; flex-wrap: wrap; }
+    .coding-pill { display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; font-size: 11px; font-weight: 500; border-radius: var(--radius-full); }
+    .coding-pill--icd { background: var(--info-100); color: var(--info-600); }
+    .coding-pill--cpt { background: var(--warning-100); color: var(--warning-600); }
+    .coding-status--complete { background: var(--success-100); color: var(--success-600); }
+    .coding-status--partial { background: var(--warning-100); color: var(--warning-600); }
+    .coding-status--pending { background: var(--neutral-100); color: var(--neutral-600); }
+
+    @media (max-width: 1023px) { .sidebar { display: none; } .main { margin-left: 0; } .data-grid { grid-template-columns: 1fr; } }
+    @media (max-width: 767px) { .main { padding: 16px; } .page-title { font-size: 24px; } .page-header { flex-direction: column; gap: 16px; } .conflict-compare { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <!-- Navigation Map
+    Element: Breadcrumb Dashboard | Action: Navigate back | Target: SCR-003
+    Element: Conflict Badge (click) | Action: Open modal | Target: Conflict Details Modal
+    Element: Approve Button | Action: Approve patient data | Target: Success confirmation
+    Element: Cancel Button | Action: Close patient details | Target: Hides detail section
+    Element: Resolve Conflicts Button | Action: Auto-resolve conflicts | Target: Updates conflict statuses
+  -->
+
+  <header class="header" role="banner">
+    <div class="header__logo">UPACI</div>
+    <div class="header__title">Clinical Data Review</div>
+    <div class="header__avatar" role="button" aria-label="User menu" tabindex="0">SM</div>
+  </header>
+
+  <nav class="sidebar" role="navigation" aria-label="Main navigation">
+    <div class="sidebar__role">Staff</div>
+    <ul class="sidebar__nav">
+      <li><a href="wireframe-SCR-003-staff-dashboard.html" class="sidebar__item"><span class="sidebar__icon">🏠</span> Dashboard</a></li>
+      <li><a href="wireframe-SCR-009-queue-management.html" class="sidebar__item"><span class="sidebar__icon">📊</span> Queue Management</a></li>
+      <li><a href="wireframe-SCR-010-clinical-data-review.html" class="sidebar__item sidebar__item--active"><span class="sidebar__icon">🩺</span> Clinical Review</a></li>
+      <li><a href="wireframe-SCR-011-appointment-management.html" class="sidebar__item"><span class="sidebar__icon">📅</span> Appointments</a></li>
+      <li><a href="wireframe-SCR-005-staff-profile-settings.html" class="sidebar__item"><span class="sidebar__icon">👤</span> Profile &amp; Settings</a></li>
+    </ul>
+  </nav>
+
+  <main class="main" role="main">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="wireframe-SCR-003-staff-dashboard.html">Dashboard</a>
+      <span class="breadcrumb__separator" aria-hidden="true">›</span>
+      <span aria-current="page">Clinical Data Review</span>
+    </nav>
+
+    <!-- Completed Appointments List -->
+    <div class="appt-list">
+      <div class="appt-list__header">
+        <h2 class="appt-list__title">Completed Appointments</h2>
+        <span class="badge badge--info">5 COMPLETED</span>
+      </div>
+      <table class="appt-table" aria-label="Completed appointments with medical coding status">
+        <thead>
+          <tr>
+            <th scope="col">Time</th>
+            <th scope="col">Patient ID</th>
+            <th scope="col">Patient</th>
+            <th scope="col">Department</th>
+            <th scope="col">Type</th>
+            <th scope="col">ICD-10 Codes</th>
+            <th scope="col">CPT Codes</th>
+            <th scope="col">Coding Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="appt-row--active" aria-label="Maria Garcia — currently viewing" onclick="selectPatient(this)">
+            <td>9:00 AM</td>
+            <td>PAT-1003</td>
+            <td style="font-weight: 600; color: var(--primary-600);">Maria Garcia</td>
+            <td>Orthopedics</td>
+            <td>Lab Review</td>
+            <td>
+              <div class="coding-pills">
+                <span class="coding-pill coding-pill--icd">E11.65</span>
+                <span class="coding-pill coding-pill--icd">I10</span>
+                <span class="coding-pill coding-pill--icd">Z79.01</span>
+                <span class="coding-pill coding-pill--icd" style="background: var(--error-100); color: var(--error-600);">T45.515A</span>
+              </div>
+            </td>
+            <td>
+              <div class="coding-pills">
+                <span class="coding-pill coding-pill--cpt">99214</span>
+                <span class="coding-pill coding-pill--cpt">83036</span>
+                <span class="coding-pill coding-pill--cpt">85610</span>
+              </div>
+            </td>
+            <td><span class="badge coding-status--partial">⚠ Partial</span></td>
+          </tr>
+          <tr onclick="selectPatient(this)">
+            <td>8:00 AM</td>
+            <td>PAT-1001</td>
+            <td>Jane Doe</td>
+            <td>General Medicine</td>
+            <td>General Checkup</td>
+            <td>
+              <div class="coding-pills">
+                <span class="coding-pill coding-pill--icd">Z00.00</span>
+                <span class="coding-pill coding-pill--icd">R73.03</span>
+              </div>
+            </td>
+            <td>
+              <div class="coding-pills">
+                <span class="coding-pill coding-pill--cpt">99213</span>
+                <span class="coding-pill coding-pill--cpt">82947</span>
+              </div>
+            </td>
+            <td><span class="badge coding-status--complete">✓ Complete</span></td>
+          </tr>
+          <tr onclick="selectPatient(this)">
+            <td>8:30 AM</td>
+            <td>PAT-1002</td>
+            <td>Robert Chen</td>
+            <td>Cardiology</td>
+            <td>Follow-up</td>
+            <td>
+              <div class="coding-pills">
+                <span class="coding-pill coding-pill--icd">I25.10</span>
+                <span class="coding-pill coding-pill--icd">I48.91</span>
+              </div>
+            </td>
+            <td>
+              <div class="coding-pills">
+                <span class="coding-pill coding-pill--cpt">99214</span>
+                <span class="coding-pill coding-pill--cpt">93000</span>
+              </div>
+            </td>
+            <td><span class="badge coding-status--complete">✓ Complete</span></td>
+          </tr>
+          <tr onclick="selectPatient(this)">
+            <td>10:30 AM</td>
+            <td>PAT-1006</td>
+            <td>Sarah Lee</td>
+            <td>Pediatrics</td>
+            <td>Vaccination</td>
+            <td>
+              <div class="coding-pills">
+                <span class="coding-pill coding-pill--icd">Z23</span>
+              </div>
+            </td>
+            <td>
+              <div class="coding-pills">
+                <span class="coding-pill coding-pill--cpt">90471</span>
+                <span class="coding-pill coding-pill--cpt">90686</span>
+              </div>
+            </td>
+            <td><span class="badge coding-status--complete">✓ Complete</span></td>
+          </tr>
+          <tr onclick="selectPatient(this)">
+            <td>11:30 AM</td>
+            <td>PAT-1008</td>
+            <td>Tom Harris</td>
+            <td>ENT</td>
+            <td>Hearing Assessment</td>
+            <td>
+              <div class="coding-pills">
+                <span class="coding-pill coding-pill--icd" style="background: var(--neutral-100); color: var(--neutral-500);">Pending</span>
+              </div>
+            </td>
+            <td>
+              <div class="coding-pills">
+                <span class="coding-pill coding-pill--cpt" style="background: var(--neutral-100); color: var(--neutral-500);">Pending</span>
+              </div>
+            </td>
+            <td><span class="badge coding-status--pending">⏳ Pending</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Selected Patient Details -->
+    <div id="patientDetailSection">
+    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;">
+      <h2 style="font-size: 20px; font-weight: 700; color: var(--neutral-900);">Patient Details — Maria Garcia</h2>
+      <button onclick="document.getElementById('patientDetailSection').style.display='none';" aria-label="Close patient details" style="width: 36px; height: 36px; border: 1px solid var(--neutral-300); background: var(--bg-primary); border-radius: var(--radius-full); cursor: pointer; font-size: 18px; color: var(--neutral-600); display: flex; align-items: center; justify-content: center; transition: all var(--transition);" onmouseover="this.style.background='var(--neutral-100)'" onmouseout="this.style.background='var(--bg-primary)'">✕</button>
+    </div>
+
+    <!-- Critical Alert Banner (UXR-302) -->
+    <div class="alert-banner alert-banner--critical" role="alert" aria-live="assertive">
+      <span class="alert-banner__icon">🚨</span>
+      <span><strong>Critical Conflict Detected</strong> — Medication interaction requires resolution before approval.</span>
+    </div>
+
+    <!-- Patient Header -->
+    <div class="patient-header">
+      <div class="patient-avatar" aria-hidden="true">MG</div>
+      <div class="patient-info">
+        <div class="patient-name">Maria Garcia</div>
+        <div class="patient-meta">DOB: 05/14/1978 — ID: PAT-1003 — Last Visit: Feb 28, 2026</div>
+      </div>
+    </div>
+
+    <!-- Data Cards -->
+    <div class="data-grid">
+      <!-- Demographics -->
+      <div class="card">
+        <div class="card__header">
+          <h2 class="card__title">Demographics</h2>
+          <span class="badge badge--success">Verified</span>
+        </div>
+        <div class="card__body">
+          <div class="data-row"><span class="data-row__label">Full Name</span><span class="data-row__value">Maria Elena Garcia</span></div>
+          <div class="data-row"><span class="data-row__label">Date of Birth</span><span class="data-row__value">May 14, 1978</span></div>
+          <div class="data-row"><span class="data-row__label">Gender</span><span class="data-row__value">Female</span></div>
+          <div class="data-row"><span class="data-row__label">Phone</span><span class="data-row__value">+1 (555) 867-5309</span></div>
+          <div class="data-row"><span class="data-row__label">Insurance</span><span class="data-row__value">BlueCross PPO</span></div>
+        </div>
+      </div>
+
+      <!-- Medications (CONFLICT) -->
+      <div class="card card--conflict">
+        <div class="card__header">
+          <h2 class="card__title">Medications</h2>
+          <button class="conflict-badge" aria-label="1 medication conflict detected — click to resolve" tabindex="0" role="button" aria-describedby="conflict-desc">1</button>
+        </div>
+        <div class="card__body">
+          <span id="conflict-desc" style="display:none;">Critical medication interaction: Warfarin + Aspirin</span>
+          <div class="med-item">
+            <span class="med-name">Warfarin</span>
+            <span class="med-dosage">5mg — Daily</span>
+            <span class="badge badge--error">Conflict</span>
+          </div>
+          <div class="med-item">
+            <span class="med-name">Aspirin</span>
+            <span class="med-dosage">81mg — Daily</span>
+            <span class="badge badge--error">Conflict</span>
+          </div>
+          <div class="med-item">
+            <span class="med-name">Lisinopril</span>
+            <span class="med-dosage">10mg — Daily</span>
+            <span class="badge badge--success">OK</span>
+          </div>
+          <div class="med-item">
+            <span class="med-name">Metformin</span>
+            <span class="med-dosage">500mg — 2x Daily</span>
+            <span class="badge badge--success">OK</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Allergies -->
+      <div class="card">
+        <div class="card__header">
+          <h2 class="card__title">Allergies</h2>
+          <span class="badge badge--warning">1 ALLERGY</span>
+        </div>
+        <div class="card__body">
+          <div class="data-row"><span class="data-row__label">Penicillin</span><span class="data-row__value data-row__value--conflict">Rash — Moderate</span></div>
+          <div class="data-row"><span class="data-row__label">Latex</span><span class="data-row__value">Contact Dermatitis — Mild</span></div>
+        </div>
+      </div>
+
+      <!-- Lab Results -->
+      <div class="card">
+        <div class="card__header">
+          <h2 class="card__title">Recent Lab Results</h2>
+          <span class="badge badge--info">Mar 10, 2026</span>
+        </div>
+        <div class="card__body">
+          <div class="data-row"><span class="data-row__label">HbA1c</span><span class="data-row__value">7.2%</span></div>
+          <div class="data-row"><span class="data-row__label">Blood Glucose</span><span class="data-row__value">145 mg/dL</span></div>
+          <div class="data-row"><span class="data-row__label">Blood Pressure</span><span class="data-row__value">138/88 mmHg</span></div>
+          <div class="data-row"><span class="data-row__label">INR</span><span class="data-row__value data-row__value--conflict">3.8</span></div>
+        </div>
+      </div>
+
+      <!-- Medical Codes (ICD-10 / CPT) — FR-008 -->
+      <div class="card" style="grid-column: 1 / -1;">
+        <div class="card__header">
+          <h2 class="card__title">Medical Codes (ICD-10 / CPT)</h2>
+          <span class="badge badge--info">AI-GENERATED</span>
+        </div>
+        <div class="card__body">
+          <p style="font-size: 13px; color: var(--neutral-500); margin-bottom: 16px;">Codes auto-mapped from aggregated clinical data. Staff review required before approval.</p>
+          <table style="width: 100%; border-collapse: collapse; font-size: 14px;">
+            <thead>
+              <tr style="border-bottom: 2px solid var(--neutral-200);">
+                <th style="text-align: left; padding: 8px 12px; font-weight: 600; color: var(--neutral-700);">Type</th>
+                <th style="text-align: left; padding: 8px 12px; font-weight: 600; color: var(--neutral-700);">Code</th>
+                <th style="text-align: left; padding: 8px 12px; font-weight: 600; color: var(--neutral-700);">Description</th>
+                <th style="text-align: left; padding: 8px 12px; font-weight: 600; color: var(--neutral-700);">Source</th>
+                <th style="text-align: left; padding: 8px 12px; font-weight: 600; color: var(--neutral-700);">Confidence</th>
+                <th style="text-align: left; padding: 8px 12px; font-weight: 600; color: var(--neutral-700);">Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom: 1px solid var(--neutral-100);">
+                <td style="padding: 10px 12px;"><span class="badge badge--info">ICD-10</span></td>
+                <td style="padding: 10px 12px; font-weight: 600; font-family: monospace;">E11.65</td>
+                <td style="padding: 10px 12px;">Type 2 diabetes mellitus with hyperglycemia</td>
+                <td style="padding: 10px 12px; color: var(--neutral-600);">Lab Results, Intake</td>
+                <td style="padding: 10px 12px;"><span class="badge badge--success">98%</span></td>
+                <td style="padding: 10px 12px;"><span class="badge badge--success">✓ Verified</span></td>
+              </tr>
+              <tr style="border-bottom: 1px solid var(--neutral-100);">
+                <td style="padding: 10px 12px;"><span class="badge badge--info">ICD-10</span></td>
+                <td style="padding: 10px 12px; font-weight: 600; font-family: monospace;">I10</td>
+                <td style="padding: 10px 12px;">Essential (primary) hypertension</td>
+                <td style="padding: 10px 12px; color: var(--neutral-600);">Lab Results</td>
+                <td style="padding: 10px 12px;"><span class="badge badge--success">95%</span></td>
+                <td style="padding: 10px 12px;"><span class="badge badge--success">✓ Verified</span></td>
+              </tr>
+              <tr style="border-bottom: 1px solid var(--neutral-100);">
+                <td style="padding: 10px 12px;"><span class="badge badge--info">ICD-10</span></td>
+                <td style="padding: 10px 12px; font-weight: 600; font-family: monospace;">Z79.01</td>
+                <td style="padding: 10px 12px;">Long-term (current) use of anticoagulants</td>
+                <td style="padding: 10px 12px; color: var(--neutral-600);">Medications</td>
+                <td style="padding: 10px 12px;"><span class="badge badge--success">97%</span></td>
+                <td style="padding: 10px 12px;"><span class="badge badge--warning">⏳ Pending</span></td>
+              </tr>
+              <tr style="border-bottom: 1px solid var(--neutral-100);">
+                <td style="padding: 10px 12px;"><span class="badge badge--info">ICD-10</span></td>
+                <td style="padding: 10px 12px; font-weight: 600; font-family: monospace;">T45.515A</td>
+                <td style="padding: 10px 12px;">Adverse effect of anticoagulants — Warfarin + Aspirin interaction</td>
+                <td style="padding: 10px 12px; color: var(--neutral-600);">Conflict Detection</td>
+                <td style="padding: 10px 12px;"><span class="badge badge--warning">82%</span></td>
+                <td style="padding: 10px 12px;"><span class="badge badge--error">⚠ Review</span></td>
+              </tr>
+              <tr style="border-bottom: 1px solid var(--neutral-100);">
+                <td style="padding: 10px 12px;"><span class="badge badge--warning">CPT</span></td>
+                <td style="padding: 10px 12px; font-weight: 600; font-family: monospace;">99214</td>
+                <td style="padding: 10px 12px;">Office visit, established patient, moderate complexity</td>
+                <td style="padding: 10px 12px; color: var(--neutral-600);">Appointment Type</td>
+                <td style="padding: 10px 12px;"><span class="badge badge--success">96%</span></td>
+                <td style="padding: 10px 12px;"><span class="badge badge--success">✓ Verified</span></td>
+              </tr>
+              <tr style="border-bottom: 1px solid var(--neutral-100);">
+                <td style="padding: 10px 12px;"><span class="badge badge--warning">CPT</span></td>
+                <td style="padding: 10px 12px; font-weight: 600; font-family: monospace;">83036</td>
+                <td style="padding: 10px 12px;">Hemoglobin A1c (HbA1c) test</td>
+                <td style="padding: 10px 12px; color: var(--neutral-600);">Lab Results</td>
+                <td style="padding: 10px 12px;"><span class="badge badge--success">99%</span></td>
+                <td style="padding: 10px 12px;"><span class="badge badge--success">✓ Verified</span></td>
+              </tr>
+              <tr>
+                <td style="padding: 10px 12px;"><span class="badge badge--warning">CPT</span></td>
+                <td style="padding: 10px 12px; font-weight: 600; font-family: monospace;">85610</td>
+                <td style="padding: 10px 12px;">Prothrombin time (INR monitoring)</td>
+                <td style="padding: 10px 12px; color: var(--neutral-600);">Lab Results</td>
+                <td style="padding: 10px 12px;"><span class="badge badge--success">94%</span></td>
+                <td style="padding: 10px 12px;"><span class="badge badge--warning">⏳ Pending</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Page Actions -->
+    <div class="page-actions">
+      <button class="btn btn--secondary" onclick="document.getElementById('patientDetailSection').style.display='none';">Cancel</button>
+      <button class="btn btn--success">Resolve Conflicts</button>
+      <button class="btn btn--primary">Approve</button>
+    </div>
+    </div><!-- end patientDetailSection -->
+  </main>
+
+  <!-- Conflict Details Modal -->
+  <div class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="conflict-title" style="display: none;">
+    <div class="modal">
+      <div class="modal__header">
+        <h2 class="modal__title" id="conflict-title">⚠ Medication Conflict</h2>
+        <button class="modal__close" aria-label="Close dialog">✕</button>
+      </div>
+      <div class="modal__body">
+        <p style="font-size: 14px; color: var(--neutral-700); margin-bottom: 16px;">
+          <strong>Critical Interaction:</strong> Warfarin and Aspirin taken together increase bleeding risk significantly.
+        </p>
+        <div class="conflict-compare">
+          <div class="conflict-source conflict-source--a">
+            <div class="conflict-source__label">Source: Patient Intake</div>
+            <div class="conflict-source__value">Aspirin 81mg Daily</div>
+          </div>
+          <div class="conflict-source conflict-source--b">
+            <div class="conflict-source__label">Source: Lab Records</div>
+            <div class="conflict-source__value">Warfarin 5mg Daily (INR: 3.8)</div>
+          </div>
+        </div>
+        <p style="font-size: 14px; color: var(--neutral-600); margin-bottom: 16px;">
+          Select the correct resolution:
+        </p>
+        <div style="display: flex; flex-direction: column; gap: 8px;">
+          <label style="display: flex; align-items: center; gap: 8px; padding: 12px; border: 1px solid var(--neutral-300); border-radius: var(--radius-md); cursor: pointer;">
+            <input type="radio" name="resolution" style="accent-color: var(--primary-600);">
+            <span style="font-size: 14px;">Discontinue Aspirin (keep Warfarin only)</span>
+          </label>
+          <label style="display: flex; align-items: center; gap: 8px; padding: 12px; border: 1px solid var(--neutral-300); border-radius: var(--radius-md); cursor: pointer;">
+            <input type="radio" name="resolution" style="accent-color: var(--primary-600);">
+            <span style="font-size: 14px;">Reduce Aspirin dosage (consult physician)</span>
+          </label>
+          <label style="display: flex; align-items: center; gap: 8px; padding: 12px; border: 1px solid var(--neutral-300); border-radius: var(--radius-md); cursor: pointer;">
+            <input type="radio" name="resolution" style="accent-color: var(--primary-600);">
+            <span style="font-size: 14px;">Flag for physician review</span>
+          </label>
+        </div>
+      </div>
+      <div class="modal__footer">
+        <button class="btn btn--secondary">Cancel</button>
+        <button class="btn btn--primary">Resolve Conflict</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function selectPatient(row) {
+      document.querySelectorAll('.appt-table tbody tr').forEach(function(r) {
+        r.classList.remove('appt-row--active');
+      });
+      row.classList.add('appt-row--active');
+    }
+  </script>
+</body>
+</html>

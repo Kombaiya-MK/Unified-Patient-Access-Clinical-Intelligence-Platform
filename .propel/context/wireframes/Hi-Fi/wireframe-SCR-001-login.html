@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SCR-001 Login/Register — Unified Patient Access Platform</title>
+  <!-- SCR-001 | Derived From: UC-001 | Personas: All | Priority: P0 -->
+  <!-- UXR Mapped: UXR-001, UXR-101, UXR-102, UXR-103, UXR-201, UXR-301, UXR-501 -->
+  <style>
+    /* === Design Tokens (from designsystem.md) === */
+    :root {
+      --primary-900: #003D7A; --primary-800: #004C99; --primary-700: #005BB8;
+      --primary-600: #0066CC; --primary-500: #3385D6; --primary-400: #66A3E0;
+      --primary-300: #99C2EB; --primary-200: #CCE0F5; --primary-100: #E6F0FA;
+      --secondary-600: #00A86B; --secondary-100: #E6F6F0;
+      --error-700: #A02A2A; --error-600: #DC3545; --error-200: #F8D7DA; --error-100: #FCE8EA;
+      --info-600: #0077B6; --info-100: #E6F3F9;
+      --neutral-900: #1A1A1A; --neutral-800: #333333; --neutral-700: #4D4D4D;
+      --neutral-600: #666666; --neutral-500: #808080; --neutral-400: #999999;
+      --neutral-300: #CCCCCC; --neutral-200: #E5E5E5; --neutral-100: #F5F5F5;
+      --neutral-50: #FAFAFA;
+      --bg-primary: #FFFFFF; --bg-secondary: #F5F5F5; --bg-tertiary: #FAFAFA;
+      --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      --radius-sm: 4px; --radius-md: 8px; --radius-lg: 12px; --radius-full: 9999px;
+      --shadow-1: 0px 1px 3px rgba(0,0,0,0.12), 0px 1px 2px rgba(0,0,0,0.24);
+      --shadow-2: 0px 3px 6px rgba(0,0,0,0.15), 0px 2px 4px rgba(0,0,0,0.12);
+      --shadow-3: 0px 10px 20px rgba(0,0,0,0.15), 0px 3px 6px rgba(0,0,0,0.10);
+      --focus-ring: 0 0 0 2px #FFFFFF, 0 0 0 4px #0066CC;
+      --transition: 200ms ease;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: var(--font-family); background: var(--bg-tertiary);
+      color: var(--neutral-900); min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+    }
+    a { color: var(--primary-600); text-decoration: none; transition: color var(--transition); }
+    a:hover { color: var(--primary-800); }
+    a:focus-visible { outline: none; box-shadow: var(--focus-ring); border-radius: var(--radius-sm); }
+
+    /* === Login Container === */
+    .login-page { display: flex; width: 100%; min-height: 100vh; }
+    .login-brand {
+      flex: 1; background: linear-gradient(135deg, var(--primary-600), var(--primary-800));
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      color: white; padding: 48px;
+    }
+    .login-brand__logo { font-size: 48px; font-weight: 700; margin-bottom: 16px; }
+    .login-brand__tagline { font-size: 18px; opacity: 0.9; text-align: center; line-height: 28px; }
+    .login-brand__illustration {
+      width: 260px; height: 200px; margin: 32px 0 8px;
+      background: rgba(255,255,255,0.12); border-radius: var(--radius-lg);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .login-brand__illustration svg { width: 220px; height: 170px; }
+    .login-brand__features { margin-top: 32px; list-style: none; }
+    .login-brand__features li {
+      font-size: 16px; padding: 8px 0; opacity: 0.85;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .login-brand__features li::before { content: "✓"; font-weight: 700; font-size: 18px; }
+
+    .login-form-container {
+      flex: 1; display: flex; align-items: center; justify-content: center;
+      padding: 48px; background: var(--bg-primary);
+    }
+    .login-card { width: 100%; max-width: 420px; }
+    .login-card__title {
+      font-size: 32px; font-weight: 700; line-height: 40px;
+      letter-spacing: -0.25px; margin-bottom: 8px; color: var(--neutral-900);
+    }
+    .login-card__subtitle {
+      font-size: 16px; color: var(--neutral-600); margin-bottom: 32px; line-height: 24px;
+    }
+
+    /* === Tabs === */
+    .tabs { display: flex; gap: 0; margin-bottom: 24px; border-bottom: 2px solid var(--neutral-200); }
+    .tab {
+      flex: 1; padding: 12px 16px; text-align: center; font-size: 14px; font-weight: 500;
+      color: var(--neutral-600); background: none; border: none; cursor: pointer;
+      border-bottom: 2px solid transparent; margin-bottom: -2px; transition: all var(--transition);
+    }
+    .tab:hover { color: var(--primary-600); }
+    .tab--active { color: var(--primary-600); border-bottom-color: var(--primary-600); font-weight: 600; }
+    .tab:focus-visible { box-shadow: var(--focus-ring); border-radius: var(--radius-sm); outline: none; }
+
+    /* === Form === */
+    .form-group { margin-bottom: 16px; }
+    .form-label {
+      display: block; font-size: 14px; font-weight: 500; color: var(--neutral-800);
+      margin-bottom: 4px; letter-spacing: 0.1px;
+    }
+    .form-input {
+      width: 100%; height: 40px; padding: 8px 12px; font-size: 16px;
+      font-family: var(--font-family); color: var(--neutral-900);
+      border: 1px solid var(--neutral-300); border-radius: var(--radius-md);
+      background: var(--bg-primary); transition: border-color var(--transition), box-shadow var(--transition);
+    }
+    .form-input::placeholder { color: var(--neutral-500); }
+    .form-input:hover { border-color: var(--neutral-400); }
+    .form-input:focus { border-color: var(--primary-600); box-shadow: 0 0 0 2px var(--primary-100); outline: none; }
+    .form-input--error { border-color: var(--error-600); }
+    .form-input--error:focus { box-shadow: 0 0 0 2px var(--error-100); }
+    .form-error {
+      display: none; font-size: 12px; color: var(--error-600); margin-top: 4px; line-height: 16px;
+    }
+    .form-group--error .form-error { display: block; }
+    .form-group--error .form-input { border-color: var(--error-600); }
+
+    /* === Checkbox === */
+    .checkbox-group {
+      display: flex; align-items: center; gap: 8px; margin-bottom: 16px; cursor: pointer;
+    }
+    .checkbox-input {
+      width: 20px; height: 20px; accent-color: var(--primary-600); cursor: pointer;
+      min-width: 20px; min-height: 20px;
+    }
+    .checkbox-input:focus-visible { box-shadow: var(--focus-ring); border-radius: var(--radius-sm); outline: none; }
+    .checkbox-label { font-size: 14px; color: var(--neutral-700); cursor: pointer; user-select: none; }
+
+    /* === Buttons === */
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      height: 40px; min-width: 80px; padding: 8px 16px; font-size: 14px; font-weight: 500;
+      font-family: var(--font-family); border: none; border-radius: var(--radius-md);
+      cursor: pointer; transition: all var(--transition); letter-spacing: 0.1px;
+    }
+    .btn:focus-visible { box-shadow: var(--focus-ring); outline: none; }
+    .btn--primary {
+      width: 100%; background: var(--primary-600); color: white;
+    }
+    .btn--primary:hover { background: var(--primary-800); }
+    .btn--primary:active { background: var(--primary-900); box-shadow: inset 0px 2px 4px rgba(0,0,0,0.2); }
+    .btn--primary:disabled {
+      background: var(--neutral-300); color: var(--neutral-500); cursor: not-allowed;
+    }
+
+    /* === Helpers === */
+    .form-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; }
+    .forgot-link { font-size: 14px; color: var(--primary-600); }
+    .forgot-link:hover { color: var(--primary-800); text-decoration: underline; }
+    .divider {
+      text-align: center; margin: 24px 0; position: relative;
+      color: var(--neutral-500); font-size: 14px;
+    }
+    .divider::before, .divider::after {
+      content: ""; position: absolute; top: 50%; width: 40%;
+      height: 1px; background: var(--neutral-200);
+    }
+    .divider::before { left: 0; }
+    .divider::after { right: 0; }
+
+    /* === Alert === */
+    .alert {
+      display: none; padding: 12px 16px; border-radius: var(--radius-md);
+      font-size: 14px; line-height: 20px; margin-bottom: 16px;
+      border-left: 4px solid;
+    }
+    .alert--error {
+      background: var(--error-100); border-left-color: var(--error-600); color: var(--error-700);
+    }
+    .alert--info {
+      background: var(--info-100); border-left-color: var(--info-600); color: var(--info-600);
+    }
+
+    /* === Password Strength === */
+    .password-strength { display: flex; gap: 4px; margin-top: 8px; }
+    .password-strength__bar { flex: 1; height: 4px; border-radius: 2px; background: var(--neutral-200); }
+    .password-strength__bar--filled { background: var(--secondary-600); }
+    .password-strength__label { font-size: 12px; color: var(--neutral-500); margin-top: 4px; }
+
+    /* === Terms === */
+    .terms-text { font-size: 13px; color: var(--neutral-600); line-height: 1.5; }
+    .terms-text a { font-weight: 500; }
+
+    /* === Name Row === */
+    .form-row--name { display: flex; gap: 12px; }
+    .form-row--name .form-group { flex: 1; }
+
+    /* === Select === */
+    .form-select {
+      width: 100%; height: 40px; padding: 8px 12px; font-size: 16px;
+      font-family: var(--font-family); color: var(--neutral-900);
+      border: 1px solid var(--neutral-300); border-radius: var(--radius-md);
+      background: var(--bg-primary); cursor: pointer;
+      transition: border-color var(--transition), box-shadow var(--transition);
+    }
+    .form-select:focus { border-color: var(--primary-600); box-shadow: 0 0 0 2px var(--primary-100); outline: none; }
+    .form-help { font-size: 12px; color: var(--neutral-500); margin-top: 4px; }
+
+    /* === Reset Password Panel === */
+    .reset-panel { display: none; }
+    .reset-step { display: none; }
+    .reset-step--active { display: block; }
+    .reset-back { display: inline-flex; align-items: center; gap: 6px; font-size: 14px; color: var(--primary-600); background: none; border: none; cursor: pointer; padding: 0; margin-bottom: 24px; font-family: var(--font-family); }
+    .reset-back:hover { color: var(--primary-800); }
+    .reset-back:focus-visible { box-shadow: var(--focus-ring); outline: none; border-radius: var(--radius-sm); }
+    .reset-icon { font-size: 48px; margin-bottom: 16px; }
+    .reset-success { text-align: center; padding: 24px 0; }
+    .reset-success__icon { width: 64px; height: 64px; border-radius: var(--radius-full); background: var(--success-100); color: var(--success-600); display: inline-flex; align-items: center; justify-content: center; font-size: 32px; margin-bottom: 16px; }
+    .reset-success__title { font-size: 20px; font-weight: 700; color: var(--success-600); margin-bottom: 8px; }
+    .reset-success__desc { font-size: 14px; color: var(--neutral-600); line-height: 1.6; }
+
+    /* === Responsive === */
+    @media (max-width: 1023px) {
+      .login-brand { display: none; }
+      .login-form-container { padding: 32px; }
+    }
+    @media (max-width: 767px) {
+      .login-form-container { padding: 16px; }
+      .login-card__title { font-size: 24px; line-height: 32px; }
+      .btn--primary { height: 48px; font-size: 16px; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation Map
+    Element: Login Button | Action: Submit credentials | Target: SCR-002 (Patient) / SCR-003 (Staff) / SCR-004 (Admin)
+    Element: Register Link/Tab | Action: Toggle to register form | Target: SCR-001 (Register state)
+    Element: Forgot Password / Reset Password Link | Action: Show reset panel | Target: SCR-001 (Reset state — Step 1: Email, Step 2: New Password, Step 3: Success)
+  -->
+
+  <div class="login-page">
+    <!-- Brand Panel (desktop only) -->
+    <div class="login-brand" aria-hidden="true">
+      <div class="login-brand__logo">UPACI</div>
+      <div class="login-brand__tagline">Unified Patient Access &amp; Clinical Intelligence Platform</div>
+      <!-- Healthcare Illustration -->
+      <div class="login-brand__illustration">
+        <svg viewBox="0 0 220 170" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <!-- Clipboard -->
+          <rect x="60" y="20" width="100" height="130" rx="8" fill="rgba(255,255,255,0.9)"/>
+          <rect x="85" y="12" width="50" height="16" rx="8" fill="rgba(255,255,255,0.95)" stroke="#0066CC" stroke-width="2"/>
+          <!-- Cross symbol -->
+          <rect x="100" y="48" width="20" height="44" rx="3" fill="#0066CC"/>
+          <rect x="88" y="60" width="44" height="20" rx="3" fill="#0066CC"/>
+          <!-- Checklist lines -->
+          <rect x="78" y="106" width="64" height="6" rx="3" fill="#CCE0F5"/>
+          <rect x="78" y="118" width="48" height="6" rx="3" fill="#CCE0F5"/>
+          <rect x="78" y="130" width="56" height="6" rx="3" fill="#CCE0F5"/>
+          <!-- Heart rate pulse -->
+          <polyline points="20,95 40,95 50,70 60,120 70,85 80,95" stroke="#00A86B" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+          <!-- Stethoscope circle -->
+          <circle cx="185" cy="55" r="20" stroke="rgba(255,255,255,0.7)" stroke-width="3" fill="none"/>
+          <line x1="185" y1="75" x2="185" y2="100" stroke="rgba(255,255,255,0.7)" stroke-width="3" stroke-linecap="round"/>
+          <circle cx="185" cy="105" r="5" fill="rgba(255,255,255,0.7)"/>
+          <!-- Small decorative dots -->
+          <circle cx="30" cy="40" r="4" fill="rgba(255,255,255,0.3)"/>
+          <circle cx="195" cy="140" r="6" fill="rgba(255,255,255,0.2)"/>
+          <circle cx="20" cy="135" r="3" fill="rgba(255,255,255,0.25)"/>
+        </svg>
+      </div>
+      <ul class="login-brand__features">
+        <li>AI-Assisted Patient Intake</li>
+        <li>Smart Appointment Booking</li>
+        <li>Clinical Data Intelligence</li>
+        <li>Real-Time Queue Management</li>
+      </ul>
+    </div>
+
+    <!-- Login Form -->
+    <div class="login-form-container">
+      <div class="login-card" role="main">
+        <h1 class="login-card__title">Welcome Back</h1>
+        <p class="login-card__subtitle">Sign in to access your healthcare portal</p>
+
+        <!-- Tabs: Login / Register -->
+        <div class="tabs" role="tablist" aria-label="Authentication mode">
+          <button class="tab tab--active" role="tab" aria-selected="true" id="tab-login" aria-controls="panel-login">Sign In</button>
+          <button class="tab" role="tab" aria-selected="false" id="tab-register" aria-controls="panel-register">Register</button>
+        </div>
+
+        <!-- Alert (hidden by default, shown on error) -->
+        <div class="alert alert--error" role="alert" aria-live="assertive" id="login-alert" style="display: none;">
+          Invalid email or password. Please try again.
+        </div>
+
+        <!-- Login Form Panel -->
+        <form id="panel-login" role="tabpanel" aria-labelledby="tab-login" novalidate>
+          <div class="form-group" id="group-email">
+            <label class="form-label" for="login-email">Email Address</label>
+            <input class="form-input" type="email" id="login-email" name="email"
+                   placeholder="you@example.com" autocomplete="email" required
+                   aria-describedby="email-error" autofocus>
+            <div class="form-error" id="email-error" aria-live="polite">Please enter a valid email address.</div>
+          </div>
+
+          <div class="form-group" id="group-password">
+            <label class="form-label" for="login-password">Password</label>
+            <input class="form-input" type="password" id="login-password" name="password"
+                   placeholder="Enter your password" autocomplete="current-password" required
+                   aria-describedby="password-error">
+            <div class="form-error" id="password-error" aria-live="polite">Password is required.</div>
+          </div>
+
+          <div class="form-row">
+            <label class="checkbox-group">
+              <input class="checkbox-input" type="checkbox" id="remember-me" name="remember">
+              <span class="checkbox-label">Remember me</span>
+            </label>
+            <a href="#" class="forgot-link" aria-label="Reset your password">Forgot Password / Reset Password</a>
+          </div>
+
+          <button type="submit" class="btn btn--primary"
+                  onclick="window.location.href='wireframe-SCR-002-patient-dashboard.html'; return false;">
+            Sign In
+          </button>
+
+          <div class="divider">or</div>
+
+          <p style="text-align:center; font-size:14px; color:var(--neutral-600);">
+            Don't have an account?
+            <a href="#" id="switch-to-register">Register here</a>
+          </p>
+        </form>
+
+        <!-- Register Form Panel (hidden by default) -->
+        <form id="panel-register" role="tabpanel" aria-labelledby="tab-register" novalidate style="display: none;">
+          <div class="form-row--name">
+            <div class="form-group">
+              <label class="form-label" for="reg-first-name">First Name</label>
+              <input class="form-input" type="text" id="reg-first-name" name="firstName"
+                     placeholder="First name" autocomplete="given-name" required
+                     aria-describedby="fname-error">
+              <div class="form-error" id="fname-error" aria-live="polite">First name is required.</div>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="reg-last-name">Last Name</label>
+              <input class="form-input" type="text" id="reg-last-name" name="lastName"
+                     placeholder="Last name" autocomplete="family-name" required
+                     aria-describedby="lname-error">
+              <div class="form-error" id="lname-error" aria-live="polite">Last name is required.</div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="reg-email">Email Address</label>
+            <input class="form-input" type="email" id="reg-email" name="email"
+                   placeholder="you@example.com" autocomplete="email" required
+                   aria-describedby="reg-email-error">
+            <div class="form-error" id="reg-email-error" aria-live="polite">Please enter a valid email address.</div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="reg-phone">Phone Number</label>
+            <input class="form-input" type="tel" id="reg-phone" name="phone"
+                   placeholder="+1 (555) 000-0000" autocomplete="tel">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="reg-role">User Type</label>
+            <select class="form-select" id="reg-role" required onchange="toggleRegDept(this.value);">
+              <option value="" disabled selected>Select user type...</option>
+              <option value="patient">Patient</option>
+              <option value="staff">Staff</option>
+              <option value="admin">Admin</option>
+            </select>
+            <div class="form-help">Select your user type in the platform.</div>
+          </div>
+
+          <div class="form-group" id="reg-dept-group">
+            <label class="form-label" for="reg-department">Department</label>
+            <select class="form-select" id="reg-department">
+              <option value="" disabled selected>Select department...</option>
+              <option value="general">General Medicine</option>
+              <option value="cardiology">Cardiology</option>
+              <option value="dermatology">Dermatology</option>
+              <option value="endocrinology">Endocrinology</option>
+              <option value="admin">Administration</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="reg-password">Password</label>
+            <input class="form-input" type="password" id="reg-password" name="password"
+                   placeholder="Create a password" autocomplete="new-password" required
+                   aria-describedby="reg-pw-error pw-strength-label">
+            <div class="form-error" id="reg-pw-error" aria-live="polite">Password must be at least 8 characters.</div>
+            <div class="password-strength" aria-hidden="true">
+              <div class="password-strength__bar password-strength__bar--filled"></div>
+              <div class="password-strength__bar password-strength__bar--filled"></div>
+              <div class="password-strength__bar"></div>
+              <div class="password-strength__bar"></div>
+            </div>
+            <div class="password-strength__label" id="pw-strength-label">Medium strength</div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="reg-confirm-password">Confirm Password</label>
+            <input class="form-input" type="password" id="reg-confirm-password" name="confirmPassword"
+                   placeholder="Re-enter your password" autocomplete="new-password" required
+                   aria-describedby="reg-cpw-error">
+            <div class="form-error" id="reg-cpw-error" aria-live="polite">Passwords do not match.</div>
+          </div>
+
+          <label class="checkbox-group" style="margin-bottom: 24px;">
+            <input class="checkbox-input" type="checkbox" id="reg-terms" name="terms" required>
+            <span class="terms-text">I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a></span>
+          </label>
+
+          <button type="submit" class="btn btn--primary">Create Account</button>
+
+          <div class="divider">or</div>
+
+          <p style="text-align:center; font-size:14px; color:var(--neutral-600);">
+            Already have an account?
+            <a href="#" id="switch-to-login">Sign in here</a>
+          </p>
+        </form>
+
+        <!-- Reset Password Panel (hidden by default) -->
+        <div class="reset-panel" id="panel-reset">
+          <button class="reset-back" id="reset-back-to-login" aria-label="Back to sign in">← Back to Sign In</button>
+
+          <!-- Step 1: Enter Email -->
+          <div class="reset-step reset-step--active" id="reset-step-1">
+            <div class="reset-icon" aria-hidden="true">🔒</div>
+            <h2 style="font-size: 20px; font-weight: 700; margin-bottom: 8px;">Forgot Password / Reset Password</h2>
+            <p style="font-size: 14px; color: var(--neutral-600); margin-bottom: 24px; line-height: 1.6;">Enter your registered email address. We’ll send you a verification code to reset your password.</p>
+
+            <div class="form-group">
+              <label class="form-label" for="reset-email">Email Address</label>
+              <input class="form-input" type="email" id="reset-email" name="resetEmail"
+                     placeholder="you@example.com" autocomplete="email" required
+                     aria-describedby="reset-email-error">
+              <div class="form-error" id="reset-email-error" aria-live="polite">Please enter a valid email address.</div>
+            </div>
+
+            <button type="button" class="btn btn--primary" onclick="showResetStep2();">
+              Send Verification Code
+            </button>
+          </div>
+
+          <!-- Step 2: Enter New Password -->
+          <div class="reset-step" id="reset-step-2">
+            <div class="reset-icon" aria-hidden="true">🔑</div>
+            <h2 style="font-size: 20px; font-weight: 700; margin-bottom: 8px;">Create New Password</h2>
+            <p style="font-size: 14px; color: var(--neutral-600); margin-bottom: 24px; line-height: 1.6;">A verification code has been sent to your email. Enter the code and your new password below.</p>
+
+            <div class="form-group">
+              <label class="form-label" for="reset-code">Verification Code</label>
+              <input class="form-input" type="text" id="reset-code" name="resetCode"
+                     placeholder="Enter 6-digit code" required maxlength="6"
+                     aria-describedby="reset-code-error" style="letter-spacing: 4px; font-size: 18px; text-align: center;">
+              <div class="form-error" id="reset-code-error" aria-live="polite">Invalid verification code.</div>
+              <div class="form-help">Didn’t receive the code? <a href="#" onclick="event.preventDefault();">Resend code</a></div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="reset-new-password">New Password</label>
+              <input class="form-input" type="password" id="reset-new-password" name="newPassword"
+                     placeholder="Create a new password" autocomplete="new-password" required
+                     aria-describedby="reset-pw-error">
+              <div class="form-error" id="reset-pw-error" aria-live="polite">Password must be at least 8 characters.</div>
+              <div class="password-strength" aria-hidden="true">
+                <div class="password-strength__bar password-strength__bar--filled"></div>
+                <div class="password-strength__bar password-strength__bar--filled"></div>
+                <div class="password-strength__bar password-strength__bar--filled"></div>
+                <div class="password-strength__bar"></div>
+              </div>
+              <div class="password-strength__label">Strong</div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="reset-confirm-password">Confirm New Password</label>
+              <input class="form-input" type="password" id="reset-confirm-password" name="confirmNewPassword"
+                     placeholder="Re-enter new password" autocomplete="new-password" required
+                     aria-describedby="reset-cpw-error">
+              <div class="form-error" id="reset-cpw-error" aria-live="polite">Passwords do not match.</div>
+            </div>
+
+            <button type="button" class="btn btn--primary" onclick="showResetSuccess();">
+              Reset Password
+            </button>
+          </div>
+
+          <!-- Step 3: Success -->
+          <div class="reset-step" id="reset-step-3">
+            <div class="reset-success">
+              <div class="reset-success__icon" aria-hidden="true">✓</div>
+              <div class="reset-success__title">Password Reset Successful</div>
+              <p class="reset-success__desc">Your password has been updated. You can now sign in with your new credentials.</p>
+            </div>
+            <button type="button" class="btn btn--primary" onclick="backToLoginFromReset();">
+              Back to Sign In
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function() {
+      var tabLogin = document.getElementById('tab-login');
+      var tabRegister = document.getElementById('tab-register');
+      var panelLogin = document.getElementById('panel-login');
+      var panelRegister = document.getElementById('panel-register');
+      var title = document.querySelector('.login-card__title');
+      var subtitle = document.querySelector('.login-card__subtitle');
+      var switchToRegister = document.getElementById('switch-to-register');
+      var switchToLogin = document.getElementById('switch-to-login');
+      var forgotLink = document.querySelector('.forgot-link');
+      var resetPanel = document.getElementById('panel-reset');
+      var tabsBar = document.querySelector('.tabs');
+
+      function showLogin() {
+        tabLogin.classList.add('tab--active');
+        tabLogin.setAttribute('aria-selected', 'true');
+        tabRegister.classList.remove('tab--active');
+        tabRegister.setAttribute('aria-selected', 'false');
+        panelLogin.style.display = '';
+        panelRegister.style.display = 'none';
+        resetPanel.style.display = 'none';
+        tabsBar.style.display = '';
+        title.textContent = 'Welcome Back';
+        subtitle.textContent = 'Sign in to access your healthcare portal';
+      }
+
+      function showRegister() {
+        tabRegister.classList.add('tab--active');
+        tabRegister.setAttribute('aria-selected', 'true');
+        tabLogin.classList.remove('tab--active');
+        tabLogin.setAttribute('aria-selected', 'false');
+        panelRegister.style.display = '';
+        panelLogin.style.display = 'none';
+        resetPanel.style.display = 'none';
+        tabsBar.style.display = '';
+        title.textContent = 'Create Account';
+        subtitle.textContent = 'Register to get started with UPACI';
+      }
+
+      tabLogin.addEventListener('click', showLogin);
+      tabRegister.addEventListener('click', showRegister);
+      switchToRegister.addEventListener('click', function(e) { e.preventDefault(); showRegister(); });
+      switchToLogin.addEventListener('click', function(e) { e.preventDefault(); showLogin(); });
+
+      /* Forgot Password / Reset Password */
+      forgotLink.addEventListener('click', function(e) {
+        e.preventDefault();
+        panelLogin.style.display = 'none';
+        panelRegister.style.display = 'none';
+        tabsBar.style.display = 'none';
+        resetPanel.style.display = 'block';
+        // Reset to step 1
+        document.getElementById('reset-step-1').classList.add('reset-step--active');
+        document.getElementById('reset-step-2').classList.remove('reset-step--active');
+        document.getElementById('reset-step-3').classList.remove('reset-step--active');
+        title.textContent = 'Reset Password';
+        subtitle.textContent = 'Recover access to your account';
+      });
+
+      document.getElementById('reset-back-to-login').addEventListener('click', function(e) {
+        e.preventDefault();
+        showLogin();
+      });
+
+      window.showResetStep2 = function() {
+        document.getElementById('reset-step-1').classList.remove('reset-step--active');
+        document.getElementById('reset-step-2').classList.add('reset-step--active');
+      };
+
+      window.showResetSuccess = function() {
+        document.getElementById('reset-step-2').classList.remove('reset-step--active');
+        document.getElementById('reset-step-3').classList.add('reset-step--active');
+        title.textContent = 'Password Reset';
+        subtitle.textContent = 'Your password has been updated successfully';
+      };
+
+      window.backToLoginFromReset = function() {
+        showLogin();
+      };
+
+      /* Toggle Department field based on role (Register form) */
+      window.toggleRegDept = function(role) {
+        document.getElementById('reg-dept-group').style.display = (role === 'patient') ? '' : 'none';
+      };
+    })();
+  </script>
+</body>
+</html>

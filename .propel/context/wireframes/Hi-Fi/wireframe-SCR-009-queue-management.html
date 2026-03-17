@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SCR-009 Queue Management — Unified Patient Access Platform</title>
+  <!-- SCR-009 | Derived From: UC-007 Staff Walk-in and Queue Management | Personas: Staff | Priority: P0 -->
+  <!-- UXR Mapped: UXR-001, UXR-002, UXR-101, UXR-201, UXR-301, UXR-401, UXR-402, UXR-403 -->
+  <style>
+    :root {
+      --primary-900: #003D7A; --primary-800: #004C99; --primary-600: #0066CC;
+      --primary-200: #CCE0F5; --primary-100: #E6F0FA;
+      --secondary-600: #00A86B; --secondary-100: #E6F6F0;
+      --success-600: #00A145; --success-100: #E6F9EF;
+      --warning-600: #FF8800; --warning-100: #FFF2E6;
+      --error-600: #DC3545; --error-100: #FCE8EA;
+      --info-600: #0077B6; --info-100: #E6F3F9;
+      --neutral-900: #1A1A1A; --neutral-800: #333333; --neutral-700: #4D4D4D;
+      --neutral-600: #666666; --neutral-500: #808080; --neutral-400: #999999;
+      --neutral-300: #CCCCCC; --neutral-200: #E5E5E5; --neutral-100: #F5F5F5; --neutral-50: #FAFAFA;
+      --bg-primary: #FFFFFF; --bg-tertiary: #FAFAFA; --bg-overlay: rgba(0,0,0,0.5);
+      --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      --radius-sm: 4px; --radius-md: 8px; --radius-lg: 12px; --radius-full: 9999px;
+      --shadow-1: 0px 1px 3px rgba(0,0,0,0.12), 0px 1px 2px rgba(0,0,0,0.24);
+      --shadow-3: 0px 10px 20px rgba(0,0,0,0.15), 0px 3px 6px rgba(0,0,0,0.10);
+      --focus-ring: 0 0 0 2px #FFFFFF, 0 0 0 4px #0066CC;
+      --transition: 200ms ease;
+      --sidebar-width: 240px; --header-height: 64px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: var(--font-family); background: var(--bg-tertiary); color: var(--neutral-900); }
+    a { color: var(--primary-600); text-decoration: none; }
+    a:hover { color: var(--primary-800); }
+    a:focus-visible { outline: none; box-shadow: var(--focus-ring); border-radius: var(--radius-sm); }
+
+    .header { position: fixed; top: 0; left: 0; right: 0; height: var(--header-height); z-index: 1000; background: var(--bg-primary); border-bottom: 1px solid var(--neutral-200); display: flex; align-items: center; padding: 0 24px; gap: 16px; }
+    .header__logo { font-size: 20px; font-weight: 700; color: var(--primary-600); }
+    .header__title { flex: 1; font-size: 16px; font-weight: 600; color: var(--neutral-800); margin-left: 16px; }
+    .header__actions { display: flex; align-items: center; gap: 16px; }
+    .header__avatar { width: 36px; height: 36px; border-radius: var(--radius-full); background: var(--secondary-100); color: var(--secondary-600); font-size: 14px; font-weight: 600; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+
+    .sidebar { position: fixed; top: var(--header-height); left: 0; bottom: 0; width: var(--sidebar-width); background: var(--bg-primary); border-right: 1px solid var(--neutral-200); padding: 16px 0; z-index: 900; display: flex; flex-direction: column; }
+    .sidebar__role { padding: 8px 16px; margin: 0 16px 16px; font-size: 12px; font-weight: 500; text-transform: uppercase; letter-spacing: 1px; color: var(--secondary-600); background: var(--secondary-100); border-radius: var(--radius-full); text-align: center; }
+    .sidebar__nav { flex: 1; list-style: none; }
+    .sidebar__item { display: flex; align-items: center; gap: 12px; padding: 12px 24px; font-size: 14px; font-weight: 500; color: var(--neutral-700); cursor: pointer; transition: all var(--transition); border-left: 3px solid transparent; text-decoration: none; }
+    .sidebar__item:hover { background: var(--neutral-50); color: var(--primary-600); }
+    .sidebar__item--active { color: var(--primary-600); background: var(--primary-100); border-left-color: var(--primary-600); font-weight: 600; }
+    .sidebar__item:focus-visible { box-shadow: var(--focus-ring); outline: none; }
+    .sidebar__icon { width: 20px; text-align: center; font-size: 16px; }
+
+    .main { margin-left: var(--sidebar-width); margin-top: var(--header-height); padding: 32px; min-height: calc(100vh - var(--header-height)); }
+    .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 14px; color: var(--neutral-500); margin-bottom: 24px; }
+    .breadcrumb a { color: var(--primary-600); }
+    .breadcrumb__separator { color: var(--neutral-400); }
+
+    .page-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; }
+    .page-title { font-size: 32px; font-weight: 700; line-height: 40px; letter-spacing: -0.25px; }
+    .live-indicator { display: flex; align-items: center; gap: 8px; font-size: 14px; color: var(--success-600); font-weight: 500; }
+    .live-dot { width: 8px; height: 8px; border-radius: var(--radius-full); background: var(--success-600); animation: pulse-live 2s infinite; }
+    @keyframes pulse-live { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; height: 40px; min-width: 80px; padding: 8px 16px; font-size: 14px; font-weight: 500; font-family: var(--font-family); border: none; border-radius: var(--radius-md); cursor: pointer; transition: all var(--transition); }
+    .btn:focus-visible { box-shadow: var(--focus-ring); outline: none; }
+    .btn--primary { background: var(--primary-600); color: white; }
+    .btn--primary:hover { background: var(--primary-800); }
+    .btn--success { background: var(--secondary-600); color: white; font-size: 12px; height: 32px; min-width: 60px; padding: 4px 12px; }
+    .btn--success:hover { background: #008057; }
+    .btn--secondary { background: none; color: var(--neutral-700); border: 1px solid var(--neutral-300); font-size: 12px; height: 32px; min-width: 60px; padding: 4px 12px; }
+    .btn--secondary:hover { background: var(--neutral-50); }
+
+    .card { background: var(--bg-primary); border-radius: var(--radius-md); box-shadow: var(--shadow-1); overflow: hidden; }
+    .card__header { display: flex; align-items: center; justify-content: space-between; padding: 16px 24px; border-bottom: 1px solid var(--neutral-200); }
+    .card__title { font-size: 18px; font-weight: 600; }
+    .badge { display: inline-flex; align-items: center; padding: 2px 8px; font-size: 12px; font-weight: 500; text-transform: uppercase; letter-spacing: 1px; border-radius: var(--radius-full); }
+    .badge--success { background: var(--success-100); color: var(--success-600); }
+    .badge--warning { background: var(--warning-100); color: var(--warning-600); }
+    .badge--error { background: var(--error-100); color: var(--error-600); }
+    .badge--info { background: var(--info-100); color: var(--info-600); }
+
+    .data-table { width: 100%; border-collapse: collapse; }
+    .data-table thead th { padding: 12px 16px; text-align: left; font-size: 14px; font-weight: 600; color: var(--neutral-700); background: var(--neutral-50); border-bottom: 1px solid var(--neutral-200); }
+    .data-table tbody td { padding: 12px 16px; font-size: 14px; color: var(--neutral-700); border-bottom: 1px solid var(--neutral-100); vertical-align: middle; }
+    .data-table tbody tr { transition: background var(--transition); }
+    .data-table tbody tr:hover { background: var(--neutral-50); }
+    .patient-link { color: var(--primary-600); font-weight: 500; cursor: pointer; }
+    .patient-link:hover { text-decoration: underline; }
+    .row-actions { display: flex; gap: 8px; }
+
+    /* Modal Overlay */
+    .modal-overlay {
+      display: none; position: fixed; inset: 0; background: var(--bg-overlay); z-index: 1100;
+      align-items: center; justify-content: center;
+    }
+    .modal-overlay--open { display: flex; }
+    .modal {
+      background: var(--bg-primary); border-radius: var(--radius-lg); box-shadow: var(--shadow-3);
+      width: 100%; max-width: 580px; max-height: 90vh; overflow-y: auto;
+    }
+    .modal__header { display: flex; align-items: center; justify-content: space-between; padding: 20px 24px; border-bottom: 1px solid var(--neutral-200); }
+    .modal__title { font-size: 20px; font-weight: 600; }
+    .modal__close { width: 36px; height: 36px; border: none; background: none; cursor: pointer; font-size: 20px; border-radius: var(--radius-full); transition: background var(--transition); color: var(--neutral-600); }
+    .modal__close:hover { background: var(--neutral-100); }
+    .modal__close:focus-visible { box-shadow: var(--focus-ring); outline: none; }
+    .modal__body { padding: 24px; }
+    .modal__footer { padding: 16px 24px; border-top: 1px solid var(--neutral-200); display: flex; gap: 12px; justify-content: flex-end; }
+
+    .form-group { margin-bottom: 16px; }
+    .form-label { display: block; font-size: 14px; font-weight: 500; color: var(--neutral-800); margin-bottom: 4px; }
+    .form-input { width: 100%; height: 40px; padding: 8px 12px; font-size: 16px; font-family: var(--font-family); border: 1px solid var(--neutral-300); border-radius: var(--radius-md); }
+    .form-input:focus { border-color: var(--primary-600); box-shadow: 0 0 0 2px var(--primary-100); outline: none; }
+    .btn-modal-primary { background: var(--primary-600); color: white; height: 40px; padding: 8px 24px; font-size: 14px; font-weight: 500; border: none; border-radius: var(--radius-md); cursor: pointer; font-family: var(--font-family); transition: all var(--transition); }
+    .btn-modal-primary:hover { background: var(--primary-800); }
+    .btn-modal-primary:focus-visible { box-shadow: var(--focus-ring); outline: none; }
+    .btn-modal-cancel { background: none; color: var(--neutral-700); border: 1px solid var(--neutral-300); height: 40px; padding: 8px 24px; font-size: 14px; font-weight: 500; border-radius: var(--radius-md); cursor: pointer; font-family: var(--font-family); transition: all var(--transition); }
+    .btn-modal-cancel:hover { background: var(--neutral-50); }
+    .btn-modal-cancel:focus-visible { box-shadow: var(--focus-ring); outline: none; }
+
+    /* Patient Type Toggle */
+    .patient-type-toggle { display: flex; gap: 0; margin-bottom: 20px; border: 1px solid var(--neutral-300); border-radius: var(--radius-md); overflow: hidden; }
+    .patient-type-btn { flex: 1; padding: 10px 16px; font-size: 14px; font-weight: 500; font-family: var(--font-family); border: none; background: var(--bg-primary); color: var(--neutral-600); cursor: pointer; transition: all var(--transition); text-align: center; }
+    .patient-type-btn:hover { background: var(--neutral-50); }
+    .patient-type-btn--active { background: var(--primary-600); color: white; }
+    .patient-type-btn--active:hover { background: var(--primary-800); }
+    .patient-type-btn:focus-visible { box-shadow: var(--focus-ring); outline: none; }
+
+    /* Form Grid (2-col) */
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+    /* Patient Info Card */
+    .patient-info-card { background: var(--primary-100); border: 1px solid var(--primary-200); border-radius: var(--radius-md); padding: 16px; margin-bottom: 16px; display: flex; align-items: center; gap: 12px; }
+    .patient-info-avatar { width: 40px; height: 40px; border-radius: var(--radius-full); background: var(--primary-600); color: white; font-size: 14px; font-weight: 600; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .patient-info-details { flex: 1; }
+    .patient-info-name { font-size: 15px; font-weight: 600; color: var(--neutral-900); }
+    .patient-info-id { font-size: 13px; color: var(--neutral-600); }
+
+    /* Slot Grid */
+    .slot-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+    .slot-btn { padding: 8px 4px; font-size: 13px; font-weight: 500; font-family: var(--font-family); border: 1px solid var(--neutral-300); border-radius: var(--radius-md); background: var(--bg-primary); color: var(--neutral-700); cursor: pointer; text-align: center; transition: all var(--transition); }
+    .slot-btn:hover { border-color: var(--primary-600); color: var(--primary-600); background: var(--primary-100); }
+    .slot-btn--selected { border-color: var(--primary-600); background: var(--primary-600); color: white; }
+    .slot-btn--disabled { opacity: 0.4; cursor: not-allowed; pointer-events: none; }
+    .slot-btn:focus-visible { box-shadow: var(--focus-ring); outline: none; }
+    .section-divider { border: none; border-top: 1px solid var(--neutral-200); margin: 20px 0; }
+
+    @media (max-width: 1023px) { .sidebar { display: none; } .main { margin-left: 0; } }
+    @media (max-width: 767px) { .main { padding: 16px; } .page-title { font-size: 24px; } .page-header { flex-direction: column; align-items: flex-start; gap: 16px; } .modal { max-width: 100%; margin: 16px; border-radius: var(--radius-md); } .form-grid { grid-template-columns: 1fr; } .slot-grid { grid-template-columns: repeat(3, 1fr); } }
+  </style>
+</head>
+<body>
+  <!-- Navigation Map
+    Element: Breadcrumb Dashboard | Action: Navigate back | Target: SCR-003
+    Element: Add Walk-in Button | Action: Open modal | Target: Add Walk-in Modal
+    Element: Patient Name (row) | Action: Open drawer | Target: Patient Details Drawer
+    Element: Mark Arrived Button | Action: Row action | Target: SCR-009 (badge update)
+  -->
+
+  <header class="header" role="banner">
+    <div class="header__logo">UPACI</div>
+    <div class="header__title">Queue Management</div>
+    <div class="header__actions">
+      <div class="header__avatar" role="button" aria-label="User menu" tabindex="0">SM</div>
+    </div>
+  </header>
+
+  <nav class="sidebar" role="navigation" aria-label="Main navigation">
+    <div class="sidebar__role">Staff</div>
+    <ul class="sidebar__nav">
+      <li><a href="wireframe-SCR-003-staff-dashboard.html" class="sidebar__item"><span class="sidebar__icon">🏠</span> Dashboard</a></li>
+      <li><a href="wireframe-SCR-009-queue-management.html" class="sidebar__item sidebar__item--active"><span class="sidebar__icon">📊</span> Queue Management</a></li>
+      <li><a href="wireframe-SCR-010-clinical-data-review.html" class="sidebar__item"><span class="sidebar__icon">🩺</span> Clinical Review</a></li>
+      <li><a href="wireframe-SCR-011-appointment-management.html" class="sidebar__item"><span class="sidebar__icon">📅</span> Appointments</a></li>
+      <li><a href="wireframe-SCR-005-staff-profile-settings.html" class="sidebar__item"><span class="sidebar__icon">👤</span> Profile &amp; Settings</a></li>
+    </ul>
+  </nav>
+
+  <main class="main" role="main">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="wireframe-SCR-003-staff-dashboard.html">Dashboard</a>
+      <span class="breadcrumb__separator" aria-hidden="true">›</span>
+      <span aria-current="page">Queue Management</span>
+    </nav>
+
+    <div class="page-header">
+      <div>
+        <h1 class="page-title">Queue Management</h1>
+      </div>
+      <button class="btn btn--primary" aria-label="Add walk-in patient" onclick="openWalkinModal();">+ Add Walk-in</button>
+    </div>
+
+    <div class="card">
+      <div class="card__header">
+        <h2 class="card__title">Today's Queue</h2>
+        <span class="badge badge--info">12 IN QUEUE</span>
+      </div>
+      <div>
+        <table class="data-table" aria-label="Patient queue" aria-live="polite">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Patient ID</th>
+              <th scope="col">Patient</th>
+              <th scope="col">Appointment Time</th>
+              <th scope="col">Type</th>
+              <th scope="col">Department</th>
+              <th scope="col">Status</th>
+              <th scope="col">Intake Status</th>
+              <th scope="col">Wait Time</th>
+              <th scope="col">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td>PAT-1001</td>
+              <td><a class="patient-link" href="#">Jane Doe</a></td>
+              <td>8:00 AM</td>
+              <td>Scheduled</td>
+              <td>General Medicine</td>
+              <td><span class="badge badge--info" style="background: var(--warning-100); color: var(--warning-600);">In Progress</span></td>
+              <td><span class="badge badge--success" style="background: var(--success-100); color: var(--success-600);">Completed</span></td>
+              <td>—</td>
+              <td class="row-actions">
+                <button class="btn btn--success" aria-label="Mark Jane Doe as completed" style="background: var(--success-600); color: white;">Completed</button>
+              </td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td>PAT-1002</td>
+              <td><a class="patient-link" href="#">Robert Chen</a></td>
+              <td>8:30 AM</td>
+              <td>Scheduled</td>
+              <td>Cardiology</td>
+              <td><span class="badge badge--success">Arrived</span></td>
+              <td><span class="badge badge--warning" style="background: var(--warning-100); color: var(--warning-600);">Pending</span></td>
+              <td>12 min</td>
+              <td class="row-actions">
+                <button class="btn btn--primary" aria-label="Mark Robert Chen as in progress">In Progress</button>
+              </td>
+            </tr>
+            <tr>
+              <td>3</td>
+              <td>PAT-1003</td>
+              <td><a class="patient-link" href="#">Maria Garcia</a></td>
+              <td>9:00 AM</td>
+              <td>Scheduled</td>
+              <td>Orthopedics</td>
+              <td><span class="badge badge--warning">Scheduled</span></td>
+              <td><span class="badge badge--success" style="background: var(--success-100); color: var(--success-600);">Completed</span></td>
+              <td>—</td>
+              <td class="row-actions">
+                <button class="btn btn--success" aria-label="Mark Maria Garcia as arrived">Arrived</button>
+                <button class="btn btn--error" aria-label="Mark Maria Garcia as no show" style="background: var(--error-600); color: white;">No Show</button>
+                <button class="btn btn--secondary" aria-label="Reschedule Maria Garcia" onclick="window.location.href='wireframe-SCR-006-appointment-booking.html';">Reschedule</button>
+              </td>
+            </tr>
+            <tr>
+              <td>4</td>
+              <td>PAT-1004</td>
+              <td><a class="patient-link" href="#">David Kim</a></td>
+              <td>9:30 AM</td>
+              <td>Walk-in</td>
+              <td>Dermatology</td>
+              <td><span class="badge badge--warning">Scheduled</span></td>
+              <td><span class="badge badge--neutral" style="background: var(--neutral-100); color: var(--neutral-500);">N/A</span></td>
+              <td>—</td>
+              <td class="row-actions">
+                <button class="btn btn--success" aria-label="Mark David Kim as arrived">Arrived</button>
+                <button class="btn btn--error" aria-label="Mark David Kim as no show" style="background: var(--error-600); color: white;">No Show</button>
+                <button class="btn btn--secondary" aria-label="Reschedule David Kim" onclick="window.location.href='wireframe-SCR-006-appointment-booking.html';">Reschedule</button>
+              </td>
+            </tr>
+            <tr>
+              <td>5</td>
+              <td>PAT-1005</td>
+              <td><a class="patient-link" href="#">Emily Watson</a></td>
+              <td>10:00 AM</td>
+              <td>Scheduled</td>
+              <td>Neurology</td>
+              <td><span class="badge badge--warning">Scheduled</span></td>
+              <td><span class="badge badge--warning" style="background: var(--warning-100); color: var(--warning-600);">Pending</span></td>
+              <td>—</td>
+              <td class="row-actions">
+                <button class="btn btn--success" aria-label="Mark Emily Watson as arrived">Arrived</button>
+                <button class="btn btn--error" aria-label="Mark Emily Watson as no show" style="background: var(--error-600); color: white;">No Show</button>
+                <button class="btn btn--secondary" aria-label="Reschedule Emily Watson" onclick="window.location.href='wireframe-SCR-006-appointment-booking.html';">Reschedule</button>
+              </td>
+            </tr>
+            <tr>
+              <td>6</td>
+              <td>PAT-1003</td>
+              <td><a class="patient-link" href="#">Anita Kumar</a></td>
+              <td>8:15 AM</td>
+              <td>Scheduled</td>
+              <td>ENT</td>
+              <td><span class="badge badge--error">No Show</span></td>
+              <td><span class="badge badge--success" style="background: var(--success-100); color: var(--success-600);">Completed</span></td>
+              <td>—</td>
+              <td class="row-actions">
+                <button class="btn btn--secondary" aria-label="Reschedule Anita Kumar" onclick="window.location.href='wireframe-SCR-006-appointment-booking.html';">Reschedule</button>
+              </td>
+            </tr>
+            <tr>
+              <td>7</td>
+              <td>PAT-1006</td>
+              <td><a class="patient-link" href="#">Sarah Lee</a></td>
+              <td>7:30 AM</td>
+              <td>Scheduled</td>
+              <td>Pediatrics</td>
+              <td><span class="badge badge--success" style="background: var(--success-100); color: var(--success-600);">Completed</span></td>
+              <td><span class="badge badge--success" style="background: var(--success-100); color: var(--success-600);">Completed</span></td>
+              <td>—</td>
+              <td><span style="color: var(--neutral-400); font-size: 13px;">—</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <!-- Pagination -->
+      <div style="display: flex; align-items: center; justify-content: space-between; padding: 16px 24px; border-top: 1px solid var(--neutral-200);">
+        <span style="font-size: 14px; color: var(--neutral-600);">Showing 1–7 of 24 patients</span>
+        <nav aria-label="Pagination" style="display: flex; align-items: center; gap: 4px;">
+          <button class="btn btn--secondary" disabled aria-label="Previous page" style="font-size: 13px; height: 32px; min-width: 32px; padding: 4px 8px;">‹</button>
+          <button class="btn btn--primary" aria-current="page" aria-label="Page 1" style="font-size: 13px; height: 32px; min-width: 32px; padding: 4px 8px;">1</button>
+          <button class="btn btn--secondary" aria-label="Page 2" style="font-size: 13px; height: 32px; min-width: 32px; padding: 4px 8px;">2</button>
+          <button class="btn btn--secondary" aria-label="Page 3" style="font-size: 13px; height: 32px; min-width: 32px; padding: 4px 8px;">3</button>
+          <button class="btn btn--secondary" aria-label="Page 4" style="font-size: 13px; height: 32px; min-width: 32px; padding: 4px 8px;">4</button>
+          <button class="btn btn--secondary" aria-label="Next page" style="font-size: 13px; height: 32px; min-width: 32px; padding: 4px 8px;">›</button>
+        </nav>
+      </div>
+    </div>
+  </main>
+
+  <!-- Add Walk-in Modal -->
+  <div class="modal-overlay" id="walkinModal" role="dialog" aria-modal="true" aria-labelledby="walkin-title">
+    <div class="modal">
+      <div class="modal__header">
+        <h2 class="modal__title" id="walkin-title">Add Walk-in Patient</h2>
+        <button class="modal__close" aria-label="Close dialog" onclick="closeWalkinModal();">✕</button>
+      </div>
+      <div class="modal__body">
+
+        <!-- Patient Type Toggle -->
+        <div class="patient-type-toggle" role="group" aria-label="Patient type selection">
+          <button class="patient-type-btn patient-type-btn--active" id="btn-registered" onclick="setPatientType('registered');" aria-pressed="true">Registered Patient</button>
+          <button class="patient-type-btn" id="btn-unregistered" onclick="setPatientType('unregistered');" aria-pressed="false">Unregistered Patient</button>
+        </div>
+
+        <!-- Registered Patient Section -->
+        <div id="registered-section">
+          <div class="form-group">
+            <label class="form-label" for="walkin-search">Search Patient <span style="color: var(--error-600);">*</span></label>
+            <input class="form-input" type="text" id="walkin-search" placeholder="Search by name or Patient ID..." aria-label="Search patient" oninput="simulatePatientSearch(this.value);">
+          </div>
+
+          <!-- Patient Info (shown after search match) -->
+          <div class="patient-info-card" id="patient-info-card" style="display: none;">
+            <div class="patient-info-avatar">JD</div>
+            <div class="patient-info-details">
+              <div class="patient-info-name" id="found-patient-name">Jane Doe</div>
+              <div class="patient-info-id" id="found-patient-id">PAT-1001 &bull; Female &bull; DOB: Sep 15, 1990</div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="reg-reason">Reason for Visit</label>
+            <input class="form-input" type="text" id="reg-reason" placeholder="Brief description of visit reason">
+          </div>
+        </div>
+
+        <!-- Unregistered Patient Section (hidden by default) -->
+        <div id="unregistered-section" style="display: none;">
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label" for="unreg-fname">First Name <span style="color: var(--error-600);">*</span></label>
+              <input class="form-input" type="text" id="unreg-fname" placeholder="First name" aria-required="true">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="unreg-lname">Last Name <span style="color: var(--error-600);">*</span></label>
+              <input class="form-input" type="text" id="unreg-lname" placeholder="Last name" aria-required="true">
+            </div>
+          </div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label" for="unreg-dob">Date of Birth <span style="color: var(--error-600);">*</span></label>
+              <input class="form-input" type="date" id="unreg-dob" aria-required="true">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="unreg-gender">Gender <span style="color: var(--error-600);">*</span></label>
+              <select class="form-input" id="unreg-gender" aria-required="true">
+                <option value="">Select gender</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="non-binary">Non-Binary</option>
+                <option value="other">Other</option>
+                <option value="prefer-not">Prefer not to say</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label" for="unreg-phone">Phone Number <span style="color: var(--error-600);">*</span></label>
+              <input class="form-input" type="tel" id="unreg-phone" placeholder="+1 (555) 000-0000" aria-required="true">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="unreg-email">Email Address</label>
+              <input class="form-input" type="email" id="unreg-email" placeholder="patient@email.com">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="unreg-reason">Reason for Visit</label>
+            <input class="form-input" type="text" id="unreg-reason" placeholder="Brief description of visit reason">
+          </div>
+        </div>
+
+        <hr class="section-divider">
+
+        <!-- Department & Slot Selection (shared) -->
+        <div class="form-group">
+          <label class="form-label" for="walkin-dept">Department <span style="color: var(--error-600);">*</span></label>
+          <select class="form-input" id="walkin-dept" aria-required="true" onchange="updateSlots();">
+            <option value="">Select department</option>
+            <option value="general">General Medicine</option>
+            <option value="cardiology">Cardiology</option>
+            <option value="orthopedics">Orthopedics</option>
+            <option value="neurology">Neurology</option>
+            <option value="dermatology">Dermatology</option>
+            <option value="pediatrics">Pediatrics</option>
+          </select>
+        </div>
+
+        <div class="form-group" id="slot-section" style="display: none;">
+          <label class="form-label">Available Slots — Today <span style="color: var(--error-600);">*</span></label>
+          <p style="font-size: 12px; color: var(--neutral-500); margin-bottom: 8px;">Select a time slot for the appointment</p>
+          <div class="slot-grid" id="slot-grid">
+            <button class="slot-btn" onclick="selectSlot(this);">09:00 AM</button>
+            <button class="slot-btn" onclick="selectSlot(this);">09:30 AM</button>
+            <button class="slot-btn slot-btn--disabled" disabled>10:00 AM</button>
+            <button class="slot-btn" onclick="selectSlot(this);">10:30 AM</button>
+            <button class="slot-btn slot-btn--disabled" disabled>11:00 AM</button>
+            <button class="slot-btn" onclick="selectSlot(this);">11:30 AM</button>
+            <button class="slot-btn" onclick="selectSlot(this);">12:00 PM</button>
+            <button class="slot-btn slot-btn--disabled" disabled>12:30 PM</button>
+            <button class="slot-btn" onclick="selectSlot(this);">01:00 PM</button>
+            <button class="slot-btn" onclick="selectSlot(this);">01:30 PM</button>
+            <button class="slot-btn" onclick="selectSlot(this);">02:00 PM</button>
+            <button class="slot-btn slot-btn--disabled" disabled>02:30 PM</button>
+          </div>
+        </div>
+
+      </div>
+      <div class="modal__footer">
+        <button class="btn-modal-cancel" onclick="closeWalkinModal();">Cancel</button>
+        <button class="btn-modal-primary" id="walkin-submit-btn">Book Appointment</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // --- Walk-in Modal ---
+    function openWalkinModal() {
+      document.getElementById('walkinModal').classList.add('modal-overlay--open');
+      setPatientType('registered');
+    }
+    function closeWalkinModal() {
+      document.getElementById('walkinModal').classList.remove('modal-overlay--open');
+      // Reset form state
+      document.getElementById('patient-info-card').style.display = 'none';
+      document.getElementById('slot-section').style.display = 'none';
+      document.getElementById('walkin-dept').value = '';
+      document.getElementById('walkin-search').value = '';
+      var selected = document.querySelector('.slot-btn--selected');
+      if (selected) selected.classList.remove('slot-btn--selected');
+    }
+
+    // --- Patient Type Toggle ---
+    function setPatientType(type) {
+      var btnReg = document.getElementById('btn-registered');
+      var btnUnreg = document.getElementById('btn-unregistered');
+      var secReg = document.getElementById('registered-section');
+      var secUnreg = document.getElementById('unregistered-section');
+
+      if (type === 'registered') {
+        btnReg.classList.add('patient-type-btn--active');
+        btnReg.setAttribute('aria-pressed', 'true');
+        btnUnreg.classList.remove('patient-type-btn--active');
+        btnUnreg.setAttribute('aria-pressed', 'false');
+        secReg.style.display = '';
+        secUnreg.style.display = 'none';
+      } else {
+        btnUnreg.classList.add('patient-type-btn--active');
+        btnUnreg.setAttribute('aria-pressed', 'true');
+        btnReg.classList.remove('patient-type-btn--active');
+        btnReg.setAttribute('aria-pressed', 'false');
+        secReg.style.display = 'none';
+        secUnreg.style.display = '';
+      }
+    }
+
+    // --- Simulated Patient Search ---
+    function simulatePatientSearch(value) {
+      var card = document.getElementById('patient-info-card');
+      var nameEl = document.getElementById('found-patient-name');
+      var idEl = document.getElementById('found-patient-id');
+      var avatarEl = card.querySelector('.patient-info-avatar');
+      var q = value.trim().toLowerCase();
+
+      if (q === 'jane' || q === 'jane doe' || q === 'pat-1001') {
+        nameEl.textContent = 'Jane Doe';
+        idEl.innerHTML = 'PAT-1001 &bull; Female &bull; DOB: Sep 15, 1990';
+        avatarEl.textContent = 'JD';
+        card.style.display = 'flex';
+      } else if (q === 'robert' || q === 'robert smith' || q === 'pat-1002') {
+        nameEl.textContent = 'Robert Smith';
+        idEl.innerHTML = 'PAT-1002 &bull; Male &bull; DOB: Mar 22, 1985';
+        avatarEl.textContent = 'RS';
+        card.style.display = 'flex';
+      } else if (q === 'maria' || q === 'maria garcia' || q === 'pat-1003') {
+        nameEl.textContent = 'Maria Garcia';
+        idEl.innerHTML = 'PAT-1003 &bull; Female &bull; DOB: Jul 8, 1978';
+        avatarEl.textContent = 'MG';
+        card.style.display = 'flex';
+      } else {
+        card.style.display = 'none';
+      }
+    }
+
+    // --- Department & Slot Selection ---
+    function updateSlots() {
+      var dept = document.getElementById('walkin-dept').value;
+      var slotSection = document.getElementById('slot-section');
+      if (dept) {
+        slotSection.style.display = '';
+      } else {
+        slotSection.style.display = 'none';
+      }
+      // Reset any previously selected slot
+      var selected = document.querySelector('.slot-btn--selected');
+      if (selected) selected.classList.remove('slot-btn--selected');
+    }
+
+    function selectSlot(btn) {
+      var prev = document.querySelector('.slot-btn--selected');
+      if (prev) prev.classList.remove('slot-btn--selected');
+      btn.classList.add('slot-btn--selected');
+    }
+
+    // --- Modal close handlers ---
+    document.getElementById('walkinModal').addEventListener('click', function(e) {
+      if (e.target === this) closeWalkinModal();
+    });
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') closeWalkinModal();
+    });
+  </script>
+</body>
+</html>

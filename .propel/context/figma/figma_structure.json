@@ -1,0 +1,912 @@
+{
+  "name": "Unified Patient Access & Clinical Intelligence Platform",
+  "version": "1.0",
+  "lastUpdated": "2026-03-17",
+  "platform": "Responsive Web",
+  "pages": [
+    {
+      "name": "00_Cover",
+      "order": 0,
+      "frames": [
+        {
+          "name": "Cover",
+          "width": 1440,
+          "height": 1024,
+          "autoLayout": {
+            "direction": "VERTICAL",
+            "padding": { "top": 96, "right": 96, "bottom": 96, "left": 96 },
+            "itemSpacing": 32,
+            "alignment": "CENTER"
+          },
+          "children": [
+            {
+              "name": "Project Title",
+              "type": "TEXT",
+              "style": "display-large",
+              "content": "Unified Patient Access & Clinical Intelligence Platform",
+              "fill": "#1A1A1A"
+            },
+            {
+              "name": "Version Badge",
+              "type": "TEXT",
+              "style": "h3",
+              "content": "v1.0 — March 17, 2026",
+              "fill": "#666666"
+            },
+            {
+              "name": "Personas",
+              "type": "TEXT",
+              "style": "body-large",
+              "content": "Personas: Patient • Staff • Admin",
+              "fill": "#4D4D4D"
+            },
+            {
+              "name": "Technology Stack",
+              "type": "TEXT",
+              "style": "body-medium",
+              "content": "React 18.x • Node.js Express • PostgreSQL 15.x • OpenAI GPT-4 • Auth0",
+              "fill": "#666666"
+            },
+            {
+              "name": "Platform Badge",
+              "type": "FRAME",
+              "autoLayout": { "direction": "HORIZONTAL", "padding": { "top": 8, "right": 16, "bottom": 8, "left": 16 }, "itemSpacing": 8 },
+              "cornerRadius": 9999,
+              "fill": "#E6F0FA",
+              "children": [
+                {
+                  "name": "Platform Label",
+                  "type": "TEXT",
+                  "style": "label",
+                  "content": "Responsive Web (Desktop, Tablet, Mobile)",
+                  "fill": "#0066CC"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "01_Foundations",
+      "order": 1,
+      "frames": [
+        {
+          "name": "Colors",
+          "width": 1440,
+          "height": 1024,
+          "autoLayout": { "direction": "VERTICAL", "padding": { "top": 32, "right": 32, "bottom": 32, "left": 32 }, "itemSpacing": 32 },
+          "children": [
+            {
+              "name": "Primary Colors",
+              "type": "FRAME",
+              "autoLayout": { "direction": "HORIZONTAL", "itemSpacing": 16 },
+              "children": [
+                { "name": "primary-900", "type": "RECTANGLE", "width": 120, "height": 80, "fill": "#003D7A", "cornerRadius": 8 },
+                { "name": "primary-800", "type": "RECTANGLE", "width": 120, "height": 80, "fill": "#004C99", "cornerRadius": 8 },
+                { "name": "primary-700", "type": "RECTANGLE", "width": 120, "height": 80, "fill": "#005BB8", "cornerRadius": 8 },
+                { "name": "primary-600", "type": "RECTANGLE", "width": 120, "height": 80, "fill": "#0066CC", "cornerRadius": 8 },
+                { "name": "primary-500", "type": "RECTANGLE", "width": 120, "height": 80, "fill": "#3385D6", "cornerRadius": 8 },
+                { "name": "primary-400", "type": "RECTANGLE", "width": 120, "height": 80, "fill": "#66A3E0", "cornerRadius": 8 },
+                { "name": "primary-300", "type": "RECTANGLE", "width": 120, "height": 80, "fill": "#99C2EB", "cornerRadius": 8 },
+                { "name": "primary-200", "type": "RECTANGLE", "width": 120, "height": 80, "fill": "#CCE0F5", "cornerRadius": 8 },
+                { "name": "primary-100", "type": "RECTANGLE", "width": 120, "height": 80, "fill": "#E6F0FA", "cornerRadius": 8 }
+              ]
+            },
+            {
+              "name": "Secondary Colors",
+              "type": "FRAME",
+              "autoLayout": { "direction": "HORIZONTAL", "itemSpacing": 16 },
+              "children": [
+                { "name": "secondary-900", "type": "RECTANGLE", "width": 120, "height": 80, "fill": "#006647", "cornerRadius": 8 },
+                { "name": "secondary-800", "type": "RECTANGLE", "width": 120, "height": 80, "fill": "#008057", "cornerRadius": 8 },
+                { "name": "secondary-700", "type": "RECTANGLE", "width": 120, "height": 80, "fill": "#009966", "cornerRadius": 8 },
+                { "name": "secondary-600", "type": "RECTANGLE", "width": 120, "height": 80, "fill": "#00A86B", "cornerRadius": 8 },
+                { "name": "secondary-500", "type": "RECTANGLE", "width": 120, "height": 80, "fill": "#33B989", "cornerRadius": 8 },
+                { "name": "secondary-400", "type": "RECTANGLE", "width": 120, "height": 80, "fill": "#66CAA7", "cornerRadius": 8 },
+                { "name": "secondary-300", "type": "RECTANGLE", "width": 120, "height": 80, "fill": "#99DCC5", "cornerRadius": 8 },
+                { "name": "secondary-200", "type": "RECTANGLE", "width": 120, "height": 80, "fill": "#CCEDE2", "cornerRadius": 8 },
+                { "name": "secondary-100", "type": "RECTANGLE", "width": 120, "height": 80, "fill": "#E6F6F0", "cornerRadius": 8 }
+              ]
+            },
+            {
+              "name": "Semantic Colors",
+              "type": "FRAME",
+              "autoLayout": { "direction": "HORIZONTAL", "itemSpacing": 32 },
+              "children": [
+                {
+                  "name": "Success",
+                  "type": "FRAME",
+                  "autoLayout": { "direction": "HORIZONTAL", "itemSpacing": 8 },
+                  "children": [
+                    { "name": "success-700", "type": "RECTANGLE", "width": 80, "height": 60, "fill": "#007A3D", "cornerRadius": 8 },
+                    { "name": "success-600", "type": "RECTANGLE", "width": 80, "height": 60, "fill": "#00A145", "cornerRadius": 8 },
+                    { "name": "success-200", "type": "RECTANGLE", "width": 80, "height": 60, "fill": "#CCF2DF", "cornerRadius": 8 },
+                    { "name": "success-100", "type": "RECTANGLE", "width": 80, "height": 60, "fill": "#E6F9EF", "cornerRadius": 8 }
+                  ]
+                },
+                {
+                  "name": "Warning",
+                  "type": "FRAME",
+                  "autoLayout": { "direction": "HORIZONTAL", "itemSpacing": 8 },
+                  "children": [
+                    { "name": "warning-700", "type": "RECTANGLE", "width": 80, "height": 60, "fill": "#CC6600", "cornerRadius": 8 },
+                    { "name": "warning-600", "type": "RECTANGLE", "width": 80, "height": 60, "fill": "#FF8800", "cornerRadius": 8 },
+                    { "name": "warning-200", "type": "RECTANGLE", "width": 80, "height": 60, "fill": "#FFE5CC", "cornerRadius": 8 },
+                    { "name": "warning-100", "type": "RECTANGLE", "width": 80, "height": 60, "fill": "#FFF2E6", "cornerRadius": 8 }
+                  ]
+                },
+                {
+                  "name": "Error",
+                  "type": "FRAME",
+                  "autoLayout": { "direction": "HORIZONTAL", "itemSpacing": 8 },
+                  "children": [
+                    { "name": "error-700", "type": "RECTANGLE", "width": 80, "height": 60, "fill": "#A02A2A", "cornerRadius": 8 },
+                    { "name": "error-600", "type": "RECTANGLE", "width": 80, "height": 60, "fill": "#DC3545", "cornerRadius": 8 },
+                    { "name": "error-200", "type": "RECTANGLE", "width": 80, "height": 60, "fill": "#F8D7DA", "cornerRadius": 8 },
+                    { "name": "error-100", "type": "RECTANGLE", "width": 80, "height": 60, "fill": "#FCE8EA", "cornerRadius": 8 }
+                  ]
+                },
+                {
+                  "name": "Info",
+                  "type": "FRAME",
+                  "autoLayout": { "direction": "HORIZONTAL", "itemSpacing": 8 },
+                  "children": [
+                    { "name": "info-700", "type": "RECTANGLE", "width": 80, "height": 60, "fill": "#005A8A", "cornerRadius": 8 },
+                    { "name": "info-600", "type": "RECTANGLE", "width": 80, "height": 60, "fill": "#0077B6", "cornerRadius": 8 },
+                    { "name": "info-200", "type": "RECTANGLE", "width": 80, "height": 60, "fill": "#CCE7F4", "cornerRadius": 8 },
+                    { "name": "info-100", "type": "RECTANGLE", "width": 80, "height": 60, "fill": "#E6F3F9", "cornerRadius": 8 }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Neutrals",
+              "type": "FRAME",
+              "autoLayout": { "direction": "HORIZONTAL", "itemSpacing": 16 },
+              "children": [
+                { "name": "neutral-900", "type": "RECTANGLE", "width": 100, "height": 60, "fill": "#1A1A1A", "cornerRadius": 8 },
+                { "name": "neutral-800", "type": "RECTANGLE", "width": 100, "height": 60, "fill": "#333333", "cornerRadius": 8 },
+                { "name": "neutral-700", "type": "RECTANGLE", "width": 100, "height": 60, "fill": "#4D4D4D", "cornerRadius": 8 },
+                { "name": "neutral-600", "type": "RECTANGLE", "width": 100, "height": 60, "fill": "#666666", "cornerRadius": 8 },
+                { "name": "neutral-500", "type": "RECTANGLE", "width": 100, "height": 60, "fill": "#808080", "cornerRadius": 8 },
+                { "name": "neutral-400", "type": "RECTANGLE", "width": 100, "height": 60, "fill": "#999999", "cornerRadius": 8 },
+                { "name": "neutral-300", "type": "RECTANGLE", "width": 100, "height": 60, "fill": "#CCCCCC", "cornerRadius": 8 },
+                { "name": "neutral-200", "type": "RECTANGLE", "width": 100, "height": 60, "fill": "#E5E5E5", "cornerRadius": 8 },
+                { "name": "neutral-100", "type": "RECTANGLE", "width": 100, "height": 60, "fill": "#F5F5F5", "cornerRadius": 8 },
+                { "name": "neutral-50", "type": "RECTANGLE", "width": 100, "height": 60, "fill": "#FAFAFA", "cornerRadius": 8 }
+              ]
+            },
+            {
+              "name": "Backgrounds",
+              "type": "FRAME",
+              "autoLayout": { "direction": "HORIZONTAL", "itemSpacing": 16 },
+              "children": [
+                { "name": "bg-primary", "type": "RECTANGLE", "width": 120, "height": 60, "fill": "#FFFFFF", "cornerRadius": 8, "stroke": { "color": "#E5E5E5", "width": 1 } },
+                { "name": "bg-secondary", "type": "RECTANGLE", "width": 120, "height": 60, "fill": "#F5F5F5", "cornerRadius": 8 },
+                { "name": "bg-tertiary", "type": "RECTANGLE", "width": 120, "height": 60, "fill": "#FAFAFA", "cornerRadius": 8 },
+                { "name": "bg-overlay", "type": "RECTANGLE", "width": 120, "height": 60, "fill": "rgba(0,0,0,0.5)", "cornerRadius": 8 }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Typography",
+          "width": 1440,
+          "height": 1024,
+          "autoLayout": { "direction": "VERTICAL", "padding": { "top": 32, "right": 32, "bottom": 32, "left": 32 }, "itemSpacing": 24 },
+          "children": [
+            { "name": "Display Large", "type": "TEXT", "style": { "fontFamily": "Inter", "fontSize": 48, "fontWeight": 700, "lineHeight": 56, "letterSpacing": -0.5 }, "content": "Display Large (48px / Bold)", "fill": "#1A1A1A" },
+            { "name": "H1", "type": "TEXT", "style": { "fontFamily": "Inter", "fontSize": 32, "fontWeight": 700, "lineHeight": 40, "letterSpacing": -0.25 }, "content": "Heading 1 (32px / Bold)", "fill": "#1A1A1A" },
+            { "name": "H2", "type": "TEXT", "style": { "fontFamily": "Inter", "fontSize": 24, "fontWeight": 600, "lineHeight": 32 }, "content": "Heading 2 (24px / Semi-bold)", "fill": "#1A1A1A" },
+            { "name": "H3", "type": "TEXT", "style": { "fontFamily": "Inter", "fontSize": 20, "fontWeight": 600, "lineHeight": 28 }, "content": "Heading 3 (20px / Semi-bold)", "fill": "#1A1A1A" },
+            { "name": "H4", "type": "TEXT", "style": { "fontFamily": "Inter", "fontSize": 18, "fontWeight": 600, "lineHeight": 24 }, "content": "Heading 4 (18px / Semi-bold)", "fill": "#1A1A1A" },
+            { "name": "H5", "type": "TEXT", "style": { "fontFamily": "Inter", "fontSize": 16, "fontWeight": 600, "lineHeight": 24 }, "content": "Heading 5 (16px / Semi-bold)", "fill": "#1A1A1A" },
+            { "name": "H6", "type": "TEXT", "style": { "fontFamily": "Inter", "fontSize": 14, "fontWeight": 600, "lineHeight": 20 }, "content": "Heading 6 (14px / Semi-bold)", "fill": "#1A1A1A" },
+            { "name": "Body Large", "type": "TEXT", "style": { "fontFamily": "Inter", "fontSize": 18, "fontWeight": 400, "lineHeight": 28 }, "content": "Body Large (18px / Regular)", "fill": "#4D4D4D" },
+            { "name": "Body Medium", "type": "TEXT", "style": { "fontFamily": "Inter", "fontSize": 16, "fontWeight": 400, "lineHeight": 24 }, "content": "Body Medium (16px / Regular)", "fill": "#4D4D4D" },
+            { "name": "Body Small", "type": "TEXT", "style": { "fontFamily": "Inter", "fontSize": 14, "fontWeight": 400, "lineHeight": 20 }, "content": "Body Small (14px / Regular)", "fill": "#4D4D4D" },
+            { "name": "Caption", "type": "TEXT", "style": { "fontFamily": "Inter", "fontSize": 12, "fontWeight": 400, "lineHeight": 16 }, "content": "Caption (12px / Regular)", "fill": "#666666" },
+            { "name": "Label", "type": "TEXT", "style": { "fontFamily": "Inter", "fontSize": 14, "fontWeight": 500, "lineHeight": 20, "letterSpacing": 0.1 }, "content": "Label (14px / Medium)", "fill": "#4D4D4D" },
+            { "name": "Overline", "type": "TEXT", "style": { "fontFamily": "Inter", "fontSize": 12, "fontWeight": 500, "lineHeight": 16, "letterSpacing": 1, "textTransform": "uppercase" }, "content": "OVERLINE (12PX / MEDIUM)", "fill": "#666666" },
+            { "name": "Mono", "type": "TEXT", "style": { "fontFamily": "Fira Code", "fontSize": 14, "fontWeight": 400, "lineHeight": 20 }, "content": "Monospace (Fira Code 14px)", "fill": "#4D4D4D" }
+          ]
+        },
+        {
+          "name": "Spacing",
+          "width": 1440,
+          "height": 400,
+          "autoLayout": { "direction": "HORIZONTAL", "padding": { "top": 32, "right": 32, "bottom": 32, "left": 32 }, "itemSpacing": 24, "alignment": "BOTTOM" },
+          "children": [
+            { "name": "xs (4px)", "type": "RECTANGLE", "width": 80, "height": 4, "fill": "#0066CC", "cornerRadius": 2 },
+            { "name": "sm (8px)", "type": "RECTANGLE", "width": 80, "height": 8, "fill": "#0066CC", "cornerRadius": 2 },
+            { "name": "md (12px)", "type": "RECTANGLE", "width": 80, "height": 12, "fill": "#0066CC", "cornerRadius": 2 },
+            { "name": "base (16px)", "type": "RECTANGLE", "width": 80, "height": 16, "fill": "#0066CC", "cornerRadius": 2 },
+            { "name": "lg (24px)", "type": "RECTANGLE", "width": 80, "height": 24, "fill": "#0066CC", "cornerRadius": 2 },
+            { "name": "xl (32px)", "type": "RECTANGLE", "width": 80, "height": 32, "fill": "#0066CC", "cornerRadius": 2 },
+            { "name": "2xl (48px)", "type": "RECTANGLE", "width": 80, "height": 48, "fill": "#0066CC", "cornerRadius": 2 },
+            { "name": "3xl (64px)", "type": "RECTANGLE", "width": 80, "height": 64, "fill": "#0066CC", "cornerRadius": 2 },
+            { "name": "4xl (96px)", "type": "RECTANGLE", "width": 80, "height": 96, "fill": "#0066CC", "cornerRadius": 2 }
+          ]
+        },
+        {
+          "name": "Border Radius",
+          "width": 1440,
+          "height": 300,
+          "autoLayout": { "direction": "HORIZONTAL", "padding": { "top": 32, "right": 32, "bottom": 32, "left": 32 }, "itemSpacing": 32 },
+          "children": [
+            { "name": "none (0px)", "type": "RECTANGLE", "width": 100, "height": 100, "fill": "#CCE0F5", "cornerRadius": 0 },
+            { "name": "sm (4px)", "type": "RECTANGLE", "width": 100, "height": 100, "fill": "#CCE0F5", "cornerRadius": 4 },
+            { "name": "md (8px)", "type": "RECTANGLE", "width": 100, "height": 100, "fill": "#CCE0F5", "cornerRadius": 8 },
+            { "name": "lg (12px)", "type": "RECTANGLE", "width": 100, "height": 100, "fill": "#CCE0F5", "cornerRadius": 12 },
+            { "name": "xl (16px)", "type": "RECTANGLE", "width": 100, "height": 100, "fill": "#CCE0F5", "cornerRadius": 16 },
+            { "name": "full (9999px)", "type": "RECTANGLE", "width": 100, "height": 100, "fill": "#CCE0F5", "cornerRadius": 9999 }
+          ]
+        },
+        {
+          "name": "Elevation",
+          "width": 1440,
+          "height": 300,
+          "autoLayout": { "direction": "HORIZONTAL", "padding": { "top": 32, "right": 32, "bottom": 32, "left": 32 }, "itemSpacing": 32 },
+          "children": [
+            { "name": "Level 0", "type": "RECTANGLE", "width": 160, "height": 120, "fill": "#FFFFFF", "cornerRadius": 8, "shadow": "none" },
+            { "name": "Level 1", "type": "RECTANGLE", "width": 160, "height": 120, "fill": "#FFFFFF", "cornerRadius": 8, "shadow": "0px 1px 3px rgba(0,0,0,0.12), 0px 1px 2px rgba(0,0,0,0.24)" },
+            { "name": "Level 2", "type": "RECTANGLE", "width": 160, "height": 120, "fill": "#FFFFFF", "cornerRadius": 8, "shadow": "0px 3px 6px rgba(0,0,0,0.15), 0px 2px 4px rgba(0,0,0,0.12)" },
+            { "name": "Level 3", "type": "RECTANGLE", "width": 160, "height": 120, "fill": "#FFFFFF", "cornerRadius": 8, "shadow": "0px 10px 20px rgba(0,0,0,0.15), 0px 3px 6px rgba(0,0,0,0.10)" },
+            { "name": "Level 4", "type": "RECTANGLE", "width": 160, "height": 120, "fill": "#FFFFFF", "cornerRadius": 8, "shadow": "0px 15px 25px rgba(0,0,0,0.15), 0px 5px 10px rgba(0,0,0,0.05)" },
+            { "name": "Level 5", "type": "RECTANGLE", "width": 160, "height": 120, "fill": "#FFFFFF", "cornerRadius": 8, "shadow": "0px 20px 40px rgba(0,0,0,0.2)" }
+          ]
+        },
+        {
+          "name": "Grid System",
+          "width": 1440,
+          "height": 400,
+          "autoLayout": { "direction": "VERTICAL", "padding": { "top": 32, "right": 32, "bottom": 32, "left": 32 }, "itemSpacing": 32 },
+          "children": [
+            {
+              "name": "Desktop Grid (12 columns)",
+              "type": "FRAME",
+              "width": 1440,
+              "height": 100,
+              "grid": { "columns": 12, "gutter": 24, "margin": 32 },
+              "fill": "#E6F0FA"
+            },
+            {
+              "name": "Tablet Grid (8 columns)",
+              "type": "FRAME",
+              "width": 768,
+              "height": 100,
+              "grid": { "columns": 8, "gutter": 24, "margin": 32 },
+              "fill": "#E6F0FA"
+            },
+            {
+              "name": "Mobile Grid (4 columns)",
+              "type": "FRAME",
+              "width": 375,
+              "height": 100,
+              "grid": { "columns": 4, "gutter": 16, "margin": 16 },
+              "fill": "#E6F0FA"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "02_Components",
+      "order": 2,
+      "description": "Component library with variants — see component_library.md for full specifications",
+      "categories": [
+        {
+          "name": "C/Actions",
+          "components": ["Button", "IconButton", "FAB", "Link"]
+        },
+        {
+          "name": "C/Inputs",
+          "components": ["TextField", "TextArea", "Select", "Checkbox", "RadioGroup", "Toggle", "FileUpload"]
+        },
+        {
+          "name": "C/Navigation",
+          "components": ["Header", "Sidebar", "BottomNav", "Breadcrumb", "Tabs"]
+        },
+        {
+          "name": "C/Content",
+          "components": ["Card", "ListItem", "Table", "Avatar", "Badge", "Divider"]
+        },
+        {
+          "name": "C/Feedback",
+          "components": ["Modal", "Drawer", "Toast", "Alert", "Skeleton", "ProgressBar", "Spinner"]
+        },
+        {
+          "name": "C/Data",
+          "components": ["Calendar"]
+        }
+      ]
+    },
+    {
+      "name": "03_Patterns",
+      "order": 3,
+      "frames": [
+        {
+          "name": "Auth Pattern",
+          "description": "Login + Register form pattern using TextField, Button, Link, Checkbox components",
+          "width": 1440,
+          "height": 1024,
+          "usedBy": ["SCR-001"]
+        },
+        {
+          "name": "Dashboard Card Layout",
+          "description": "3-column responsive grid of Card components with stat widgets",
+          "width": 1440,
+          "height": 1024,
+          "usedBy": ["SCR-002", "SCR-003", "SCR-004"]
+        },
+        {
+          "name": "Search + Filter Pattern",
+          "description": "TextField search + Select filters above Table component",
+          "width": 1440,
+          "height": 400,
+          "usedBy": ["SCR-009", "SCR-011", "SCR-012", "SCR-013"]
+        },
+        {
+          "name": "List + Pagination Pattern",
+          "description": "Table with sortable headers + pagination controls below",
+          "width": 1440,
+          "height": 600,
+          "usedBy": ["SCR-009", "SCR-011", "SCR-012", "SCR-013"]
+        },
+        {
+          "name": "Form Validation Pattern",
+          "description": "Inline validation with error messages below fields, error summary at top",
+          "width": 600,
+          "height": 400,
+          "usedBy": ["SCR-001", "SCR-006", "SCR-007", "SCR-008", "SCR-013"]
+        },
+        {
+          "name": "Empty State Pattern",
+          "description": "Illustration placeholder + message + primary CTA button",
+          "width": 600,
+          "height": 400,
+          "usedBy": ["SCR-002", "SCR-003", "SCR-008", "SCR-009", "SCR-012"]
+        },
+        {
+          "name": "Error State Pattern",
+          "description": "Alert (error type) + recovery CTA + retry option",
+          "width": 600,
+          "height": 300,
+          "usedBy": ["All screens"]
+        },
+        {
+          "name": "Loading State Pattern",
+          "description": "Skeleton screen layout matching content structure",
+          "width": 1440,
+          "height": 600,
+          "usedBy": ["All screens"]
+        },
+        {
+          "name": "Conflict Resolution Pattern",
+          "description": "Side-by-side comparison cards with radio selection per field",
+          "width": 800,
+          "height": 600,
+          "usedBy": ["SCR-010"]
+        }
+      ]
+    },
+    {
+      "name": "04_Screens",
+      "order": 4,
+      "sections": [
+        {
+          "name": "Patient Screens",
+          "screens": [
+            {
+              "id": "SCR-001",
+              "name": "Login/Register",
+              "derivedFrom": "UC-001",
+              "personas": ["Patient", "Staff", "Admin"],
+              "priority": "P0",
+              "platform": { "desktop": 1440, "tablet": 768, "mobile": 375 },
+              "states": [
+                { "name": "Default", "description": "Login form with email + password fields, Login and Register buttons" },
+                { "name": "Loading", "description": "Spinner on Login button, form fields disabled" },
+                { "name": "Error", "description": "Alert banner with error message, retry option" },
+                { "name": "Validation", "description": "Inline errors on email/password fields with red borders" }
+              ]
+            },
+            {
+              "id": "SCR-002",
+              "name": "Patient Dashboard",
+              "derivedFrom": "UC-012, FR-018",
+              "personas": ["Patient"],
+              "priority": "P0",
+              "platform": { "desktop": 1440, "tablet": 768, "mobile": 375 },
+              "states": [
+                { "name": "Default", "description": "Upcoming appointments widget, quick actions cards, notifications panel" },
+                { "name": "Loading", "description": "Skeleton cards and table rows" },
+                { "name": "Empty", "description": "No appointments message with 'Book your first appointment' CTA" },
+                { "name": "Error", "description": "Error alert with 'Try Again' button" }
+              ]
+            },
+            {
+              "id": "SCR-005",
+              "name": "Profile & Settings",
+              "derivedFrom": "UC-012 (extension)",
+              "personas": ["Patient", "Staff", "Admin"],
+              "priority": "P1",
+              "platform": { "desktop": 1440, "tablet": 768, "mobile": 375 },
+              "states": [
+                { "name": "Default", "description": "Profile form with name, email, phone, password fields" },
+                { "name": "Loading", "description": "Skeleton form fields" },
+                { "name": "Error", "description": "Error alert with save failure message" },
+                { "name": "Validation", "description": "Inline errors on invalid fields" }
+              ]
+            },
+            {
+              "id": "SCR-006",
+              "name": "Appointment Booking",
+              "derivedFrom": "UC-001, FR-001",
+              "personas": ["Patient"],
+              "priority": "P0",
+              "platform": { "desktop": 1440, "tablet": 768, "mobile": 375 },
+              "states": [
+                { "name": "Default", "description": "Calendar date picker + time slot radio group + Book button" },
+                { "name": "Loading", "description": "Skeleton slots, spinner on Book button" },
+                { "name": "Empty", "description": "No slots available message with waitlist option" },
+                { "name": "Error", "description": "Booking failed alert with retry" },
+                { "name": "Validation", "description": "Inline errors on required fields" }
+              ]
+            },
+            {
+              "id": "SCR-007",
+              "name": "Patient Intake",
+              "derivedFrom": "UC-002, FR-004",
+              "personas": ["Patient"],
+              "priority": "P0",
+              "platform": { "desktop": 1440, "tablet": 768, "mobile": 375 },
+              "states": [
+                { "name": "AI Mode Default", "description": "Chat interface with AI typing indicator, toggle to switch to manual" },
+                { "name": "AI Loading", "description": "AI processing indicator, streaming response bubbles" },
+                { "name": "Manual Mode Default", "description": "Standard form fields pre-filled with any AI-collected data" },
+                { "name": "Error", "description": "AI unavailable banner with auto-redirect to manual mode" },
+                { "name": "Validation", "description": "Inline validation errors on manual form fields" }
+              ]
+            },
+            {
+              "id": "SCR-008",
+              "name": "Document Upload",
+              "derivedFrom": "UC-012, FR-006",
+              "personas": ["Patient"],
+              "priority": "P1",
+              "platform": { "desktop": 1440, "tablet": 768, "mobile": 375 },
+              "states": [
+                { "name": "Default", "description": "File upload dropzone with drag-and-drop area" },
+                { "name": "Loading", "description": "Upload progress bar" },
+                { "name": "Uploading", "description": "Progress bar with file name and percentage" },
+                { "name": "Success", "description": "Extraction in progress message with status badge" },
+                { "name": "Error", "description": "Upload/extraction failed with retry option" }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Staff Screens",
+          "screens": [
+            {
+              "id": "SCR-003",
+              "name": "Staff Dashboard",
+              "derivedFrom": "UC-005, UC-007",
+              "personas": ["Staff"],
+              "priority": "P0",
+              "platform": { "desktop": 1440 },
+              "states": [
+                { "name": "Default", "description": "Department-wise appointment grids, queue overview, stat cards" },
+                { "name": "Loading", "description": "Skeleton cards and table rows" },
+                { "name": "Empty", "description": "No appointments today message" },
+                { "name": "Error", "description": "Data load error with retry" }
+              ]
+            },
+            {
+              "id": "SCR-009",
+              "name": "Queue Management",
+              "derivedFrom": "UC-007, FR-005",
+              "personas": ["Staff"],
+              "priority": "P0",
+              "platform": { "desktop": 1440 },
+              "states": [
+                { "name": "Default", "description": "Queue table with patient names, status badges, action buttons, department column, pagination" },
+                { "name": "Loading", "description": "Skeleton table rows" },
+                { "name": "Empty", "description": "No patients in queue message" },
+                { "name": "Error", "description": "WebSocket connection error with reconnect" },
+                { "name": "Real-time Update", "description": "New row pulse animation on walk-in add, status badge change on arrival" }
+              ]
+            },
+            {
+              "id": "SCR-010",
+              "name": "Clinical Data Review",
+              "derivedFrom": "UC-003, FR-007, FR-016",
+              "personas": ["Staff"],
+              "priority": "P0",
+              "platform": { "desktop": 1440 },
+              "states": [
+                { "name": "Default", "description": "Completed appointments list with ICD-10/CPT coding status, patient detail panel with demographics, medications, labs" },
+                { "name": "Loading", "description": "Skeleton cards" },
+                { "name": "Empty", "description": "No patient data available message" },
+                { "name": "Error", "description": "Data aggregation failed alert" },
+                { "name": "Conflict Highlighted", "description": "Red conflict badges on conflicting data, critical alert banner, resolve/approve/cancel actions" }
+              ]
+            },
+            {
+              "id": "SCR-011",
+              "name": "Appointment Summary",
+              "derivedFrom": "UC-007, UC-011, FR-017, FR-021",
+              "personas": ["Staff"],
+              "priority": "P0",
+              "platform": { "desktop": 1440 },
+              "states": [
+                { "name": "Default", "description": "Appointments table with date picker, department column, status badges, pagination" },
+                { "name": "Loading", "description": "Skeleton table rows" },
+                { "name": "Error", "description": "Data load error" },
+                { "name": "Validation", "description": "No-show confirmation modal with audit logging warning" }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Admin Screens",
+          "screens": [
+            {
+              "id": "SCR-004",
+              "name": "Admin Dashboard",
+              "derivedFrom": "UC-006",
+              "personas": ["Admin"],
+              "priority": "P0",
+              "platform": { "desktop": 1440 },
+              "states": [
+                { "name": "Default", "description": "System stats cards, audit log summary, recent activity" },
+                { "name": "Loading", "description": "Skeleton cards and table" },
+                { "name": "Empty", "description": "No recent activity message" },
+                { "name": "Error", "description": "System stats load error" }
+              ]
+            },
+            {
+              "id": "SCR-012",
+              "name": "Audit Logs",
+              "derivedFrom": "UC-008, FR-010",
+              "personas": ["Admin"],
+              "priority": "P1",
+              "platform": { "desktop": 1440 },
+              "states": [
+                { "name": "Default", "description": "Audit log table with search, filters (action, user), pagination" },
+                { "name": "Loading", "description": "Skeleton table rows" },
+                { "name": "Empty", "description": "No results with search tips and clear filters option" },
+                { "name": "Error", "description": "Log retrieval error with retry" }
+              ]
+            },
+            {
+              "id": "SCR-013",
+              "name": "User Management",
+              "derivedFrom": "UC-006, FR-015",
+              "personas": ["Admin"],
+              "priority": "P0",
+              "platform": { "desktop": 1440 },
+              "states": [
+                { "name": "Default", "description": "Users table with name, email, role, status columns + Add User CTA" },
+                { "name": "Loading", "description": "Skeleton table rows" },
+                { "name": "Empty", "description": "No users found message" },
+                { "name": "Error", "description": "User data load error" },
+                { "name": "User Form Drawer Open", "description": "Right drawer with user creation/edit form, inline validation" }
+              ]
+            }
+          ]
+        }
+      ],
+      "overlays": [
+        {
+          "name": "Confirmation Dialog",
+          "type": "Modal",
+          "size": "Small (400px)",
+          "animation": "Fade + Scale",
+          "parentScreens": ["SCR-006", "SCR-011", "SCR-013"],
+          "states": ["Default", "Loading"]
+        },
+        {
+          "name": "Slot Details Drawer",
+          "type": "Drawer",
+          "size": "Medium (480px)",
+          "animation": "Slide from right",
+          "parentScreens": ["SCR-006"],
+          "states": ["Default", "Loading", "Error"]
+        },
+        {
+          "name": "Patient Details Drawer",
+          "type": "Drawer",
+          "size": "Medium (480px)",
+          "animation": "Slide from right",
+          "parentScreens": ["SCR-009", "SCR-011"],
+          "states": ["Default", "Loading", "Error"]
+        },
+        {
+          "name": "Conflict Details Modal",
+          "type": "Modal",
+          "size": "Large (800px)",
+          "animation": "Fade + Scale",
+          "parentScreens": ["SCR-010"],
+          "states": ["Default", "Loading"]
+        },
+        {
+          "name": "Add Walk-in Modal",
+          "type": "Modal",
+          "size": "Medium (600px)",
+          "animation": "Fade + Scale",
+          "parentScreens": ["SCR-009"],
+          "states": ["Default", "Loading", "Validation"]
+        },
+        {
+          "name": "User Form Drawer",
+          "type": "Drawer",
+          "size": "Medium (480px)",
+          "animation": "Slide from right",
+          "parentScreens": ["SCR-013"],
+          "states": ["Default", "Loading", "Validation"]
+        },
+        {
+          "name": "Notification Center Drawer",
+          "type": "Drawer",
+          "size": "Small (360px)",
+          "animation": "Slide from right",
+          "parentScreens": ["SCR-002", "SCR-003", "SCR-004"],
+          "states": ["Default", "Empty"]
+        }
+      ]
+    },
+    {
+      "name": "05_Prototype",
+      "order": 5,
+      "flows": [
+        {
+          "id": "FL-001",
+          "name": "Patient Appointment Booking",
+          "personas": ["Patient"],
+          "entryScreen": "SCR-002",
+          "screens": ["SCR-002", "SCR-006"],
+          "interactions": 6,
+          "sequence": [
+            { "step": 1, "screen": "SCR-002", "state": "Default", "trigger": "Click 'Book Appointment' CTA" },
+            { "step": 2, "screen": "SCR-006", "state": "Default", "trigger": "Navigate to booking (display available slots)" },
+            { "step": 3, "screen": "SCR-006", "state": "Default", "trigger": "Select preferred time slot (radio)" },
+            { "step": 4, "screen": "SCR-006", "state": "Validation", "trigger": "Confirm booking details" },
+            { "step": 5, "screen": "SCR-006", "state": "Loading", "trigger": "System processes booking" },
+            { "step": 6, "screen": "SCR-002", "state": "Default", "trigger": "Success toast: 'Appointment confirmed!'" }
+          ],
+          "alternateFlows": [
+            {
+              "name": "Waitlist",
+              "branchFrom": 3,
+              "steps": [
+                { "step": "4b", "screen": "SCR-006", "state": "Empty", "trigger": "No slot available, join waitlist" },
+                { "step": "5b", "screen": "SCR-002", "state": "Default", "trigger": "Success toast: 'You're on the waitlist'" }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "FL-002",
+          "name": "Patient Intake (AI-Assisted)",
+          "personas": ["Patient"],
+          "entryScreen": "SCR-002",
+          "screens": ["SCR-002", "SCR-007"],
+          "interactions": 8,
+          "sequence": [
+            { "step": 1, "screen": "SCR-002", "state": "Default", "trigger": "Click 'Complete Intake' CTA" },
+            { "step": 2, "screen": "SCR-007", "state": "AI Mode Default", "trigger": "Display AI chat interface" },
+            { "step": 3, "screen": "SCR-007", "state": "AI Loading", "trigger": "AI conversation loop" },
+            { "step": 4, "screen": "SCR-007", "state": "AI Mode Default", "trigger": "AI extracts structured data" },
+            { "step": 5, "screen": "SCR-007", "state": "Loading", "trigger": "System saves intake" },
+            { "step": 6, "screen": "SCR-002", "state": "Default", "trigger": "Success toast: 'Intake complete!'" }
+          ],
+          "alternateFlows": [
+            {
+              "name": "Switch to Manual",
+              "branchFrom": 3,
+              "steps": [
+                { "step": "4a", "screen": "SCR-007", "state": "Manual Mode Default", "trigger": "Toggle to manual mode (pre-filled)" },
+                { "step": "5a", "screen": "SCR-007", "state": "Validation", "trigger": "Complete remaining fields" },
+                { "step": "6a", "screen": "SCR-007", "state": "Loading", "trigger": "System saves intake" },
+                { "step": "7a", "screen": "SCR-002", "state": "Default", "trigger": "Success toast: 'Intake complete!'" }
+              ]
+            },
+            {
+              "name": "AI Unavailable",
+              "branchFrom": 2,
+              "steps": [
+                { "step": "3b", "screen": "SCR-007", "state": "Error", "trigger": "Circuit breaker open, AI API fails" },
+                { "step": "4b", "screen": "SCR-007", "state": "Manual Mode Default", "trigger": "Auto-redirect to manual mode" }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "FL-003",
+          "name": "Staff Queue Management",
+          "personas": ["Staff"],
+          "entryScreen": "SCR-003",
+          "screens": ["SCR-003", "SCR-009"],
+          "interactions": 7,
+          "sequence": [
+            { "step": 1, "screen": "SCR-003", "state": "Default", "trigger": "Click 'Queue Management' nav" },
+            { "step": 2, "screen": "SCR-009", "state": "Default", "trigger": "Display today's queue (real-time)" },
+            { "step": 3, "screen": "SCR-009", "state": "Default", "trigger": "Click 'Add Walk-in' button" },
+            { "step": 4, "overlay": "Add Walk-in Modal", "state": "Default", "trigger": "Fill patient details" },
+            { "step": 5, "overlay": "Add Walk-in Modal", "state": "Loading", "trigger": "System adds to queue" },
+            { "step": 6, "screen": "SCR-009", "state": "Real-time Update", "trigger": "Queue table updates, pulse animation" },
+            { "step": 7, "screen": "SCR-009", "state": "Default", "trigger": "Toast: 'Walk-in added to queue'" }
+          ],
+          "alternateFlows": [
+            {
+              "name": "Mark Arrival",
+              "branchFrom": 2,
+              "steps": [
+                { "step": "3a", "screen": "SCR-009", "state": "Default", "trigger": "Click 'Mark Arrived' on row" },
+                { "step": "4a", "screen": "SCR-009", "state": "Loading", "trigger": "System updates status" },
+                { "step": "5a", "screen": "SCR-009", "state": "Real-time Update", "trigger": "Status badge changes to 'Arrived' (green)" }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "FL-004",
+          "name": "Staff Clinical Data Review & Conflict Resolution",
+          "personas": ["Staff"],
+          "entryScreen": "SCR-003",
+          "screens": ["SCR-003", "SCR-010"],
+          "interactions": 8,
+          "sequence": [
+            { "step": 1, "screen": "SCR-003", "state": "Default", "trigger": "Click patient from today's appointments" },
+            { "step": 2, "screen": "SCR-010", "state": "Default", "trigger": "Display completed appointments list with coding status" },
+            { "step": 3, "screen": "SCR-010", "state": "Default", "trigger": "Click appointment row to view patient details" },
+            { "step": 4, "screen": "SCR-010", "state": "Conflict Highlighted", "trigger": "Conflict badges visible on data sections" },
+            { "step": 5, "overlay": "Conflict Details Modal", "state": "Default", "trigger": "Click conflict badge — side-by-side comparison" },
+            { "step": 6, "overlay": "Conflict Details Modal", "state": "Loading", "trigger": "Staff selects correct value" },
+            { "step": 7, "screen": "SCR-010", "state": "Default", "trigger": "Conflict resolved, badge removed" },
+            { "step": 8, "screen": "SCR-003", "state": "Default", "trigger": "Click 'Approve' — toast: 'Profile approved'" }
+          ],
+          "alternateFlows": [
+            {
+              "name": "No Conflicts",
+              "branchFrom": 2,
+              "steps": [
+                { "step": "3a", "screen": "SCR-010", "state": "Default", "trigger": "No conflicts detected" },
+                { "step": "4a", "screen": "SCR-003", "state": "Default", "trigger": "Click 'Approve' — toast: 'Profile approved'" }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "FL-005",
+          "name": "Admin User Management",
+          "personas": ["Admin"],
+          "entryScreen": "SCR-004",
+          "screens": ["SCR-004", "SCR-013"],
+          "interactions": 7,
+          "sequence": [
+            { "step": 1, "screen": "SCR-004", "state": "Default", "trigger": "Click 'User Management' nav" },
+            { "step": 2, "screen": "SCR-013", "state": "Default", "trigger": "Display users table" },
+            { "step": 3, "screen": "SCR-013", "state": "Default", "trigger": "Click 'Add User' button" },
+            { "step": 4, "screen": "SCR-013", "state": "User Form Drawer Open", "trigger": "Fill user form" },
+            { "step": 5, "overlay": "User Form Drawer", "state": "Validation", "trigger": "Inline validation on blur" },
+            { "step": 6, "overlay": "User Form Drawer", "state": "Loading", "trigger": "System creates user" },
+            { "step": 7, "screen": "SCR-013", "state": "Default", "trigger": "Table updates, toast: 'User created'" }
+          ],
+          "alternateFlows": [
+            {
+              "name": "Deactivate User",
+              "branchFrom": 2,
+              "steps": [
+                { "step": "3b", "screen": "SCR-013", "state": "Default", "trigger": "Click deactivate icon on row" },
+                { "step": "4b", "overlay": "Confirmation Dialog", "state": "Default", "trigger": "'Are you sure?' dialog" },
+                { "step": "5b", "overlay": "Confirmation Dialog", "state": "Loading", "trigger": "System deactivates user" },
+                { "step": "6b", "screen": "SCR-013", "state": "Default", "trigger": "Row shows 'Inactive' badge, toast: 'User deactivated'" }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "FL-006",
+          "name": "Staff Mark No Show",
+          "personas": ["Staff"],
+          "entryScreen": "SCR-003",
+          "screens": ["SCR-003", "SCR-011"],
+          "interactions": 5,
+          "sequence": [
+            { "step": 1, "screen": "SCR-003", "state": "Default", "trigger": "Click 'Appointment Summary' nav" },
+            { "step": 2, "screen": "SCR-011", "state": "Default", "trigger": "Display today's appointments table" },
+            { "step": 3, "screen": "SCR-011", "state": "Default", "trigger": "Click 'Mark No Show' on row (grace period elapsed)" },
+            { "step": 4, "overlay": "Confirmation Dialog", "state": "Default", "trigger": "'Are you sure? This action will be logged.'" },
+            { "step": 5, "screen": "SCR-011", "state": "Default", "trigger": "Status changes to 'No Show' (red badge), toast" }
+          ],
+          "alternateFlows": [
+            {
+              "name": "Grace Period Not Elapsed",
+              "branchFrom": 2,
+              "steps": [
+                { "step": "3a", "screen": "SCR-011", "state": "Default", "trigger": "'Mark No Show' button disabled with tooltip: 'Wait until grace period ends'" }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "06_Handoff",
+      "order": 6,
+      "sections": [
+        {
+          "name": "Token Usage Rules",
+          "description": "All colors, typography, spacing, radius, and shadows MUST reference design tokens from designsystem.md. No hard-coded values allowed.",
+          "tokens": {
+            "colors": { "source": "designsystem.md Section 1.1", "count": 46 },
+            "typography": { "source": "designsystem.md Section 1.2", "count": 14 },
+            "spacing": { "source": "designsystem.md Section 1.3", "count": 9 },
+            "borderRadius": { "source": "designsystem.md Section 1.4", "count": 6 },
+            "elevation": { "source": "designsystem.md Section 1.5", "count": 6 }
+          }
+        },
+        {
+          "name": "Component Usage",
+          "description": "See component_library.md for full specifications including props, variants, and states",
+          "reference": ".propel/context/figma/components/component_library.md"
+        },
+        {
+          "name": "Responsive Behavior",
+          "breakpoints": {
+            "mobile": { "range": "320px–767px", "columns": 4, "gutter": "16px", "nav": "BottomNav", "tables": "Card layout" },
+            "tablet": { "range": "768px–1023px", "columns": 8, "gutter": "24px", "nav": "Sidebar (collapsed)", "tables": "Horizontal scroll" },
+            "desktop": { "range": "1024px–1440px", "columns": 12, "gutter": "24px", "nav": "Sidebar (expanded)", "tables": "Full table" }
+          }
+        },
+        {
+          "name": "Edge Cases",
+          "rules": [
+            { "case": "Long patient name (>50 chars)", "handling": "Truncate with ellipsis, full name on hover tooltip" },
+            { "case": "No available slots", "handling": "Display waitlist option + 'No slots available' message" },
+            { "case": "Conflicting data", "handling": "Red badge + conflict resolution UI" },
+            { "case": "Session timeout (15 min)", "handling": "Warning modal at 14 min + auto-logout" },
+            { "case": "AI intake failure", "handling": "Fallback to manual mode + error banner" },
+            { "case": "No-show grace period", "handling": "Disabled button + tooltip until 15 min after appt" },
+            { "case": "Critical medication conflict", "handling": "Red alert banner + mandatory review before approval" }
+          ]
+        },
+        {
+          "name": "Accessibility Notes",
+          "standard": "WCAG 2.2 AA",
+          "requirements": [
+            "Color contrast: 4.5:1 normal text, 3:1 large text/UI, 7:1 critical info",
+            "Focus indicators: 2px primary-600 outline + 2px white inner ring on all interactive elements",
+            "Touch targets: 44x44px minimum on mobile",
+            "Tab order: Logical top-left to bottom-right reading order",
+            "Focus trap: Modals and drawers trap focus within",
+            "Screen readers: ARIA labels on all icon buttons, role=dialog on modals, role=alert on errors",
+            "Keyboard: Escape closes modals, Tab/Shift+Tab navigation, Enter/Space activates"
+          ]
+        },
+        {
+          "name": "Screen-to-Code Mapping",
+          "mapping": [
+            { "screenId": "SCR-001", "route": "/login", "component": "LoginPage" },
+            { "screenId": "SCR-002", "route": "/patient/dashboard", "component": "PatientDashboard" },
+            { "screenId": "SCR-003", "route": "/staff/dashboard", "component": "StaffDashboard" },
+            { "screenId": "SCR-004", "route": "/admin/dashboard", "component": "AdminDashboard" },
+            { "screenId": "SCR-005", "route": "/profile", "component": "ProfileSettings" },
+            { "screenId": "SCR-006", "route": "/patient/book", "component": "AppointmentBooking" },
+            { "screenId": "SCR-007", "route": "/patient/intake", "component": "PatientIntake" },
+            { "screenId": "SCR-008", "route": "/patient/upload", "component": "DocumentUpload" },
+            { "screenId": "SCR-009", "route": "/staff/queue", "component": "QueueManagement" },
+            { "screenId": "SCR-010", "route": "/staff/clinical-review", "component": "ClinicalDataReview" },
+            { "screenId": "SCR-011", "route": "/staff/appointments", "component": "AppointmentSummary" },
+            { "screenId": "SCR-012", "route": "/admin/audit-logs", "component": "AuditLogs" },
+            { "screenId": "SCR-013", "route": "/admin/users", "component": "UserManagement" }
+          ]
+        }
+      ]
+    }
+  ]
+}
