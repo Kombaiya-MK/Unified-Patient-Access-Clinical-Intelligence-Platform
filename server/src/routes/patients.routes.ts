@@ -1,10 +1,14 @@
 import { Router } from 'express';
 import { authenticateToken, authorizeRoles } from '../middleware/auth';
+import dashboardRoutes from './dashboardRoutes';
 
 const router = Router();
 
 // All patient routes require authentication
 router.use(authenticateToken);
+
+// Mount dashboard routes at /api/patients/dashboard
+router.use('/', dashboardRoutes);
 
 /**
  * @route   GET /api/patients

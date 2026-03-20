@@ -1,0 +1,269 @@
+/**
+ * Waitlist Section Styles
+ * 
+ * Styles for the dashboard waitlist section.
+ * Responsive grid layout with loading and empty states.
+ * 
+ * @module WaitlistSection.css
+ * @created 2026-03-19
+ * @task US_015 TASK_003
+ */
+
+/* Waitlist Section Container */
+.waitlist-section {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e5e7eb;
+  margin-bottom: 24px;
+}
+
+/* Section Header */
+.waitlist-section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 2px solid #f3f4f6;
+}
+
+.waitlist-section-title-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.waitlist-section-title-wrapper svg {
+  color: #eab308;
+  flex-shrink: 0;
+}
+
+.waitlist-section-title-wrapper h2 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.waitlist-section-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 28px;
+  height: 28px;
+  padding: 0 8px;
+  background-color: #eab308;
+  color: white;
+  border-radius: 14px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* Refresh Button */
+.waitlist-section-refresh {
+  background: white;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  padding: 10px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #6b7280;
+}
+
+.waitlist-section-refresh:hover:not(:disabled) {
+  background-color: #f9fafb;
+  border-color: #9ca3af;
+  color: #374151;
+  transform: rotate(180deg);
+}
+
+.waitlist-section-refresh:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.waitlist-section-refresh:focus {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+/* Section Content */
+.waitlist-section-content {
+  min-height: 200px;
+}
+
+/* Waitlist Grid */
+.waitlist-section-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 16px;
+}
+
+/* Loading Skeleton */
+.waitlist-section-loading {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 16px;
+}
+
+.waitlist-skeleton-card {
+  background: linear-gradient(
+    90deg,
+    #f3f4f6 0%,
+    #e5e7eb 50%,
+    #f3f4f6 100%
+  );
+  background-size: 200% 100%;
+  animation: skeleton-loading 1.5s ease-in-out infinite;
+  border-radius: 10px;
+  height: 200px;
+}
+
+@keyframes skeleton-loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* Empty State */
+.waitlist-section-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 24px;
+  text-align: center;
+}
+
+.waitlist-section-empty svg {
+  color: #d1d5db;
+  margin-bottom: 16px;
+}
+
+.waitlist-section-empty h3 {
+  margin: 0 0 12px;
+  font-size: 18px;
+  font-weight: 600;
+  color: #374151;
+}
+
+.waitlist-section-empty p {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.6;
+  color: #6b7280;
+  max-width: 400px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .waitlist-section {
+    padding: 20px;
+  }
+
+  .waitlist-section-header {
+    margin-bottom: 16px;
+  }
+
+  .waitlist-section-title-wrapper h2 {
+    font-size: 20px;
+  }
+
+  .waitlist-section-grid,
+  .waitlist-section-loading {
+    grid-template-columns: 1fr;
+  }
+
+  .waitlist-section-empty {
+    padding: 32px 16px;
+  }
+
+  .waitlist-section-empty svg {
+    width: 48px;
+    height: 48px;
+  }
+
+  .waitlist-section-empty h3 {
+    font-size: 16px;
+  }
+
+  .waitlist-section-empty p {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .waitlist-section {
+    padding: 16px;
+    border-radius: 8px;
+  }
+
+  .waitlist-section-title-wrapper {
+    gap: 8px;
+  }
+
+  .waitlist-section-title-wrapper svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .waitlist-section-title-wrapper h2 {
+    font-size: 18px;
+  }
+
+  .waitlist-section-count {
+    min-width: 24px;
+    height: 24px;
+    font-size: 12px;
+  }
+
+  .waitlist-section-refresh {
+    padding: 8px;
+  }
+
+  .waitlist-section-refresh svg {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+/* Accessibility */
+.waitlist-section-refresh:focus-visible {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+  .waitlist-section {
+    border-width: 2px;
+  }
+
+  .waitlist-section-header {
+    border-bottom-width: 3px;
+  }
+
+  .waitlist-section-refresh {
+    border-width: 2px;
+  }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  .waitlist-section-refresh:hover:not(:disabled) {
+    transform: none;
+  }
+
+  .waitlist-skeleton-card {
+    animation: none;
+    background: #f3f4f6;
+  }
+}

@@ -1,0 +1,208 @@
+/**
+ * Notifications Panel Styles
+ * 
+ * Styles for the right sidebar notifications panel.
+ * Includes header with badge, scrollable body, footer, and empty/loading states.
+ * 
+ * @created 2026-03-19
+ * @task US_019 TASK_003
+ */
+
+.notifications-panel {
+  width: 100%;
+  height: 100%;
+  background-color: var(--bg-primary, #FFFFFF);
+  border-left: 1px solid var(--neutral-200, #E5E5E5);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* Header */
+.notifications-panel__header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--neutral-200, #E5E5E5);
+  background-color: var(--bg-primary, #FFFFFF);
+}
+
+.notifications-panel__header-icon {
+  position: relative;
+  width: 24px;
+  height: 24px;
+  color: var(--neutral-700, #4D4D4D);
+  flex-shrink: 0;
+}
+
+.notifications-panel__title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--neutral-900, #1A1A1A);
+  margin: 0;
+  flex: 1;
+}
+
+.notifications-panel__badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 4px;
+  background-color: var(--error-600, #DC3545);
+  color: #FFFFFF;
+  font-size: 11px;
+  font-weight: 700;
+  border-radius: 9999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+/* Body (scrollable notification list) */
+.notifications-panel__body {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  max-height: 400px;
+}
+
+/* Custom scrollbar styling (WebKit browsers) */
+.notifications-panel__body::-webkit-scrollbar {
+  width: 6px;
+}
+
+.notifications-panel__body::-webkit-scrollbar-track {
+  background: var(--neutral-100, #F5F5F5);
+}
+
+.notifications-panel__body::-webkit-scrollbar-thumb {
+  background: var(--neutral-300, #CCCCCC);
+  border-radius: 3px;
+}
+
+.notifications-panel__body::-webkit-scrollbar-thumb:hover {
+  background: var(--neutral-400, #999999);
+}
+
+/* Footer */
+.notifications-panel__footer {
+  padding: 12px 20px;
+  border-top: 1px solid var(--neutral-200, #E5E5E5);
+  text-align: center;
+  background-color: var(--bg-primary, #FFFFFF);
+}
+
+.notifications-panel__view-all {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--primary-600, #0066CC);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: background-color 200ms ease, color 200ms ease;
+}
+
+.notifications-panel__view-all:hover {
+  color: var(--primary-800, #004C99);
+  background-color: var(--primary-100, #E6F0FA);
+}
+
+.notifications-panel__view-all:focus-visible {
+  outline: 2px solid var(--primary-600, #0066CC);
+  outline-offset: 2px;
+}
+
+/* Loading state */
+.notifications-panel__loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 48px 20px;
+  color: var(--neutral-600, #666666);
+  font-size: 14px;
+}
+
+/* Error state */
+.notifications-panel__error {
+  padding: 24px 20px;
+  text-align: center;
+  color: var(--error-600, #DC3545);
+}
+
+.notifications-panel__error p {
+  margin: 0 0 8px 0;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.notifications-panel__error-message {
+  font-size: 13px;
+  color: var(--neutral-600, #666666);
+  font-weight: 400;
+}
+
+/* Empty state */
+.notifications-panel__empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 20px;
+  text-align: center;
+}
+
+.notifications-panel__empty svg {
+  color: var(--neutral-300, #CCCCCC);
+  margin-bottom: 16px;
+}
+
+.notifications-panel__empty-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--neutral-800, #333333);
+  margin: 0 0 8px 0;
+}
+
+.notifications-panel__empty-message {
+  font-size: 14px;
+  color: var(--neutral-600, #666666);
+  margin: 0;
+  max-width: 260px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1023px) {
+  /* Hide on tablet and below (handled by DashboardLayout) */
+  .notifications-panel {
+    display: none;
+  }
+}
+
+@media (max-width: 767px) {
+  .notifications-panel__header {
+    padding: 12px 16px;
+  }
+
+  .notifications-panel__footer {
+    padding: 10px 16px;
+  }
+
+  .notifications-panel__empty {
+    padding: 32px 16px;
+  }
+}
+
+/* Accessibility: Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .notifications-panel__view-all {
+    transition: none;
+  }
+}

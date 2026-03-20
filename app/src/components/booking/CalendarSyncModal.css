@@ -1,0 +1,313 @@
+/**
+ * Calendar Sync Modal Styles
+ * 
+ * Styles for OAuth provider selection modal.
+ * Design tokens from designsystem.md:
+ * - Google button: white background + Google logo
+ * - Outlook button: #0078D4 (Microsoft blue)
+ * - Success indicator: green checkmark icon
+ * 
+ * @created 2026-03-20
+ * @task US_017 TASK_001
+ */
+
+/* =================================================
+   Modal Backdrop & Container
+   ================================================= */
+
+.calendar-sync-modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  padding: 1rem;
+  animation: fadeIn 0.2s ease-out;
+}
+
+.calendar-sync-modal {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  max-width: 480px;
+  width: 100%;
+  padding: 2rem;
+  position: relative;
+  animation: slideUp 0.3s ease-out;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* =================================================
+   Close Button
+   ================================================= */
+
+.calendar-sync-modal-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #6b7280;
+  padding: 0.5rem;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.calendar-sync-modal-close:hover {
+  background-color: #f3f4f6;
+  color: #111827;
+}
+
+.calendar-sync-modal-close:focus {
+  outline: 2px solid #2563eb;
+  outline-offset: 2px;
+}
+
+/* =================================================
+   Header Section
+   ================================================= */
+
+.calendar-sync-modal-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.calendar-sync-modal-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.calendar-sync-modal-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #111827;
+  margin: 0 0 0.5rem 0;
+}
+
+.calendar-sync-modal-description {
+  font-size: 0.95rem;
+  color: #6b7280;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* =================================================
+   Provider Buttons
+   ================================================= */
+
+.calendar-sync-modal-providers {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.calendar-sync-provider-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 1rem 1.5rem;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  background: white;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.calendar-sync-provider-button:hover:not(:disabled) {
+  border-color: #d1d5db;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transform: translateY(-1px);
+}
+
+.calendar-sync-provider-button:focus {
+  outline: 2px solid #2563eb;
+  outline-offset: 2px;
+}
+
+.calendar-sync-provider-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.calendar-sync-provider-button.loading {
+  border-color: #2563eb;
+}
+
+/* Google Button - White background per designsystem.md */
+.calendar-sync-provider-button.google {
+  color: #111827;
+  border-color: #e5e7eb;
+}
+
+.calendar-sync-provider-button.google:hover:not(:disabled) {
+  background-color: #f9fafb;
+  border-color: #4285F4;
+}
+
+/* Outlook Button - Microsoft blue per designsystem.md */
+.calendar-sync-provider-button.outlook {
+  color: white;
+  background-color: #0078D4;
+  border-color: #0078D4;
+}
+
+.calendar-sync-provider-button.outlook:hover:not(:disabled) {
+  background-color:#0063b1;
+  border-color: #0063b1;
+}
+
+/* Loading Spinner */
+.spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #e5e7eb;
+  border-top-color: #2563eb;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  position: absolute;
+  right: 1rem;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* =================================================
+   Footer Section
+   ================================================= */
+
+.calendar-sync-modal-footer {
+  text-align: center;
+  padding-top: 1rem;
+  border-top: 1px solid #e5e7eb;
+}
+
+.calendar-sync-skip-button {
+  background: none;
+  border: none;
+  color: #6b7280;
+  font-size: 0.95rem;
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  font-weight: 500;
+}
+
+.calendar-sync-skip-button:hover {
+  background-color: #f3f4f6;
+  color: #111827;
+}
+
+.calendar-sync-skip-button:focus {
+  outline: 2px solid #2563eb;
+  outline-offset: 2px;
+}
+
+.calendar-sync-modal-note {
+  font-size: 0.85rem;
+  color: #9ca3af;
+  margin: 0.5rem 0 0 0;
+}
+
+/* =================================================
+   Loading State
+   ================================================= */
+
+.calendar-sync-modal-loading {
+  text-align: center;
+  padding-top: 1rem;
+  border-top: 1px solid #e5e7eb;
+  color: #6b7280;
+  font-size: 0.95rem;
+}
+
+/* =================================================
+   Responsive Design
+   ================================================= */
+
+@media (max-width: 640px) {
+  .calendar-sync-modal {
+    padding: 1.5rem;
+    max-width: 100%;
+  }
+
+  .calendar-sync-modal-title {
+    font-size: 1.25rem;
+  }
+
+  .calendar-sync-provider-button {
+    padding: 0.875rem 1.25rem;
+    font-size: 0.95rem;
+  }
+
+  .calendar-sync-modal-icon svg {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+/* =================================================
+   Accessibility
+   ================================================= */
+
+/* Focus visible for keyboard navigation */
+@media (prefers-reduced-motion: reduce) {
+  .calendar-sync-modal-backdrop,
+  .calendar-sync-modal {
+    animation: none;
+  }
+
+  .calendar-sync-provider-button {
+    transition: none;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .calendar-sync-modal {
+    border: 2px solid currentColor;
+  }
+
+  .calendar-sync-provider-button {
+    border-width: 3px;
+  }
+}

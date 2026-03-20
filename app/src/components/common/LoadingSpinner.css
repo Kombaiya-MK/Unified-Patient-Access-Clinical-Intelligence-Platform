@@ -1,0 +1,192 @@
+/**
+ * LoadingSpinner Component Styles
+ * 
+ * Styles for loading spinner with smooth animations and variants.
+ * Respects reduced motion preferences for accessibility.
+ * 
+ * @created 2026-03-18
+ * @task US_012 TASK_002
+ */
+
+/* === Base Spinner === */
+.loading-spinner {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loading-spinner__svg {
+  animation: spinner-rotate 1.5s linear infinite;
+}
+
+.loading-spinner__circle {
+  stroke: #0066CC; /* primary-600 - design token */
+  stroke-linecap: round;
+  stroke-dasharray: 100;
+  stroke-dashoffset: 25;
+  animation: spinner-dash 1.5s ease-in-out infinite;
+}
+
+.loading-spinner__sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* === Size Variants === */
+.loading-spinner--small {
+  width: 20px;
+  height: 20px;
+}
+
+.loading-spinner--small .loading-spinner__svg {
+  width: 20px;
+  height: 20px;
+}
+
+.loading-spinner--medium {
+  width: 40px;
+  height: 40px;
+}
+
+.loading-spinner--medium .loading-spinner__svg {
+  width: 40px;
+  height: 40px;
+}
+
+.loading-spinner--large {
+  width: 60px;
+  height: 60px;
+}
+
+.loading-spinner--large .loading-spinner__svg {
+  width: 60px;
+  height: 60px;
+}
+
+/* === Animations === */
+@keyframes spinner-rotate {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes spinner-dash {
+  0% {
+    stroke-dashoffset: 100;
+  }
+  50% {
+
+    stroke-dashoffset: 25;
+  }
+  100% {
+    stroke-dashoffset: 100;
+  }
+}
+
+/* === Loading Overlay === */
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 9999;
+  backdrop-filter: blur(4px);
+}
+
+.loading-overlay__content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 32px;
+  background: #FFFFFF;
+  border-radius: 12px; /* radius-lg */
+  box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.15), 0px 3px 6px rgba(0, 0, 0, 0.10); /* shadow-3 */
+}
+
+.loading-overlay__message {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 500;
+  color: #1A1A1A; /* neutral-900 */
+  text-align: center;
+}
+
+/* === Button Spinner === */
+.button-spinner {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+}
+
+.button-spinner__svg {
+  animation: spinner-rotate 1s linear infinite;
+}
+
+.button-spinner__circle {
+  stroke: currentColor; /* Inherits button text color */
+  stroke-linecap: round;
+  stroke-dasharray: 100;
+  stroke-dashoffset: 25;
+  animation: spinner-dash 1.5s ease-in-out infinite;
+}
+
+.button-spinner__sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* === Reduced Motion === */
+@media (prefers-reduced-motion: reduce) {
+  .loading-spinner__svg,
+  .button-spinner__svg {
+    animation: none;
+  }
+
+  .loading-spinner__circle,
+  .button-spinner__circle {
+    animation: none;
+    stroke-dasharray: 0;
+    stroke-dashoffset: 0;
+  }
+}
+
+/* === High Contrast Mode === */
+@media (prefers-contrast: high) {
+  .loading-spinner__circle,
+  .button-spinner__circle {
+    stroke-width: 5;
+  }
+
+  .loading-overlay {
+    background: rgba(0, 0, 0, 0.8);
+  }
+}
+
+/* === Print Styles === */
+@media print {
+  .loading-overlay {
+    display: none;
+  }
+}

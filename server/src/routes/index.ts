@@ -2,6 +2,8 @@ import { Router } from 'express';
 import authRoutes from './auth.routes';
 import appointmentsRoutes from './appointments.routes';
 import patientsRoutes from './patients.routes';
+import adminRoutes from './admin.routes';
+import calendarRoutes from './calendar.routes';
 
 const router = Router();
 
@@ -41,5 +43,7 @@ router.get('/', (_req, res) => {
 router.use('/auth', authRoutes);
 router.use('/appointments', appointmentsRoutes);
 router.use('/patients', patientsRoutes);
+router.use('/admin', adminRoutes);
+router.use('/calendar', calendarRoutes);
 
 export default router;

@@ -1,74 +1,172 @@
+/**
+ * Appointments Routes
+ * 
+ * API routes for appointment booking system:
+ * - GET /slots - Fetch available time slots (public/authenticated)
+ * - POST /appointments - Book appointment (patient only)
+ * - POST /waitlist - Join waitlist (patient only)
+ * - GET /appointments/patient/:patientId - Get patient's appointments
+ * - PATCH /appointments/:appointmentId/cancel - Cancel appointment
+ * 
+ * @module appointments.routes
+ * @created 2026-03-18
+ * @task US_013 TASK_002
+ */
+
 import { Router } from 'express';
-import { authenticateToken } from '../middleware/auth';
+import { authenticate, authorize } from '../middleware/auth';
+import appointmentsController from '../controllers/appointments.controller';
+import { validateWaitlistAcceptance } from '../middleware/validateWaitlistAcceptance';
+import {
+  bookAppointmentSchema,
+  joinWaitlistSchema,
+  getSlotsQuerySchema,
+  rescheduleAppointmentSchema,
+  validate,
+  validateQuery,
+} from '../validators/appointments.validator';
 
 const router = Router();
 
-// All appointment routes require authentication
-router.use(authenticateToken);
+/**
+ * @route   GET /api/slots  * @desc    Get available time slots (with Redis caching)
+ * @query   department - Department UUID (optional)
+ * @query   provider - Provider UUID (optional)
+ * @query   date - Specific date YYYY-MM-DD (optional)
+ * @query   startDate - Date range start (optional)
+ * @query   endDate - Date range end (optional)
+ * @access  Public (or authenticated for better caching)
+ * @cache   5 minutes
+ */
+router.get(
+  '/slots',
+  validateQuery(getSlotsQuerySchema),
+  appointmentsController.getAvailableSlots
+);
 
 /**
- * @route   GET /api/appointments
- * @desc    Get all appointments (filtered by role)
- * @access  Private
+ * @route   GET /api/appointments/my
+ * @desc    Get authenticated user's appointments
+ * @access  Private (patient role only)
+ * @returns Array of appointments for the authenticated patient
  */
-router.get('/', (_req, res) => {
-  res.json({
-    success: true,
-    message: 'Get appointments endpoint - To be implemented in US_010',
-    timestamp: new Date().toISOString(),
-  });
-});
-
-/**
- * @route   GET /api/appointments/:id
- * @desc    Get appointment by ID
- * @access  Private
- */
-router.get('/:id', (req, res) => {
-  res.json({
-    success: true,
-    message: `Get appointment ${req.params.id} - To be implemented in US_010`,
-    timestamp: new Date().toISOString(),
-  });
-});
+router.get(
+  '/appointments/my',
+  authenticate,
+  authorize('patient'),
+  async (req, res) => {
+    try {
+      const { getMyAppointments } = await import('../controllers/dashboardController');
+      await getMyAppointments(req, res);
+    } catch (error) {
+      res.status(500).json({ success: false, error: 'Internal server error' });
+    }
+  }
+);
 
 /**
  * @route   POST /api/appointments
- * @desc    Create new appointment
- * @access  Private (patients and staff)
+ * @desc    Book an appointment (supports waitlist acceptance via ?waitlist_id=X)
+ * @query   waitlist_id - Waitlist entry ID (optional, for waitlist acceptance)
+ * @body    slotId - UUID (required)
+ * @body    notes - String max 500 chars (optional)
+ * @access  Private (patient role only)
+ * @security JWT + Role check
+ * @validation bookAppointmentSchema
+ * @middleware validateWaitlistAcceptance (checks waitlist ownership/status if waitlist_id provided)
+ * @concurrency SELECT FOR UPDATE
+ * @business-rules:
+ *   - Slot must be available
+ *   - Business hours: 8AM - 8PM
+ *   - Same-day: >2 hours notice required
+ *   - No duplicate bookings (same patient, provider, date)
+ *   - Waitlist: Hold must not be expired, slot reserved for patient
  */
-router.post('/', (_req, res) => {
-  res.json({
-    success: true,
-    message: 'Create appointment endpoint - To be implemented in US_013',
-    timestamp: new Date().toISOString(),
-  });
-});
+router.post(
+  '/appointments',
+  authenticate,
+  authorize('patient'),
+  validateWaitlistAcceptance,
+  validate(bookAppointmentSchema),
+  appointmentsController.bookAppointment
+);
 
 /**
- * @route   PUT /api/appointments/:id
- * @desc    Update appointment
- * @access  Private
+ * @route   POST /api/waitlist
+ * @desc    Join waitlist for unavailable slot/date
+ * @body    slotId - UUID (optional)
+ * @body    preferredDate - ISO date string (required)
+ * @body    departmentId - UUID (required)
+ * @body    providerId - UUID (optional)
+ * @body    notes - String max 1000 chars (optional)
+ * @access  Private (patient role only)
+ * @security JWT + Role check
+ * @validation joinWaitlistSchema
  */
-router.put('/:id', (req, res) => {
-  res.json({
-    success: true,
-    message: `Update appointment ${req.params.id} - To be implemented in US_014`,
-    timestamp: new Date().toISOString(),
-  });
-});
+router.post(
+  '/waitlist',
+  authenticate,
+  authorize('patient'),
+  validate(joinWaitlistSchema),
+  appointmentsController.joinWaitlist
+);
 
 /**
- * @route   DELETE /api/appointments/:id
- * @desc    Cancel appointment
- * @access  Private
+ * @route   GET /api/appointments/patient/:patientId
+ * @desc    Get patient's appointments
+ * @param   patientId - Patient UUID
+ * @access  Private (patient can only access own; staff/admin can access any)
+ * @security JWT + Role check + Ownership validation
  */
-router.delete('/:id', (req, res) => {
-  res.json({
-    success: true,
-    message: `Cancel appointment ${req.params.id} - To be implemented in US_012`,
-    timestamp: new Date().toISOString(),
-  });
-});
+router.get(
+  '/appointments/patient/:patientId',
+  authenticate,
+  appointmentsController.getPatientAppointments
+);
+
+/**
+ * @route   PATCH /api/appointments/:appointmentId/cancel
+ * @desc    Cancel an appointment
+ * @param   appointmentId - Appointment UUID
+ * @access  Private
+ * @security JWT + Role check + Ownership validation
+ */
+router.patch(
+  '/appointments/:appointmentId/cancel',
+  authenticate,
+  appointmentsController.cancelAppointment
+);
+
+/**
+ * @route   PUT /api/appointments/:appointmentId
+ * @desc    Reschedule an appointment to a new slot
+ * @param   appointmentId - Appointment UUID
+ * @body    newSlotId - UUID (required)
+ * @access  Private (patient role only)
+ * @security JWT + Role check + Ownership validation
+ * @validation rescheduleAppointmentSchema
+ * @concurrency SELECT FOR UPDATE
+ * @business-rules:
+ *   - Cannot reschedule within 2 hours of appointment start time
+ *   - Maximum 3 reschedules per appointment (enforced via reschedule_count)
+ *   - New slot must be available (concurrency safe)
+ *   - Patient must own the appointment
+ * @side-effects:
+ *   - Updates appointment with new slot
+ *   - Increments reschedule_count
+ *   - Updates slot availability (old slot → available, new slot → unavailable)
+ *   - Invalidates Redis cache
+ *   - Logs audit trail
+ *   - Triggers email notification (async)
+ *   - Triggers PDF regeneration (async)
+ *   - Triggers calendar sync update (async)
+ */
+router.put(
+  '/appointments/:appointmentId',
+  authenticate,
+  authorize('patient'),
+  validate(rescheduleAppointmentSchema),
+  appointmentsController.rescheduleAppointment
+);
 
 export default router;

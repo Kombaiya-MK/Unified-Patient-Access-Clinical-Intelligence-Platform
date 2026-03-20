@@ -1,0 +1,97 @@
+/**
+ * AvailabilityFilters Styles
+ * 
+ * Responsive styles for department and provider filter dropdowns.
+ * 
+ * @task US_013 TASK_001
+ */
+
+.availability-filters {
+  display: flex;
+  gap: 16px;
+  width: 100%;
+  margin-bottom: 24px;
+}
+
+.filter-group {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0; /* Allow flex items to shrink */
+}
+
+.filter-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #212529;
+  margin-bottom: 4px;
+}
+
+.filter-select {
+  width: 100%;
+}
+
+.filter-error {
+  font-size: 13px;
+  color: #DC3545;
+  margin-top: 4px;
+}
+
+/* Responsive: Stack filters on mobile */
+@media (max-width: 768px) {
+  .availability-filters {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .filter-group {
+    width: 100%;
+  }
+}
+
+/* Ensure react-select menu is above other content */
+.react-select__menu {
+  z-index: 10;
+}
+
+/* Focus styles for keyboard navigation */
+.react-select__control:focus-within {
+  border-color: #007BFF !important;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25) !important;
+}
+
+/* Loading indicator */
+.react-select__loading-indicator {
+  color: #007BFF;
+}
+
+/* Clear indicator (X button) */
+.react-select__clear-indicator {
+  color: #6C757D;
+  cursor: pointer;
+}
+
+.react-select__clear-indicator:hover {
+  color: #DC3545;
+}
+
+/* Dropdown indicator (arrow) */
+.react-select__dropdown-indicator {
+  color: #6C757D;
+}
+
+.react-select__dropdown-indicator:hover {
+  color: #007BFF;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .filter-label {
+    font-weight: 700;
+  }
+
+  .react-select__control {
+    border-width: 3px !important;
+  }
+}

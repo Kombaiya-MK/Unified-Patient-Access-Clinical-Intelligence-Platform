@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Appointment Confirmation</title>
+  <style>
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 0;
+      background-color: #f5f5f5;
+    }
+    .email-container {
+      background-color: #ffffff;
+      margin: 20px auto;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .header {
+      background: #006CB8;
+      color: white;
+      padding: 30px 20px;
+      text-align: center;
+    }
+    .header h1 {
+      margin: 0;
+      font-size: 28px;
+      font-weight: bold;
+    }
+    .header p {
+      margin: 10px 0 0 0;
+      font-size: 16px;
+      opacity: 0.9;
+    }
+    .content {
+      padding: 30px 20px;
+    }
+    .greeting {
+      font-size: 16px;
+      margin-bottom: 20px;
+    }
+    .details-box {
+      background: #F9FAFB;
+      padding: 20px;
+      margin: 20px 0;
+      border-left: 4px solid #006CB8;
+      border-radius: 4px;
+    }
+    .details-box p {
+      margin: 10px 0;
+      font-size: 15px;
+    }
+    .details-box strong {
+      color: #006CB8;
+      display: inline-block;
+      width: 140px;
+    }
+    .appointment-id {
+      font-size: 18px;
+      font-weight: bold;
+      color: #006CB8;
+      background: #E3F2FD;
+      padding: 15px;
+      text-align: center;
+      border-radius: 4px;
+      margin: 20px 0;
+    }
+    .reminders {
+      background: #FFF9E5;
+      padding: 20px;
+      margin: 20px 0;
+      border-left: 4px solid #FFC107;
+      border-radius: 4px;
+    }
+    .reminders h3 {
+      margin: 0 0 15px 0;
+      color: #F57C00;
+      font-size: 16px;
+    }
+    .reminders ul {
+      margin: 0;
+      padding-left: 20px;
+    }
+    .reminders li {
+      margin: 8px 0;
+      color: #555;
+    }
+    .button {
+      display: inline-block;
+      padding: 14px 28px;
+      background: #006CB8;
+      color: white;
+      text-decoration: none;
+      border-radius: 6px;
+      margin: 20px 0;
+      font-weight: bold;
+      font-size: 16px;
+      text-align: center;
+    }
+    .button:hover {
+      background: #005a9c;
+    }
+    .attachment-note {
+      background: #E8F5E9;
+      padding: 15px;
+      margin: 20px 0;
+      border-left: 4px solid #4CAF50;
+      border-radius: 4px;
+      color: #2E7D32;
+    }
+    .footer {
+      background: #F3F4F6;
+      padding: 25px 20px;
+      text-align: center;
+      font-size: 13px;
+      color: #666;
+      border-top: 1px solid #E5E7EB;
+    }
+    .footer p {
+      margin: 5px 0;
+    }
+    .footer .clinic-name {
+      font-weight: bold;
+      color: #006CB8;
+      font-size: 15px;
+      margin-bottom: 10px;
+    }
+    .footer .hipaa-notice {
+      background: #FEF3C7;
+      border: 1px solid #F59E0B;
+      padding: 10px;
+      margin-top: 15px;
+      border-radius: 4px;
+      color: #92400E;
+      font-weight: bold;
+    }
+    @media only screen and (max-width: 600px) {
+      .email-container {
+        margin: 0;
+        border-radius: 0;
+      }
+      .content {
+        padding: 20px 15px;
+      }
+      .details-box strong {
+        width: 100%;
+        display: block;
+        margin-bottom: 5px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="email-container">
+    <div class="header">
+      <h1>✓ Appointment Confirmed</h1>
+      <p>Your appointment has been successfully scheduled</p>
+    </div>
+
+    <div class="content">
+      <div class="greeting">
+        <p>Dear {{patientName}},</p>
+      </div>
+
+      <p>We're pleased to confirm your upcoming appointment. Please review the details below and save this confirmation for your records.</p>
+
+      <div class="appointment-id">
+        Appointment ID: #{{appointmentId}}
+      </div>
+
+      <div class="details-box">
+        <p><strong>Date:</strong> {{appointmentDate}}</p>
+        <p><strong>Time:</strong> {{appointmentTime}}</p>
+        <p><strong>Provider:</strong> {{providerName}}</p>
+        <p><strong>Department:</strong> {{departmentName}}</p>
+        <p><strong>Location:</strong> {{location}}</p>
+      </div>
+
+      <div class="reminders">
+        <h3>⚠ Important Reminders</h3>
+        <ul>
+          <li><strong>Arrival Time:</strong> Please arrive 15 minutes before your scheduled appointment time for check-in</li>
+          <li><strong>Required Items:</strong> Bring a valid photo ID and your insurance card (if applicable)</li>
+          <li><strong>Health & Safety:</strong> If you are experiencing COVID-19 symptoms (fever, cough, shortness of breath), please call us before arriving</li>
+          <li><strong>Cancellation Policy:</strong> If you need to cancel or reschedule, please notify us at least 24 hours in advance</li>
+        </ul>
+      </div>
+
+      <div class="attachment-note">
+        <strong>📎 Attached Document:</strong> A detailed confirmation with QR code is attached to this email for your convenience. You can print it or save it on your mobile device.
+      </div>
+
+      <div style="text-align: center;">
+        <a href="{{portalUrl}}/appointments/{{appointmentId}}" class="button">View in Patient Portal</a>
+      </div>
+
+      <p style="margin-top: 25px;">If you have any questions or need assistance, please don't hesitate to contact us. We look forward to seeing you!</p>
+
+      <p style="margin-top: 20px;">Best regards,<br><strong>UPACI Health Team</strong></p>
+    </div>
+
+    <div class="footer">
+      <p class="clinic-name">UPACI Health Platform</p>
+      <p>123 Medical Center Dr, Healthcare City, HC 12345</p>
+      <p>Phone: (555) 123-4567 | Email: appointments@upaci.health</p>
+      <p style="margin-top: 15px;">
+        <a href="{{portalUrl}}/appointments/{{appointmentId}}/cancel" style="color: #006CB8; text-decoration: none;">Cancel Appointment</a> |
+        <a href="{{portalUrl}}/appointments/{{appointmentId}}/reschedule" style="color: #006CB8; text-decoration: none;">Reschedule</a>
+      </p>
+      <div class="hipaa-notice">
+        <small>⚠ PROTECTED HEALTH INFORMATION: This email contains confidential patient information protected by HIPAA. Do not forward or share this email.</small>
+      </div>
+      <p style="margin-top: 15px; font-size: 11px; color: #999;">
+        You are receiving this email because you scheduled an appointment with UPACI Health. This is a transactional email and cannot be unsubscribed.
+      </p>
+    </div>
+  </div>
+</body>
+</html>

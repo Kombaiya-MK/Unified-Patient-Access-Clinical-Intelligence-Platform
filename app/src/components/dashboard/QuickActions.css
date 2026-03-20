@@ -1,0 +1,187 @@
+/**
+ * Quick Actions Styles
+ * 
+ * Styles for the quick actions icon grid.
+ * Includes 2x2 desktop grid (4x1 mobile), icon buttons with hover effects.
+ * 
+ * @created 2026-03-19
+ * @task US_019 TASK_003
+ */
+
+.quick-actions {
+  margin-bottom: 32px;
+}
+
+.quick-actions__title {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--neutral-900, #1A1A1A);
+  margin: 0 0 16px 0;
+  line-height: 1.4;
+}
+
+.quick-actions__grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.quick-actions__button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-height: 120px;
+  padding: 20px;
+  background-color: var(--bg-primary, #FFFFFF);
+  border: 1px solid var(--neutral-200, #E5E5E5);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: transform 200ms ease, box-shadow 200ms ease, border-color 200ms ease;
+  font-family: inherit;
+}
+
+.quick-actions__button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.1), 0px 2px 4px rgba(0, 0, 0, 0.06);
+  border-color: var(--primary-600, #0066CC);
+}
+
+.quick-actions__button:focus-visible {
+  outline: 2px solid var(--primary-600, #0066CC);
+  outline-offset: 2px;
+  transform: translateY(-2px);
+  box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.1), 0px 2px 4px rgba(0, 0, 0, 0.06);
+}
+
+.quick-actions__button:active {
+  transform: translateY(0);
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.quick-actions__icon {
+  color: var(--primary-600, #0066CC);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 200ms ease;
+}
+
+.quick-actions__button:hover .quick-actions__icon {
+  color: var(--primary-700, #005BB8);
+}
+
+.quick-actions__label {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--neutral-800, #333333);
+  text-align: center;
+  line-height: 1.4;
+}
+
+/* Responsive: 4x1 grid on mobile */
+@media (max-width: 767px) {
+  .quick-actions {
+    margin-bottom: 24px;
+  }
+
+  .quick-actions__title {
+    font-size: 18px;
+    margin-bottom: 12px;
+  }
+
+  .quick-actions__grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .quick-actions__button {
+    flex-direction: row;
+    justify-content: flex-start;
+    min-height: 64px;
+    padding: 12px 16px;
+    gap: 16px;
+  }
+
+  .quick-actions__icon {
+    flex-shrink: 0;
+  }
+
+  .quick-actions__icon svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .quick-actions__label {
+    font-size: 14px;
+    text-align: left;
+    flex: 1;
+  }
+}
+
+/* Tablet: Keep 2x2 grid */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .quick-actions__grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .quick-actions__button {
+    min-height: 100px;
+    padding: 16px;
+    gap: 10px;
+  }
+
+  .quick-actions__icon svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .quick-actions__label {
+    font-size: 13px;
+  }
+}
+
+/* Desktop: 2x2 grid with larger icons */
+@media (min-width: 1024px) {
+  .quick-actions__grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+
+  .quick-actions__button {
+    min-height: 120px;
+  }
+}
+
+/* Extra large screens: Consider 4x1 horizontal layout */
+@media (min-width: 1440px) {
+  .quick-actions__grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+  }
+
+  .quick-actions__button {
+    min-height: 110px;
+  }
+}
+
+/* Accessibility: Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .quick-actions__button {
+    transition: none;
+  }
+
+  .quick-actions__button:hover {
+    transform: none;
+  }
+
+  .quick-actions__button:focus-visible {
+    transform: none;
+  }
+
+  .quick-actions__button:active {
+    transform: none;
+  }
+}

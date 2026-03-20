@@ -6,6 +6,17 @@ import { performHealthCheck } from './utils/dbHealthCheck';
 import { closePool } from './config/database';
 import { performHealthCheck as performRedisHealthCheck } from './utils/redisHealthCheck';
 import redisClient from './utils/redisClient';
+import { startWaitlistProcessor, stopWaitlistProcessor } from './jobs/waitlistProcessor';
+import { startReminderJob, stopReminderJob } from './jobs/appointmentReminderJob';
+import { startCalendarSyncQueueJob, stopCalendarSyncQueueJob } from './jobs/calendarSyncQueueJob';
+import type { ScheduledTask } from 'node-cron';
+
+/**
+ * Global cron task instances for graceful shutdown
+ */
+let waitlistProcessorTask: ScheduledTask | null = null;
+let reminderJobTask: ScheduledTask | null = null;
+let calendarSyncQueueTask: ScheduledTask | null = null;
 
 /**
  * Attempts to start server on specified port
@@ -49,7 +60,34 @@ const startServer = async (port: number, maxPort: number = 3005): Promise<number
     const shutdown = async (signal: string) => {
       logger.info(`${signal} received. Closing server gracefully...`);
       
-      // Close HTTP server first
+      // Stop cron jobs
+      if (waitlistProcessorTask) {
+        try {
+          stopWaitlistProcessor(waitlistProcessorTask);
+        } catch (error) {
+          logger.error('Error stopping waitlist processor:', error);
+        }
+      }
+      
+      if (reminderJobTask) {
+        try {
+          stopReminderJob();
+          logger.info('✓ Reminder job stopped');
+        } catch (error) {
+          logger.error('Error stopping reminder job:', error);
+        }
+      }
+      
+      if (calendarSyncQueueTask) {
+        try {
+          stopCalendarSyncQueueJob();
+          logger.info('✓ Calendar sync queue job stopped');
+        } catch (error) {
+          logger.error('Error stopping calendar sync queue job:', error);
+        }
+      }
+      
+      // Close HTTP server
       server.close(async () => {
         logger.info('HTTP server closed');
         
@@ -137,6 +175,32 @@ const init = async () => {
       logger.debug('Redis error:', error);
     }
     
+    // Start cron jobs
+    logger.info('Starting scheduled jobs...');
+    try {
+      waitlistProcessorTask = startWaitlistProcessor();
+      logger.info('✓ Waitlist processor job started');
+    } catch (error) {
+      logger.error('Failed to start waitlist processor:', error);
+      // Non-critical - continue server startup
+    }
+    
+    try {
+      reminderJobTask = startReminderJob();
+      logger.info('✓ Appointment reminder job started (runs hourly)');
+    } catch (error) {
+      logger.error('Failed to start reminder job:', error);
+      // Non-critical - continue server startup
+    }
+    
+    try {
+      calendarSyncQueueTask = startCalendarSyncQueueJob();
+      logger.info('✓ Calendar sync queue job started (runs every 5 minutes)');
+    } catch (error) {
+      logger.error('Failed to start calendar sync queue job:', error);
+      // Non-critical - continue server startup
+    }
+    
     // Start HTTP server
     const usedPort = await startServer(config.port);
     
@@ -145,6 +209,31 @@ const init = async () => {
     }
   } catch (error) {
     logger.error('Failed to start server:', error);
+    
+    // Clean up cron jobs on startup failure
+    if (waitlistProcessorTask) {
+      try {
+        stopWaitlistProcessor(waitlistProcessorTask);
+      } catch (cleanupError) {
+        logger.error('Error stopping waitlist processor during cleanup:', cleanupError);
+      }
+    }
+    
+    if (reminderJobTask) {
+      try {
+        stopReminderJob();
+      } catch (cleanupError) {
+        logger.error('Error stopping reminder job during cleanup:', cleanupError);
+      }
+    }
+    
+    if (calendarSyncQueueTask) {
+      try {
+        stopCalendarSyncQueueJob();
+      } catch (cleanupError) {
+        logger.error('Error stopping calendar sync queue job during cleanup:', cleanupError);
+      }
+    }
     
     // Clean up database connections on startup failure
     try {

@@ -1,0 +1,230 @@
+/**
+ * Welcome Banner CSS
+ * 
+ * Styles for the welcome banner component at the top of the dashboard.
+ * Implements flexbox layout with profile photo and logout button per wireframe.
+ * 
+ * Design Tokens:
+ * - Colors: primary, neutral (from designsystem.md)
+ * - Typography: H2 (24px, 600), Body (16px)
+ * - Spacing: 16px, 24px, 32px
+ * - Border radius: 50% (profile photo), 8px (button)
+ * 
+ * @created 2026-03-19
+ * @task US_019 TASK_001
+ */
+
+/* === Welcome Banner Container === */
+.welcome-banner {
+  background: linear-gradient(135deg, #0066CC 0%, #0052A3 100%);
+  color: white;
+  padding: 24px 32px;
+  border-radius: 12px;
+  margin-bottom: 32px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.welcome-banner__content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+}
+
+/* === Welcome Text Section === */
+.welcome-banner__text {
+  flex: 1;
+}
+
+.welcome-banner__greeting {
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 32px;
+  margin: 0 0 8px 0;
+  color: white;
+}
+
+.welcome-banner__name {
+  font-weight: 700;
+}
+
+.welcome-banner__description {
+  font-size: 16px;
+  line-height: 24px;
+  margin: 0;
+  opacity: 0.95;
+  color: rgba(255, 255, 255, 0.95);
+}
+
+/* === Actions Section === */
+.welcome-banner__actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+/* === Profile Photo === */
+.welcome-banner__profile {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%; /* Full circle */
+  overflow: hidden;
+  background: var(--primary-100, #E6F0FA);
+  color: var(--primary-600, #0066CC);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: 600;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  transition: transform 200ms ease;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.welcome-banner__profile:hover {
+  transform: scale(1.05);
+}
+
+.welcome-banner__photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.welcome-banner__initials {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--primary-100, #E6F0FA);
+  color: var(--primary-600, #0066CC);
+  font-size: 18px;
+  font-weight: 600;
+}
+
+/* === Logout Button === */
+.welcome-banner__logout {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  font-family: var(--font-family, 'Inter', sans-serif);
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 200ms ease;
+  white-space: nowrap;
+}
+
+.welcome-banner__logout:hover {
+  background: rgba(255, 255, 255, 0.3);
+  border-color: rgba(255, 255, 255, 0.5);
+  transform: translateY(-1px);
+}
+
+.welcome-banner__logout:active {
+  transform: translateY(0);
+}
+
+.welcome-banner__logout:focus-visible {
+  outline: 2px solid white;
+  outline-offset: 2px;
+}
+
+.welcome-banner__logout-icon {
+  font-size: 16px;
+}
+
+.welcome-banner__logout-text {
+  line-height: 1;
+}
+
+/* === Responsive: Tablet === */
+@media (max-width: 1023px) {
+  .welcome-banner {
+    padding: 20px 24px;
+  }
+
+  .welcome-banner__greeting {
+    font-size: 20px;
+    line-height: 28px;
+  }
+
+  .welcome-banner__description {
+    font-size: 14px;
+    line-height: 20px;
+  }
+}
+
+/* === Responsive: Mobile === */
+@media (max-width: 767px) {
+  .welcome-banner {
+    padding: 16px 20px;
+    border-radius: 8px;
+  }
+
+  .welcome-banner__content {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .welcome-banner__text {
+    width: 100%;
+  }
+
+  .welcome-banner__greeting {
+    font-size: 18px;
+    line-height: 24px;
+    margin-bottom: 4px;
+  }
+
+  .welcome-banner__description {
+    font-size: 14px;
+    line-height: 20px;
+  }
+
+  .welcome-banner__actions {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .welcome-banner__profile {
+    width: 40px;
+    height: 40px;
+    font-size: 16px;
+  }
+
+  .welcome-banner__logout {
+    flex: 1;
+    justify-content: center;
+    padding: 10px 16px;
+    max-width: 200px;
+  }
+}
+
+/* === Accessibility: Reduced Motion === */
+@media (prefers-reduced-motion: reduce) {
+  .welcome-banner__profile,
+  .welcome-banner__logout {
+    transition: none;
+  }
+
+  .welcome-banner__profile:hover,
+  .welcome-banner__logout:hover {
+    transform: none;
+  }
+}
+
+/* === Print Styles === */
+@media print {
+  .welcome-banner__logout {
+    display: none;
+  }
+}

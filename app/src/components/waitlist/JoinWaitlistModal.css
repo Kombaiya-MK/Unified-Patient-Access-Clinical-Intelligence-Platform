@@ -1,0 +1,343 @@
+/**
+ * Join Waitlist Modal Styles
+ * 
+ * Styles for the Join Waitlist confirmation modal.
+ * Responsive, accessible, with focus trap and smooth animations.
+ * 
+ * @module JoinWaitlistModal.css
+ * @created 2026-03-19
+ * @task US_015 TASK_003
+ */
+
+/* Modal Overlay */
+.join-waitlist-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  animation: join-waitlist-fadeIn 0.2s ease-in;
+}
+
+@keyframes join-waitlist-fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Modal Container */
+.join-waitlist-modal-container {
+  background: white;
+  border-radius: 12px;
+  max-width: 550px;
+  width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  animation: join-waitlist-slideUp 0.3s ease-out;
+}
+
+@keyframes join-waitlist-slideUp {
+  from {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Modal Header */
+.join-waitlist-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 24px 16px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.join-waitlist-modal-header h2 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.join-waitlist-modal-close {
+  background: none;
+  border: none;
+  font-size: 32px;
+  font-weight: 300;
+  color: #6b7280;
+  cursor: pointer;
+  padding: 0;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.join-waitlist-modal-close:hover {
+  background-color: #f3f4f6;
+  color: #374151;
+}
+
+.join-waitlist-modal-close:focus {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+/* Modal Content */
+.join-waitlist-modal-content {
+  padding: 24px;
+}
+
+.join-waitlist-modal-description {
+  margin: 0 0 24px;
+  font-size: 15px;
+  line-height: 1.6;
+  color: #4b5563;
+}
+
+/* Appointment Details Section */
+.join-waitlist-modal-details {
+  background-color: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.join-waitlist-modal-details h3 {
+  margin: 0 0 16px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.join-waitlist-detail-item {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.join-waitlist-detail-item:last-child {
+  margin-bottom: 0;
+}
+
+.join-waitlist-detail-item svg {
+  flex-shrink: 0;
+  color: #6b7280;
+  margin-top: 2px;
+}
+
+.join-waitlist-detail-label {
+  font-size: 12px;
+  font-weight: 500;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
+}
+
+.join-waitlist-detail-value {
+  font-size: 14px;
+  font-weight: 500;
+  color: #111827;
+  line-height: 1.5;
+}
+
+/* Info Box */
+.join-waitlist-modal-info {
+  display: flex;
+  gap: 12px;
+  padding: 16px;
+  background-color: #eff6ff;
+  border: 1px solid #bfdbfe;
+  border-radius: 8px;
+  margin-bottom: 24px;
+}
+
+.join-waitlist-modal-info svg {
+  flex-shrink: 0;
+  color: #3b82f6;
+  margin-top: 2px;
+}
+
+.join-waitlist-modal-info span {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #1e40af;
+}
+
+/* Modal Footer */
+.join-waitlist-modal-footer {
+  display: flex;
+  gap: 12px;
+  padding: 16px 24px 24px;
+  justify-content: flex-end;
+}
+
+/* Modal Buttons */
+.join-waitlist-modal-button {
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 120px;
+  justify-content: center;
+}
+
+.join-waitlist-modal-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Primary Button (Confirm) */
+.join-waitlist-modal-button-primary {
+  background-color: #eab308;
+  color: white;
+  border: 2px solid #eab308;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.join-waitlist-modal-button-primary:hover:not(:disabled) {
+  background-color: #ca8a04;
+  border-color: #ca8a04;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transform: translateY(-1px);
+}
+
+.join-waitlist-modal-button-primary:focus {
+  outline: 2px solid #eab308;
+  outline-offset: 2px;
+}
+
+.join-waitlist-modal-button-primary:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+/* Secondary Button (Cancel) */
+.join-waitlist-modal-button-secondary {
+  background-color: white;
+  color: #374151;
+  border: 1px solid #d1d5db;
+}
+
+.join-waitlist-modal-button-secondary:hover:not(:disabled) {
+  background-color: #f9fafb;
+  border-color: #9ca3af;
+}
+
+.join-waitlist-modal-button-secondary:focus {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+/* Loading Spinner */
+.join-waitlist-modal-spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: join-waitlist-spin 0.6s linear infinite;
+}
+
+@keyframes join-waitlist-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 640px) {
+  .join-waitlist-modal-container {
+    width: 95%;
+    max-height: 95vh;
+    border-radius: 8px;
+  }
+
+  .join-waitlist-modal-header {
+    padding: 20px 16px 12px;
+  }
+
+  .join-waitlist-modal-header h2 {
+    font-size: 20px;
+  }
+
+  .join-waitlist-modal-content {
+    padding: 16px;
+  }
+
+  .join-waitlist-modal-details {
+    padding: 16px;
+  }
+
+  .join-waitlist-modal-footer {
+    padding: 12px 16px 16px;
+    flex-direction: column-reverse;
+  }
+
+  .join-waitlist-modal-button {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .join-waitlist-detail-value {
+    font-size: 13px;
+  }
+}
+
+/* Accessibility: Focus visible for keyboard navigation */
+.join-waitlist-modal-button:focus-visible {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+/* High Contrast Mode Support */
+@media (prefers-contrast: high) {
+  .join-waitlist-modal-overlay {
+    background-color: rgba(0, 0, 0, 0.8);
+  }
+
+  .join-waitlist-modal-container {
+    border: 2px solid #000;
+  }
+
+  .join-waitlist-modal-button {
+    border-width: 2px;
+  }
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  .join-waitlist-modal-overlay,
+  .join-waitlist-modal-container,
+  .join-waitlist-modal-button {
+    animation: none;
+    transition: none;
+  }
+
+  .join-waitlist-modal-spinner {
+    animation-duration: 1.2s;
+  }
+}

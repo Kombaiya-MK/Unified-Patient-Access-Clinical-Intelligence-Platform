@@ -1,0 +1,364 @@
+/**
+ * Waitlist Card Styles
+ * 
+ * Styles for the waitlist entry card component.
+ * Responsive, accessible, with status indicators and hover effects.
+ * 
+ * @module WaitlistCard.css
+ * @created 2026-03-19
+ * @task US_015 TASK_003
+ */
+
+/* Waitlist Card */
+.waitlist-card {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 20px;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.waitlist-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+
+/* Card Header */
+.waitlist-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 16px;
+  gap: 12px;
+}
+
+.waitlist-card-date {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.waitlist-card-date-short {
+  font-size: 13px;
+  font-weight: 600;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.waitlist-card-date-full {
+  font-size: 16px;
+  font-weight: 600;
+  color: #111827;
+}
+
+/* Status Badge */
+.waitlist-card-status {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  flex-shrink: 0;
+}
+
+.waitlist-card-status--waiting {
+  background-color: #fef3c7;
+  color: #92400e;
+  border: 1px solid #fbbf24;
+}
+
+.waitlist-card-status--contacted {
+  background-color: #dbeafe;
+  color: #1e40af;
+  border: 1px solid #60a5fa;
+}
+
+.waitlist-card-status--scheduled {
+  background-color: #d1fae5;
+  color: #065f46;
+  border: 1px solid #34d399;
+}
+
+.waitlist-card-status--cancelled {
+  background-color: #f3f4f6;
+  color: #6b7280;
+  border: 1px solid #d1d5db;
+}
+
+.waitlist-card-status--expired {
+  background-color: #fee2e2;
+  color: #991b1b;
+  border: 1px solid #f87171;
+}
+
+/* Card Details */
+.waitlist-card-details {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.waitlist-card-detail {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  color: #374151;
+}
+
+.waitlist-card-detail svg {
+  color: #9ca3af;
+  flex-shrink: 0;
+}
+
+.waitlist-card-priority {
+  display: inline-block;
+  padding: 4px 10px;
+  background-color: #f3f4f6;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #374151;
+  margin-top: 4px;
+  align-self: flex-start;
+}
+
+/* Card Actions */
+.waitlist-card-actions {
+  display: flex;
+  gap: 10px;
+  padding-top: 12px;
+  border-top: 1px solid #f3f4f6;
+}
+
+.waitlist-card-button {
+  padding: 10px 18px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.waitlist-card-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.waitlist-card-button-cancel {
+  background-color: white;
+  color: #dc2626;
+  border: 1px solid #dc2626;
+}
+
+.waitlist-card-button-cancel:hover:not(:disabled) {
+  background-color: #dc2626;
+  color: white;
+}
+
+.waitlist-card-button-cancel:focus {
+  outline: 2px solid #dc2626;
+  outline-offset: 2px;
+}
+
+/* Contacted Notice */
+.waitlist-card-notice {
+  display: flex;
+  gap: 10px;
+  padding: 12px;
+  background-color: #eff6ff;
+  border: 1px solid #bfdbfe;
+  border-radius: 8px;
+  margin-top: 12px;
+}
+
+.waitlist-card-notice svg {
+  color: #3b82f6;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.waitlist-card-notice span {
+  font-size: 14px;
+  line-height: 1.5;
+  color: #1e40af;
+}
+
+/* Confirmation Dialog */
+.waitlist-card-dialog-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  animation: fadeIn 0.2s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.waitlist-card-dialog {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  max-width: 400px;
+  width: 90%;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.waitlist-card-dialog h3 {
+  margin: 0 0 12px;
+  font-size: 20px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.waitlist-card-dialog p {
+  margin: 0 0 20px;
+  font-size: 15px;
+  line-height: 1.6;
+  color: #6b7280;
+}
+
+.waitlist-card-dialog-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+}
+
+.waitlist-card-dialog-button {
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.waitlist-card-dialog-button-secondary {
+  background-color: white;
+  color: #374151;
+  border: 1px solid #d1d5db;
+}
+
+.waitlist-card-dialog-button-secondary:hover {
+  background-color: #f9fafb;
+  border-color: #9ca3af;
+}
+
+.waitlist-card-dialog-button-danger {
+  background-color: #dc2626;
+  color: white;
+  border: 1px solid #dc2626;
+}
+
+.waitlist-card-dialog-button-danger:hover {
+  background-color: #b91c1c;
+  border-color: #b91c1c;
+}
+
+.waitlist-card-dialog-button:focus {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+/* Responsive Design */
+@media (max-width: 640px) {
+  .waitlist-card {
+    padding: 16px;
+  }
+
+  .waitlist-card-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .waitlist-card-date-full {
+    font-size: 15px;
+  }
+
+  .waitlist-card-button {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .waitlist-card-dialog {
+    width: 95%;
+    padding: 20px;
+  }
+
+  .waitlist-card-dialog-actions {
+    flex-direction: column-reverse;
+  }
+
+  .waitlist-card-dialog-button {
+    width: 100%;
+  }
+}
+
+/* Accessibility */
+.waitlist-card-button:focus-visible,
+.waitlist-card-dialog-button:focus-visible {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+  .waitlist-card {
+    border-width: 2px;
+  }
+
+  .waitlist-card-status {
+    border-width: 2px;
+  }
+
+  .waitlist-card-button {
+    border-width: 2px;
+  }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  .waitlist-card,
+  .waitlist-card-button,
+  .waitlist-card-dialog-overlay,
+  .waitlist-card-dialog {
+    animation: none;
+    transition: none;
+  }
+}

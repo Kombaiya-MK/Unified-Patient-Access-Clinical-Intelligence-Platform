@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Appointment Confirmation</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      color: #333;
+      line-height: 1.6;
+      padding: 0;
+      margin: 0;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    .header {
+      text-align: center;
+      padding: 20px 0;
+      border-bottom: 3px solid {{primaryColor}};
+      margin-bottom: 30px;
+    }
+
+    .logo {
+      max-width: 150px;
+      height: auto;
+      margin-bottom: 10px;
+    }
+
+    h1 {
+      color: {{primaryColor}};
+      font-size: 28px;
+      margin: 10px 0;
+      font-weight: bold;
+    }
+
+    .clinic-name {
+      color: {{primaryColor}};
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .tagline {
+      color: #666;
+      font-size: 14px;
+    }
+
+    .content {
+      padding: 20px 0;
+    }
+
+    .appointment-id {
+      font-size: 18px;
+      background: #F0F0F0;
+      padding: 15px;
+      margin-bottom: 20px;
+      text-align: center;
+      border-radius: 5px;
+      font-weight: bold;
+    }
+
+    .qr-section {
+      text-align: center;
+      margin: 30px 0;
+      padding: 20px;
+      background: #F9F9F9;
+      border-radius: 5px;
+    }
+
+    .qr-code img {
+      width: 180px;
+      height: 180px;
+      border: 2px solid {{primaryColor}};
+      padding: 10px;
+      background: white;
+    }
+
+    .qr-label {
+      margin-top: 10px;
+      font-size: 12px;
+      color: #666;
+    }
+
+    h2 {
+      color: {{primaryColor}};
+      font-size: 20px;
+      margin: 25px 0 15px 0;
+      padding-bottom: 8px;
+      border-bottom: 2px solid #E0E0E0;
+    }
+
+    .details-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+    }
+
+    .details-table td {
+      padding: 12px;
+      border-bottom: 1px solid #E0E0E0;
+    }
+
+    .details-table td:first-child {
+      font-weight: bold;
+      width: 35%;
+      color: #555;
+    }
+
+    .details-table td:last-child {
+      color: #333;
+    }
+
+    .details-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .instructions {
+      background: #FFF9E5;
+      padding: 20px;
+      margin: 25px 0;
+      border-left: 4px solid #FFC107;
+      border-radius: 3px;
+    }
+
+    .instructions h3 {
+      color: #F57C00;
+      font-size: 16px;
+      margin-bottom: 10px;
+    }
+
+    .instructions ul {
+      margin-left: 20px;
+      margin-top: 10px;
+    }
+
+    .instructions li {
+      margin-bottom: 8px;
+      color: #555;
+    }
+
+    .footer {
+      text-align: center;
+      padding: 20px 0;
+      font-size: 12px;
+      color: #666;
+      border-top: 2px solid #E0E0E0;
+      margin-top: 40px;
+    }
+
+    .footer p {
+      margin: 5px 0;
+    }
+
+    .footer .clinic-name-footer {
+      font-weight: bold;
+      color: {{primaryColor}};
+      font-size: 14px;
+    }
+
+    .highlight {
+      color: {{primaryColor}};
+      font-weight: bold;
+    }
+
+    @media print {
+      body {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="clinic-name">{{clinicName}}</div>
+      <div class="tagline">Your Healthcare Partner</div>
+      <h1>Appointment Confirmation</h1>
+    </div>
+
+    <div class="content">
+      <div class="appointment-id">
+        <strong>Appointment ID:</strong> <span class="highlight">#{{appointmentId}}</span>
+      </div>
+
+      <div class="qr-section">
+        <div class="qr-code">
+          <img src="{{qrCode}}" alt="Appointment QR Code">
+        </div>
+        <div class="qr-label">Scan this code to view your appointment details online</div>
+      </div>
+
+      <h2>Appointment Details</h2>
+      <table class="details-table">
+        <tr>
+          <td>Patient Name:</td>
+          <td>{{patientName}}</td>
+        </tr>
+        <tr>
+          <td>Date:</td>
+          <td>{{appointmentDate}}</td>
+        </tr>
+        <tr>
+          <td>Time:</td>
+          <td>{{appointmentTime}}</td>
+        </tr>
+        <tr>
+          <td>Provider:</td>
+          <td>{{providerName}}</td>
+        </tr>
+        <tr>
+          <td>Department:</td>
+          <td>{{departmentName}}</td>
+        </tr>
+        <tr>
+          <td>Location:</td>
+          <td>{{location}}</td>
+        </tr>
+      </table>
+
+      <div class="instructions">
+        <h3>Important Instructions</h3>
+        <ul>
+          <li><strong>Arrival Time:</strong> Please arrive 15 minutes before your scheduled appointment time</li>
+          <li><strong>Required Documents:</strong> Bring a valid photo ID and your insurance card</li>
+          <li><strong>Health & Safety:</strong> If you are experiencing COVID-19 symptoms (fever, cough, difficulty breathing), please call us before arriving</li>
+          <li><strong>Cancellation Policy:</strong> If you need to cancel or reschedule, please notify us at least 24 hours in advance</li>
+          <li><strong>Questions:</strong> If you have any questions, please call our office or check your patient portal</li>
+        </ul>
+      </div>
+
+      <div class="instructions" style="background: #E3F2FD; border-left-color: {{primaryColor}};">
+        <h3 style="color: {{primaryColor}};">Contact Information</h3>
+        <ul>
+          <li><strong>Phone:</strong> {{phone}}</li>
+          <li><strong>Email:</strong> {{email}}</li>
+          <li><strong>Address:</strong> {{address}}</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer">
+      <p class="clinic-name-footer">{{clinicName}}</p>
+      <p>{{address}}</p>
+      <p>Phone: {{phone}} | Email: {{email}}</p>
+      <p style="margin-top: 10px; color: #999;">This appointment confirmation was generated electronically and is valid without a signature.</p>
+    </div>
+  </div>
+</body>
+</html>

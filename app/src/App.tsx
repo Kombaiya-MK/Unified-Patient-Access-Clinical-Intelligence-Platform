@@ -1,62 +1,101 @@
-import { Routes, Route } from 'react-router-dom';
+/**
+ * App Component
+ * 
+ * Root application component with routing and authentication.
+ * Wraps the app with AuthProvider for global auth state management
+ * and QueryClientProvider for React Query data fetching.
+ * Implements protected routes for role-based access control.
+ * 
+ * @module App
+ * @created 2026-03-18
+ * @task US_012 TASK_001, TASK_003; US_013 TASK_001
+ */
+
+import { Routes, Route, Navigate } from 'react-router-dom';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { AuthProvider } from './context/AuthContext';
+import { AppointmentProvider } from './context/AppointmentContext';
+import { WaitlistProvider } from './context/WaitlistContext';
+import { ProtectedRoute, UnauthorizedPage } from './components/auth/ProtectedRoute';
+import { LoginPage } from './pages/LoginPage';
+import { PatientDashboard } from './pages/PatientDashboard';
+import { StaffDashboard } from './pages/StaffDashboard';
+import { AdminDashboard } from './pages/AdminDashboard';
+import { AppointmentBookingPage } from './pages/AppointmentBookingPage';
 import './App.css';
+
+// Create a client for React Query
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: 1,
+      refetchOnWindowFocus: false,
+      staleTime: 5 * 60 * 1000, // 5 minutes
+    },
+  },
+});
 
 function App() {
   return (
-    <div className="app">
-      <Routes>
-        {/* Default route - redirect to home */}
-        <Route path="/" element={<HomePage />} />
-
-        {/* 404 Not Found */}
-        <Route path="*" element={<NotFoundPage />} />
-      </Routes>
-    </div>
-  );
-}
-
-// Placeholder home page component
-function HomePage() {
-  return (
-    <div className="page-container">
-      <header>
-        <h1>Clinical Appointment Platform</h1>
-        <p>React 18.2 + TypeScript + Vite + React Router v6</p>
-      </header>
-      <main>
-        <section>
-          <h2>🚀 Project Setup Complete</h2>
-          <ul>
-            <li>✅ React with TypeScript</li>
-            <li>✅ React Router v6 configured</li>
-            <li>✅ ESLint & Prettier configured</li>
-            <li>✅ Path aliases setup</li>
-            <li>✅ Environment configuration ready</li>
-            <li>✅ IIS deployment support enabled</li>
-          </ul>
-        </section>
-        <section>
-          <h3>Next Steps</h3>
-          <p>
-            Start building your pages in <code>src/pages/</code>
-          </p>
-          <p>
-            Create reusable components in <code>src/components/</code>
-          </p>
-        </section>
-      </main>
-    </div>
-  );
-}
-
-// Placeholder 404 page
-function NotFoundPage() {
-  return (
-    <div className="page-container">
-      <h1>404 - Page Not Found</h1>
-      <p>The page you are looking for does not exist.</p>
-      <a href="/">Return to Home</a>
-    </div>
+    <QueryClientProvider client={queryClient}>
+      <AuthProvider>
+        <AppointmentProvider>
+          <WaitlistProvider>
+            <div className="app">
+              <Routes>
+                {/* Public Routes */}
+                <Route path="/login" element={<LoginPage />} />
+                <Route path="/unauthorized" element={<UnauthorizedPage />} />
+              
+              {/* Protected Routes - Patient */}
+              <Route
+                path="/patient/dashboard"
+                element={
+                  <ProtectedRoute allowedRoles={['patient']}>
+                    <PatientDashboard />
+                  </ProtectedRoute>
+                }
+              />
+              
+              {/* Protected Routes - Appointments (Patient access) */}
+              <Route
+                path="/appointments/book"
+                element={
+                  <ProtectedRoute allowedRoles={['patient']}>
+                    <AppointmentBookingPage />
+                  </ProtectedRoute>
+                }
+              />
+              
+              {/* Protected Routes - Staff */}
+              <Route
+                path="/staff/dashboard"
+                element={
+                  <ProtectedRoute allowedRoles={['staff', 'admin']}>
+                    <StaffDashboard />
+                  </ProtectedRoute>
+                }
+              />
+              
+              {/* Protected Routes - Admin */}
+              <Route
+                path="/admin/dashboard"
+                element={
+                  <ProtectedRoute allowedRoles={['admin']}>
+                    <AdminDashboard />
+                  </ProtectedRoute>
+                }
+              />
+              
+              {/* Fallback Routes */}
+              <Route path="/" element={<Navigate to="/login" replace />} />
+              <Route path="*" element={<Navigate to="/login" replace />} />
+            </Routes>
+          </div>
+          </WaitlistProvider>
+        </AppointmentProvider>
+      </AuthProvider>
+    </QueryClientProvider>
   );
 }
 

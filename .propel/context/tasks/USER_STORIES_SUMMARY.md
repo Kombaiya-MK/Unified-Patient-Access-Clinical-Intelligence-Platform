@@ -1,6 +1,6 @@
 # User Stories Summary - UPACI Platform
 **Generated:** March 17, 2026  
-**Last Updated:** March 17, 2026  
+**Last Updated:** March 19, 2026  
 **Total User Stories:** 50 (ALL CREATED ✅)  
 **Total Epics:** 12  
 **Total Requirements Covered:** 110 (23 FR, 14 UC, 10 NFR, 20 TR, 10 DR, 17 AIR, 16 UXR)  
@@ -169,13 +169,40 @@ This document provides a complete inventory of all 50 INVEST-compliant user stor
 
 ### EP-010: Deployment & DevOps Configuration (3 stories)
 
-| US-ID | Title | Story Points | Wireframe | Status |
-|-------|-------|-------------|-----------|---------|
-| US-048 | Windows Services/IIS Deployment Configuration | 4 | N/A (Infrastructure) | ✅ Created |
-| US-049 | Feature Flags for AI Model Version Control | 3 | N/A (Backend) | ✅ Created |
-| US-050 | Zero-Downtime Deployment with PM2 | 3 | N/A (Infrastructure) | ✅ Created |
+| US-ID | Title | Story Points | Wireframe | Status | Tasks |
+|-------|-------|-------------|-----------|---------|-------|
+| US-048 | Windows Services/IIS Deployment Configuration | 4 | N/A (Infrastructure) | ✅ Created | 3 tasks |
+| US-049 | Feature Flags for AI Model Version Control | 3 | N/A (Backend) | ✅ Created | 3 tasks |
+| US-050 | Zero-Downtime Deployment with PM2 Cluster Mode | 3 | N/A (Infrastructure) | ✅ Created | 3 tasks |
 
-**Requirements Covered:** NFR-006, TR-017
+**Requirements Covered:** NFR-REL05, TR-009, NFR-PERF04, NFR-006, TR-017, TR-008
+
+#### US-050 Task Breakdown (15 hours total)
+**task_001_pm2_cluster_configuration.md** (5 hours)
+- PM2 cluster mode with instances = CPU cores
+- Graceful shutdown handler (30s timeout, SIGINT/SIGTERM)
+- PM2 ecosystem.config.js configuration
+- Automatic restart policies (max_restarts: 10, min_uptime: 60s)
+- PM2 startup scripts (Linux/Windows)
+- Impacted: ecosystem.config.js (CREATE), server.ts (MODIFY), package.json (MODIFY)
+
+**task_002_health_check_enhancement.md** (4 hours)
+- Enhanced /api/health endpoint (200/503 status codes)
+- Database + Redis + AI service checks
+- Health check execution time tracking
+- PM2 readiness validation integration
+- Impacted: app.ts (MODIFY), aiServiceHealthCheck.ts (CREATE)
+
+**task_003_deployment_pipeline_automation.md** (6 hours)
+- Zero-downtime deployment scripts (staging + production)
+- pm2 reload with rolling restart implementation
+- Rollback procedures (git revert + redeploy)
+- PM2 Prometheus exporter (metrics on port 9209)
+- Grafana deployment dashboard
+- Deployment documentation with runbook
+- Impacted: deploy-staging.sh, deploy-production.sh, rollback.sh (CREATE), pm2-exporter.js (CREATE), zero-downtime-deployment.md (CREATE)
+
+**Traceability Matrix:** .propel/context/tasks/us_050/TRACEABILITY_MATRIX.md
 
 ---
 

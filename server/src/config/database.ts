@@ -36,6 +36,8 @@ const poolConfig: PoolConfig = {
         rejectUnauthorized: false, // For self-signed certificates in development
       }
     : false,
+  // Set default schema search path to app schema
+  options: '-c search_path=app,public',
 };
 
 /**

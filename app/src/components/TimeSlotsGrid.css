@@ -1,0 +1,259 @@
+/**
+ * TimeSlotsGrid Styles
+ * 
+ * Responsive grid layout for time slots with availability status indicators.
+ * 
+ * @task US_013 TASK_001
+ */
+
+.time-slots-container {
+  width: 100%;
+}
+
+.time-slots-header {
+  margin-bottom: 16px;
+}
+
+.time-slots-header h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #212529;
+  margin: 0 0 4px 0;
+}
+
+.slots-date {
+  font-size: 14px;
+  color: #6C757D;
+}
+
+/* Grid layout */
+.time-slots-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+/* Time slot button */
+.time-slot {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60px;
+  padding: 12px;
+  border-radius: 8px;
+  border: 2px solid;
+  background-color: #FFFFFF;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+/* Available slot - green */
+.time-slot.slot-available {
+  border-color: #28A745;
+  color: #1E7E34;
+  background-color: #F1F9F3;
+}
+
+.time-slot.slot-available:hover {
+  background-color: #D4EDDA;
+  border-color: #1E7E34;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(40, 167, 69, 0.2);
+}
+
+.time-slot.slot-available:focus {
+  outline: 2px solid #007BFF;
+  outline-offset: 2px;
+  border-color: #1E7E34;
+}
+
+/* Booked slot - gray */
+.time-slot.slot-booked {
+  border-color: #6C757D;
+  color: #6C757D;
+  background-color: #E9ECEF;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* Selected slot - blue */
+.time-slot.slot-selected {
+  border-color: #0056B3;
+  color: #FFFFFF;
+  background-color: #007BFF;
+  font-weight: 600;
+}
+
+.time-slot.slot-selected:hover {
+  background-color: #0056B3;
+  border-color: #004085;
+}
+
+.time-slot.slot-selected:focus {
+  outline: 2px solid #FFC107;
+  outline-offset: 2px;
+}
+
+/* Slot time text */
+.slot-time {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+/* Selected badge */
+.slot-badge {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  margin-top: 4px;
+  padding: 2px 6px;
+  background-color: rgba(255, 255, 255, 0.3);
+  border-radius: 4px;
+}
+
+/* Loading skeleton */
+.time-slot.slot-skeleton {
+  border-color: #E9ECEF;
+  background-color: #F8F9FA;
+  cursor: default;
+  overflow: hidden;
+}
+
+.skeleton-shimmer {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    #F8F9FA 0%,
+    #E9ECEF 50%,
+    #F8F9FA 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* Empty state */
+.time-slots-empty {
+  text-align: center;
+  padding: 48px 24px;
+  color: #6C757D;
+}
+
+.time-slots-empty p {
+  margin: 8px 0;
+  font-size: 16px;
+}
+
+.time-slots-empty .text-muted {
+  font-size: 14px;
+  color: #ADB5BD;
+}
+
+/* Legend */
+.time-slots-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding-top: 16px;
+  border-top: 1px solid #E9ECEF;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: #495057;
+}
+
+.legend-indicator {
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  border: 2px solid;
+  flex-shrink: 0;
+}
+
+.legend-indicator.available {
+  border-color: #28A745;
+  background-color: #F1F9F3;
+}
+
+.legend-indicator.booked {
+  border-color: #6C757D;
+  background-color: #E9ECEF;
+}
+
+.legend-indicator.selected {
+  border-color: #0056B3;
+  background-color: #007BFF;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .time-slots-grid {
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 8px;
+  }
+
+  .time-slot {
+    min-height: 56px;
+    padding: 10px;
+  }
+
+  .slot-time {
+    font-size: 14px;
+  }
+
+  .time-slots-legend {
+    flex-direction: column;
+    gap: 8px;
+  }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  .time-slot {
+    border-width: 3px;
+  }
+
+  .time-slot.slot-selected {
+    text-decoration: underline;
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .time-slot {
+    transition: none;
+  }
+
+  .time-slot.slot-available:hover {
+    transform: none;
+  }
+
+  .skeleton-shimmer {
+    animation: none;
+  }
+}
+
+/* Focus-visible for keyboard navigation */
+.time-slot:focus-visible {
+  outline: 3px solid #007BFF;
+  outline-offset: 2px;
+  z-index: 1;
+}

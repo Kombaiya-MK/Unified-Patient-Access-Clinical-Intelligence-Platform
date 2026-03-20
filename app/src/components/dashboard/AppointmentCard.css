@@ -1,0 +1,377 @@
+/**
+ * Appointment Card Styles
+ * 
+ * Styles for appointment card component displayed on dashboard.
+ * Features responsive layout, status badges, hover effects, and accessibility.
+ * 
+ * @module AppointmentCard.css
+ * @created 2026-03-19
+ * @task US_013 TASK_006
+ */
+
+/* Appointment Card */
+.appointment-card {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 16px;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+  border: 1px solid #E5E7EB;
+}
+
+.appointment-card:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+}
+
+.appointment-card:focus-within {
+  outline: 2px solid #3B82F6;
+  outline-offset: 2px;
+}
+
+/* Card Header */
+.appointment-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #E5E7EB;
+}
+
+.appointment-date {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1F2937;
+}
+
+/* Status Badge */
+.status-badge {
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.status-badge.status-scheduled,
+.status-badge.status-confirmed {
+  background: #D1FAE5;
+  color: #065F46;
+}
+
+.status-badge.status-completed {
+  background: #DBEAFE;
+  color: #1E40AF;
+}
+
+.status-badge.status-cancelled {
+  background: #FEE2E2;
+  color: #991B1B;
+}
+
+.status-badge.status-no-show {
+  background: #F3F4F6;
+  color: #6B7280;
+}
+
+.status-badge.status-default {
+  background: #F3F4F6;
+  color: #374151;
+}
+
+/* Card Body */
+.appointment-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.appointment-info-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  color: #4B5563;
+}
+
+.appointment-info-row svg {
+  flex-shrink: 0;
+  color: #6B7280;
+}
+
+.info-text {
+  flex: 1;
+  color: #1F2937;
+  line-height: 1.4;
+}
+
+/* Card Footer */
+.appointment-card-footer {
+  display: flex;
+  gap: 8px;
+  padding-top: 12px;
+  border-top: 1px solid #E5E7EB;
+}
+
+/* Action Buttons */
+.btn-card-action {
+  flex: 1;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s, border-color 0.2s, transform 0.1s;
+}
+
+.btn-secondary {
+  background: white;
+  color: #3B82F6;
+  border: 1px solid #3B82F6;
+}
+
+.btn-secondary:hover {
+  background: #EFF6FF;
+  border-color: #2563EB;
+  transform: translateY(-1px);
+}
+
+.btn-secondary:active {
+  transform: translateY(0);
+}
+
+.btn-secondary:focus {
+  outline: 2px solid #3B82F6;
+  outline-offset: 2px;
+}
+
+.btn-cancel {
+  color: #DC2626;
+  border-color: #DC2626;
+}
+
+.btn-cancel:hover {
+  background: #FEE2E2;
+  border-color: #B91C1C;
+}
+
+.btn-cancel:focus {
+  outline-color: #DC2626;
+}
+
+/* Responsive Styles */
+@media (max-width: 640px) {
+  .appointment-card {
+    padding: 14px;
+  }
+
+  .appointment-card-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .appointment-date {
+    font-size: 15px;
+  }
+
+  .appointment-info-row {
+    font-size: 13px;
+  }
+
+  .appointment-card-footer {
+    flex-direction: column;
+  }
+
+  .btn-card-action {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .appointment-card {
+    padding: 12px;
+  }
+
+  .status-badge {
+    padding: 3px 10px;
+    font-size: 11px;
+  }
+
+  .appointment-info-row svg {
+    width: 14px;
+    height: 14px;
+  }
+}
+
+/* Dark Mode Support (optional) */
+@media (prefers-color-scheme: dark) {
+  .appointment-card {
+    background: #1F2937;
+    border-color: #374151;
+  }
+
+  .appointment-card:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  }
+
+  .appointment-card-header {
+    border-bottom-color: #374151;
+  }
+
+  .appointment-date {
+    color: #F9FAFB;
+  }
+
+  .appointment-info-row {
+    color: #D1D5DB;
+  }
+
+  .appointment-info-row svg {
+    color: #9CA3AF;
+  }
+
+  .info-text {
+    color: #F9FAFB;
+  }
+
+  .appointment-card-footer {
+    border-top-color: #374151;
+  }
+
+  .btn-secondary {
+    background: #374151;
+    color: #60A5FA;
+    border-color: #60A5FA;
+  }
+
+  .btn-secondary:hover {
+    background: #4B5563;
+    border-color: #3B82F6;
+  }
+
+  .btn-cancel {
+    color: #F87171;
+    border-color: #F87171;
+  }
+
+  .btn-cancel:hover {
+    background: #7F1D1D;
+    border-color: #DC2626;
+  }
+}
+
+/* Animation for card appearance */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.appointment-card {
+  animation: fadeInUp 0.3s ease-out;
+}
+
+/* Loading State (optional) */
+.appointment-card.loading {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.appointment-card.loading::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 24px;
+  height: 24px;
+  border: 3px solid #E5E7EB;
+  border-top-color: #3B82F6;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+/* ===================================
+   Calendar Sync Indicator
+   =================================== */
+
+/* Calendar sync status row - green checkmark per designsystem.md */
+.calendar-sync-indicator {
+  padding: 8px 0;
+  border-top: 1px solid #E5E7EB;
+  margin-top: 4px;
+}
+
+.calendar-sync-indicator svg {
+  color: #10b981; /* Green checkmark icon per designsystem.md */
+}
+
+.sync-status {
+  color: #10b981;
+  font-weight: 500;
+  font-size: 13px;
+}
+
+/* Dark mode support for calendar sync indicator */
+@media (prefers-color-scheme: dark) {
+  .calendar-sync-indicator {
+    border-top-color: #374151;
+  }
+  
+  .calendar-sync-indicator svg,
+  .sync-status {
+    color: #34d399; /* Brighter green for dark mode visibility */
+  }
+}
+
+/* Reschedule counter */
+.reschedule-count {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid #E5E7EB;
+}
+
+.reschedule-count small {
+  color: #6B7280;
+  font-size: 12px;
+}
+
+@media (prefers-color-scheme: dark) {
+  .reschedule-count {
+    border-top-color: #374151;
+  }
+  
+  .reschedule-count small {
+    color: #9CA3AF;
+  }
+}
+
+/* Action button disabled state */
+.btn-card-action:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background-color: #F3F4F6;
+  color: #9CA3AF;
+  border-color: #D1D5DB;
+}
+
+.btn-card-action:disabled:hover {
+  transform: none;
+  background-color: #F3F4F6;
+  border-color: #D1D5DB;
+}

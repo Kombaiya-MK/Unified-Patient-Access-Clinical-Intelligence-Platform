@@ -35,11 +35,20 @@ export const createApp = (): Application => {
       const allowedOrigins = [
         config.frontendUrl,
         'http://localhost:3000',
+        'http://localhost:5173', // Vite default port
+        'http://127.0.0.1:3000',
+        'http://127.0.0.1:5173',
       ];
+
+      // In development, allow any localhost origin
+      if (config.nodeEnv === 'development' && (origin.includes('localhost') || origin.includes('127.0.0.1'))) {
+        return callback(null, true);
+      }
 
       if (allowedOrigins.includes(origin)) {
         callback(null, true);
       } else {
+        logger.warn('CORS blocked origin', { origin, allowedOrigins });
         callback(new Error('Not allowed by CORS'));
       }
     },

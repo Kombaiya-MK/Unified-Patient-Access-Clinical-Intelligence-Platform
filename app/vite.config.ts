@@ -10,10 +10,10 @@ export default defineConfig(({ mode }) => {
     plugins: [react()],
     base: env.VITE_BASE_PATH || '/',
     server: {
-      port: 3000,
+      port: 5173,
       proxy: {
         '/api': {
-          target: env.VITE_API_URL || 'http://localhost:3001',
+          target: env.VITE_API_URL || 'http://localhost:3000',
           changeOrigin: true,
         },
       },

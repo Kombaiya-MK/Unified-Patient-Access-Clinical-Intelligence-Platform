@@ -1,0 +1,321 @@
+/**
+ * LoginPage Styles
+ * 
+ * Styles for login page (SCR-001) following wireframe-SCR-001-login.html design.
+ * Two-column layout with brand section (left) and form section (right).
+ * Mobile-first responsive: stacked on mobile, side-by-side on desktop.
+ * 
+ * Design Tokens from designsystem.md:
+ * - Primary colors: #0066CC (primary-600), #004C99 (primary-800)
+ * - Neutral colors: #1A1A1A (neutral-900) to #FAFAFA (neutral-50)
+ * - Typography: Inter font family
+ * - Border radius: 8px (radius-md), 12px (radius-lg)
+ * - Focus ring: 2px solid #0066CC with 2px white offset
+ * 
+ * @created 2026-03-18
+ * @task US_012 TASK_001
+ */
+
+/* === Page Container === */
+.login-page {
+  display: flex;
+  width: 100%;
+  min-height: 100vh;
+  background: #FAFAFA; /* neutral-50 */
+}
+
+/* === Brand Section === */
+.login-brand {
+  flex: 1;
+  background: linear-gradient(135deg, #0066CC 0%, #004C99 100%); /* primary-600 to primary-800 */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #FFFFFF;
+  padding: 48px 32px;
+  position: relative;
+}
+
+.login-brand__content {
+  max-width: 480px;
+  text-align: center;
+}
+
+.login-brand__logo {
+  font-size: 48px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  margin-bottom: 16px;
+}
+
+.login-brand__tagline {
+  font-size: 18px;
+  line-height: 28px;
+  opacity: 0.95;
+  margin-bottom: 32px;
+  font-weight: 400;
+}
+
+.login-brand__illustration {
+  width: 260px;
+  height: 200px;
+  margin: 0 auto 32px;
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 12px; /* radius-lg */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.login-brand__features {
+  list-style: none;
+  padding: 0;
+  margin: 32px 0 0 0;
+  text-align: left;
+}
+
+.login-brand__features li {
+  font-size: 16px;
+  line-height: 24px;
+  padding: 10px 0;
+  opacity: 0.9;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.login-brand__features li::before {
+  content: "✓";
+  font-weight: 700;
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+/* === Form Container === */
+.login-form-container {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 32px;
+  background: #FFFFFF; /* bg-primary */
+}
+
+.login-card {
+  width: 100%;
+  max-width: 420px;
+}
+
+.login-card__title {
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 40px;
+  letter-spacing: -0.25px;
+  margin-bottom: 8px;
+  color: #1A1A1A; /* neutral-900 */
+}
+
+.login-card__subtitle {
+  font-size: 16px;
+  line-height: 24px;
+  color: #666666; /* neutral-600 */
+  margin-bottom: 32px;
+}
+
+.login-card__footer {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.forgot-password-link {
+  font-size: 14px;
+  font-weight: 500;
+  color: #0066CC; /* primary-600 */
+  text-decoration: none;
+  transition: color 200ms ease;
+}
+
+.forgot-password-link:hover {
+  color: #004C99; /* primary-800 */
+  text-decoration: underline;
+}
+
+.forgot-password-link:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px #FFFFFF, 0 0 0 4px #0066CC;
+  border-radius: 4px; /* radius-sm */
+  padding: 2px 4px;
+}
+
+.login-card__register {
+  margin-top: 24px;
+  padding-top: 24px;
+  border-top: 1px solid #E5E5E5; /* neutral-200 */
+  text-align: center;
+}
+
+.login-card__register-text {
+  font-size: 14px;
+  color: #666666; /* neutral-600 */
+}
+
+.register-link {
+  font-size: 14px;
+  font-weight: 600;
+  color: #0066CC; /* primary-600 */
+  text-decoration: none;
+  transition: color 200ms ease;
+}
+
+.register-link:hover {
+  color: #004C99; /* primary-800 */
+  text-decoration: underline;
+}
+
+.register-link:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px #FFFFFF, 0 0 0 4px #0066CC;
+  border-radius: 4px; /* radius-sm */
+  padding: 2px 4px;
+}
+
+/* === Responsive Breakpoints === */
+
+/* Mobile (375px - 767px): Stacked layout */
+@media (max-width: 767px) {
+  .login-page {
+    flex-direction: column;
+  }
+
+  .login-brand {
+    padding: 40px 24px;
+    min-height: auto;
+  }
+
+  .login-brand__logo {
+    font-size: 40px;
+  }
+
+  .login-brand__tagline {
+    font-size: 16px;
+    line-height: 24px;
+  }
+
+  .login-brand__illustration {
+    width: 200px;
+    height: 160px;
+    margin-bottom: 24px;
+  }
+
+  .login-brand__features {
+    margin-top: 24px;
+  }
+
+  .login-brand__features li {
+    font-size: 14px;
+  }
+
+  .login-form-container {
+    padding: 32px 24px;
+  }
+
+  .login-card__title {
+    font-size: 28px;
+    line-height: 36px;
+  }
+
+  .login-card__subtitle {
+    font-size: 14px;
+    margin-bottom: 24px;
+  }
+}
+
+/* Tablet (768px - 1023px): Side-by-side with adjusted spacing */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .login-brand {
+    padding: 40px 32px;
+  }
+
+  .login-brand__content {
+    max-width: 360px;
+  }
+
+  .login-brand__logo {
+    font-size: 42px;
+  }
+
+  .login-brand__illustration {
+    width: 220px;
+    height: 180px;
+  }
+
+  .login-form-container {
+    padding: 40px 32px;
+  }
+
+  .login-card {
+    max-width: 380px;
+  }
+}
+
+/* Desktop (1024px+): Full layout with optimal spacing */
+@media (min-width: 1024px) {
+  .login-brand {
+    padding: 64px 48px;
+  }
+
+  .login-form-container {
+    padding: 64px 48px;
+  }
+}
+
+/* === Accessibility Enhancements === */
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+  .login-brand {
+    background: #003D7A; /* primary-900 / darker for higher contrast */
+  }
+
+  .forgot-password-link,
+  .register-link {
+    text-decoration: underline;
+  }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* Print Styles */
+@media print {
+  .login-brand {
+    display: none;
+  }
+
+  .login-page {
+    display: block;
+  }
+
+  .login-form-container {
+    padding: 20px;
+  }
+}
+
+/* === Focus Visible Polyfill === */
+/* Modern browsers with :focus-visible support */
+.forgot-password-link:focus:not(:focus-visible),
+.register-link:focus:not(:focus-visible) {
+  box-shadow: none;
+}
+
+/* === Dark Mode Support (Future Enhancement) === */
+@media (prefers-color-scheme: dark) {
+  /* Dark mode styles can be added here in future iterations */
+  /* For now, force light mode for consistency */
+}
