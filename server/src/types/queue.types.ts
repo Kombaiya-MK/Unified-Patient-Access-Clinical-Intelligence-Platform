@@ -29,6 +29,7 @@ export interface QueueAppointment {
   completed_at: string | null;
   checked_in_at: string | null;
   created_at: string;
+  is_late_arrival?: boolean;
 }
 
 export interface QueueFilters {
@@ -47,6 +48,7 @@ export interface StatusUpdateResult {
   success: boolean;
   appointment?: QueueAppointment;
   conflict?: ConflictError;
+  isLateArrival?: boolean;
 }
 
 export interface ConflictError {

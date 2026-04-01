@@ -23,6 +23,7 @@ import { StaffDashboard } from './pages/StaffDashboard';
 import { AdminDashboard } from './pages/AdminDashboard';
 import { AppointmentBookingPage } from './pages/AppointmentBookingPage';
 import { QueueManagementPage } from './pages/QueueManagementPage';
+import { StaffBookingPage } from './pages/StaffBookingPage';
 import './App.css';
 
 // Create a client for React Query
@@ -94,6 +95,16 @@ function App() {
                 element={
                   <ProtectedRoute allowedRoles={['staff', 'admin']}>
                     <QueueManagementPage />
+                  </ProtectedRoute>
+                }
+              />
+              
+              {/* Protected Routes - Staff Booking */}
+              <Route
+                path="/staff/appointments/book"
+                element={
+                  <ProtectedRoute allowedRoles={['staff', 'admin']}>
+                    <StaffBookingPage />
                   </ProtectedRoute>
                 }
               />

@@ -59,7 +59,23 @@ export interface QueueAppointment {
   version: number;
   /** Consultation start time (ISO 8601, null if not started) */
   startedAt: string | null;
+  /** Whether this arrival was late (>15 min past appointment time) */
+  isLateArrival?: boolean;
+  /** Timestamp when no-show was marked (ISO 8601, null if not no-show) */
+  noShowMarkedAt?: string | null;
+  /** Whether this is an excused no-show */
+  excusedNoShow?: boolean;
 }
+
+/**
+ * Reason for marking a patient as left without being seen
+ */
+export type LeftWithoutSeenReason =
+  | 'long_wait'
+  | 'felt_better'
+  | 'emergency_elsewhere'
+  | 'no_explanation'
+  | 'other';
 
 /**
  * Filter state for the queue table
@@ -170,4 +186,33 @@ export interface QueueUpdateEvent {
   newStatus: string;
   staffName: string;
   timestamp: string;
+}
+
+/**
+ * Request payload for marking an appointment as no-show
+ */
+export interface NoShowRequest {
+  notes?: string;
+  excusedNoShow?: boolean;
+}
+
+/**
+ * Response from marking an appointment as no-show
+ */
+export interface NoShowResponse {
+  success: boolean;
+  appointmentId: string;
+  patientRiskScore: number;
+  excused: boolean;
+  message: string;
+}
+
+/**
+ * Response from undoing a no-show marking
+ */
+export interface UndoNoShowResponse {
+  success: boolean;
+  appointmentId: string;
+  patientRiskScore: number;
+  message: string;
 }

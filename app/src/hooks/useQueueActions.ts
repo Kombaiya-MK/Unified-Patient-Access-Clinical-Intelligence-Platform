@@ -34,8 +34,12 @@ interface UseQueueActionsReturn {
   conflict: ConflictError | null;
   /** Last general error */
   error: string | null;
+  /** Success message to display as toast */
+  successMessage: string | null;
   /** Clear error/conflict state */
   clearError: () => void;
+  /** Clear success message */
+  clearSuccess: () => void;
   /** Check if a transition is valid for a given status */
   canTransition: (currentStatus: QueueStatus, targetStatus: QueueStatus) => boolean;
 }
@@ -49,10 +53,15 @@ export function useQueueActions(): UseQueueActionsReturn {
   const [updatingId, setUpdatingId] = useState<string | null>(null);
   const [conflict, setConflict] = useState<ConflictError | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
   const clearError = useCallback(() => {
     setConflict(null);
     setError(null);
+  }, []);
+
+  const clearSuccess = useCallback(() => {
+    setSuccessMessage(null);
   }, []);
 
   const canTransition = useCallback(
@@ -69,6 +78,7 @@ export function useQueueActions(): UseQueueActionsReturn {
       setUpdatingId(appointmentId);
       setConflict(null);
       setError(null);
+      setSuccessMessage(null);
 
       try {
         const token = getToken();
@@ -100,6 +110,16 @@ export function useQueueActions(): UseQueueActionsReturn {
 
         // Invalidate queue data to refetch
         await queryClient.invalidateQueries({ queryKey: ['staff', 'queue', 'today'] });
+
+        // Set success message based on transition
+        const statusMessages: Record<string, string> = {
+          arrived: 'Patient marked as arrived',
+          in_progress: 'Consultation started',
+          completed: 'Appointment marked as completed',
+          no_show: 'Patient marked as left without being seen',
+        };
+        setSuccessMessage(statusMessages[newStatus] || 'Status updated successfully');
+
         return true;
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Network error');
@@ -118,7 +138,9 @@ export function useQueueActions(): UseQueueActionsReturn {
     updatingId,
     conflict,
     error,
+    successMessage,
     clearError,
+    clearSuccess,
     canTransition,
   };
 }

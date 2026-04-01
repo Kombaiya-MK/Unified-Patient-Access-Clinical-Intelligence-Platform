@@ -117,7 +117,10 @@ export const updateStatus = async (
         table_name: 'appointments',
         record_id: appointmentId.toString(),
         old_values: { status: 'previous' },
-        new_values: { status: newStatus },
+        new_values: {
+          status: newStatus,
+          ...(result.isLateArrival !== undefined ? { isLateArrival: result.isLateArrival } : {}),
+        },
         ip_address: ipAddress,
         user_agent: userAgent,
       });
@@ -143,6 +146,7 @@ export const updateStatus = async (
     res.json({
       success: true,
       data: result.appointment,
+      isLateArrival: result.isLateArrival || false,
       timestamp: new Date().toISOString(),
     });
   } catch (error) {

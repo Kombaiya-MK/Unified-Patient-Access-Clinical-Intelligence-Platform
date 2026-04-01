@@ -88,7 +88,13 @@ class QueueService {
         a.started_at,
         a.completed_at,
         a.checked_in_at,
-        a.created_at
+        a.created_at,
+        CASE
+          WHEN a.status = 'arrived' AND a.arrived_at IS NOT NULL
+               AND a.arrived_at > a.appointment_date + INTERVAL '15 minutes'
+          THEN true
+          ELSE false
+        END AS is_late_arrival
       FROM appointments a
       LEFT JOIN patient_profiles pp ON a.patient_id = pp.id
       LEFT JOIN users u ON a.doctor_id = u.id
@@ -155,7 +161,7 @@ class QueueService {
 
       // Get current appointment state
       const currentQuery = `
-        SELECT a.status, a.version,
+        SELECT a.status, a.version, a.arrived_at, a.appointment_date,
           CONCAT(u.first_name, ' ', u.last_name) AS updated_by_name,
           a.updated_at
         FROM appointments a
@@ -183,6 +189,23 @@ class QueueService {
       const allowedTransitions = VALID_TRANSITIONS[current.status];
       if (!allowedTransitions || !allowedTransitions.includes(newStatus)) {
         await client.query('ROLLBACK');
+
+        // Duplicate arrival check: provide specific message
+        if (newStatus === 'arrived' && current.status === 'arrived') {
+          const arrivedAt = current.arrived_at
+            ? new Date(current.arrived_at).toLocaleString()
+            : 'unknown time';
+          return {
+            success: false,
+            conflict: {
+              message: `Already marked as arrived at ${arrivedAt}`,
+              currentStatus: current.status,
+              updatedBy: current.updated_by_name || 'System',
+              updatedAt: current.updated_at,
+            },
+          };
+        }
+
         return {
           success: false,
           conflict: {
@@ -280,6 +303,15 @@ class QueueService {
       const updatedRow = updateResult.rows[0];
       const enriched = enrichResult.rows[0] || {};
 
+      // Calculate late arrival flag when status transitions to arrived
+      let isLateArrival = false;
+      if (newStatus === 'arrived' && updatedRow.arrived_at && current.appointment_date) {
+        const arrivedAt = new Date(updatedRow.arrived_at).getTime();
+        const appointmentTime = new Date(current.appointment_date).getTime();
+        const fifteenMinMs = 15 * 60 * 1000;
+        isLateArrival = arrivedAt > appointmentTime + fifteenMinMs;
+      }
+
       return {
         success: true,
         appointment: {
@@ -287,7 +319,9 @@ class QueueService {
           patient_name: enriched.patient_name || '',
           provider_name: enriched.provider_name || '',
           department_name: enriched.department_name || '',
+          is_late_arrival: isLateArrival,
         },
+        isLateArrival,
       };
     } catch (error) {
       await client.query('ROLLBACK');

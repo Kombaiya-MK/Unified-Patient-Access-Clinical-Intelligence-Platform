@@ -142,7 +142,7 @@ export const QueueManagementPage: React.FC = () => {
     resetFilters,
   } = useQueueData();
 
-  const { updateStatus, updatingId, conflict, error: actionError, clearError } = useQueueActions();
+  const { updateStatus, updatingId, conflict, error: actionError, successMessage, clearError, clearSuccess } = useQueueActions();
   const { connected, lastUpdate } = useWebSocket();
 
   const handleStatusUpdate = async (appointmentId: string, newStatus: import('../types/queue.types').QueueStatus, version: number) => {
@@ -176,6 +176,14 @@ export const QueueManagementPage: React.FC = () => {
 
         {/* Real-time Notification Banner */}
         <RealtimeNotification lastUpdate={lastUpdate} />
+
+        {/* Success Toast */}
+        {successMessage && (
+          <div className="queue-success-toast" role="status">
+            <span className="queue-success-toast__text">{successMessage}</span>
+            <button className="queue-success-toast__dismiss" onClick={clearSuccess} aria-label="Dismiss success message">✕</button>
+          </div>
+        )}
 
         {/* Conflict Alert */}
         {conflict && (

@@ -15,6 +15,7 @@ import { QueueStatusBadge } from './QueueStatusBadge';
 import { QueueActions } from './QueueActions';
 import { DurationTimer } from './DurationTimer';
 import { RiskIndicator } from './RiskIndicator';
+import { LateArrivalBadge } from './LateArrivalBadge';
 import type { QueueAppointment, IntakeStatus, QueueStatus } from '../../types/queue.types';
 
 /** Intake status label mapping */
@@ -83,6 +84,7 @@ export const QueueTableRow: React.FC<QueueTableRowProps> = ({ appointment, index
         >
           {appointment.patientName}
         </Link>
+        {appointment.isLateArrival && <LateArrivalBadge />}
       </td>
       <td className="queue-table__cell">{formatTime(appointment.appointmentTime)}</td>
       <td className="queue-table__cell">
@@ -113,6 +115,8 @@ export const QueueTableRow: React.FC<QueueTableRowProps> = ({ appointment, index
           version={appointment.version}
           patientName={appointment.patientName}
           isUpdating={isUpdating}
+          appointmentTime={appointment.appointmentTime}
+          noShowMarkedAt={appointment.noShowMarkedAt}
           onStatusUpdate={onStatusUpdate}
         />
       </td>

@@ -92,6 +92,8 @@ export const QueueMobileCard: React.FC<QueueMobileCardProps> = ({ appointment, i
           version={appointment.version}
           patientName={appointment.patientName}
           isUpdating={isUpdating}
+          appointmentTime={appointment.appointmentTime}
+          noShowMarkedAt={appointment.noShowMarkedAt}
           onStatusUpdate={onStatusUpdate}
         />
       </div>
