@@ -85,8 +85,8 @@ class AppointmentsService {
         SELECT 
           ts.id,
           ts.slot_date AS "slotDate",
-          ts.slot_start AS "startTime",
-          ts.slot_end AS "endTime",
+          (ts.slot_date || 'T' || ts.slot_start)::text AS "startTime",
+          (ts.slot_date || 'T' || ts.slot_end)::text AS "endTime",
           ts.is_available AS "isAvailable",
           ts.doctor_id AS "providerId",
           ts.department_id AS "departmentId",
@@ -157,6 +157,17 @@ class AppointmentsService {
       // Start transaction
       await client.query('BEGIN');
 
+      // Resolve user ID to patient_profile ID (FK references patient_profiles)
+      const profileResult = await client.query(
+        'SELECT id FROM patient_profiles WHERE user_id = $1',
+        [patientId]
+      );
+      if (profileResult.rows.length === 0) {
+        await client.query('ROLLBACK');
+        throw { code: 404, message: 'Patient profile not found' };
+      }
+      const profileId = profileResult.rows[0].id;
+
       // Lock the slot row for concurrency safety
       const slotQuery = `
         SELECT 
@@ -212,7 +223,9 @@ class AppointmentsService {
       }
 
       // Validate business hours (8AM - 8PM)
-      const slotHour = new Date(slot.startTime).getHours();
+      // slot.startTime is a TIME string like "08:00:00", parse the hour directly
+      const slotHourParts = String(slot.startTime).split(':');
+      const slotHour = parseInt(slotHourParts[0], 10);
       if (slotHour < BUSINESS_HOURS.openingHour || slotHour >= BUSINESS_HOURS.closingHour) {
         await client.query('ROLLBACK');
         throw {
@@ -222,12 +235,14 @@ class AppointmentsService {
       }
 
       // Validate same-day restriction (>2 hours notice)
+      // Combine slotDate + startTime to build a real datetime
+      const slotDateStr = new Date(slot.slotDate).toISOString().split('T')[0];
+      const slotDateTime = new Date(`${slotDateStr}T${slot.startTime}`);
       const now = new Date();
-      const slotTime = new Date(slot.startTime);
-      const isToday = slotTime.toDateString() === now.toDateString();
+      const isToday = slotDateTime.toDateString() === now.toDateString();
 
       if (isToday) {
-        const hoursUntilSlot = (slotTime.getTime() - now.getTime()) / (1000 * 60 * 60);
+        const hoursUntilSlot = (slotDateTime.getTime() - now.getTime()) / (1000 * 60 * 60);
         if (hoursUntilSlot < SAME_DAY_NOTICE_HOURS) {
           await client.query('ROLLBACK');
           throw {
@@ -240,16 +255,15 @@ class AppointmentsService {
       // Check for duplicate booking (same patient, provider, date)
       const duplicateQuery = `
         SELECT a.id FROM appointments a
-        JOIN time_slots ts ON a.slot_id = ts.id
         WHERE a.patient_id = $1
-          AND ts.provider_id = $2
+          AND a.doctor_id = $2
           AND DATE(a.appointment_date) = DATE($3)
           AND a.status != 'cancelled'
       `;
       const duplicateCheck = await client.query(duplicateQuery, [
-        patientId,
+        profileId,
         slot.providerId,
-        slot.startTime,
+        slot.slotDate,
       ]);
 
       if (duplicateCheck.rows.length > 0) {
@@ -263,41 +277,40 @@ class AppointmentsService {
       // Create appointment
       const insertQuery = `
         INSERT INTO appointments (
-          id,
           patient_id,
-          provider_id,
-          slot_id,
+          doctor_id,
           department_id,
           appointment_date,
+          appointment_type,
           status,
+          duration_minutes,
           notes,
-          duration,
-          created_by,
+          slot_id,
           created_at,
           updated_at
         ) VALUES (
-          gen_random_uuid(),
-          $1, $2, $3, $4, $5, 'scheduled', $6, $7, $1, NOW(), NOW()
+          $1, $2, $3, $4, 'consultation', 'confirmed', $5, $6, $7, NOW(), NOW()
         )
         RETURNING *,
           patient_id AS "patientId",
-          provider_id AS "providerId",
+          doctor_id AS "providerId",
           slot_id AS "slotId",
           department_id AS "departmentId",
           appointment_date AS "appointmentDate",
-          created_by AS "createdBy",
+          appointment_type AS "appointmentType",
+          duration_minutes AS "durationMinutes",
           created_at AS "createdAt",
           updated_at AS "updatedAt"
       `;
 
       const appointmentResult = await client.query(insertQuery, [
-        patientId,
+        profileId,
         slot.providerId,
-        slotId,
         slot.departmentId,
-        slot.startTime,
+        slotDateTime,
+        slot.duration || 30,
         notes || null,
-        slot.duration,
+        slotId,
       ]);
 
       const appointment: Appointment = appointmentResult.rows[0];
@@ -312,7 +325,7 @@ class AppointmentsService {
       await client.query('COMMIT');
 
       // Invalidate cache (fire and forget)
-      this.invalidateSlotCache(slot.startTime, slot.providerId).catch((err) =>
+      this.invalidateSlotCache(String(slot.slotDate), slot.providerId).catch((err) =>
         logger.error('Cache invalidation failed:', err)
       );
 
@@ -1013,6 +1026,76 @@ class AppointmentsService {
     } finally {
       client.release();
     }
+  }
+
+  /**
+   * Get dates that have available slots (for calendar highlighting)
+   */
+  async getAvailableDates(filters: SlotFilters = {}): Promise<string[]> {
+    const { departmentId, providerId, startDate, endDate } = filters;
+
+    const queryParams: any[] = [];
+    let paramIndex = 1;
+
+    let query = `
+      SELECT DISTINCT ts.slot_date::text AS date
+      FROM time_slots ts
+      WHERE ts.is_available = true
+        AND ts.booked_count < ts.max_appointments
+        AND ts.slot_date >= CURRENT_DATE
+    `;
+
+    if (departmentId) {
+      query += ` AND ts.department_id = $${paramIndex++}`;
+      queryParams.push(departmentId);
+    }
+
+    if (providerId) {
+      query += ` AND ts.doctor_id = $${paramIndex++}`;
+      queryParams.push(providerId);
+    }
+
+    if (startDate && endDate) {
+      query += ` AND ts.slot_date BETWEEN $${paramIndex++} AND $${paramIndex++}`;
+      queryParams.push(startDate, endDate);
+    }
+
+    query += ` ORDER BY date ASC`;
+
+    const result = await pool.query(query, queryParams);
+    return result.rows.map((row: any) => row.date);
+  }
+
+  /**
+   * Get waitlist entries for a specific patient
+   */
+  async getMyWaitlistEntries(patientId: string): Promise<WaitlistEntry[]> {
+    const query = `
+      SELECT
+        w.id,
+        w.patient_id AS "patientId",
+        w.department_id AS "departmentId",
+        w.provider_id AS "providerId",
+        w.preferred_date AS "requestedDate",
+        w.preferred_time_start AS "preferredTimeStart",
+        w.preferred_time_end AS "preferredTimeEnd",
+        w.status,
+        w.priority,
+        w.notes,
+        d.name AS "departmentName",
+        u.first_name || ' ' || u.last_name AS "providerName",
+        w.created_at AS "createdAt",
+        w.updated_at AS "updatedAt"
+      FROM waitlist w
+      JOIN departments d ON w.department_id = d.id
+      LEFT JOIN users u ON w.provider_id = u.id
+      WHERE w.patient_id = $1
+        AND w.status IN ('waiting', 'contacted')
+      ORDER BY w.created_at DESC
+    `;
+
+    const result = await pool.query(query, [patientId]);
+    return result.rows;
   }
 }
 

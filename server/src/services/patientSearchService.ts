@@ -62,6 +62,7 @@ async function searchPatients(query: PatientSearchQuery): Promise<PatientSearchR
   const sql = `
     SELECT
       pp.id::text AS id,
+      u.id::text AS "userId",
       u.first_name AS "firstName",
       u.last_name AS "lastName",
       u.first_name || ' ' || u.last_name AS "fullName",

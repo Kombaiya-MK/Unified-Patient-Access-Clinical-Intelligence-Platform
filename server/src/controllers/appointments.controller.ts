@@ -17,6 +17,7 @@ import { savePDF, generateSecureDownloadURL } from '../services/storageService';
 import { syncAppointmentToCalendarAsync } from '../services/calendarSyncService';
 import waitlistNotificationService from '../services/waitlistNotificationService';
 import { acceptWaitlistSlot } from '../services/waitlistAcceptanceService';
+import { getPatientAppointments as fetchPatientAppointments } from '../services/dashboardService';
 import logger from '../utils/logger';
 import type { SlotFilters } from '../types/appointments.types';
 import type { WaitlistAcceptanceRequest } from '../middleware/validateWaitlistAcceptance';
@@ -94,8 +95,8 @@ class AppointmentsController {
    */
   async bookAppointment(req: WaitlistAcceptanceRequest, res: Response): Promise<void> {
     try {
-      // Get patient ID from authenticated user
-      const patientId = req.user?.id;
+      // Get patient ID from authenticated user (JWT uses userId, not id)
+      const patientId = req.user?.id || (req.user as any)?.userId;
 
       if (!patientId) {
         res.status(401).json({
@@ -284,8 +285,8 @@ class AppointmentsController {
    */
   async joinWaitlist(req: AuthRequest, res: Response): Promise<void> {
     try {
-      // Get patient ID from authenticated user
-      const patientId = req.user?.id;
+      // Get patient ID from authenticated user (JWT uses userId, not id)
+      const patientId = req.user?.id || (req.user as any)?.userId;
 
       if (!patientId) {
         res.status(401).json({
@@ -327,8 +328,8 @@ class AppointmentsController {
    */
   async getPatientAppointments(req: AuthRequest, res: Response): Promise<void> {
     try {
-      const requestedPatientId = req.params.patientId;
-      const authenticatedUserId = req.user?.id;
+      const requestedPatientId = req.params.patientId as string;
+      const authenticatedUserId = req.user?.id || (req.user as any)?.userId;
 
       // Patients can only access their own appointments
       // Staff/Admin can access any patient's appointments
@@ -344,9 +345,10 @@ class AppointmentsController {
       }
 
       // TODO: Implement getPatientAppointments in service
-      res.status(501).json({
-        success: false,
-        message: 'Not implemented yet',
+      const appointments = await fetchPatientAppointments(parseInt(requestedPatientId, 10));
+      res.status(200).json({
+        success: true,
+        data: appointments,
       });
     } catch (error: any) {
       logger.error('Error in getPatientAppointments:', error);
@@ -499,7 +501,7 @@ class AppointmentsController {
       const appointmentId = Array.isArray(req.params.appointmentId)
         ? req.params.appointmentId[0]
         : req.params.appointmentId;
-      const patientId = req.user?.id;
+      const patientId = req.user?.id || (req.user as any)?.userId;
       const { newSlotId } = req.body;
 
       if (!patientId) {
@@ -642,6 +644,65 @@ class AppointmentsController {
           error: process.env.NODE_ENV === 'development' ? error.message : undefined,
         });
       }
+    }
+  }
+  /**
+   * Get dates with available slots (for calendar highlighting)
+   *
+   * GET /api/slots/available-dates
+   */
+  async getAvailableDates(req: Request, res: Response): Promise<void> {
+    try {
+      const filters: SlotFilters = {
+        departmentId: req.query.department as string | undefined,
+        providerId: req.query.provider as string | undefined,
+        startDate: req.query.startDate as string | undefined,
+        endDate: req.query.endDate as string | undefined,
+      };
+
+      const dates = await appointmentsService.getAvailableDates(filters);
+
+      res.status(200).json({
+        success: true,
+        dates,
+      });
+    } catch (error: any) {
+      logger.error('Error in getAvailableDates:', error);
+      res.status(500).json({
+        success: false,
+        message: 'Failed to fetch available dates',
+        error: process.env.NODE_ENV === 'development' ? error.message : undefined,
+      });
+    }
+  }
+
+  /**
+   * Get authenticated user's waitlist entries
+   *
+   * GET /api/waitlist/my
+   */
+  async getMyWaitlist(req: AuthRequest, res: Response): Promise<void> {
+    try {
+      const patientId = req.user?.id || (req.user as any)?.userId;
+
+      if (!patientId) {
+        res.status(401).json({ success: false, message: 'Authentication required' });
+        return;
+      }
+
+      const waitlist = await appointmentsService.getMyWaitlistEntries(patientId);
+
+      res.status(200).json({
+        success: true,
+        waitlist,
+      });
+    } catch (error: any) {
+      logger.error('Error in getMyWaitlist:', error);
+      res.status(500).json({
+        success: false,
+        message: 'Failed to fetch waitlist entries',
+        error: process.env.NODE_ENV === 'development' ? error.message : undefined,
+      });
     }
   }
 }

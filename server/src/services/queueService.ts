@@ -62,9 +62,9 @@ class QueueService {
 
     if (filters.search) {
       whereClause += ` AND (
-        pp.first_name ILIKE $${paramIndex} OR
-        pp.last_name ILIKE $${paramIndex} OR
-        CONCAT(pp.first_name, ' ', pp.last_name) ILIKE $${paramIndex}
+        pu.first_name ILIKE $${paramIndex} OR
+        pu.last_name ILIKE $${paramIndex} OR
+        CONCAT(pu.first_name, ' ', pu.last_name) ILIKE $${paramIndex}
       )`;
       params.push(`%${filters.search}%`);
       paramIndex++;
@@ -74,10 +74,10 @@ class QueueService {
       SELECT
         a.id,
         a.patient_id,
-        CONCAT(pp.first_name, ' ', pp.last_name) AS patient_name,
+        CONCAT(pu.first_name, ' ', pu.last_name) AS patient_name,
         a.appointment_date AS appointment_time,
         a.status,
-        CONCAT(u.first_name, ' ', u.last_name) AS provider_name,
+        CONCAT(du.first_name, ' ', du.last_name) AS provider_name,
         a.doctor_id AS provider_id,
         d.name AS department_name,
         a.department_id,
@@ -96,8 +96,8 @@ class QueueService {
           ELSE false
         END AS is_late_arrival
       FROM appointments a
-      LEFT JOIN patient_profiles pp ON a.patient_id = pp.id
-      LEFT JOIN users u ON a.doctor_id = u.id
+      LEFT JOIN users pu ON a.patient_id = pu.id
+      LEFT JOIN users du ON a.doctor_id = du.id
       LEFT JOIN departments d ON a.department_id = d.id
       ${whereClause}
       ORDER BY
@@ -287,12 +287,12 @@ class QueueService {
       // Enrich with patient + provider + department names
       const enrichQuery = `
         SELECT
-          CONCAT(pp.first_name, ' ', pp.last_name) AS patient_name,
-          CONCAT(u.first_name, ' ', u.last_name) AS provider_name,
+          CONCAT(pu.first_name, ' ', pu.last_name) AS patient_name,
+          CONCAT(du.first_name, ' ', du.last_name) AS provider_name,
           d.name AS department_name
         FROM appointments a
-        LEFT JOIN patient_profiles pp ON a.patient_id = pp.id
-        LEFT JOIN users u ON a.doctor_id = u.id
+        LEFT JOIN users pu ON a.patient_id = pu.id
+        LEFT JOIN users du ON a.doctor_id = du.id
         LEFT JOIN departments d ON a.department_id = d.id
         WHERE a.id = $1
       `;
