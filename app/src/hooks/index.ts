@@ -16,5 +16,8 @@ export { useFormValidation, useDebouncedValidation } from './useFormValidation';
 export { useSlots, useAvailableDates } from './useSlots';
 export { useBooking, useWaitlist } from './useBooking';
 
+// Queue Management Hooks (US_020 TASK_001)
+export { useQueueData } from './useQueueData';
+
 // This file will be populated as hooks are added
 export {};

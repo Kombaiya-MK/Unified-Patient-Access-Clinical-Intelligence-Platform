@@ -1,0 +1,501 @@
+/**
+ * Queue Table & Component Styles
+ * 
+ * Styles for the queue management table, status badges, filters,
+ * mobile cards, and responsive layout.
+ * 
+ * Design tokens aligned with wireframe-SCR-009 and designsystem.md variables.
+ * 
+ * @created 2026-03-31
+ * @task US_020 TASK_001
+ */
+
+/* ===========================
+   Queue Table Container
+   =========================== */
+
+.queue-table-container {
+  background: var(--bg-primary, #FFFFFF);
+  border-radius: var(--radius-md, 8px);
+  box-shadow: var(--shadow-1, 0px 1px 3px rgba(0,0,0,0.12), 0px 1px 2px rgba(0,0,0,0.24));
+  overflow: hidden;
+}
+
+.queue-table__header-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 24px;
+  border-bottom: 1px solid var(--neutral-200, #E5E5E5);
+}
+
+.queue-table__title {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--neutral-900, #1A1A1A);
+  margin: 0;
+}
+
+.queue-table__count-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border-radius: var(--radius-full, 9999px);
+  background: var(--info-100, #E6F3F9);
+  color: var(--info-600, #0077B6);
+}
+
+/* ===========================
+   Data Table
+   =========================== */
+
+.queue-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.queue-table thead th {
+  padding: 12px 16px;
+  text-align: left;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--neutral-700, #4D4D4D);
+  background: var(--neutral-50, #FAFAFA);
+  border-bottom: 1px solid var(--neutral-200, #E5E5E5);
+  white-space: nowrap;
+}
+
+.queue-table tbody td {
+  padding: 12px 16px;
+  font-size: 14px;
+  color: var(--neutral-700, #4D4D4D);
+  border-bottom: 1px solid var(--neutral-100, #F5F5F5);
+  vertical-align: middle;
+}
+
+.queue-table__row {
+  transition: background var(--transition, 200ms ease);
+}
+
+.queue-table__row:hover {
+  background: var(--neutral-50, #FAFAFA);
+}
+
+/* Sortable Headers */
+.queue-table__sortable {
+  cursor: pointer;
+  user-select: none;
+  transition: color var(--transition, 200ms ease);
+}
+
+.queue-table__sortable:hover {
+  color: var(--primary-600, #0066CC);
+}
+
+.queue-table__sortable:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px #FFFFFF, 0 0 0 4px var(--primary-600, #0066CC);
+  border-radius: var(--radius-sm, 4px);
+}
+
+.queue-sort-icon {
+  margin-left: 4px;
+  font-size: 12px;
+}
+
+.queue-sort-icon--inactive {
+  opacity: 0.4;
+}
+
+/* Patient Link */
+.queue-table__patient-link {
+  color: var(--primary-600, #0066CC);
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.queue-table__patient-link:hover {
+  text-decoration: underline;
+  color: var(--primary-800, #004C99);
+}
+
+.queue-table__patient-link:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px #FFFFFF, 0 0 0 4px var(--primary-600, #0066CC);
+  border-radius: var(--radius-sm, 4px);
+}
+
+/* Cell modifiers */
+.queue-table__cell--id {
+  font-family: monospace;
+  font-size: 13px;
+  color: var(--neutral-500, #808080);
+}
+
+.queue-table__cell--actions {
+  white-space: nowrap;
+}
+
+/* Row Actions */
+.queue-row-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.queue-row-actions__placeholder {
+  color: var(--neutral-400, #999999);
+  font-size: 13px;
+}
+
+/* ===========================
+   Status Badges
+   =========================== */
+
+.queue-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border-radius: var(--radius-full, 9999px);
+  line-height: 1.5;
+}
+
+.queue-badge--scheduled {
+  background: var(--neutral-100, #F5F5F5);
+  color: var(--neutral-600, #6B7280);
+}
+
+.queue-badge--arrived {
+  background: var(--success-100, #E6F9EF);
+  color: var(--success-600, #00A145);
+}
+
+.queue-badge--in-progress {
+  background: var(--info-100, #E6F3F9);
+  color: var(--info-600, #0077B6);
+}
+
+.queue-badge--completed {
+  background: var(--neutral-100, #F5F5F5);
+  color: var(--neutral-600, #6B7280);
+}
+
+.queue-badge--no-show {
+  background: var(--error-100, #FCE8EA);
+  color: var(--error-600, #DC3545);
+}
+
+/* Intake Status Badges */
+.queue-intake-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border-radius: var(--radius-full, 9999px);
+}
+
+.queue-intake--completed {
+  background: var(--success-100, #E6F9EF);
+  color: var(--success-600, #00A145);
+}
+
+.queue-intake--pending {
+  background: var(--warning-100, #FFF2E6);
+  color: var(--warning-600, #FF8800);
+}
+
+.queue-intake--na {
+  background: var(--neutral-100, #F5F5F5);
+  color: var(--neutral-500, #808080);
+}
+
+/* ===========================
+   Table Footer
+   =========================== */
+
+.queue-table__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 24px;
+  border-top: 1px solid var(--neutral-200, #E5E5E5);
+}
+
+.queue-table__showing {
+  font-size: 14px;
+  color: var(--neutral-600, #666666);
+}
+
+/* ===========================
+   Queue Filters
+   =========================== */
+
+.queue-filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 16px;
+  margin-bottom: 24px;
+  padding: 16px 24px;
+  background: var(--bg-primary, #FFFFFF);
+  border-radius: var(--radius-md, 8px);
+  box-shadow: var(--shadow-1, 0px 1px 3px rgba(0,0,0,0.12), 0px 1px 2px rgba(0,0,0,0.24));
+}
+
+.queue-filters__search {
+  flex: 1;
+  min-width: 200px;
+}
+
+.queue-filters__group {
+  display: flex;
+  flex-direction: column;
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+
+.queue-filters__label {
+  display: block;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--neutral-800, #333333);
+  margin-bottom: 4px;
+}
+
+.queue-filters__input {
+  width: 100%;
+  height: 40px;
+  padding: 8px 12px;
+  font-size: 14px;
+  font-family: var(--font-family, 'Inter', sans-serif);
+  border: 1px solid var(--neutral-300, #CCCCCC);
+  border-radius: var(--radius-md, 8px);
+  color: var(--neutral-900, #1A1A1A);
+  background: var(--bg-primary, #FFFFFF);
+  transition: border-color var(--transition, 200ms ease), box-shadow var(--transition, 200ms ease);
+}
+
+.queue-filters__input:focus {
+  border-color: var(--primary-600, #0066CC);
+  box-shadow: 0 0 0 2px var(--primary-100, #E6F0FA);
+  outline: none;
+}
+
+.queue-filters__input::placeholder {
+  color: var(--neutral-400, #999999);
+}
+
+.queue-filters__select {
+  height: 40px;
+  padding: 8px 12px;
+  font-size: 14px;
+  font-family: var(--font-family, 'Inter', sans-serif);
+  border: 1px solid var(--neutral-300, #CCCCCC);
+  border-radius: var(--radius-md, 8px);
+  color: var(--neutral-900, #1A1A1A);
+  background: var(--bg-primary, #FFFFFF);
+  cursor: pointer;
+  min-width: 160px;
+  transition: border-color var(--transition, 200ms ease);
+}
+
+.queue-filters__select:focus {
+  border-color: var(--primary-600, #0066CC);
+  box-shadow: 0 0 0 2px var(--primary-100, #E6F0FA);
+  outline: none;
+}
+
+.queue-filters__checkboxes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.queue-filters__checkbox-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 13px;
+  color: var(--neutral-700, #4D4D4D);
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: var(--radius-sm, 4px);
+  transition: background var(--transition, 200ms ease);
+}
+
+.queue-filters__checkbox-label:hover {
+  background: var(--neutral-50, #FAFAFA);
+}
+
+.queue-filters__checkbox-label input[type="checkbox"] {
+  accent-color: var(--primary-600, #0066CC);
+}
+
+.queue-filters__actions {
+  display: flex;
+  align-items: flex-end;
+}
+
+.queue-filters__reset-btn {
+  height: 40px;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  font-family: var(--font-family, 'Inter', sans-serif);
+  color: var(--neutral-700, #4D4D4D);
+  background: none;
+  border: 1px solid var(--neutral-300, #CCCCCC);
+  border-radius: var(--radius-md, 8px);
+  cursor: pointer;
+  transition: all var(--transition, 200ms ease);
+}
+
+.queue-filters__reset-btn:hover {
+  background: var(--neutral-50, #FAFAFA);
+  color: var(--error-600, #DC3545);
+  border-color: var(--error-600, #DC3545);
+}
+
+.queue-filters__reset-btn:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px #FFFFFF, 0 0 0 4px var(--primary-600, #0066CC);
+}
+
+/* ===========================
+   Mobile Card View
+   =========================== */
+
+.queue-mobile-card {
+  background: var(--bg-primary, #FFFFFF);
+  border: 1px solid var(--neutral-200, #E5E5E5);
+  border-radius: var(--radius-md, 8px);
+  padding: 16px;
+  transition: box-shadow var(--transition, 200ms ease);
+}
+
+.queue-mobile-card:hover {
+  box-shadow: var(--shadow-1, 0px 1px 3px rgba(0,0,0,0.12), 0px 1px 2px rgba(0,0,0,0.24));
+}
+
+.queue-mobile-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.queue-mobile-card__patient-name {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--primary-600, #0066CC);
+  text-decoration: none;
+}
+
+.queue-mobile-card__patient-name:hover {
+  text-decoration: underline;
+}
+
+.queue-mobile-card__details {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.queue-mobile-card__row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+}
+
+.queue-mobile-card__label {
+  color: var(--neutral-500, #808080);
+  font-weight: 500;
+}
+
+.queue-mobile-card__value {
+  color: var(--neutral-800, #333333);
+}
+
+.queue-mobile-card__actions {
+  margin-top: 12px;
+  display: flex;
+  gap: 8px;
+}
+
+/* ===========================
+   Responsive: Desktop / Mobile
+   =========================== */
+
+/* Desktop: show table, hide cards */
+.queue-table__desktop {
+  display: block;
+  overflow-x: auto;
+}
+
+.queue-table__mobile {
+  display: none;
+}
+
+/* Mobile: hide table, show cards */
+@media (max-width: 767px) {
+  .queue-table__desktop {
+    display: none;
+  }
+
+  .queue-table__mobile {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+    padding: 16px;
+  }
+
+  .queue-table__header-bar {
+    padding: 12px 16px;
+  }
+
+  .queue-table__footer {
+    padding: 12px 16px;
+  }
+
+  .queue-filters {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 12px 16px;
+  }
+
+  .queue-filters__search {
+    min-width: unset;
+  }
+
+  .queue-filters__select {
+    min-width: unset;
+    width: 100%;
+  }
+
+  .queue-filters__checkboxes {
+    flex-direction: column;
+  }
+}
+
+/* Tablet adjustments */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .queue-filters {
+    flex-wrap: wrap;
+  }
+
+  .queue-filters__search {
+    flex-basis: 100%;
+  }
+}

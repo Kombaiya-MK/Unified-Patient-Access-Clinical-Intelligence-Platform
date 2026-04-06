@@ -247,8 +247,8 @@ export const validateQuery = (schema: Joi.ObjectSchema) => {
       });
     }
 
-    // Replace query with validated value
-    req.query = value;
+    // Replace query with validated value (Express 5: req.query is a getter, so shadow it)
+    Object.defineProperty(req, 'query', { value, writable: true, configurable: true });
     next();
   };
 };

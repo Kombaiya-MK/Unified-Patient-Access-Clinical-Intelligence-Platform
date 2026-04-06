@@ -84,20 +84,19 @@ class AppointmentsService {
       let query = `
         SELECT 
           ts.id,
-          ts.start_time AS "startTime",
-          ts.end_time AS "endTime",
+          ts.slot_date AS "slotDate",
+          ts.slot_start AS "startTime",
+          ts.slot_end AS "endTime",
           ts.is_available AS "isAvailable",
-          ts.provider_id AS "providerId",
+          ts.doctor_id AS "providerId",
           ts.department_id AS "departmentId",
-          ts.duration,
-          p.name AS "providerName",
+          u.first_name || ' ' || u.last_name AS "providerName",
           d.name AS "departmentName"
         FROM time_slots ts
-        JOIN providers p ON ts.provider_id = p.id
+        LEFT JOIN users u ON ts.doctor_id = u.id
         JOIN departments d ON ts.department_id = d.id
-        LEFT JOIN appointments a ON ts.id = a.slot_id AND a.status != 'cancelled'
         WHERE ts.is_available = true
-          AND a.id IS NULL
+          AND ts.booked_count < ts.max_appointments
       `;
 
       // Add filters
@@ -107,19 +106,19 @@ class AppointmentsService {
       }
 
       if (providerId) {
-        query += ` AND ts.provider_id = $${paramIndex++}`;
+        query += ` AND ts.doctor_id = $${paramIndex++}`;
         queryParams.push(providerId);
       }
 
       if (date) {
-        query += ` AND DATE(ts.start_time) = $${paramIndex++}`;
+        query += ` AND ts.slot_date = $${paramIndex++}`;
         queryParams.push(date);
       } else if (startDate && endDate) {
-        query += ` AND DATE(ts.start_time) BETWEEN $${paramIndex++} AND $${paramIndex++}`;
+        query += ` AND ts.slot_date BETWEEN $${paramIndex++} AND $${paramIndex++}`;
         queryParams.push(startDate, endDate);
       }
 
-      query += ` ORDER BY ts.start_time ASC`;
+      query += ` ORDER BY ts.slot_date ASC, ts.slot_start ASC`;
 
       const result = await pool.query(query, queryParams);
       const slots: Slot[] = result.rows;
@@ -162,18 +161,19 @@ class AppointmentsService {
       const slotQuery = `
         SELECT 
           ts.*,
-          ts.start_time AS "startTime",
-          ts.end_time AS "endTime",
+          ts.slot_date AS "slotDate",
+          ts.slot_start AS "startTime",
+          ts.slot_end AS "endTime",
           ts.is_available AS "isAvailable",
-          ts.provider_id AS "providerId",
+          ts.doctor_id AS "providerId",
           ts.department_id AS "departmentId",
-          p.name AS "providerName",
+          u.first_name || ' ' || u.last_name AS "providerName",
           d.name AS "departmentName"
         FROM time_slots ts
-        JOIN providers p ON ts.provider_id = p.id
+        LEFT JOIN users u ON ts.doctor_id = u.id
         JOIN departments d ON ts.department_id = d.id
         WHERE ts.id = $1
-        FOR UPDATE
+        FOR UPDATE OF ts
       `;
 
       const slotResult = await client.query(slotQuery, [slotId]);
@@ -598,18 +598,19 @@ class AppointmentsService {
       const newSlotQuery = `
         SELECT 
           ts.*,
-          ts.start_time AS "startTime",
-          ts.end_time AS "endTime",
+          ts.slot_date AS "slotDate",
+          ts.slot_start AS "startTime",
+          ts.slot_end AS "endTime",
           ts.is_available AS "isAvailable",
-          ts.provider_id AS "providerId",
+          ts.doctor_id AS "providerId",
           ts.department_id AS "departmentId",
-          p.name AS "providerName",
+          u.first_name || ' ' || u.last_name AS "providerName",
           d.name AS "departmentName"
         FROM time_slots ts
-        JOIN providers p ON ts.provider_id = p.id
+        LEFT JOIN users u ON ts.doctor_id = u.id
         JOIN departments d ON ts.department_id = d.id
         WHERE ts.id = $1
-        FOR UPDATE
+        FOR UPDATE OF ts
       `;
 
       const newSlotResult = await client.query(newSlotQuery, [newSlotId]);

@@ -36,8 +36,6 @@ const poolConfig: PoolConfig = {
         rejectUnauthorized: false, // For self-signed certificates in development
       }
     : false,
-  // Set default schema search path to app schema
-  options: '-c search_path=app,public',
 };
 
 /**
@@ -49,8 +47,11 @@ export const pool = new Pool(poolConfig);
  * Pool event handlers for monitoring and logging
  */
 
-// Log when a new client is created
-pool.on('connect', () => {
+// Log when a new client is created and set search_path
+pool.on('connect', (client) => {
+  client.query('SET search_path TO app, public').catch((err: Error) => {
+    logger.error('Failed to set search_path:', { error: err.message });
+  });
   logger.debug('New client connected to PostgreSQL pool');
 });
 

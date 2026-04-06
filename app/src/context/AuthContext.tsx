@@ -34,6 +34,7 @@ import type { LoginRequest, AuthUser, UserRole } from '../types/auth.types';
  */
 const ROLE_DASHBOARDS: Record<UserRole, string> = {
   patient: '/patient/dashboard',  // SCR-002
+  doctor: '/doctor/dashboard',    // SCR-005
   staff: '/staff/dashboard',      // SCR-003
   admin: '/admin/dashboard',      // SCR-004
 };

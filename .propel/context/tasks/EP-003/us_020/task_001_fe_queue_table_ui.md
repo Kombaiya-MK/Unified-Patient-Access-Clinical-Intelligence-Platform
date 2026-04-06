@@ -157,11 +157,11 @@ app/
 - [x] Accessibility validation: keyboard navigation, ARIA labels, sortable headers announced
 
 ## Implementation Checklist
-- [ ] Reference wireframe at .propel/context/wireframes/Hi-Fi/wireframe-SCR-009-queue-management.html during implementation
-- [ ] Create queue.types.ts with interfaces: QueueAppointment (id, patientName, patientId, appointmentTime, status: 'scheduled'|'arrived'|'in_progress'|'completed'|'no_show', provider, department, riskScore), QueueFilters (status: string[], providerId, departmentId, searchTerm), QueueSortConfig (field, direction)
-- [ ] Create useQueueData.ts hook (fetch from /api/staff/queue/today, implement client-side filtering with useMemo, sorting with useState, return { appointments, loading, error, filters, setFilters, sort, setSort })
-- [ ] Create QueueStatusBadge.tsx component (props: status, returns badge with CSS class for color: .badge--scheduled gray, .badge--arrived green, .badge--in-progress blue, .badge--completed gray, .badge--no-show red)
-- [ ] Create QueueFilters.tsx component (status multi-select checkboxes, provider/department dropdowns fetched from API, patient search input with debounce, reset button, onChange updates filters)
-- [ ] Create QueueTableRow.tsx component (columns: patient name as link, appointment time formatted, QueueStatusBadge, provider name, department, actions slot for TASK_002)
-- [ ] Create QueueMobileCard.tsx component (card layout with patient name header, time + status badge row, provider + department row, actions at bottom)
-- [ ] Create QueueTable.tsx component (table with sortable headers using onClick, map appointments to QueueTableRow, responsive media query hides table and shows QueueMobileCard grid on mobile <768px)
+- [x] Reference wireframe at .propel/context/wireframes/Hi-Fi/wireframe-SCR-009-queue-management.html during implementation
+- [x] Create queue.types.ts with interfaces: QueueAppointment (id, patientName, patientId, appointmentTime, status: 'scheduled'|'arrived'|'in_progress'|'completed'|'no_show', provider, department, riskScore), QueueFilters (status: string[], providerId, departmentId, searchTerm), QueueSortConfig (field, direction)
+- [x] Create useQueueData.ts hook (fetch from /api/staff/queue/today, implement client-side filtering with useMemo, sorting with useState, return { appointments, loading, error, filters, setFilters, sort, setSort })
+- [x] Create QueueStatusBadge.tsx component (props: status, returns badge with CSS class for color: .badge--scheduled gray, .badge--arrived green, .badge--in-progress blue, .badge--completed gray, .badge--no-show red)
+- [x] Create QueueFilters.tsx component (status multi-select checkboxes, provider/department dropdowns fetched from API, patient search input with debounce, reset button, onChange updates filters)
+- [x] Create QueueTableRow.tsx component (columns: patient name as link, appointment time formatted, QueueStatusBadge, provider name, department, actions slot for TASK_002)
+- [x] Create QueueMobileCard.tsx component (card layout with patient name header, time + status badge row, provider + department row, actions at bottom)
+- [x] Create QueueTable.tsx component (table with sortable headers using onClick, map appointments to QueueTableRow, responsive media query hides table and shows QueueMobileCard grid on mobile <768px)

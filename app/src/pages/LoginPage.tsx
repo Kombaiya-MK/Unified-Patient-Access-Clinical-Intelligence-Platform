@@ -29,21 +29,26 @@ import './LoginPage.css';
  * Redirects authenticated users to their role-specific dashboard.
  */
 export function LoginPage() {
-  const { login, isAuthenticated, loading, error, clearError } = useAuth();
+  const { login, isAuthenticated, user, loading, error, clearError } = useAuth();
   const navigate = useNavigate();
   const [lastCredentials, setLastCredentials] = useState<LoginRequest | null>(null);
   const [isRetryable, setIsRetryable] = useState(false);
 
   /**
-   * Redirect authenticated users to dashboard
+   * Redirect authenticated users to their role-specific dashboard
    */
   useEffect(() => {
-    if (isAuthenticated && !loading) {
-      // User is already logged in, redirect to dashboard
-      // (useAuth hook will handle role-specific routing)
-      navigate('/dashboard', { replace: true });
+    if (isAuthenticated && !loading && user) {
+      const roleDashboards: Record<string, string> = {
+        patient: '/patient/dashboard',
+        doctor: '/doctor/dashboard',
+        staff: '/staff/dashboard',
+        admin: '/admin/dashboard',
+      };
+      const target = roleDashboards[user.role] || '/patient/dashboard';
+      navigate(target, { replace: true });
     }
-  }, [isAuthenticated, loading, navigate]);
+  }, [isAuthenticated, loading, user, navigate]);
 
   /**
    * Handle login form submission

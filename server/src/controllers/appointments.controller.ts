@@ -383,7 +383,7 @@ class AppointmentsController {
       const appointmentId = Array.isArray(req.params.appointmentId) 
         ? req.params.appointmentId[0] 
         : req.params.appointmentId;
-      const userId = req.user?.id;
+      const userId = req.user?.id || (req.user as any)?.userId;
       const userRole = req.user?.role || 'patient';
       const { reason } = req.body;
 
