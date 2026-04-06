@@ -159,45 +159,45 @@ npm run type-check
 ```
 
 ## Implementation Validation Strategy
-- [ ] Unit tests pass (N/A for infrastructure setup)
-- [ ] Integration tests pass (N/A for infrastructure setup)
-- [ ] `npm install` completes without errors
-- [ ] `npm run dev` starts server on port 3001 with nodemon watching
-- [ ] HTTP request to http://localhost:3001/api/health returns 200 OK
-- [ ] CORS allows requests from http://localhost:3000
-- [ ] Missing .env file: Server fails with clear error listing missing variables
-- [ ] Invalid JWT_SECRET format: Validation error displayed
-- [ ] Port 3001 occupied: Server tries 3002, logs "Server running on port 3002"
-- [ ] Unhandled promise rejection: Logged with stack trace, 500 response sent
-- [ ] Uncaught exception: Logged and server shuts down gracefully
-- [ ] TypeScript compiles without errors: `npm run build`
-- [ ] ESLint passes: `npm run lint`
-- [ ] Helmet security headers present in response (verify with curl -I)
-- [ ] Morgan logs incoming requests to console
+- [x] Unit tests pass (N/A for infrastructure setup)
+- [x] Integration tests pass (N/A for infrastructure setup)
+- [x] `npm install` completes without errors
+- [x] `npm run dev` starts server on port 3001 with nodemon watching
+- [x] HTTP request to http://localhost:3001/api/health returns 200 OK
+- [x] CORS allows requests from http://localhost:3000
+- [x] Missing .env file: Server fails with clear error listing missing variables
+- [x] Invalid JWT_SECRET format: Validation error displayed
+- [x] Port 3001 occupied: Server tries 3002, logs "Server running on port 3002"
+- [x] Unhandled promise rejection: Logged with stack trace, 500 response sent
+- [x] Uncaught exception: Logged and server shuts down gracefully
+- [x] TypeScript compiles without errors: `npm run build`
+- [x] ESLint passes: `npm run lint`
+- [x] Helmet security headers present in response (verify with curl -I)
+- [x] Morgan logs incoming requests to console
 
 ## Implementation Checklist
-- [ ] Create server/ directory: `mkdir server && cd server`
-- [ ] Initialize Node.js project: `npm init -y`
-- [ ] Install dependencies: `npm install express cors helmet morgan dotenv`
-- [ ] Install dev dependencies: `npm install -D typescript @types/node @types/express @types/cors @types/morgan nodemon ts-node eslint @typescript-eslint/eslint-plugin @typescript-eslint/parser`
-- [ ] Create tsconfig.json: strict mode, target: ES2022, module: commonjs, outDir: dist, rootDir: src
-- [ ] Add scripts to package.json: dev (nodemon), build (tsc), start (node dist/server.js), lint, type-check
-- [ ] Create .env.example with PORT, DB_URL, REDIS_URL, JWT_SECRET, NODE_ENV
-- [ ] Create folder structure: src/{config/,middleware/,routes/,controllers/,services/,types/,utils/}
-- [ ] Implement config/env.ts: Load dotenv, validate required vars, export config object
-- [ ] Implement middleware/errorHandler.ts: (err, req, res, next) => JSON response with status, message, stack (dev only)
-- [ ] Implement middleware/auth.ts: Placeholder for JWT verification (verify token from Authorization header)
-- [ ] Implement middleware/validation.ts: Wrapper for express-validator
-- [ ] Implement utils/logger.ts: Winston logger with console + file transports
-- [ ] Implement app.ts: Express app with middleware (helmet → cors → morgan → json → routes → errorHandler)
-- [ ] Implement server.ts: HTTP server with port fallback (3001-3005), graceful shutdown, unhandledRejection/uncaughtException handlers
-- [ ] Implement routes/index.ts: Import auth, appointments, patients routes, mount on /api prefix
-- [ ] Create route files: auth.routes.ts, appointments.routes.ts, patients.routes.ts (placeholder GET endpoints)
-- [ ] Create health check endpoint: GET /api/health -> { status: 'ok', timestamp: Date.now() }
-- [ ] Configure CORS: whitelist ['http://localhost:3000', process.env.FRONTEND_URL]
-- [ ] Test server startup: `npm run dev` -> verify "Server running on port 3001"
-- [ ] Test health endpoint: `curl http://localhost:3001/api/health`
-- [ ] Test CORS: `curl -H "Origin: http://localhost:3000" -I http://localhost:3001/api/health` -> verify Access-Control-Allow-Origin header
-- [ ] Test error handler: Create test route that throws error, verify JSON error response
-- [ ] Test port fallback: Occupy 3001, start server, verify it uses 3002
-- [ ] Document API structure in server/README.md
+- [x] Create server/ directory: `mkdir server && cd server`
+- [x] Initialize Node.js project: `npm init -y`
+- [x] Install dependencies: `npm install express cors helmet morgan dotenv`
+- [x] Install dev dependencies: `npm install -D typescript @types/node @types/express @types/cors @types/morgan nodemon ts-node eslint @typescript-eslint/eslint-plugin @typescript-eslint/parser`
+- [x] Create tsconfig.json: strict mode, target: ES2022, module: commonjs, outDir: dist, rootDir: src
+- [x] Add scripts to package.json: dev (nodemon), build (tsc), start (node dist/server.js), lint, type-check
+- [x] Create .env.example with PORT, DB_URL, REDIS_URL, JWT_SECRET, NODE_ENV
+- [x] Create folder structure: src/{config/,middleware/,routes/,controllers/,services/,types/,utils/}
+- [x] Implement config/env.ts: Load dotenv, validate required vars, export config object
+- [x] Implement middleware/errorHandler.ts: (err, req, res, next) => JSON response with status, message, stack (dev only)
+- [x] Implement middleware/auth.ts: Placeholder for JWT verification (verify token from Authorization header)
+- [x] Implement middleware/validation.ts: Wrapper for express-validator
+- [x] Implement utils/logger.ts: Winston logger with console + file transports
+- [x] Implement app.ts: Express app with middleware (helmet → cors → morgan → json → routes → errorHandler)
+- [x] Implement server.ts: HTTP server with port fallback (3001-3005), graceful shutdown, unhandledRejection/uncaughtException handlers
+- [x] Implement routes/index.ts: Import auth, appointments, patients routes, mount on /api prefix
+- [x] Create route files: auth.routes.ts, appointments.routes.ts, patients.routes.ts (placeholder GET endpoints)
+- [x] Create health check endpoint: GET /api/health -> { status: 'ok', timestamp: Date.now() }
+- [x] Configure CORS: whitelist ['http://localhost:3000', process.env.FRONTEND_URL]
+- [x] Test server startup: `npm run dev` -> verify "Server running on port 3001"
+- [x] Test health endpoint: `curl http://localhost:3001/api/health`
+- [x] Test CORS: `curl -H "Origin: http://localhost:3000" -I http://localhost:3001/api/health` -> verify Access-Control-Allow-Origin header
+- [x] Test error handler: Create test route that throws error, verify JSON error response
+- [x] Test port fallback: Occupy 3001, start server, verify it uses 3002
+- [x] Document API structure in server/README.md

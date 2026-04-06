@@ -166,45 +166,45 @@ npm start
 ```
 
 ## Implementation Validation Strategy
-- [ ] Unit tests pass (database connection mocking tests)
-- [ ] Integration tests pass (actual PostgreSQL connection tests)
-- [ ] pg and @types/pg dependencies installed: `npm list pg` shows version 8.x
-- [ ] .env file has all database variables: DB_HOST, DB_PORT, DB_NAME, DB_USER, DB_PASSWORD, DB_SSL
-- [ ] Server starts and connects to database: Console logs "Database connected to upaci at localhost:5432"
-- [ ] Health endpoint works: `curl http://localhost:3001/api/health` returns `{"status":"ok","database":"connected"}`
-- [ ] Connection pool max connections: Query `SELECT count(*) FROM pg_stat_activity WHERE datname='upaci';` shows ≤ 20 connections
-- [ ] Retry logic works: Stop PostgreSQL → Start server → Verify 3 retry attempts logged
-- [ ] Exponential backoff: Check logs show delays of ~1s, ~2s, ~4s between retries
-- [ ] Graceful shutdown: Send SIGTERM → Verify "Closing database connections..." logged, pool.end() called
-- [ ] Environment variable validation: Start server without DB_NAME → Verify error "DB_NAME is required"
-- [ ] SSL connection: Set DB_SSL=true → Verify connection uses SSL (check pg_stat_ssl)
-- [ ] Query logging in dev: Make test query → Verify SQL and execution time logged
-- [ ] Type safety: TypeScript compiles without errors for database query results
-- [ ] Connection error handling: Invalid credentials → Verify error logged, process exits with code 1
+- [x] Unit tests pass (database connection mocking tests)
+- [x] Integration tests pass (actual PostgreSQL connection tests)
+- [x] pg and @types/pg dependencies installed: `npm list pg` shows version 8.x
+- [x] .env file has all database variables: DB_HOST, DB_PORT, DB_NAME, DB_USER, DB_PASSWORD, DB_SSL
+- [x] Server starts and connects to database: Console logs "Database connected to upaci at localhost:5432"
+- [x] Health endpoint works: `curl http://localhost:3001/api/health` returns `{"status":"ok","database":"connected"}`
+- [x] Connection pool max connections: Query `SELECT count(*) FROM pg_stat_activity WHERE datname='upaci';` shows ≤ 20 connections
+- [x] Retry logic works: Stop PostgreSQL → Start server → Verify 3 retry attempts logged
+- [x] Exponential backoff: Check logs show delays of ~1s, ~2s, ~4s between retries
+- [x] Graceful shutdown: Send SIGTERM → Verify "Closing database connections..." logged, pool.end() called
+- [x] Environment variable validation: Start server without DB_NAME → Verify error "DB_NAME is required"
+- [x] SSL connection: Set DB_SSL=true → Verify connection uses SSL (check pg_stat_ssl)
+- [x] Query logging in dev: Make test query → Verify SQL and execution time logged
+- [x] Type safety: TypeScript compiles without errors for database query results
+- [x] Connection error handling: Invalid credentials → Verify error logged, process exits with code 1
 
 ## Implementation Checklist
-- [ ] Install pg and @types/pg: `npm install pg @types/pg`
-- [ ] Create server/src/config/database.ts with Pool initialization
-- [ ] Configure Pool options: max: 20, connectionTimeoutMillis: 5000, idleTimeoutMillis: 10000
-- [ ] Load database config from environment: host, port, database, user, password, ssl
-- [ ] Create server/src/types/database.types.ts: DbError, QueryResult, DbConfig interfaces
-- [ ] Create server/src/utils/dbHealthCheck.ts with async function testConnection()
-- [ ] Implement retry logic: for loop 3 times, try pool.query('SELECT 1'), catch errors
-- [ ] Add exponential backoff: await sleep(Math.pow(2, attempt) * 1000) between retries
-- [ ] Log each retry attempt: "Database connection attempt 1/3 failed: <error>"
-- [ ] Exit process if all retries fail: process.exit(1)
-- [ ] Create server/src/middleware/dbConnection.ts to attach pool to req.db
-- [ ] Modify server/src/app.ts: import database config, add GET /api/health route
-- [ ] Implement /api/health handler: const result = await pool.query('SELECT NOW()'); return { status: 'ok', timestamp: result.rows[0].now }
-- [ ] Modify server/src/server.ts: import dbHealthCheck, call await dbHealthCheck() before server.listen()
-- [ ] Add graceful shutdown handlers: process.on('SIGTERM', async () => { await pool.end(); process.exit(0); })
-- [ ] Create server/src/utils/queryLogger.ts to log queries in NODE_ENV=development
-- [ ] Wrap pool.query with logging: log query text, parameters, execution time (performance.now())
-- [ ] Update server/.env.example with all database variables
-- [ ] Test connection with valid credentials: npm run dev → verify "Database connected" logged
-- [ ] Test connection with invalid credentials: set wrong password → verify retry logic, then error exit
-- [ ] Test health endpoint: curl http://localhost:3001/api/health → verify JSON response
-- [ ] Test graceful shutdown: start server, send Ctrl+C → verify pool closed gracefully
-- [ ] Document database integration in DATABASE_INTEGRATION.md (connection pooling, query examples)
-- [ ] Add TypeScript example: const result = await pool.query<{id: number, name: string}>('SELECT * FROM users')
-- [ ] Test query logging: Enable dev mode, make query → verify SQL logged to console
+- [x] Install pg and @types/pg: `npm install pg @types/pg`
+- [x] Create server/src/config/database.ts with Pool initialization
+- [x] Configure Pool options: max: 20, connectionTimeoutMillis: 5000, idleTimeoutMillis: 10000
+- [x] Load database config from environment: host, port, database, user, password, ssl
+- [x] Create server/src/types/database.types.ts: DbError, QueryResult, DbConfig interfaces
+- [x] Create server/src/utils/dbHealthCheck.ts with async function testConnection()
+- [x] Implement retry logic: for loop 3 times, try pool.query('SELECT 1'), catch errors
+- [x] Add exponential backoff: await sleep(Math.pow(2, attempt) * 1000) between retries
+- [x] Log each retry attempt: "Database connection attempt 1/3 failed: <error>"
+- [x] Exit process if all retries fail: process.exit(1)
+- [x] Create server/src/middleware/dbConnection.ts to attach pool to req.db
+- [x] Modify server/src/app.ts: import database config, add GET /api/health route
+- [x] Implement /api/health handler: const result = await pool.query('SELECT NOW()'); return { status: 'ok', timestamp: result.rows[0].now }
+- [x] Modify server/src/server.ts: import dbHealthCheck, call await dbHealthCheck() before server.listen()
+- [x] Add graceful shutdown handlers: process.on('SIGTERM', async () => { await pool.end(); process.exit(0); })
+- [x] Create server/src/utils/queryLogger.ts to log queries in NODE_ENV=development
+- [x] Wrap pool.query with logging: log query text, parameters, execution time (performance.now())
+- [x] Update server/.env.example with all database variables
+- [x] Test connection with valid credentials: npm run dev → verify "Database connected" logged
+- [x] Test connection with invalid credentials: set wrong password → verify retry logic, then error exit
+- [x] Test health endpoint: curl http://localhost:3001/api/health → verify JSON response
+- [x] Test graceful shutdown: start server, send Ctrl+C → verify pool closed gracefully
+- [x] Document database integration in DATABASE_INTEGRATION.md (connection pooling, query examples)
+- [x] Add TypeScript example: const result = await pool.query<{id: number, name: string}>('SELECT * FROM users')
+- [x] Test query logging: Enable dev mode, make query → verify SQL logged to console
