@@ -15,9 +15,9 @@ import { searchPatients } from '../controllers/staffPatientController';
 
 const router = Router();
 
-// All patient search routes require staff or admin role
+// All patient search routes require staff, admin, or doctor role
 router.use(authenticateToken);
-router.use(authorize('staff', 'admin'));
+router.use(authorize('staff', 'admin', 'doctor'));
 
 /**
  * @route   GET /api/staff/patients/search

@@ -18,11 +18,14 @@ import Joi from 'joi';
  * Optional: notes (max 500 characters)
  */
 export const bookAppointmentSchema = Joi.object({
-  slotId: Joi.string()
-    .uuid({ version: 'uuidv4' })
+  slotId: Joi.alternatives()
+    .try(
+      Joi.number().integer().positive(),
+      Joi.string().pattern(/^\d+$/)
+    )
     .required()
     .messages({
-      'string.guid': 'Slot ID must be a valid UUID',
+      'alternatives.match': 'Slot ID must be a valid numeric ID',
       'any.required': 'Slot ID is required',
     }),
   
@@ -42,11 +45,14 @@ export const bookAppointmentSchema = Joi.object({
  * Optional: slotId, providerId, notes
  */
 export const joinWaitlistSchema = Joi.object({
-  slotId: Joi.string()
-    .uuid({ version: 'uuidv4' })
+  slotId: Joi.alternatives()
+    .try(
+      Joi.number().integer().positive(),
+      Joi.string().pattern(/^\d+$/)
+    )
     .optional()
     .messages({
-      'string.guid': 'Slot ID must be a valid UUID',
+      'alternatives.match': 'Slot ID must be a valid numeric ID',
     }),
   
   preferredDate: Joi.date()
@@ -60,19 +66,25 @@ export const joinWaitlistSchema = Joi.object({
       'any.required': 'Preferred date is required',
     }),
   
-  departmentId: Joi.string()
-    .uuid({ version: 'uuidv4' })
+  departmentId: Joi.alternatives()
+    .try(
+      Joi.number().integer().positive(),
+      Joi.string().pattern(/^\d+$/)
+    )
     .required()
     .messages({
-      'string.guid': 'Department ID must be a valid UUID',
+      'alternatives.match': 'Department ID must be a valid numeric ID',
       'any.required': 'Department ID is required',
     }),
   
-  providerId: Joi.string()
-    .uuid({ version: 'uuidv4' })
+  providerId: Joi.alternatives()
+    .try(
+      Joi.number().integer().positive(),
+      Joi.string().pattern(/^\d+$/)
+    )
     .optional()
     .messages({
-      'string.guid': 'Provider ID must be a valid UUID',
+      'alternatives.match': 'Provider ID must be a valid numeric ID',
     }),
   
   notes: Joi.string()
@@ -90,18 +102,24 @@ export const joinWaitlistSchema = Joi.object({
  * All parameters optional
  */
 export const getSlotsQuerySchema = Joi.object({
-  departmentId: Joi.string()
-    .uuid({ version: 'uuidv4' })
+  department: Joi.alternatives()
+    .try(
+      Joi.number().integer().positive(),
+      Joi.string().pattern(/^\d+$/)
+    )
     .optional()
     .messages({
-      'string.guid': 'Department ID must be a valid UUID',
+      'alternatives.match': 'Department ID must be a valid numeric ID',
     }),
   
-  providerId: Joi.string()
-    .uuid({ version: 'uuidv4' })
+  provider: Joi.alternatives()
+    .try(
+      Joi.number().integer().positive(),
+      Joi.string().pattern(/^\d+$/)
+    )
     .optional()
     .messages({
-      'string.guid': 'Provider ID must be a valid UUID',
+      'alternatives.match': 'Provider ID must be a valid numeric ID',
     }),
   
   date: Joi.date()
@@ -166,11 +184,14 @@ export const cancelAppointmentSchema = Joi.object({
  * @task US_014 TASK_002
  */
 export const rescheduleAppointmentSchema = Joi.object({
-  newSlotId: Joi.string()
-    .uuid({ version: 'uuidv4' })
+  newSlotId: Joi.alternatives()
+    .try(
+      Joi.number().integer().positive(),
+      Joi.string().pattern(/^\d+$/)
+    )
     .required()
     .messages({
-      'string.guid': 'New slot ID must be a valid UUID',
+      'alternatives.match': 'New slot ID must be a valid numeric ID',
       'any.required': 'New slot ID is required',
     }),
   

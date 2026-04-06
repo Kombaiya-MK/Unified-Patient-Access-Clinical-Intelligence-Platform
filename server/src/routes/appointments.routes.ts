@@ -45,6 +45,31 @@ router.get(
 );
 
 /**
+ * @route   GET /api/slots/available-dates
+ * @desc    Get dates that have available time slots (for calendar highlighting)
+ * @query   department - Department ID (optional)
+ * @query   provider - Provider ID (optional)
+ * @query   startDate - Date range start (optional)
+ * @query   endDate - Date range end (optional)
+ * @access  Public
+ */
+router.get(
+  '/slots/available-dates',
+  appointmentsController.getAvailableDates
+);
+
+/**
+ * @route   GET /api/waitlist/my
+ * @desc    Get authenticated user's waitlist entries
+ * @access  Private (patient role)
+ */
+router.get(
+  '/waitlist/my',
+  authenticate,
+  appointmentsController.getMyWaitlist
+);
+
+/**
  * @route   GET /api/appointments/my
  * @desc    Get authenticated user's appointments
  * @access  Private (patient role only)
