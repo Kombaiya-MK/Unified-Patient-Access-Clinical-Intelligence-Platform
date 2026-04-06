@@ -11,6 +11,8 @@ import { pool } from '../config/database';
 import logger from '../utils/logger';
 import redisClient from '../utils/redisClient';
 import { openAICircuitBreaker } from './openai/circuitBreakerService';
+import { gpt4CodingBreaker } from '../config/circuit-breaker.config';
+import { getCodingFallbackMessage } from './fallback/coding-fallback.service';
 import { buildMedicalCodingPrompt } from '../prompts/medical-coding-prompt';
 import { medicalCodingConfig } from '../config/medicalCoding.config';
 import type {
@@ -87,15 +89,22 @@ export const medicalCodingService = {
 
     let aiResult: AICodeGenerationResult | null = null;
 
-    // Try AI generation
+    // Try AI generation via per-service circuit breaker
     if (openAICircuitBreaker.isAllowed()) {
       try {
-        aiResult = await this.runAICodingGeneration(clinical_notes, chief_complaint, diagnoses, procedures);
+        aiResult = await gpt4CodingBreaker.fire(async () =>
+          this.runAICodingGeneration(clinical_notes, chief_complaint, diagnoses, procedures),
+        ) as AICodeGenerationResult;
         openAICircuitBreaker.recordSuccess();
       } catch (error) {
         openAICircuitBreaker.recordFailure();
         logger.error('AI coding generation failed:', error);
+        const fb = getCodingFallbackMessage();
+        logger.warn(`Coding fallback: ${fb.message}`);
       }
+    } else {
+      const fb = getCodingFallbackMessage();
+      logger.warn(`Coding circuit breaker open: ${fb.message}`);
     }
 
     const suggestions: MedicalCodeSuggestion[] = [];

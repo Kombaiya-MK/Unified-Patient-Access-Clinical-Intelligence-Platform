@@ -135,12 +135,35 @@ export const activeDatabaseConnectionsGauge = new Gauge({
 
 /**
  * Circuit Breaker State Gauge
- * 0 = closed (healthy), 1 = open (failing), 2 = half-open (probing).
+ * 0 = closed (healthy), 1 = half-open (probing), 2 = open (failing).
  */
 export const circuitBreakerStateGauge = new Gauge({
   name: 'circuit_breaker_state',
-  help: 'Circuit breaker state (0=closed, 1=open, 2=half-open)',
-  labelNames: ['service'],
+  help: 'Circuit breaker state (0=closed, 1=half-open, 2=open)',
+  labelNames: ['service', 'model'],
+  registers: [register],
+});
+
+/**
+ * API Failure Rate Histogram
+ * Tracks AI API failure rate percentages per rolling window.
+ */
+export const apiFailureRateHistogram = new Histogram({
+  name: 'ai_api_failure_rate',
+  help: 'AI API failure rate percentage',
+  labelNames: ['service', 'model'],
+  buckets: [0, 10, 25, 50, 75, 90, 100],
+  registers: [register],
+});
+
+/**
+ * Fallback Activation Counter
+ * Counts how many times each fallback path was triggered.
+ */
+export const fallbackActivationCounter = new Counter({
+  name: 'fallback_activation_count',
+  help: 'Number of times fallback logic activated',
+  labelNames: ['service', 'fallback_type'],
   registers: [register],
 });
 

@@ -11,6 +11,7 @@ import { pool } from '../config/database';
 import logger from '../utils/logger';
 import redisClient from '../utils/redisClient';
 import { openAICircuitBreaker } from './openai/circuitBreakerService';
+import { gpt4ConflictsBreaker } from '../config/circuit-breaker.config';
 import { drugDatabaseService } from './drugDatabaseService';
 import { buildConflictPrompt } from '../prompts/medication-conflict-prompt';
 import { medicationSafetyConfig } from '../config/medicationSafety.config';
@@ -70,10 +71,12 @@ export const medicationConflictDetectionService = {
 
     let conflicts: ConflictResult[] = [];
 
-    // Try AI-powered detection first
+    // Try AI-powered detection first via per-service circuit breaker
     if (openAICircuitBreaker.isAllowed()) {
       try {
-        const aiConflicts = await this.runAIConflictDetection(normalizedMeds, allergies, conditions);
+        const aiConflicts = await gpt4ConflictsBreaker.fire(async () =>
+          this.runAIConflictDetection(normalizedMeds, allergies, conditions),
+        ) as ConflictResult[];
         conflicts = aiConflicts;
         openAICircuitBreaker.recordSuccess();
       } catch (error) {

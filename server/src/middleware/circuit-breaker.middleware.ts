@@ -35,15 +35,15 @@ export const dbCircuitBreaker = new CircuitBreaker(
 
 dbCircuitBreaker.on('open', () => {
   logger.error('Database circuit breaker OPENED');
-  circuitBreakerStateGauge.set({ service: 'database' }, 1);
+  circuitBreakerStateGauge.set({ service: 'database', model: 'postgres' }, 1);
 });
 dbCircuitBreaker.on('halfOpen', () => {
   logger.warn('Database circuit breaker HALF-OPEN');
-  circuitBreakerStateGauge.set({ service: 'database' }, 2);
+  circuitBreakerStateGauge.set({ service: 'database', model: 'postgres' }, 2);
 });
 dbCircuitBreaker.on('close', () => {
   logger.info('Database circuit breaker CLOSED');
-  circuitBreakerStateGauge.set({ service: 'database' }, 0);
+  circuitBreakerStateGauge.set({ service: 'database', model: 'postgres' }, 0);
 });
 
 dbCircuitBreaker.fallback(async (query: string) => {
@@ -72,15 +72,15 @@ export const aiCircuitBreaker = new CircuitBreaker(
 
 aiCircuitBreaker.on('open', () => {
   logger.error('AI API circuit breaker OPENED');
-  circuitBreakerStateGauge.set({ service: 'openai' }, 1);
+  circuitBreakerStateGauge.set({ service: 'openai', model: 'gpt-4' }, 1);
 });
 aiCircuitBreaker.on('halfOpen', () => {
   logger.warn('AI API circuit breaker HALF-OPEN');
-  circuitBreakerStateGauge.set({ service: 'openai' }, 2);
+  circuitBreakerStateGauge.set({ service: 'openai', model: 'gpt-4' }, 2);
 });
 aiCircuitBreaker.on('close', () => {
   logger.info('AI API circuit breaker CLOSED');
-  circuitBreakerStateGauge.set({ service: 'openai' }, 0);
+  circuitBreakerStateGauge.set({ service: 'openai', model: 'gpt-4' }, 0);
 });
 
 aiCircuitBreaker.fallback(() => {

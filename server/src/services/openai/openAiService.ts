@@ -10,6 +10,8 @@
 import logger from '../../utils/logger';
 import { getOpenAIConfig, TOTAL_INTAKE_SECTIONS } from '../../config/openai.config';
 import { openAICircuitBreaker } from './circuitBreakerService';
+import { gpt4IntakeBreaker } from '../../config/circuit-breaker.config';
+import { getIntakeFallbackResponse } from '../fallback/ai-intake-fallback.service';
 import { redactPii } from './piiRedactionService';
 import {
   loadContext,
@@ -91,12 +93,14 @@ export async function processMessage(
   };
   context = await addMessage(context, userMessage);
 
-  // Check circuit breaker
-  if (!openAICircuitBreaker.isAllowed()) {
-    logger.warn('OpenAI circuit breaker is open, returning fallback');
+  // Check circuit breakers (legacy + opossum per-service)
+  if (!openAICircuitBreaker.isAllowed() || !gpt4IntakeBreaker.opened === false) {
+    // Use structured fallback response
+    const fb = getIntakeFallbackResponse();
+    logger.warn('OpenAI intake circuit breaker is open, returning fallback');
     const fallbackMessage: ConversationMessage = {
       role: 'assistant',
-      content: FALLBACK_MESSAGE,
+      content: fb.message,
       timestamp: new Date().toISOString(),
     };
     context = await addMessage(context, fallbackMessage);

@@ -11,15 +11,22 @@ import { EXTRACTION_CONFIG, EXTRACTION_FIELDS } from '../config/extraction.confi
 import { buildExtractionPrompt } from '../prompts/document-extraction-prompt';
 import { extractTextFromFile, isImageFile, isTextExtractable } from './textExtractionService';
 import { openAICircuitBreaker } from './openai/circuitBreakerService';
+import { queueForRetry } from './fallback/extraction-fallback.service';
 import logger from '../utils/logger';
 
 export async function extractDataFromDocument(
   filePath: string,
   mimeType: string,
   documentType: string,
+  documentId?: number,
 ): Promise<ExtractionResult> {
   if (!openAICircuitBreaker.isAllowed()) {
-    throw new Error('OpenAI service is temporarily unavailable. Circuit breaker is open.');
+    // Queue for later processing if document ID is available
+    if (documentId) {
+      const jobType = isImageFile(mimeType) ? 'ocr_extraction' : 'data_extraction';
+      await queueForRetry(documentId, jobType);
+    }
+    throw new Error('OpenAI service is temporarily unavailable. Document queued for later processing.');
   }
 
   const prompt = buildExtractionPrompt(documentType);
