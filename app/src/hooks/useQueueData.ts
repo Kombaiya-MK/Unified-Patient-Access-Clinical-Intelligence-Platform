@@ -15,6 +15,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useSearchParams } from 'react-router-dom';
 import type {
   QueueAppointment,
+  QueueAppointmentType,
   QueueFilters,
   QueueSortConfig,
   QueueSortField,
@@ -22,22 +23,49 @@ import type {
   ProviderOption,
   DepartmentOption,
   QueueStatus,
+  IntakeStatus,
 } from '../types/queue.types';
 import { getToken } from '../utils/storage/tokenStorage';
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001/api';
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3002/api';
 
 /** Query key for queue data */
 const QUEUE_QUERY_KEY = ['staff', 'queue', 'today'] as const;
 
 /** Status sort order for sorting by status column */
-const STATUS_SORT_ORDER: Record<QueueStatus, number> = {
+const STATUS_SORT_ORDER: Record<string, number> = {
   in_progress: 0,
   arrived: 1,
   scheduled: 2,
-  no_show: 3,
-  completed: 4,
+  confirmed: 2,
+  pending: 3,
+  no_show: 4,
+  completed: 5,
 };
+
+/**
+ * Map a single raw API appointment (snake_case) to camelCase QueueAppointment
+ */
+const mapAppointment = (raw: Record<string, unknown>): QueueAppointment => ({
+  id: String(raw.id ?? ''),
+  patientId: String(raw.patient_id ?? ''),
+  patientName: String(raw.patient_name ?? '').trim() || 'Unknown Patient',
+  appointmentTime: String(raw.appointment_time ?? raw.appointment_date ?? ''),
+  status: (String(raw.status ?? 'scheduled') === 'confirmed' ? 'scheduled' : String(raw.status ?? 'scheduled')) as QueueStatus,
+  providerName: String(raw.provider_name ?? ''),
+  providerId: String(raw.provider_id ?? raw.doctor_id ?? ''),
+  department: String(raw.department_name ?? ''),
+  departmentId: String(raw.department_id ?? ''),
+  type: (String(raw.appointment_type ?? 'scheduled') === 'walk_in' ? 'walk_in' : 'scheduled') as QueueAppointmentType,
+  intakeStatus: 'pending' as IntakeStatus,
+  waitTimeMinutes: null,
+  queuePosition: 0,
+  version: Number(raw.version ?? 1),
+  startedAt: raw.started_at ? String(raw.started_at) : null,
+  isLateArrival: Boolean(raw.is_late_arrival),
+  noShowMarkedAt: raw.no_show_marked_at ? String(raw.no_show_marked_at) : null,
+  excusedNoShow: Boolean(raw.excused_no_show),
+});
 
 /**
  * Fetch today's queue data from the API
@@ -55,7 +83,25 @@ const fetchQueueData = async (): Promise<QueueResponse> => {
     throw new Error(`Failed to fetch queue data: ${response.status}`);
   }
 
-  return response.json();
+  const json = await response.json();
+  const payload = json.data || json;
+
+  const appointments: QueueAppointment[] = (payload.appointments || []).map(
+    (raw: Record<string, unknown>) => mapAppointment(raw),
+  );
+
+  return {
+    appointments,
+    totalCount: payload.totalCount ?? appointments.length,
+    providers: (payload.providers || []).map((p: Record<string, unknown>) => ({
+      id: String(p.id ?? ''),
+      name: String(p.name ?? ''),
+    })),
+    departments: (payload.departments || []).map((d: Record<string, unknown>) => ({
+      id: String(d.id ?? ''),
+      name: String(d.name ?? ''),
+    })),
+  };
 };
 
 /**
