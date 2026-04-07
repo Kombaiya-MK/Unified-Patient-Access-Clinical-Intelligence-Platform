@@ -523,22 +523,22 @@ node dist/scripts/backup-orchestrator.js --type=postgresql
 - [ ] Error logging works: All failures logged to syslog with detailed error context
 
 ## Implementation Checklist
-- [ ] Create /var/backups/ directory structure with subdirs: postgresql, redis, logs, compressed, encrypted
-- [ ] Create /etc/app/ directory for encryption keys and backup.env
-- [ ] Write backup-postgresql.sh script with pg_dump --format=custom command
-- [ ] Write backup-redis.sh script with redis-cli BGSAVE and RDB copy
-- [ ] Write backup-logs.sh script using find and tar to archive last 90 days of logs
-- [ ] Write compress-backups.sh script with gzip -9 compression and ratio calculation
-- [ ] Write encrypt-backups.sh script with OpenSSL AES-256-CBC encryption
-- [ ] Create kms-key-manager.ts utility class with generateKey(), rotateKey(), checkKeyAge() methods
-- [ ] Write backup-orchestrator.ts Node.js script coordinating all backup steps
-- [ ] Add retry logic with exponential backoff (5-minute delay, retry once)
-- [ ] Implement Prometheus metrics push to pushgateway (backup_duration_seconds, backup_size_bytes, backup_success_last_timestamp)
-- [ ] Create backup.config.ts configuration file with schedules, retention, encryption settings
-- [ ] Write /etc/cron.d/app-backups cron configuration with 3 jobs (PostgreSQL every 6h, Redis every 1h, Logs daily 2AM)
-- [ ] Add monthly cron job to check encryption key age and rotate if needed
-- [ ] Write cleanup-local-backups.sh script to remove backups older than 7 days
-- [ ] Create check-key-rotation.ts script to automate annual key rotation
+- [x] Create /var/backups/ directory structure with subdirs: postgresql, redis, logs, compressed, encrypted
+- [x] Create /etc/app/ directory for encryption keys and backup.env
+- [x] Write backup-postgresql.sh script with pg_dump --format=custom command
+- [x] Write backup-redis.sh script with redis-cli BGSAVE and RDB copy
+- [x] Write backup-logs.sh script using find and tar to archive last 90 days of logs
+- [x] Write compress-backups.sh script with gzip -9 compression and ratio calculation
+- [x] Write encrypt-backups.sh script with OpenSSL AES-256-CBC encryption
+- [x] Create kms-key-manager.ts utility class with generateKey(), rotateKey(), checkKeyAge() methods
+- [x] Write backup-orchestrator.ts Node.js script coordinating all backup steps
+- [x] Add retry logic with exponential backoff (5-minute delay, retry once)
+- [x] Implement Prometheus metrics push to pushgateway (backup_duration_seconds, backup_size_bytes, backup_success_last_timestamp)
+- [x] Create backup.config.ts configuration file with schedules, retention, encryption settings
+- [x] Write /etc/cron.d/app-backups cron configuration with 3 jobs (PostgreSQL every 6h, Redis every 1h, Logs daily 2AM)
+- [x] Add monthly cron job to check encryption key age and rotate if needed
+- [x] Write cleanup-local-backups.sh script to remove backups older than 7 days
+- [x] Create check-key-rotation.ts script to automate annual key rotation
 - [ ] Make all shell scripts executable (chmod +x)
 - [ ] Set correct file permissions on /var/backups (appuser:appuser) and /etc/app/backup-encryption.key (0o600)
 - [ ] Test PostgreSQL backup manually: Run backup-postgresql.sh, verify .dump file created

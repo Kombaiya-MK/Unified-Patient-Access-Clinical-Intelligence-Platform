@@ -1,0 +1,68 @@
+#!/bin/bash
+# ─────────────────────────────────────────────────────────────
+# Backup Encryption Script (AES-256-CBC)
+#
+# Encrypts a compressed backup file using OpenSSL with
+# AES-256-CBC and a KMS-managed key file. Produces a .enc file.
+#
+# Usage: encrypt-backups.sh <input_file>
+# Outputs: Absolute path of the encrypted file on stdout
+#
+# @task US_042 TASK_001
+# ─────────────────────────────────────────────────────────────
+set -euo pipefail
+
+INPUT_FILE="${1:?Usage: encrypt-backups.sh <input_file>}"
+
+# Load environment file if present
+if [ -f "${BACKUP_ENV_FILE:-/etc/app/backup.env}" ]; then
+  # shellcheck source=/dev/null
+  source "${BACKUP_ENV_FILE:-/etc/app/backup.env}"
+fi
+
+KMS_KEY_FILE="${KMS_KEY_FILE:?KMS_KEY_FILE is required}"
+ENCRYPTED_DIR="${BACKUP_DIR_ENCRYPTED:-/var/backups/encrypted}"
+
+# Validate input file
+if [ ! -f "${INPUT_FILE}" ]; then
+  echo "ERROR: File not found: ${INPUT_FILE}" >&2
+  exit 1
+fi
+
+if [ ! -s "${INPUT_FILE}" ]; then
+  echo "ERROR: Input file is empty: ${INPUT_FILE}" >&2
+  exit 1
+fi
+
+# Validate encryption key
+if [ ! -f "${KMS_KEY_FILE}" ]; then
+  echo "ERROR: Encryption key not found: ${KMS_KEY_FILE}" >&2
+  exit 1
+fi
+
+# Ensure output directory exists
+mkdir -p "${ENCRYPTED_DIR}"
+
+# Derive output filename
+BASENAME=$(basename "${INPUT_FILE}")
+OUTPUT_FILE="${ENCRYPTED_DIR}/${BASENAME}.enc"
+
+# Encrypt using AES-256-CBC with salt and pbkdf2
+openssl enc -aes-256-cbc \
+  -salt \
+  -pbkdf2 \
+  -in "${INPUT_FILE}" \
+  -out "${OUTPUT_FILE}" \
+  -pass "file:${KMS_KEY_FILE}"
+
+# Verify encrypted file is non-empty
+if [ ! -s "${OUTPUT_FILE}" ]; then
+  echo "ERROR: Encryption produced empty file: ${OUTPUT_FILE}" >&2
+  exit 1
+fi
+
+# Remove unencrypted compressed file after successful encryption
+rm -f "${INPUT_FILE}"
+
+echo "Encrypted ${INPUT_FILE} -> ${OUTPUT_FILE}" | logger -t encrypt-backups
+echo "${OUTPUT_FILE}"

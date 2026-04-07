@@ -15,6 +15,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
+import { CircuitBreakerStatusPanel } from '../components/circuit-breaker/CircuitBreakerStatusPanel';
 import './Dashboard.css';
 
 interface NavCard {
@@ -102,6 +103,9 @@ export const AdminDashboard: React.FC = () => {
           <h2>Welcome, {user?.name || user?.email}</h2>
           <p>Select a workflow to get started.</p>
         </section>
+
+        {/* Circuit Breaker Status Panel – US_041 TASK_002 */}
+        <CircuitBreakerStatusPanel />
 
         <section className="dashboard__nav-grid" aria-label="Admin workflows">
           {ADMIN_NAV_CARDS.map((card) => (

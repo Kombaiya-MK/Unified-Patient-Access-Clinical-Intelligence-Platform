@@ -25,6 +25,7 @@ import { ConfirmationModal } from '../components/booking/ConfirmationModal';
 import { JoinWaitlistModal } from '../components/waitlist/JoinWaitlistModal';
 import type { WaitlistSlotData } from '../components/waitlist/JoinWaitlistModal';
 import { LoadingSpinner } from '../components/common/LoadingSpinner';
+import { LimitedFunctionalityBanner } from '../components/circuit-breaker/LimitedFunctionalityBanner';
 import type { Slot } from '../types/appointment.types';
 import './AppointmentBookingPage.css';
 
@@ -216,6 +217,9 @@ export const AppointmentBookingPage: React.FC = () => {
 
   return (
     <div className="booking-page">
+      {/* Circuit Breaker Banner – US_041 TASK_002 */}
+      <LimitedFunctionalityBanner />
+
       <div className="booking-page-header">
         <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '4px' }}>
           <button

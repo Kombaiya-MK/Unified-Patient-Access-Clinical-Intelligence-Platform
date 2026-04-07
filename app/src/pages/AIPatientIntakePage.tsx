@@ -12,6 +12,8 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { AIChatInterface } from '../components/intake/AIChatInterface';
 import { DataSummaryPanel } from '../components/intake/DataSummaryPanel';
 import { SwitchToManualModal } from '../components/intake/SwitchToManualModal';
+import { AIFallbackAlert } from '../components/circuit-breaker/AIFallbackAlert';
+import { useCircuitBreakerStatus } from '../hooks/useCircuitBreakerStatus';
 import { useAIConversation } from '../hooks/useAIConversation';
 import { aiDataToManualForm } from '../utils/intakeDataMapper';
 import { useAuth } from '../hooks/useAuth';
@@ -41,6 +43,8 @@ export const AIPatientIntakePage: React.FC = () => {
   } = useAIConversation();
 
   const [showSwitchModal, setShowSwitchModal] = useState(false);
+  const { statuses } = useCircuitBreakerStatus();
+  const isIntakeCircuitOpen = statuses.some((s) => s.service === 'ai-intake' && s.state === 'open');
 
   // Start conversation on mount
   useEffect(() => {
@@ -86,6 +90,9 @@ export const AIPatientIntakePage: React.FC = () => {
     >
       {/* Left Panel - Chat */}
       <div style={{ flex: '1 1 60%', display: 'flex', flexDirection: 'column', minWidth: 0 }}>
+        {/* AI Fallback Alert – US_041 TASK_002 */}
+        <AIFallbackAlert service="ai-intake" isActive={isIntakeCircuitOpen} />
+
         {/* Header */}
         <div
           style={{

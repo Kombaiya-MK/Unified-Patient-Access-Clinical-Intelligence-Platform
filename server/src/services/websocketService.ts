@@ -1,13 +1,13 @@
 /**
  * WebSocket Service
  * 
- * Manages WebSocket server for real-time queue updates.
+ * Manages WebSocket server for real-time queue and circuit-breaker updates.
  * Authenticates clients, maintains connection pool, and broadcasts
- * queue update events with <5s latency.
+ * events with <5s latency.
  * 
  * @module websocketService
  * @created 2026-03-31
- * @task US_020 TASK_004
+ * @task US_020 TASK_004, US_041 TASK_002 (circuit-breaker path)
  */
 
 import { Server as HttpServer, IncomingMessage } from 'http';
@@ -16,6 +16,9 @@ import { URL } from 'url';
 import { verifyToken } from '../utils/tokenGenerator';
 import logger from '../utils/logger';
 import type { QueueUpdateEvent, WebSocketClient } from '../types/websocket.types';
+
+/** Accepted WebSocket paths */
+const ALLOWED_PATHS = new Set(['/queue', '/circuit-breaker']);
 
 /** Connected client pool */
 const clients: Set<WebSocketClient> = new Set();
@@ -30,10 +33,22 @@ let wss: WebSocketServer | null = null;
  * Initialize WebSocket server attached to the HTTP server
  */
 export function initWebSocketServer(httpServer: HttpServer): void {
-  wss = new WebSocketServer({ server: httpServer, path: '/queue' });
+  wss = new WebSocketServer({ noServer: true });
 
   wss.on('connection', (ws: WebSocket, request: IncomingMessage) => {
     handleConnection(ws, request);
+  });
+
+  // Handle HTTP upgrade for both /queue and /circuit-breaker paths
+  httpServer.on('upgrade', (request, socket, head) => {
+    const { pathname } = new URL(request.url || '', `http://${request.headers.host || 'localhost'}`);
+    if (ALLOWED_PATHS.has(pathname) && wss) {
+      wss.handleUpgrade(request, socket, head, (ws) => {
+        wss!.emit('connection', ws, request);
+      });
+    } else {
+      socket.destroy();
+    }
   });
 
   // Heartbeat: ping every 30s, terminate dead connections
@@ -57,7 +72,7 @@ export function initWebSocketServer(httpServer: HttpServer): void {
     }
   });
 
-  logger.info('✓ WebSocket server initialized on /queue');
+  logger.info('✓ WebSocket server initialized on /queue and /circuit-breaker');
 }
 
 /**
@@ -154,6 +169,32 @@ export function broadcastQueueUpdate(event: QueueUpdateEvent): void {
   logger.debug('Queue update broadcast', {
     event: event.type,
     appointmentId: event.appointmentId,
+    sentTo: sentCount,
+    totalClients: clients.size,
+  });
+}
+
+/**
+ * Broadcast circuit breaker state change to all connected clients
+ */
+export function broadcastCircuitBreakerEvent(data: { service: string; model: string; state: string }): void {
+  const message = JSON.stringify({
+    event: 'circuit-breaker:update',
+    data,
+    timestamp: new Date().toISOString(),
+  });
+
+  let sentCount = 0;
+  clients.forEach((client) => {
+    if (client.ws.readyState === WebSocket.OPEN) {
+      client.ws.send(message);
+      sentCount++;
+    }
+  });
+
+  logger.debug('Circuit breaker broadcast', {
+    service: data.service,
+    state: data.state,
     sentTo: sentCount,
     totalClients: clients.size,
   });

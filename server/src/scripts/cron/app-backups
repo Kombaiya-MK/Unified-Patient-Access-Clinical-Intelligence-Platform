@@ -1,0 +1,28 @@
+# ─────────────────────────────────────────────────────────────
+# Cron Job Configuration for Automated Backups
+#
+# Install: sudo cp app-backups /etc/cron.d/ && sudo systemctl restart cron
+#
+# @task US_042 TASK_001
+# ─────────────────────────────────────────────────────────────
+
+# PostgreSQL backup every 6 hours
+0 */6 * * * appuser /usr/bin/node /opt/app/dist/scripts/backup-orchestrator.js --type=postgresql >> /var/log/app/backup-cron.log 2>&1
+
+# Redis backup every 1 hour
+0 * * * * appuser /usr/bin/node /opt/app/dist/scripts/backup-orchestrator.js --type=redis >> /var/log/app/backup-cron.log 2>&1
+
+# Application logs backup daily at 2 AM
+0 2 * * * appuser /usr/bin/node /opt/app/dist/scripts/backup-orchestrator.js --type=logs >> /var/log/app/backup-cron.log 2>&1
+
+# Encryption key rotation check monthly (1st of month at 3 AM)
+0 3 1 * * appuser /usr/bin/node /opt/app/dist/scripts/check-key-rotation.js >> /var/log/app/key-rotation-cron.log 2>&1
+
+# Local backup cleanup daily at 4 AM
+0 4 * * * appuser /opt/app/dist/scripts/cleanup-local-backups.sh >> /var/log/app/backup-cron.log 2>&1
+
+# Upload encrypted backups to cloud storage every 12 hours (TASK_002)
+0 */12 * * * appuser /usr/bin/node /opt/app/dist/scripts/upload-backups.js >> /var/log/app/upload-cron.log 2>&1
+
+# Check storage quota and enforce limits daily at 3 AM (TASK_002)
+0 3 * * * appuser /usr/bin/node /opt/app/dist/scripts/check-quota.js >> /var/log/app/quota-cron.log 2>&1

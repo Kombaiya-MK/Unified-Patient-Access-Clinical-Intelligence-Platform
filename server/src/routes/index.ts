@@ -20,6 +20,7 @@ import conflictCheckRoutes from './conflictCheckRoutes';
 import clinicalProfileRoutes from './clinicalProfileRoutes';
 import resourceRoutes from './resourceRoutes';
 import timeSlotsRoutes from './timeSlots.routes';
+import circuitBreakerRoutes from './circuitBreaker.routes';
 
 const router = Router();
 
@@ -77,5 +78,6 @@ router.use('/patients', clinicalProfileRoutes);
 router.use('/appointments', medicalCodingRoutes);
 router.use('/', pdfRoutes); // PDF routes at root level for /api/pdfs/download
 router.use('/', timeSlotsRoutes);
+router.use('/circuit-breaker', circuitBreakerRoutes);
 
 export default router;

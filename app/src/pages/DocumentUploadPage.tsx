@@ -18,6 +18,8 @@ import { UploadedFileGallery } from '../components/documents/UploadedFileGallery
 import { DuplicateConfirmModal } from '../components/documents/DuplicateConfirmModal';
 import { ExtractedDataPanel } from '../components/documents/ExtractedDataPanel';
 import type { UploadedDocument, ExtractedData } from '../types/document.types';
+import { LimitedFunctionalityBanner } from '../components/circuit-breaker/LimitedFunctionalityBanner';
+import { ExtractionStatus } from '../components/document-extraction/ExtractionStatus';
 
 export const DocumentUploadPage: React.FC = () => {
   const { patientId } = useParams<{ patientId: string }>();
@@ -86,6 +88,9 @@ export const DocumentUploadPage: React.FC = () => {
 
   return (
     <div style={{ maxWidth: 960, margin: '0 auto', padding: '24px 16px' }}>
+      {/* Circuit Breaker Banner – US_041 TASK_002 */}
+      <LimitedFunctionalityBanner />
+
       {/* Header */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
         <div>
@@ -194,7 +199,9 @@ export const DocumentUploadPage: React.FC = () => {
 
       {/* Extracted Data Side Panel */}
       {selectedDocId && (
-        <ExtractedDataPanel
+        <>
+          <ExtractionStatus />
+          <ExtractedDataPanel
           data={extractedDataHook.data}
           isLoading={extractedDataHook.loading}
           error={extractedDataHook.error}
@@ -202,6 +209,7 @@ export const DocumentUploadPage: React.FC = () => {
           onRetry={handleRetry}
           onClose={() => setSelectedDocId(null)}
         />
+        </>
       )}
     </div>
   );

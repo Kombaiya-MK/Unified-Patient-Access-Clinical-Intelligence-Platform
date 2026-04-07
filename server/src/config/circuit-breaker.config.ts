@@ -8,6 +8,7 @@
  * @task US_041 TASK_001
  */
 import CircuitBreaker from 'opossum';
+import { randomUUID } from 'crypto';
 import logger from '../utils/logger';
 import {
   circuitBreakerStateGauge,
@@ -15,6 +16,30 @@ import {
   fallbackActivationCounter,
 } from '../utils/metricsRegistry';
 import { sendCircuitBreakerAlert } from '../services/circuit-breaker-alerts.service';
+import { broadcastCircuitBreakerEvent } from '../services/websocketService';
+
+// ── In-memory event log (ring buffer, max 200) ─────────────
+interface CircuitBreakerLogEntry {
+  id: string;
+  service: string;
+  event: 'opened' | 'closed' | 'half-opened' | 'fallback-activated';
+  timestamp: string;
+  details: string;
+}
+
+const MAX_LOG_ENTRIES = 200;
+const circuitBreakerEventLog: CircuitBreakerLogEntry[] = [];
+
+function pushLogEntry(service: string, event: CircuitBreakerLogEntry['event'], details: string): void {
+  if (circuitBreakerEventLog.length >= MAX_LOG_ENTRIES) {
+    circuitBreakerEventLog.shift();
+  }
+  circuitBreakerEventLog.push({ id: randomUUID(), service, event, timestamp: new Date().toISOString(), details });
+}
+
+export function getLogsForService(service: string): CircuitBreakerLogEntry[] {
+  return circuitBreakerEventLog.filter((e) => e.service === service);
+}
 
 // ── Shared options ──────────────────────────────────────────
 const BASE_OPTIONS: CircuitBreaker.Options = {
@@ -60,11 +85,15 @@ function createAIBreaker(
     circuitBreakerStateGauge.set({ service: name, model }, 2);
     logger.error(`AI circuit breaker [${name}] OPENED`);
     sendCircuitBreakerAlert(name, 'open').catch(() => {});
+    pushLogEntry(name, 'opened', `Circuit opened – failure threshold exceeded for ${model}`);
+    broadcastCircuitBreakerEvent({ service: name, model, state: 'open' });
   });
 
   breaker.on('halfOpen', () => {
     circuitBreakerStateGauge.set({ service: name, model }, 1);
     logger.info(`AI circuit breaker [${name}] HALF-OPEN – testing recovery`);
+    pushLogEntry(name, 'half-opened', `Circuit half-open – testing recovery for ${model}`);
+    broadcastCircuitBreakerEvent({ service: name, model, state: 'half-open' });
   });
 
   breaker.on('close', () => {
@@ -72,6 +101,8 @@ function createAIBreaker(
     circuitBreakerStateGauge.set({ service: name, model }, 0);
     logger.info(`AI circuit breaker [${name}] CLOSED – service recovered`);
     sendCircuitBreakerAlert(name, 'recovered').catch(() => {});
+    pushLogEntry(name, 'closed', `Circuit closed – ${model} service recovered`);
+    broadcastCircuitBreakerEvent({ service: name, model, state: 'closed' });
   });
 
   return breaker;
