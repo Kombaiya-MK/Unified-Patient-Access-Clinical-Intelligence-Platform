@@ -1,86 +1,89 @@
 /**
  * Staff Dashboard Page (SCR-003)
  * 
- * Main dashboard for staff to:
- * - View patient queue
- * - Manage appointments
- * - Access patient records
- * - Update appointment status
+ * Wireframe-aligned layout:
+ * - Welcome banner with greeting + date
+ * - 3 stat cards (Today's Appointments, Patients Arrived, Pending Intake)
+ * - Today's Appointments grouped by department with table view
  * 
  * @module StaffDashboard
  * @created 2026-03-18
- * @updated 2026-04-07
+ * @updated 2026-04-08
  * @task US_012 TASK_003, US_044 TASK_005
  */
 
-import React, { useMemo } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { DashboardGrid } from '../components/Dashboard/DashboardGrid';
-import { DashboardWidget } from '../components/Dashboard/DashboardWidget';
-import { ResponsiveTabs, type TabItem } from '../components/Dashboard/ResponsiveTabs';
+import { useAuth } from '../hooks/useAuth';
 import { FAB } from '../components/Dashboard/FAB';
-import { useKeyboardShortcuts } from '../hooks/useKeyboardShortcuts';
+import api from '../services/api';
 import './Dashboard.css';
 
-interface NavCard {
-  title: string;
-  description: string;
-  path: string;
-  icon: string;
+interface StaffAppointment {
+  id: string;
+  time: string;
+  patientId: string;
+  patientName: string;
+  type: string;
+  status: string;
+  department: string;
 }
 
-const QUEUE_CARDS: NavCard[] = [
-  {
-    title: 'Patient Queue',
-    description: 'View and manage the patient queue, update status, and assign providers.',
-    path: '/staff/queue',
-    icon: '👥',
-  },
-];
+interface DepartmentGroup {
+  name: string;
+  count: number;
+  appointments: StaffAppointment[];
+}
 
-const APPOINTMENT_CARDS: NavCard[] = [
-  {
-    title: 'Book Appointment',
-    description: 'Schedule appointments on behalf of patients.',
-    path: '/staff/appointments/book',
-    icon: '📅',
-  },
-];
+interface ApiAppointment {
+  id: string;
+  departmentName?: string;
+  department?: string;
+  status?: string;
+  appointmentDate?: string;
+  patientId?: string;
+  patientName?: string;
+  appointmentType?: string;
+  type?: string;
+}
 
-const INTAKE_CARDS: NavCard[] = [
-  {
-    title: 'AI Intake',
-    description: 'AI-assisted patient intake with smart form filling.',
-    path: '/intake/ai',
-    icon: '🤖',
-  },
-  {
-    title: 'Manual Intake',
-    description: 'Manually enter patient intake data.',
-    path: '/intake/manual',
-    icon: '📋',
-  },
-];
+function getGreeting(): string {
+  const h = new Date().getHours();
+  if (h < 12) { return 'Good Morning'; }
+  if (h < 18) { return 'Good Afternoon'; }
+  return 'Good Evening';
+}
 
-function NavCardGrid({ cards, navigate }: { cards: NavCard[]; navigate: (path: string) => void }) {
-  return (
-    <DashboardGrid>
-      {cards.map((card) => (
-        <DashboardWidget key={card.path}>
-          <button
-            className="dashboard__nav-card"
-            onClick={() => navigate(card.path)}
-            type="button"
-            style={{ width: '100%', border: 'none', background: 'transparent', padding: 0, textAlign: 'left', cursor: 'pointer' }}
-          >
-            <span className="dashboard__nav-card-icon" aria-hidden="true">{card.icon}</span>
-            <h3 className="dashboard__nav-card-title">{card.title}</h3>
-            <p className="dashboard__nav-card-desc">{card.description}</p>
-          </button>
-        </DashboardWidget>
-      ))}
-    </DashboardGrid>
-  );
+function mapAppointment(a: ApiAppointment): StaffAppointment {
+  const dept = a.departmentName || a.department || 'General';
+  const time = a.appointmentDate
+    ? new Date(a.appointmentDate).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })
+    : '--';
+  return {
+    id: a.id,
+    time,
+    patientId: a.patientId || '--',
+    patientName: a.patientName || 'Patient',
+    type: a.appointmentType || a.type || 'General',
+    status: a.status || 'scheduled',
+    department: dept,
+  };
+}
+
+function isArrivedStatus(status: string): boolean {
+  return status === 'arrived' || status === 'checked_in' || status === 'checked-in';
+}
+
+function isPendingIntakeStatus(status: string): boolean {
+  return status === 'pending_intake' || status === 'pending intake';
+}
+
+function getStatusClass(status: string): string {
+  const s = status.toLowerCase();
+  if (s === 'completed') { return 'sd-status--completed'; }
+  if (isArrivedStatus(s)) { return 'sd-status--arrived'; }
+  if (s.includes('pending')) { return 'sd-status--pending'; }
+  return 'sd-status--scheduled';
 }
 
 /**
@@ -88,44 +91,145 @@ function NavCardGrid({ cards, navigate }: { cards: NavCard[]; navigate: (path: s
  */
 export const StaffDashboard: React.FC = () => {
   const navigate = useNavigate();
+  const { user } = useAuth();
+  const [departments, setDepartments] = useState<DepartmentGroup[]>([]);
+  const [stats, setStats] = useState({ total: 0, arrived: 0, pendingIntake: 0 });
+  const [loading, setLoading] = useState(true);
 
-  const shortcuts = useMemo(() => [
-    {
-      key: 'ctrl+n',
-      handler: () => { navigate('/staff/queue'); },
-      description: 'Go to Queue',
-    },
-  ], [navigate]);
+  const greeting = getGreeting();
+  const todayStr = new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
 
-  useKeyboardShortcuts(shortcuts);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await api.get('/staff/queue/today');
+        const appts: ApiAppointment[] = res.data?.data || res.data?.queue || res.data || [];
+        processAppointments(appts);
+      } catch {
+        // Use empty state on error
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, []);
 
-  const queueContent = <NavCardGrid cards={QUEUE_CARDS} navigate={navigate} />;
-  const appointmentContent = <NavCardGrid cards={APPOINTMENT_CARDS} navigate={navigate} />;
-  const intakeContent = <NavCardGrid cards={INTAKE_CARDS} navigate={navigate} />;
+  const processAppointments = (appts: ApiAppointment[]) => {
+    let totalCount = 0;
+    let arrivedCount = 0;
+    let pendingIntakeCount = 0;
+    const deptMap = new Map<string, StaffAppointment[]>();
 
-  const tabs: TabItem[] = [
-    { id: 'queue', label: 'Queue', content: queueContent },
-    { id: 'appointments', label: 'Appointments', content: appointmentContent },
-    { id: 'intake', label: 'Intake', content: intakeContent },
-  ];
+    for (const a of appts) {
+      const mapped = mapAppointment(a);
+      const statusLower = (a.status || '').toLowerCase();
+      totalCount++;
+
+      if (isArrivedStatus(statusLower)) { arrivedCount++; }
+      if (isPendingIntakeStatus(statusLower)) { pendingIntakeCount++; }
+
+      if (!deptMap.has(mapped.department)) { deptMap.set(mapped.department, []); }
+      deptMap.get(mapped.department)!.push(mapped);
+    }
+
+    const groups: DepartmentGroup[] = Array.from(deptMap.entries()).map(([name, apptList]) => ({
+      name,
+      count: apptList.length,
+      appointments: apptList,
+    }));
+
+    setDepartments(groups);
+    setStats({ total: totalCount, arrived: arrivedCount, pendingIntake: pendingIntakeCount });
+  };
+
+  const renderAppointmentContent = () => {
+    if (loading) {
+      return <div className="loading-container"><p>Loading appointments...</p></div>;
+    }
+
+    if (departments.length === 0) {
+      return (
+        <div className="pd-card">
+          <div className="pd-card__body" style={{ padding: '32px', textAlign: 'center' }}>
+            <p>No appointments scheduled for today</p>
+            <button className="btn btn--primary" style={{ marginTop: 12 }} onClick={() => navigate('/staff/queue')}>
+              Go to Patient Queue
+            </button>
+          </div>
+        </div>
+      );
+    }
+
+    return (
+      <div className="sd-dept-grid">
+        {departments.map((dept) => (
+          <section key={dept.name} className="sd-dept-card" aria-label={`${dept.name} appointments`}>
+            <div className="sd-dept-card__header">
+              <h4 className="sd-dept-card__name">{dept.name}</h4>
+              <span className="sd-dept-card__badge">{dept.count}</span>
+            </div>
+            <table className="sd-dept-table">
+              <thead>
+                <tr>
+                  <th>Time</th>
+                  <th>Patient ID</th>
+                  <th>Patient</th>
+                  <th>Type</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                {dept.appointments.map((a) => (
+                  <tr key={a.id}>
+                    <td>{a.time}</td>
+                    <td>{a.patientId}</td>
+                    <td><span className="sd-patient-link">{a.patientName}</span></td>
+                    <td>{a.type}</td>
+                    <td><span className={`sd-status ${getStatusClass(a.status)}`}>{a.status.toUpperCase()}</span></td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </section>
+        ))}
+      </div>
+    );
+  };
 
   return (
-    <div className="dashboard">
-      <main className="dashboard__content">
-        <section className="dashboard__welcome">
-          <h2>Staff Dashboard</h2>
-          <p>Select a workflow to get started.</p>
-        </section>
+    <div className="dashboard sd-dashboard">
+      {/* Welcome Banner */}
+      <section className="sd-welcome">
+        <h2 className="sd-welcome__greeting">{greeting}, {user?.name?.split(' ')[0] || 'Staff'}</h2>
+        <p className="sd-welcome__subtitle">Today&apos;s schedule and patient overview — {todayStr}</p>
+      </section>
 
-        <ResponsiveTabs tabs={tabs} defaultTab="queue" ariaLabel="Staff dashboard sections" />
-      </main>
+      {/* Stat Cards */}
+      <div className="sd-stats">
+        <div className="sd-stat-card">
+          <span className="sd-stat-card__label">Today&apos;s Appointments</span>
+          <span className="sd-stat-card__value sd-stat-card__value--blue">{stats.total}</span>
+        </div>
+        <div className="sd-stat-card">
+          <span className="sd-stat-card__label">Patients Arrived</span>
+          <span className="sd-stat-card__value sd-stat-card__value--green">{stats.arrived}</span>
+        </div>
+        <div className="sd-stat-card">
+          <span className="sd-stat-card__label">Pending Intake</span>
+          <span className="sd-stat-card__value sd-stat-card__value--orange">{stats.pendingIntake}</span>
+        </div>
+      </div>
 
-      <FAB
-        icon="+"
-        label="Add Patient"
-        onClick={() => navigate('/intake/ai')}
-        ariaLabel="Start AI patient intake"
-      />
+      {/* Today's Appointments Header */}
+      <div className="sd-section-header">
+        <h3 className="sd-section-header__title">Today&apos;s Appointments</h3>
+        <span className="sd-section-header__count">{stats.total} TOTAL</span>
+      </div>
+
+      {/* Department Appointment Tables */}
+      {renderAppointmentContent()}
+
+      <FAB icon="+" label="Add Patient" onClick={() => navigate('/intake/ai')} ariaLabel="Start AI patient intake" />
     </div>
   );
 };

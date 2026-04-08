@@ -12,7 +12,6 @@
 
 import React, { useState, useRef, useCallback } from 'react';
 import { useBreakpoint } from '../../hooks/useBreakpoint';
-import { DashboardGrid } from './DashboardGrid';
 import '../../styles/dashboard-responsive.css';
 
 export interface TabItem {
@@ -76,13 +75,13 @@ export const ResponsiveTabs: React.FC<ResponsiveTabsProps> = ({
 
   if (isDesktop) {
     return (
-      <DashboardGrid className={desktopClassName}>
+      <div className={desktopClassName || 'responsive-tabs--desktop'}>
         {tabs.map((tab) => (
-          <div key={tab.id} role="region" aria-label={tab.label}>
+          <section key={tab.id} role="region" aria-label={tab.label}>
             {tab.content}
-          </div>
+          </section>
         ))}
-      </DashboardGrid>
+      </div>
     );
   }
 

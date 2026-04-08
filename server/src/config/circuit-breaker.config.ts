@@ -18,6 +18,21 @@ import {
 import { sendCircuitBreakerAlert } from '../services/circuit-breaker-alerts.service';
 import { broadcastCircuitBreakerEvent } from '../services/websocketService';
 
+/** Maps backend breaker keys to frontend service IDs */
+const FRONTEND_SERVICE_MAP: Record<string, string> = {
+  'gpt4-intake': 'ai-intake',
+  'gpt4v-extraction': 'document-extraction',
+  'gpt4-coding': 'medical-coding',
+  'gpt4-conflicts': 'medication-conflicts',
+};
+
+/** Track actual last state-change timestamps per breaker */
+const lastStateChangeMap = new Map<string, string>();
+
+export function getLastStateChange(name: string): string {
+  return lastStateChangeMap.get(name) || new Date().toISOString();
+}
+
 // ── In-memory event log (ring buffer, max 200) ─────────────
 interface CircuitBreakerLogEntry {
   id: string;
@@ -86,14 +101,16 @@ function createAIBreaker(
     logger.error(`AI circuit breaker [${name}] OPENED`);
     sendCircuitBreakerAlert(name, 'open').catch(() => {});
     pushLogEntry(name, 'opened', `Circuit opened – failure threshold exceeded for ${model}`);
-    broadcastCircuitBreakerEvent({ service: name, model, state: 'open' });
+    lastStateChangeMap.set(name, new Date().toISOString());
+    broadcastCircuitBreakerEvent(buildBreakerStatus(breaker, name, model, 'open'));
   });
 
   breaker.on('halfOpen', () => {
     circuitBreakerStateGauge.set({ service: name, model }, 1);
     logger.info(`AI circuit breaker [${name}] HALF-OPEN – testing recovery`);
     pushLogEntry(name, 'half-opened', `Circuit half-open – testing recovery for ${model}`);
-    broadcastCircuitBreakerEvent({ service: name, model, state: 'half-open' });
+    lastStateChangeMap.set(name, new Date().toISOString());
+    broadcastCircuitBreakerEvent(buildBreakerStatus(breaker, name, model, 'half-open'));
   });
 
   breaker.on('close', () => {
@@ -102,7 +119,8 @@ function createAIBreaker(
     logger.info(`AI circuit breaker [${name}] CLOSED – service recovered`);
     sendCircuitBreakerAlert(name, 'recovered').catch(() => {});
     pushLogEntry(name, 'closed', `Circuit closed – ${model} service recovered`);
-    broadcastCircuitBreakerEvent({ service: name, model, state: 'closed' });
+    lastStateChangeMap.set(name, new Date().toISOString());
+    broadcastCircuitBreakerEvent(buildBreakerStatus(breaker, name, model, 'closed'));
   });
 
   return breaker;
@@ -121,5 +139,28 @@ export const allAIBreakers = [
   gpt4CodingBreaker,
   gpt4ConflictsBreaker,
 ] as const;
+
+/** Build full CircuitBreakerStatus payload using frontend service IDs */
+function buildBreakerStatus(
+  breaker: CircuitBreaker,
+  name: string,
+  model: string,
+  state: 'open' | 'half-open' | 'closed',
+): { service: string; model: string; state: string; [key: string]: unknown } {
+  const stats = (breaker as any).stats ?? {};
+  const failures = stats.failures ?? 0;
+  const successes = stats.successes ?? 0;
+  const total = failures + successes;
+  const failureRate = total > 0 ? Math.round(((failures / total) * 100) * 10) / 10 : 0;
+  return {
+    service: FRONTEND_SERVICE_MAP[name] || name,
+    model,
+    state,
+    failureRate,
+    lastStateChange: lastStateChangeMap.get(name) || new Date().toISOString(),
+    errorCount: failures,
+    successCount: successes,
+  };
+}
 
 export { apiFailureRateHistogram, fallbackActivationCounter };

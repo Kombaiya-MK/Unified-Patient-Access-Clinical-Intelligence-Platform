@@ -19,7 +19,7 @@
 0 3 1 * * appuser /usr/bin/node /opt/app/dist/scripts/check-key-rotation.js >> /var/log/app/key-rotation-cron.log 2>&1
 
 # Local backup cleanup daily at 4 AM
-0 4 * * * appuser /opt/app/dist/scripts/cleanup-local-backups.sh >> /var/log/app/backup-cron.log 2>&1
+0 4 * * * appuser /opt/app/src/scripts/cleanup-local-backups.sh >> /var/log/app/backup-cron.log 2>&1
 
 # Upload encrypted backups to cloud storage every 12 hours (TASK_002)
 0 */12 * * * appuser /usr/bin/node /opt/app/dist/scripts/upload-backups.js >> /var/log/app/upload-cron.log 2>&1

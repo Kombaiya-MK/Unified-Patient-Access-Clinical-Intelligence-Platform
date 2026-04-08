@@ -65,10 +65,18 @@ export function useCircuitBreakerStatus(): UseCircuitBreakerStatusReturn {
         try {
           const message = JSON.parse(event.data);
           if (message.event === 'circuit-breaker:update') {
-            const update = message.data as CircuitBreakerStatus;
-            setStatuses((prev) =>
-              prev.map((s) => (s.service === update.service ? update : s)),
-            );
+            const update = message.data as Partial<CircuitBreakerStatus> & { service: CircuitBreakerServiceId };
+            if (!update.service) return;
+            setStatuses((prev) => {
+              const exists = prev.some((s) => s.service === update.service);
+              if (exists) {
+                return prev.map((s) =>
+                  s.service === update.service ? { ...s, ...update } : s,
+                );
+              }
+              // Upsert: add new service if not already tracked
+              return [...prev, update as CircuitBreakerStatus];
+            });
           }
         } catch {
           // malformed message — ignore

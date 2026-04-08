@@ -177,7 +177,7 @@ export function broadcastQueueUpdate(event: QueueUpdateEvent): void {
 /**
  * Broadcast circuit breaker state change to all connected clients
  */
-export function broadcastCircuitBreakerEvent(data: { service: string; model: string; state: string }): void {
+export function broadcastCircuitBreakerEvent(data: { service: string; model: string; state: string; [key: string]: unknown }): void {
   const message = JSON.stringify({
     event: 'circuit-breaker:update',
     data,

@@ -31,7 +31,7 @@ export class KMSKeyManager {
 
   /**
    * Generate a new 256-bit random encryption key.
-   * Writes to keyPath with 0o600 permissions (owner read/write only).
+   * Writes base64-encoded key to keyPath with 0o600 permissions (owner read/write only).
    */
   async generateKey(): Promise<void> {
     const keyDir = path.dirname(this.keyPath);
@@ -40,7 +40,7 @@ export class KMSKeyManager {
     }
 
     const key = crypto.randomBytes(KEY_SIZE_BYTES);
-    fs.writeFileSync(this.keyPath, key, { mode: 0o600 });
+    fs.writeFileSync(this.keyPath, key.toString('base64'), { mode: 0o600, encoding: 'utf8' });
 
     this.appendRotationLog('New encryption key generated');
     logger.info('Backup encryption key generated', { path: this.keyPath });
@@ -93,14 +93,17 @@ export class KMSKeyManager {
   }
 
   /**
-   * Verify the key file exists and has correct permissions.
+   * Verify the key file exists, has the expected size, and has restrictive permissions (0o600).
    */
   verifyKeyIntegrity(): boolean {
     if (!fs.existsSync(this.keyPath)) {
       return false;
     }
     const stats = fs.statSync(this.keyPath);
-    return stats.size === KEY_SIZE_BYTES;
+    const expectedSize = Math.ceil((KEY_SIZE_BYTES * 4) / 3); // base64 length of 32 bytes = 44
+    const hasValidSize = stats.size >= expectedSize && stats.size <= expectedSize + 4; // allow padding variance
+    const hasRestrictivePerms = (stats.mode & 0o777) === 0o600;
+    return hasValidSize && hasRestrictivePerms;
   }
 
   private appendRotationLog(message: string): void {

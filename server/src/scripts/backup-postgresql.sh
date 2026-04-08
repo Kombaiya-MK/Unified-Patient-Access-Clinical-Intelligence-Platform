@@ -12,18 +12,18 @@
 # ─────────────────────────────────────────────────────────────
 set -euo pipefail
 
+# Load database credentials from environment file if present (before deriving paths)
+if [ -f "${BACKUP_ENV_FILE:-/etc/app/backup.env}" ]; then
+  # shellcheck source=/dev/null
+  source "${BACKUP_ENV_FILE:-/etc/app/backup.env}"
+fi
+
 TIMESTAMP=$(date +%Y-%m-%d_%H-%M-%S)
 BACKUP_DIR="${BACKUP_DIR_PG:-/var/backups/postgresql}"
 BACKUP_FILE="${BACKUP_DIR}/backup-${TIMESTAMP}.dump"
 
 # Ensure directory exists
 mkdir -p "${BACKUP_DIR}"
-
-# Load database credentials from environment file if present
-if [ -f "${BACKUP_ENV_FILE:-/etc/app/backup.env}" ]; then
-  # shellcheck source=/dev/null
-  source "${BACKUP_ENV_FILE:-/etc/app/backup.env}"
-fi
 
 # Validate required variables
 : "${DB_HOST:?DB_HOST is required}"

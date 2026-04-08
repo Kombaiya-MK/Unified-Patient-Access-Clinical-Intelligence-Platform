@@ -177,6 +177,14 @@
   }
 }
 
+/* Desktop stacked layout for ResponsiveTabs */
+.responsive-tabs--desktop {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 100%;
+}
+
 /* ═══════════════════════════════════════════════
    FAB (Floating Action Button)
    ═══════════════════════════════════════════════ */
