@@ -15,7 +15,10 @@ import { useQueryClient } from '@tanstack/react-query';
 import { getToken } from '../utils/storage/tokenStorage';
 import type { QueueUpdateEvent } from '../types/queue.types';
 
-const WS_BASE_URL = import.meta.env.VITE_WS_URL || 'ws://localhost:3001';
+const WS_BASE_URL = import.meta.env.VITE_WS_URL ||
+  (typeof window !== 'undefined'
+    ? `${window.location.protocol === 'https:' ? 'wss:' : 'ws:'}//${window.location.host}`
+    : 'ws://localhost:3001');
 
 /** Maximum reconnect delay in ms */
 const MAX_RECONNECT_DELAY = 30_000;

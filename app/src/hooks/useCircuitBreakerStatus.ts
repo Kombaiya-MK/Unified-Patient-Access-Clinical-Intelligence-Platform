@@ -13,7 +13,10 @@ import { getCircuitBreakerStatus } from '../services/circuit-breaker.service';
 import { getToken } from '../utils/storage/tokenStorage';
 import type { CircuitBreakerStatus, CircuitBreakerServiceId } from '../types/circuit-breaker.types';
 
-const WS_BASE_URL = import.meta.env.VITE_WS_URL || 'ws://localhost:3001';
+const WS_BASE_URL = import.meta.env.VITE_WS_URL ||
+  (typeof window !== 'undefined'
+    ? `${window.location.protocol === 'https:' ? 'wss:' : 'ws:'}//${window.location.host}`
+    : 'ws://localhost:3001');
 
 interface UseCircuitBreakerStatusReturn {
   statuses: CircuitBreakerStatus[];

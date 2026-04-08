@@ -33,17 +33,19 @@ export const createApp = (): Application => {
         return callback(null, true);
       }
 
-      const allowedOrigins = [
-        config.frontendUrl,
-        'http://localhost:3000',
-        'http://localhost:5173', // Vite default port
-        'http://127.0.0.1:3000',
-        'http://127.0.0.1:5173',
-      ];
+      const allowedOrigins = [config.frontendUrl];
 
-      // In development, allow any localhost origin
-      if (config.nodeEnv === 'development' && (origin.includes('localhost') || origin.includes('127.0.0.1'))) {
-        return callback(null, true);
+      // In development, also allow localhost origins
+      if (config.nodeEnv === 'development') {
+        allowedOrigins.push(
+          'http://localhost:3000',
+          'http://localhost:5173',
+          'http://127.0.0.1:3000',
+          'http://127.0.0.1:5173',
+        );
+        if (origin.includes('localhost') || origin.includes('127.0.0.1')) {
+          return callback(null, true);
+        }
       }
 
       if (allowedOrigins.includes(origin)) {
