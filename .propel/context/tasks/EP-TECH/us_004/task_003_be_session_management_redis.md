@@ -199,85 +199,85 @@ npm test -- auth.test.ts
 ```
 
 ## Implementation Validation Strategy
-- [ ] Unit tests pass (auth service mocking)
-- [ ] Integration tests pass (Redis + JWT together)
-- [ ] jsonwebtoken and bcrypt installed: `npm list jsonwebtoken bcrypt`
-- [ ] JWT_SECRET in .env: at least 64 characters
-- [ ] Login endpoint created: POST /api/auth/login returns token
-- [ ] Token structure valid: JWT with header, payload, signature
-- [ ] Payload contains: userId, email, role, iat, exp
-- [ ] Session created in Redis: key=session:{userId}, value=JSON
-- [ ] Session TTL set: redis.ttl() returns ~900 seconds
-- [ ] Authentication middleware works: Protected route requires valid token
-- [ ] Session validation: Invalid/expired token → 401 Unauthorized
-- [ ] Session refresh works: Activity extends TTL to 900s
-- [ ] Logout deletes session: Redis key removed
-- [ ] Token blacklisting works: Reusing logged-out token → 401
-- [ ] Concurrent sessions: Same user can have multiple active sessions (different devices)
-- [ ] Optimistic locking: Include session version in multi-step operations
+- [x] Unit tests pass (auth service mocking)
+- [x] Integration tests pass (Redis + JWT together)
+- [x] jsonwebtoken and bcrypt installed: `npm list jsonwebtoken bcrypt`
+- [x] JWT_SECRET in .env: at least 64 characters
+- [x] Login endpoint created: POST /api/auth/login returns token
+- [x] Token structure valid: JWT with header, payload, signature
+- [x] Payload contains: userId, email, role, iat, exp
+- [x] Session created in Redis: key=session:{userId}, value=JSON
+- [x] Session TTL set: redis.ttl() returns ~900 seconds
+- [x] Authentication middleware works: Protected route requires valid token
+- [x] Session validation: Invalid/expired token → 401 Unauthorized
+- [x] Session refresh works: Activity extends TTL to 900s
+- [x] Logout deletes session: Redis key removed
+- [x] Token blacklisting works: Reusing logged-out token → 401
+- [x] Concurrent sessions: Same user can have multiple active sessions (different devices)
+- [x] Optimistic locking: Include session version in multi-step operations
 
 ## Implementation Checklist
-- [ ] Install jsonwebtoken and bcrypt: `npm install jsonwebtoken bcrypt @types/jsonwebtoken @types/bcrypt`
-- [ ] Generate JWT secret: `node -e "console.log(require('crypto').randomBytes(64).toString('hex'))"`
-- [ ] Update server/.env.example with JWT_SECRET, JWT_EXPIRES_IN, SESSION_TTL
-- [ ] Create server/src/types/session.types.ts with interfaces
-- [ ] Define Session: { userId, email, role, permissions, createdAt, lastActivity, version }
-- [ ] Define JwtPayload: { userId, email, role, iat, exp }
-- [ ] Define AuthRequest extends Request: { user: JwtPayload }
-- [ ] Create server/src/utils/jwtHelper.ts
-- [ ] Implement signToken(payload: JwtPayload): string using jwt.sign(payload, JWT_SECRET, { expiresIn: '15m' })
-- [ ] Implement verifyToken(token: string): JwtPayload using jwt.verify(token, JWT_SECRET)
-- [ ] Wrap in try/catch: return null on invalid/expired tokens
-- [ ] Create server/src/utils/blacklist.ts
-- [ ] Implement addToBlacklist(token: string, ttl: number): hash token, redis.setex(`blacklist:${hash}`, ttl, '1')
-- [ ] Implement isBlacklisted(token: string): redis.exists(`blacklist:${hash}`)
-- [ ] Create server/src/services/sessionService.ts
-- [ ] Implement createSession(userId, sessionData): redis.setex(`session:${userId}`, 900, JSON.stringify(sessionData))
-- [ ] Implement getSession(userId): redis.get(`session:${userId}`), parse JSON
-- [ ] Implement deleteSession(userId): redis.del(`session:${userId}`)
-- [ ] Implement refreshSession(userId): redis.expire(`session:${userId}`, 900)
-- [ ] Create server/src/services/authService.ts
-- [ ] Implement login(email, password): query user from database
-- [ ] Validate password: bcrypt.compare(password, user.password_hash)
-- [ ] If valid: generate JWT, create session in Redis, return token
-- [ ] If invalid: throw error "Invalid credentials"
-- [ ] Create server/src/middleware/authenticate.ts
-- [ ] Extract token from Authorization header: Bearer <token>
-- [ ] Verify token: const payload = jwtHelper.verifyToken(token)
-- [ ] Check if blacklisted: if (await blacklist.isBlacklisted(token)) return 401
-- [ ] Get session: const session = await sessionService.getSession(payload.userId)
-- [ ] If no session: return 401 Unauthorized
-- [ ] Attach to request: req.user = payload, next()
-- [ ] Create server/src/middleware/refreshSession.ts
-- [ ] Update lastActivity in session: session.lastActivity = Date.now()
-- [ ] Extend TTL: await sessionService.refreshSession(req.user.userId)
-- [ ] Call next()
-- [ ] Create server/src/controllers/authController.ts
-- [ ] Implement login handler: extract email, password from body
-- [ ] Call authService.login(email, password)
-- [ ] Return: res.json({ token, expiresIn: 900 })
-- [ ] Implement logout handler: extract userId from req.user
-- [ ] Delete session: await sessionService.deleteSession(userId)
-- [ ] Add token to blacklist with remaining TTL
-- [ ] Return: res.json({ success: true })
-- [ ] Implement refresh handler: generate new token, extend session TTL
-- [ ] Create server/src/routes/auth.routes.ts
-- [ ] Define: router.post('/login', authController.login)
-- [ ] Define: router.post('/logout', authenticate, authController.logout)
-- [ ] Define: router.post('/refresh', authenticate, authController.refresh)
-- [ ] Export router
-- [ ] Modify server/src/routes/index.ts: import auth routes, app.use('/api/auth', authRouter)
-- [ ] Test login: POST /api/auth/login with valid credentials → receive token
-- [ ] Test session created: Check Redis for session:{userId} key
-- [ ] Test authentication: Call protected route with token → 200 OK
-- [ ] Test invalid token: Call protected route with wrong token → 401
-- [ ] Test session refresh: Wait 1 minute, call endpoint → TTL refreshed to 900s
-- [ ] Test logout: POST /api/auth/logout → session deleted, token blacklisted
-- [ ] Test logout token reuse: Use same token → 401 Unauthorized
-- [ ] Create server/tests/integration/auth.test.ts
-- [ ] Test: "should login and create session with 15-minute TTL"
-- [ ] Test: "should validate JWT and check session exists"
-- [ ] Test: "should refresh session TTL on activity"
-- [ ] Test: "should logout and invalidate session"
-- [ ] Test: "should reject blacklisted tokens"
-- [ ] Run tests: npm test -- auth.test.ts → all pass
+- [x] Install jsonwebtoken and bcrypt: `npm install jsonwebtoken bcrypt @types/jsonwebtoken @types/bcrypt`
+- [x] Generate JWT secret: `node -e "console.log(require('crypto').randomBytes(64).toString('hex'))"`
+- [x] Update server/.env.example with JWT_SECRET, JWT_EXPIRES_IN, SESSION_TTL
+- [x] Create server/src/types/session.types.ts with interfaces
+- [x] Define Session: { userId, email, role, permissions, createdAt, lastActivity, version }
+- [x] Define JwtPayload: { userId, email, role, iat, exp }
+- [x] Define AuthRequest extends Request: { user: JwtPayload }
+- [x] Create server/src/utils/jwtHelper.ts
+- [x] Implement signToken(payload: JwtPayload): string using jwt.sign(payload, JWT_SECRET, { expiresIn: '15m' })
+- [x] Implement verifyToken(token: string): JwtPayload using jwt.verify(token, JWT_SECRET)
+- [x] Wrap in try/catch: return null on invalid/expired tokens
+- [x] Create server/src/utils/blacklist.ts
+- [x] Implement addToBlacklist(token: string, ttl: number): hash token, redis.setex(`blacklist:${hash}`, ttl, '1')
+- [x] Implement isBlacklisted(token: string): redis.exists(`blacklist:${hash}`)
+- [x] Create server/src/services/sessionService.ts
+- [x] Implement createSession(userId, sessionData): redis.setex(`session:${userId}`, 900, JSON.stringify(sessionData))
+- [x] Implement getSession(userId): redis.get(`session:${userId}`), parse JSON
+- [x] Implement deleteSession(userId): redis.del(`session:${userId}`)
+- [x] Implement refreshSession(userId): redis.expire(`session:${userId}`, 900)
+- [x] Create server/src/services/authService.ts
+- [x] Implement login(email, password): query user from database
+- [x] Validate password: bcrypt.compare(password, user.password_hash)
+- [x] If valid: generate JWT, create session in Redis, return token
+- [x] If invalid: throw error "Invalid credentials"
+- [x] Create server/src/middleware/authenticate.ts
+- [x] Extract token from Authorization header: Bearer <token>
+- [x] Verify token: const payload = jwtHelper.verifyToken(token)
+- [x] Check if blacklisted: if (await blacklist.isBlacklisted(token)) return 401
+- [x] Get session: const session = await sessionService.getSession(payload.userId)
+- [x] If no session: return 401 Unauthorized
+- [x] Attach to request: req.user = payload, next()
+- [x] Create server/src/middleware/refreshSession.ts
+- [x] Update lastActivity in session: session.lastActivity = Date.now()
+- [x] Extend TTL: await sessionService.refreshSession(req.user.userId)
+- [x] Call next()
+- [x] Create server/src/controllers/authController.ts
+- [x] Implement login handler: extract email, password from body
+- [x] Call authService.login(email, password)
+- [x] Return: res.json({ token, expiresIn: 900 })
+- [x] Implement logout handler: extract userId from req.user
+- [x] Delete session: await sessionService.deleteSession(userId)
+- [x] Add token to blacklist with remaining TTL
+- [x] Return: res.json({ success: true })
+- [x] Implement refresh handler: generate new token, extend session TTL
+- [x] Create server/src/routes/auth.routes.ts
+- [x] Define: router.post('/login', authController.login)
+- [x] Define: router.post('/logout', authenticate, authController.logout)
+- [x] Define: router.post('/refresh', authenticate, authController.refresh)
+- [x] Export router
+- [x] Modify server/src/routes/index.ts: import auth routes, app.use('/api/auth', authRouter)
+- [x] Test login: POST /api/auth/login with valid credentials → receive token
+- [x] Test session created: Check Redis for session:{userId} key
+- [x] Test authentication: Call protected route with token → 200 OK
+- [x] Test invalid token: Call protected route with wrong token → 401
+- [x] Test session refresh: Wait 1 minute, call endpoint → TTL refreshed to 900s
+- [x] Test logout: POST /api/auth/logout → session deleted, token blacklisted
+- [x] Test logout token reuse: Use same token → 401 Unauthorized
+- [x] Create server/tests/integration/auth.test.ts
+- [x] Test: "should login and create session with 15-minute TTL"
+- [x] Test: "should validate JWT and check session exists"
+- [x] Test: "should refresh session TTL on activity"
+- [x] Test: "should logout and invalidate session"
+- [x] Test: "should reject blacklisted tokens"
+- [x] Run tests: npm test -- auth.test.ts → all pass

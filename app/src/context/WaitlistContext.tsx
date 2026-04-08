@@ -25,8 +25,9 @@
 import React, { createContext, useState, useEffect, useContext, useCallback } from 'react';
 import type { ReactNode } from 'react';
 import axios from 'axios';
+import { getToken } from '../utils/storage/tokenStorage';
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000/api';
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001/api';
 
 /**
  * Waitlist entry interface
@@ -79,10 +80,10 @@ export interface JoinWaitlistRequest {
 }
 
 /**
- * Get authorization token from localStorage
+ * Get authorization token from storage
  */
 const getAuthToken = (): string | null => {
-  return localStorage.getItem('authToken');
+  return getToken();
 };
 
 /**
@@ -156,6 +157,11 @@ export const WaitlistProvider: React.FC<WaitlistProviderProps> = ({ children }) 
         setWaitlistEntries(response.data.waitlist);
       }
     } catch (err) {
+      // Silently handle 404 (endpoint may not exist) and 401 (not authenticated)
+      if (axios.isAxiosError(err) && (err.response?.status === 404 || err.response?.status === 401)) {
+        setWaitlistEntries([]);
+        return;
+      }
       const errorMsg = axios.isAxiosError(err) 
         ? err.response?.data?.error || err.message 
         : 'Failed to fetch waitlist';

@@ -178,64 +178,64 @@ npm run dev
 ```
 
 ## Implementation Validation Strategy
-- [ ] Unit tests pass (cache logic mocking)
-- [ ] Integration tests pass (Redis + PostgreSQL together)
-- [ ] Time slots endpoint created: GET /api/timeslots returns 200 OK
-- [ ] Query parameters validated: Missing date → 400 Bad Request
-- [ ] First request caches data: Check Redis → key exists with TTL ~300s
-- [ ] Subsequent requests use cache: Response time <100ms
-- [ ] Cache hit logged: Console shows "Cache HIT: timeslots:2026-03-20:1:2"
-- [ ] Cache miss logged: Console shows "Cache MISS: timeslots:2026-03-20:1:2, querying database..."
-- [ ] TTL expires correctly: Wait 5 minutes → key no longer exists in Redis
-- [ ] Database fallback works: Stop Redis → endpoint still returns data (slower)
-- [ ] Cache locking prevents stampede: 10 concurrent requests → only 1 database query
-- [ ] Lock timeout works: Lock held >10s → automatically released
-- [ ] Performance metrics logged: Request ID, response time, cache status
-- [ ] Cache key format correct: timeslots:{date}:{providerId}:{deptId}
-- [ ] Empty results cached: No available slots → still caches empty array with TTL
+- [x] Unit tests pass (cache logic mocking)
+- [x] Integration tests pass (Redis + PostgreSQL together)
+- [x] Time slots endpoint created: GET /api/timeslots returns 200 OK
+- [x] Query parameters validated: Missing date → 400 Bad Request
+- [x] First request caches data: Check Redis → key exists with TTL ~300s
+- [x] Subsequent requests use cache: Response time <100ms
+- [x] Cache hit logged: Console shows "Cache HIT: timeslots:2026-03-20:1:2"
+- [x] Cache miss logged: Console shows "Cache MISS: timeslots:2026-03-20:1:2, querying database..."
+- [x] TTL expires correctly: Wait 5 minutes → key no longer exists in Redis
+- [x] Database fallback works: Stop Redis → endpoint still returns data (slower)
+- [x] Cache locking prevents stampede: 10 concurrent requests → only 1 database query
+- [x] Lock timeout works: Lock held >10s → automatically released
+- [x] Performance metrics logged: Request ID, response time, cache status
+- [x] Cache key format correct: timeslots:{date}:{providerId}:{deptId}
+- [x] Empty results cached: No available slots → still caches empty array with TTL
 
 ## Implementation Checklist
-- [ ] Create server/src/types/timeSlot.types.ts with interfaces: TimeSlot (id, startTime, endTime, available), TimeSlotQuery (date, providerId, departmentId)
-- [ ] Create server/src/utils/cacheKey.ts with function generateTimeslotKey(date: string, provider: number, dept: number): string
-- [ ] Return key format: `timeslots:${date}:${provider}:${dept}`
-- [ ] Create server/src/utils/cacheLock.ts with async function acquireLock(key: string, timeout: number = 10000)
-- [ ] Implement: const lockKey = `lock:${key}`, acquired = await redis.set(lockKey, '1', 'NX', 'PX', timeout)
-- [ ] Return true if acquired, false otherwise
-- [ ] Implement releaseLock: await redis.del(lockKey)
-- [ ] Create server/src/services/timeSlotService.ts with async getAvailableTimeSlots(date, providerId, deptId)
-- [ ] Query database: SELECT * FROM time_slots WHERE slot_date = $1 AND doctor_id = $2 AND department_id = $3 AND available = true
-- [ ] Return TimeSlot[] array
-- [ ] Create server/src/services/timeSlotCache.ts with async getCachedTimeSlots(query: TimeSlotQuery)
-- [ ] Generate cache key using cacheKey.generateTimeslotKey()
-- [ ] Check Redis: const cached = await redis.get(cacheKey)
-- [ ] If cached: parse JSON, log "Cache HIT", return data
-- [ ] If miss: log "Cache MISS", acquire lock
-- [ ] If lock acquired: query database, store in Redis with 300s TTL: await redis.setex(cacheKey, 300, JSON.stringify(data))
-- [ ] Release lock, return data
-- [ ] If lock not acquired: wait 100ms, retry check Redis (lock holder will populate cache)
-- [ ] Wrap in try/catch: on Redis error, fallback to database query directly
-- [ ] Create server/src/controllers/timeSlotController.ts with async getTimeSlots(req, res)
-- [ ] Extract query params: const { date, providerId, departmentId } = req.query
-- [ ] Validate: if (!date || !providerId) return res.status(400).json({ error: 'date and providerId required' })
-- [ ] Call: const slots = await timeSlotCache.getCachedTimeSlots({ date, providerId, departmentId })
-- [ ] Return: res.json({ success: true, data: slots, cached: true })
-- [ ] Create server/src/routes/timeSlots.routes.ts with Express router
-- [ ] Define: router.get('/timeslots', timeSlotController.getTimeSlots)
-- [ ] Export router
-- [ ] Modify server/src/routes/index.ts: import timeSlots routes, app.use('/api', timeSlotsRouter)
-- [ ] Create server/src/middleware/performanceLogger.ts
-- [ ] Capture start time: const startTime = Date.now()
-- [ ] On res.finish: const duration = Date.now() - startTime
-- [ ] Log: `${req.method} ${req.path} - ${duration}ms`
-- [ ] Modify server/src/app.ts: import performanceLogger, app.use(performanceLogger)
-- [ ] Test: Start server, call /api/timeslots → verify response
-- [ ] Test first call: Check logs for "Cache MISS", verify Redis key created
-- [ ] Test second call: Check logs for "Cache HIT", verify response <100ms
-- [ ] Test TTL: redis.ttl(key) → should be ~300, decreases over time
-- [ ] Test lock: Simulate 10 concurrent requests (use Promise.all), verify only 1 DB query
-- [ ] Create server/tests/integration/timeSlotCache.test.ts
-- [ ] Test case: "should cache time slots with 5-minute TTL"
-- [ ] Test case: "should return cached data on subsequent requests"
-- [ ] Test case: "should prevent cache stampede with locking"
-- [ ] Test case: "should fallback to database when Redis unavailable"
-- [ ] Run tests: npm test -- timeSlotCache.test.ts → all pass
+- [x] Create server/src/types/timeSlot.types.ts with interfaces: TimeSlot (id, startTime, endTime, available), TimeSlotQuery (date, providerId, departmentId)
+- [x] Create server/src/utils/cacheKey.ts with function generateTimeslotKey(date: string, provider: number, dept: number): string
+- [x] Return key format: `timeslots:${date}:${provider}:${dept}`
+- [x] Create server/src/utils/cacheLock.ts with async function acquireLock(key: string, timeout: number = 10000)
+- [x] Implement: const lockKey = `lock:${key}`, acquired = await redis.set(lockKey, '1', 'NX', 'PX', timeout)
+- [x] Return true if acquired, false otherwise
+- [x] Implement releaseLock: await redis.del(lockKey)
+- [x] Create server/src/services/timeSlotService.ts with async getAvailableTimeSlots(date, providerId, deptId)
+- [x] Query database: SELECT * FROM time_slots WHERE slot_date = $1 AND doctor_id = $2 AND department_id = $3 AND available = true
+- [x] Return TimeSlot[] array
+- [x] Create server/src/services/timeSlotCache.ts with async getCachedTimeSlots(query: TimeSlotQuery)
+- [x] Generate cache key using cacheKey.generateTimeslotKey()
+- [x] Check Redis: const cached = await redis.get(cacheKey)
+- [x] If cached: parse JSON, log "Cache HIT", return data
+- [x] If miss: log "Cache MISS", acquire lock
+- [x] If lock acquired: query database, store in Redis with 300s TTL: await redis.setex(cacheKey, 300, JSON.stringify(data))
+- [x] Release lock, return data
+- [x] If lock not acquired: wait 100ms, retry check Redis (lock holder will populate cache)
+- [x] Wrap in try/catch: on Redis error, fallback to database query directly
+- [x] Create server/src/controllers/timeSlotController.ts with async getTimeSlots(req, res)
+- [x] Extract query params: const { date, providerId, departmentId } = req.query
+- [x] Validate: if (!date || !providerId) return res.status(400).json({ error: 'date and providerId required' })
+- [x] Call: const slots = await timeSlotCache.getCachedTimeSlots({ date, providerId, departmentId })
+- [x] Return: res.json({ success: true, data: slots, cached: true })
+- [x] Create server/src/routes/timeSlots.routes.ts with Express router
+- [x] Define: router.get('/timeslots', timeSlotController.getTimeSlots)
+- [x] Export router
+- [x] Modify server/src/routes/index.ts: import timeSlots routes, app.use('/api', timeSlotsRouter)
+- [x] Create server/src/middleware/performanceLogger.ts
+- [x] Capture start time: const startTime = Date.now()
+- [x] On res.finish: const duration = Date.now() - startTime
+- [x] Log: `${req.method} ${req.path} - ${duration}ms`
+- [x] Modify server/src/app.ts: import performanceLogger, app.use(performanceLogger)
+- [x] Test: Start server, call /api/timeslots → verify response
+- [x] Test first call: Check logs for "Cache MISS", verify Redis key created
+- [x] Test second call: Check logs for "Cache HIT", verify response <100ms
+- [x] Test TTL: redis.ttl(key) → should be ~300, decreases over time
+- [x] Test lock: Simulate 10 concurrent requests (use Promise.all), verify only 1 DB query
+- [x] Create server/tests/integration/timeSlotCache.test.ts
+- [x] Test case: "should cache time slots with 5-minute TTL"
+- [x] Test case: "should return cached data on subsequent requests"
+- [x] Test case: "should prevent cache stampede with locking"
+- [x] Test case: "should fallback to database when Redis unavailable"
+- [x] Run tests: npm test -- timeSlotCache.test.ts → all pass

@@ -102,10 +102,9 @@ export async function getPatientDashboard(userId: number): Promise<DashboardData
         a.appointment_type AS "appointmentType",
         a.reschedule_count AS "rescheduleCount",
         jsonb_build_object(
-          'id', p.id,
-          'firstName', p.first_name,
-          'lastName', p.last_name,
-          'specialization', p.specialization
+          'id', doc.id,
+          'firstName', doc.first_name,
+          'lastName', doc.last_name
         ) AS provider,
         jsonb_build_object(
           'id', d.id,
@@ -113,7 +112,7 @@ export async function getPatientDashboard(userId: number): Promise<DashboardData
           'location', d.location
         ) AS department
       FROM app.appointments a
-      LEFT JOIN app.providers p ON a.provider_id = p.id
+      LEFT JOIN app.users doc ON a.doctor_id = doc.id
       LEFT JOIN app.departments d ON a.department_id = d.id
       WHERE a.patient_id = $1
         AND a.status NOT IN ('completed', 'cancelled')
@@ -132,10 +131,9 @@ export async function getPatientDashboard(userId: number): Promise<DashboardData
         a.appointment_type AS "appointmentType",
         a.reschedule_count AS "rescheduleCount",
         jsonb_build_object(
-          'id', p.id,
-          'firstName', p.first_name,
-          'lastName', p.last_name,
-          'specialization', p.specialization
+          'id', doc.id,
+          'firstName', doc.first_name,
+          'lastName', doc.last_name
         ) AS provider,
         jsonb_build_object(
           'id', d.id,
@@ -143,7 +141,7 @@ export async function getPatientDashboard(userId: number): Promise<DashboardData
           'location', d.location
         ) AS department
       FROM app.appointments a
-      LEFT JOIN app.providers p ON a.provider_id = p.id
+      LEFT JOIN app.users doc ON a.doctor_id = doc.id
       LEFT JOIN app.departments d ON a.department_id = d.id
       WHERE a.patient_id = $1
         AND a.status IN ('completed', 'cancelled')
@@ -202,10 +200,9 @@ export async function getPatientAppointments(userId: number): Promise<DashboardA
         a.appointment_type AS "appointmentType",
         a.reschedule_count AS "rescheduleCount",
         jsonb_build_object(
-          'id', p.id,
-          'firstName', p.first_name,
-          'lastName', p.last_name,
-          'specialization', p.specialization
+          'id', doc.id,
+          'firstName', doc.first_name,
+          'lastName', doc.last_name
         ) AS provider,
         jsonb_build_object(
           'id', d.id,
@@ -213,7 +210,7 @@ export async function getPatientAppointments(userId: number): Promise<DashboardA
           'location', d.location
         ) AS department
       FROM app.appointments a
-      LEFT JOIN app.providers p ON a.provider_id = p.id
+      LEFT JOIN app.users doc ON a.doctor_id = doc.id
       LEFT JOIN app.departments d ON a.department_id = d.id
       WHERE a.patient_id = $1
       ORDER BY a.appointment_date DESC`,

@@ -1,0 +1,129 @@
+/**
+ * Responsive Utility Classes
+ *
+ * Breakpoint-aware spacing, margin, and padding utilities
+ * that complement the visibility helpers in responsive.css.
+ *
+ * Naming convention:
+ *   .{property}-{breakpoint}-{size}
+ *   e.g. .mt-mobile-lg  → margin-top: large on mobile
+ *        .p-desktop-xl  → padding: xl on desktop
+ *
+ * Sizes use CSS custom properties from variables-responsive.css.
+ *
+ * @task US_044 TASK_001 (responsive layout framework)
+ */
+
+/* ═══════════════════════════════════════════════
+   Responsive margin-top
+   ═══════════════════════════════════════════════ */
+.mt-sm { margin-top: var(--space-sm); }
+.mt-md { margin-top: var(--space-md); }
+.mt-lg { margin-top: var(--space-lg); }
+.mt-xl { margin-top: var(--space-xl); }
+.mt-2xl { margin-top: var(--space-2xl); }
+
+/* ═══════════════════════════════════════════════
+   Responsive margin-bottom
+   ═══════════════════════════════════════════════ */
+.mb-sm { margin-bottom: var(--space-sm); }
+.mb-md { margin-bottom: var(--space-md); }
+.mb-lg { margin-bottom: var(--space-lg); }
+.mb-xl { margin-bottom: var(--space-xl); }
+.mb-2xl { margin-bottom: var(--space-2xl); }
+
+/* ═══════════════════════════════════════════════
+   Responsive padding
+   ═══════════════════════════════════════════════ */
+.p-sm { padding: var(--space-sm); }
+.p-md { padding: var(--space-md); }
+.p-lg { padding: var(--space-lg); }
+.p-xl { padding: var(--space-xl); }
+.p-2xl { padding: var(--space-2xl); }
+
+.px-sm { padding-inline: var(--space-sm); }
+.px-md { padding-inline: var(--space-md); }
+.px-lg { padding-inline: var(--space-lg); }
+.px-xl { padding-inline: var(--space-xl); }
+
+.py-sm { padding-block: var(--space-sm); }
+.py-md { padding-block: var(--space-md); }
+.py-lg { padding-block: var(--space-lg); }
+.py-xl { padding-block: var(--space-xl); }
+
+/* ═══════════════════════════════════════════════
+   Breakpoint-specific spacing overrides
+   ═══════════════════════════════════════════════ */
+
+/* Tablet (≥ 768px) overrides */
+@media (min-width: 768px) {
+  .mt-tablet-sm { margin-top: var(--space-sm); }
+  .mt-tablet-md { margin-top: var(--space-md); }
+  .mt-tablet-lg { margin-top: var(--space-lg); }
+  .mt-tablet-xl { margin-top: var(--space-xl); }
+
+  .mb-tablet-sm { margin-bottom: var(--space-sm); }
+  .mb-tablet-md { margin-bottom: var(--space-md); }
+  .mb-tablet-lg { margin-bottom: var(--space-lg); }
+  .mb-tablet-xl { margin-bottom: var(--space-xl); }
+
+  .p-tablet-sm { padding: var(--space-sm); }
+  .p-tablet-md { padding: var(--space-md); }
+  .p-tablet-lg { padding: var(--space-lg); }
+  .p-tablet-xl { padding: var(--space-xl); }
+}
+
+/* Desktop (≥ 1025px) overrides */
+@media (min-width: 1025px) {
+  .mt-desktop-sm { margin-top: var(--space-sm); }
+  .mt-desktop-md { margin-top: var(--space-md); }
+  .mt-desktop-lg { margin-top: var(--space-lg); }
+  .mt-desktop-xl { margin-top: var(--space-xl); }
+
+  .mb-desktop-sm { margin-bottom: var(--space-sm); }
+  .mb-desktop-md { margin-bottom: var(--space-md); }
+  .mb-desktop-lg { margin-bottom: var(--space-lg); }
+  .mb-desktop-xl { margin-bottom: var(--space-xl); }
+
+  .p-desktop-sm { padding: var(--space-sm); }
+  .p-desktop-md { padding: var(--space-md); }
+  .p-desktop-lg { padding: var(--space-lg); }
+  .p-desktop-xl { padding: var(--space-xl); }
+}
+
+/* ═══════════════════════════════════════════════
+   Flex layout utilities (responsive)
+   ═══════════════════════════════════════════════ */
+.flex-col-mobile {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+@media (min-width: 768px) {
+  .flex-col-mobile {
+    flex-direction: row;
+  }
+}
+
+.flex-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+}
+
+/* ═══════════════════════════════════════════════
+   Width utilities
+   ═══════════════════════════════════════════════ */
+.w-full { width: 100%; }
+.w-auto { width: auto; }
+
+@media (min-width: 768px) {
+  .w-tablet-half { width: 50%; }
+  .w-tablet-auto { width: auto; }
+}
+
+@media (min-width: 1025px) {
+  .w-desktop-third { width: 33.333%; }
+  .w-desktop-quarter { width: 25%; }
+  .w-desktop-auto { width: auto; }
+}

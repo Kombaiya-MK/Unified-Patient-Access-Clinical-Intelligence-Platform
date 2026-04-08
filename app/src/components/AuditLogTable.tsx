@@ -19,6 +19,9 @@
 import React from 'react';
 import { format } from 'date-fns';
 import type { AuditLog, FilterParams } from '../types/audit.types';
+import { useBreakpoint } from '../hooks/useBreakpoint';
+import { TableScrollContainer } from './Tables/TableScrollContainer';
+import '../styles/responsive-table.css';
 
 interface AuditLogTableProps {
   logs: AuditLog[];
@@ -33,6 +36,8 @@ const AuditLogTable: React.FC<AuditLogTableProps> = ({
   filters,
   onSortChange,
 }) => {
+  const breakpoint = useBreakpoint();
+  const isMobile = breakpoint === 'mobile';
   /**
    * Get sort indicator for column header
    */
@@ -118,6 +123,45 @@ const AuditLogTable: React.FC<AuditLogTableProps> = ({
    */
   return (
     <div className="audit-log-table-container">
+      {/* Mobile card layout */}
+      {isMobile ? (
+        <div className="rt-container rt-container--cards" role="list" aria-label="Audit log entries">
+          {logs.map((log) => (
+            <div className="table-card" key={log.id} role="listitem">
+              <dl className="table-card__fields">
+                <div className="table-card__field">
+                  <dt className="table-card__label">Timestamp</dt>
+                  <dd className="table-card__value">{formatTimestamp(log.timestamp)}</dd>
+                </div>
+                <div className="table-card__field">
+                  <dt className="table-card__label">User</dt>
+                  <dd className="table-card__value">
+                    {log.user_email || (log.user_id ? `User #${log.user_id}` : 'System')}
+                  </dd>
+                </div>
+                <div className="table-card__field">
+                  <dt className="table-card__label">Role</dt>
+                  <dd className="table-card__value">
+                    <span className={`role-badge role-${log.user_role?.toLowerCase() || 'unknown'}`}>
+                      {log.user_role || 'N/A'}
+                    </span>
+                  </dd>
+                </div>
+                <div className="table-card__field">
+                  <dt className="table-card__label">Action</dt>
+                  <dd className="table-card__value">{log.action}</dd>
+                </div>
+                <div className="table-card__field">
+                  <dt className="table-card__label">Resource</dt>
+                  <dd className="table-card__value">{formatResource(log.table_name, log.record_id)}</dd>
+                </div>
+              </dl>
+            </div>
+          ))}
+        </div>
+      ) : (
+      /* Desktop/Tablet table layout */
+      <TableScrollContainer>
       <div className="table-wrapper">
         <table className="audit-log-table" aria-label="Audit log entries">
           <thead>
@@ -182,6 +226,8 @@ const AuditLogTable: React.FC<AuditLogTableProps> = ({
           </tbody>
         </table>
       </div>
+      </TableScrollContainer>
+      )}
 
       <style>{`
         .audit-log-table-container {

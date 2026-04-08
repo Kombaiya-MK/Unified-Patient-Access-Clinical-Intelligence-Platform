@@ -16,7 +16,14 @@
     "test:mobile": "playwright test --project='Mobile Chrome' --project='Mobile Safari'",
     "report": "playwright show-report",
     "codegen": "playwright codegen",
-    "install:browsers": "playwright install"
+    "install:browsers": "playwright install",
+    "load-test:booking": "k6 run load-tests/scenario_booking_flow.js",
+    "load-test:upload": "k6 run load-tests/scenario_document_upload.js",
+    "load-test:admin": "k6 run load-tests/scenario_admin_dashboard.js",
+    "load-test:all": "k6 run load-tests/scenario_booking_flow.js && k6 run load-tests/scenario_document_upload.js && k6 run load-tests/scenario_admin_dashboard.js",
+    "load-test:booking:report": "k6 run --out json=load-tests/reports/booking-results.json load-tests/scenario_booking_flow.js",
+    "load-test:upload:report": "k6 run --out json=load-tests/reports/upload-results.json load-tests/scenario_document_upload.js",
+    "load-test:admin:report": "k6 run --out json=load-tests/reports/admin-results.json load-tests/scenario_admin_dashboard.js"
   },
   "keywords": [
     "playwright",

@@ -160,51 +160,51 @@ psql -U upaci_user -d upaci -c "SELECT column_name, data_type FROM information_s
 ```
 
 ## Implementation Validation Strategy
-- [ ] Unit tests pass (N/A for DDL scripts)
-- [ ] Integration tests pass (migration execution tests)
-- [ ] All 9 core tables created: `\dt` in psql shows Users, Appointments, ClinicalDocuments, PatientProfiles, AuditLogs, Departments, TimeSlots, Waitlist, Notifications
-- [ ] Primary keys on all tables: `SELECT * FROM information_schema.table_constraints WHERE constraint_type='PRIMARY KEY';` returns 9 rows
-- [ ] Foreign keys established: Query information_schema.table_constraints shows FK relationships
-- [ ] Check constraints working: Try inserting invalid data (past appointment_date) → should fail
-- [ ] Unique constraints enforced: Try inserting duplicate email → should fail
-- [ ] Indexes created: `\di` shows indexes on foreign keys, timestamps, status columns
-- [ ] Vector columns exist: clinical_documents.embedding column has type vector(1536)
-- [ ] Vector indexes created: `\di` shows IVFFlat index on clinical_documents.embedding
-- [ ] Transactional migrations: Introduce error in migration → verify rollback occurs
-- [ ] Seed data loads: Run dev_seed_data.sql → verify users, departments, appointments inserted
-- [ ] ERD diagram complete: Mermaid syntax renders correctly, shows all relationships
-- [ ] Table definitions documented: TABLE_DEFINITIONS.md has all columns, types, constraints
-- [ ] Cascade actions work: Delete parent record → verify child records deleted (if ON DELETE CASCADE)
+- [x] Unit tests pass (N/A for DDL scripts)
+- [x] Integration tests pass (migration execution tests)
+- [x] All 9 core tables created: `\dt` in psql shows Users, Appointments, ClinicalDocuments, PatientProfiles, AuditLogs, Departments, TimeSlots, Waitlist, Notifications
+- [x] Primary keys on all tables: `SELECT * FROM information_schema.table_constraints WHERE constraint_type='PRIMARY KEY';` returns 9 rows
+- [x] Foreign keys established: Query information_schema.table_constraints shows FK relationships
+- [x] Check constraints working: Try inserting invalid data (past appointment_date) → should fail
+- [x] Unique constraints enforced: Try inserting duplicate email → should fail
+- [x] Indexes created: `\di` shows indexes on foreign keys, timestamps, status columns
+- [x] Vector columns exist: clinical_documents.embedding column has type vector(1536)
+- [x] Vector indexes created: `\di` shows IVFFlat index on clinical_documents.embedding
+- [x] Transactional migrations: Introduce error in migration → verify rollback occurs
+- [x] Seed data loads: Run dev_seed_data.sql → verify users, departments, appointments inserted
+- [x] ERD diagram complete: Mermaid syntax renders correctly, shows all relationships
+- [x] Table definitions documented: TABLE_DEFINITIONS.md has all columns, types, constraints
+- [x] Cascade actions work: Delete parent record → verify child records deleted (if ON DELETE CASCADE)
 
 ## Implementation Checklist
-- [ ] Create database/migrations/ directory for version-controlled SQL scripts
-- [ ] Design Users table (id BIGSERIAL, email VARCHAR UNIQUE, password_hash, role ENUM, created_at TIMESTAMPTZ)
-- [ ] Design Departments table (id BIGSERIAL, name VARCHAR, code VARCHAR UNIQUE, active BOOLEAN)
-- [ ] Design PatientProfiles table (id BIGSERIAL, user_id FK, date_of_birth DATE, medical_record_number VARCHAR UNIQUE)
-- [ ] Design Appointments table (id BIGSERIAL, patient_id FK, doctor_id FK, department_id FK, appointment_date TIMESTAMPTZ, status VARCHAR)
-- [ ] Design TimeSlots table (id BIGSERIAL, doctor_id FK, department_id FK, slot_start TIMESTAMPTZ, slot_end TIMESTAMPTZ, available BOOLEAN)
-- [ ] Design Waitlist table (id BIGSERIAL, patient_id FK, department_id FK, requested_date DATE, priority INT)
-- [ ] Design ClinicalDocuments table (id BIGSERIAL, patient_id FK, appointment_id FK, document_type VARCHAR, content TEXT, embedding vector(1536))
-- [ ] Design AuditLogs table (id BIGSERIAL, user_id FK, action VARCHAR, table_name VARCHAR, record_id BIGINT, timestamp TIMESTAMPTZ)
-- [ ] Design Notifications table (id BIGSERIAL, user_id FK, type VARCHAR, message TEXT, read BOOLEAN, sent_at TIMESTAMPTZ)
-- [ ] Write V001__create_core_tables.sql: BEGIN; CREATE TABLE users (...); CREATE TABLE departments (...); COMMIT;
-- [ ] Write V002__create_appointment_tables.sql with CHECK constraints (appointment_date >= CURRENT_DATE)
-- [ ] Write V003__create_clinical_tables.sql with TEXT fields for medical content
-- [ ] Write V004__create_notification_tables.sql with read/unread status
-- [ ] Write V005__create_indexes.sql: CREATE INDEX idx_appointments_patient_id ON appointments(patient_id);
-- [ ] Write V006__create_vector_indexes.sql: CREATE INDEX ON clinical_documents USING ivfflat (embedding vector_cosine_ops) WITH (lists = 100);
-- [ ] Write V007__add_constraints.sql: ALTER TABLE appointments ADD CONSTRAINT fk_patient FOREIGN KEY (patient_id) REFERENCES patient_profiles(id) ON DELETE RESTRICT;
-- [ ] Write V008__add_vector_columns.sql: ALTER TABLE clinical_documents ADD COLUMN embedding vector(1536);
-- [ ] Create dev_seed_data.sql with 3 users (admin, doctor, patient), 2 departments, 5 appointments
-- [ ] Create ERD_diagram.md using Mermaid syntax showing all table relationships
-- [ ] Document TABLE_DEFINITIONS.md with column descriptions, data types, constraints, indexes
-- [ ] Write rollback_all.sql: DROP TABLE IF EXISTS notifications, audit_logs, clinical_documents, appointments, time_slots, waitlist, patient_profiles, departments, users CASCADE;
-- [ ] Create run_migrations.sh with psql commands for each migration file in order
-- [ ] Create run_migrations.ps1 for Windows with same logic as bash script
-- [ ] Test migrations on clean database: Run run_migrations.sh → verify all tables created
-- [ ] Test rollback: Run rollback_all.sql → verify all tables dropped
-- [ ] Test seed data: Load dev_seed_data.sql → query tables to verify data inserted
-- [ ] Test foreign key cascade: Delete user → verify audit_logs for that user deleted (if CASCADE)
-- [ ] Test check constraints: Try INSERT INTO appointments with past date → should fail with constraint violation
-- [ ] Test vector operations: INSERT test embedding, query with <-> operator
-- [ ] Document migration sequence in README.md
+- [x] Create database/migrations/ directory for version-controlled SQL scripts
+- [x] Design Users table (id BIGSERIAL, email VARCHAR UNIQUE, password_hash, role ENUM, created_at TIMESTAMPTZ)
+- [x] Design Departments table (id BIGSERIAL, name VARCHAR, code VARCHAR UNIQUE, active BOOLEAN)
+- [x] Design PatientProfiles table (id BIGSERIAL, user_id FK, date_of_birth DATE, medical_record_number VARCHAR UNIQUE)
+- [x] Design Appointments table (id BIGSERIAL, patient_id FK, doctor_id FK, department_id FK, appointment_date TIMESTAMPTZ, status VARCHAR)
+- [x] Design TimeSlots table (id BIGSERIAL, doctor_id FK, department_id FK, slot_start TIMESTAMPTZ, slot_end TIMESTAMPTZ, available BOOLEAN)
+- [x] Design Waitlist table (id BIGSERIAL, patient_id FK, department_id FK, requested_date DATE, priority INT)
+- [x] Design ClinicalDocuments table (id BIGSERIAL, patient_id FK, appointment_id FK, document_type VARCHAR, content TEXT, embedding vector(1536))
+- [x] Design AuditLogs table (id BIGSERIAL, user_id FK, action VARCHAR, table_name VARCHAR, record_id BIGINT, timestamp TIMESTAMPTZ)
+- [x] Design Notifications table (id BIGSERIAL, user_id FK, type VARCHAR, message TEXT, read BOOLEAN, sent_at TIMESTAMPTZ)
+- [x] Write V001__create_core_tables.sql: BEGIN; CREATE TABLE users (...); CREATE TABLE departments (...); COMMIT;
+- [x] Write V002__create_appointment_tables.sql with CHECK constraints (appointment_date >= CURRENT_DATE)
+- [x] Write V003__create_clinical_tables.sql with TEXT fields for medical content
+- [x] Write V004__create_notification_tables.sql with read/unread status
+- [x] Write V005__create_indexes.sql: CREATE INDEX idx_appointments_patient_id ON appointments(patient_id);
+- [x] Write V006__create_vector_indexes.sql: CREATE INDEX ON clinical_documents USING ivfflat (embedding vector_cosine_ops) WITH (lists = 100);
+- [x] Write V007__add_constraints.sql: ALTER TABLE appointments ADD CONSTRAINT fk_patient FOREIGN KEY (patient_id) REFERENCES patient_profiles(id) ON DELETE RESTRICT;
+- [x] Write V008__add_vector_columns.sql: ALTER TABLE clinical_documents ADD COLUMN embedding vector(1536);
+- [x] Create dev_seed_data.sql with 3 users (admin, doctor, patient), 2 departments, 5 appointments
+- [x] Create ERD_diagram.md using Mermaid syntax showing all table relationships
+- [x] Document TABLE_DEFINITIONS.md with column descriptions, data types, constraints, indexes
+- [x] Write rollback_all.sql: DROP TABLE IF EXISTS notifications, audit_logs, clinical_documents, appointments, time_slots, waitlist, patient_profiles, departments, users CASCADE;
+- [x] Create run_migrations.sh with psql commands for each migration file in order
+- [x] Create run_migrations.ps1 for Windows with same logic as bash script
+- [x] Test migrations on clean database: Run run_migrations.sh → verify all tables created
+- [x] Test rollback: Run rollback_all.sql → verify all tables dropped
+- [x] Test seed data: Load dev_seed_data.sql → query tables to verify data inserted
+- [x] Test foreign key cascade: Delete user → verify audit_logs for that user deleted (if CASCADE)
+- [x] Test check constraints: Try INSERT INTO appointments with past date → should fail with constraint violation
+- [x] Test vector operations: INSERT test embedding, query with <-> operator
+- [x] Document migration sequence in README.md

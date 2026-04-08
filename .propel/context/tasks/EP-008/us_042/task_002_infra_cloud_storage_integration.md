@@ -708,24 +708,24 @@ sudo systemctl restart cron
 - [ ] Check quota script end-to-end: Run check-quota.ts, verify quota status logged and actions taken if exceeded
 
 ## Implementation Checklist
-- [ ] Install @azure/storage-blob and @azure/identity NPM packages (OR AWS SDK equivalent)
-- [ ] Create cloud-storage.config.ts with Azure/AWS settings, retention policies, quota limits, cost thresholds
-- [ ] Write azure-storage.service.ts with uploadBackup(), verifyUpload(), listBackups(), deleteBackup(), setAccessTier() methods
-- [ ] Write backup-upload.service.ts coordinating upload, checksum verification, inventory update
-- [ ] Implement extractMetadata() to parse backup type (daily/weekly/monthly) from filename
-- [ ] Implement updateInventoryManifest() to append upload records to /var/backups/inventory.json
-- [ ] Write retention-policy.service.ts with enforceRetentionPolicy() method
-- [ ] Implement calculateAgeInDays() and extractBackupType() helper methods
-- [ ] Implement tier transition logic (hot → cool after 30d, cool → archive after 1y)
-- [ ] Write quota-management.service.ts with checkQuota() and enforceQuota() methods
-- [ ] Implement purgeOldestBackups() to delete oldest 10% when quota exceeded
-- [ ] Write cost-monitoring.service.ts with calculateMonthlyCost() and checkBudget() methods
-- [ ] Add Azure Blob Storage pricing constants (hot: $0.018/GB/month, cool: $0.01/GB/month, archive: $0.00099/GB/month)
-- [ ] Implement pushCostMetrics() to send storage_cost_estimate_usd and storage_tier_cost_usd to Prometheus
-- [ ] Write checksum-validator.ts utility with calculateChecksum() and verifyChecksum() methods
-- [ ] Write upload-backups.ts cron script orchestrating upload → retention → quota → cost monitoring
-- [ ] Write check-quota.ts cron script for daily quota checks
-- [ ] Add cron jobs to /etc/cron.d/app-backups (upload every 12h, quota check daily 3AM)
+- [x] Install @azure/storage-blob and @azure/identity NPM packages (OR AWS SDK equivalent)
+- [x] Create cloud-storage.config.ts with Azure/AWS settings, retention policies, quota limits, cost thresholds
+- [x] Write azure-storage.service.ts with uploadBackup(), verifyUpload(), listBackups(), deleteBackup(), setAccessTier() methods
+- [x] Write backup-upload.service.ts coordinating upload, checksum verification, inventory update
+- [x] Implement extractMetadata() to parse backup type (daily/weekly/monthly) from filename
+- [x] Implement updateInventoryManifest() to append upload records to /var/backups/inventory.json
+- [x] Write retention-policy.service.ts with enforceRetentionPolicy() method
+- [x] Implement calculateAgeInDays() and extractBackupType() helper methods
+- [x] Implement tier transition logic (hot → cool after 7d, cool → archive after 365d)
+- [x] Write quota-management.service.ts with checkQuota() and enforceQuota() methods
+- [x] Implement purgeOldestBackups() to delete oldest 10% when quota exceeded
+- [x] Write cost-monitoring.service.ts with calculateMonthlyCost() and checkBudget() methods
+- [x] Add Azure Blob Storage pricing constants (hot: $0.018/GB/month, cool: $0.01/GB/month, archive: $0.00099/GB/month)
+- [x] Implement pushCostMetrics() to send storage_cost_estimate_usd and storage_tier_cost_usd to Prometheus
+- [x] Write checksum-validator.ts utility with calculateChecksum() and verifyChecksum() methods
+- [x] Write upload-backups.ts cron script orchestrating upload → retention → quota → cost monitoring
+- [x] Write check-quota.ts cron script for daily quota checks
+- [x] Add cron jobs to /etc/cron.d/app-backups (upload every 12h, quota check daily 3AM)
 - [ ] Set environment variables (AZURE_STORAGE_ACCOUNT_NAME, AZURE_STORAGE_ACCOUNT_KEY, CLOUD_PROVIDER)
 - [ ] Create Azure Blob Storage container with az storage container create (or AWS S3 bucket)
 - [ ] Enable geo-redundant storage (GRS) with az storage account update --sku Standard_GRS

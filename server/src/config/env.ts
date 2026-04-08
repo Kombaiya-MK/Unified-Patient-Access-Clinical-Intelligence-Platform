@@ -120,7 +120,7 @@ export const config: Config = {
     password: process.env.DB_PASSWORD || '',
     url: getEnvVar('DB_URL'),
     ssl: process.env.DB_SSL === 'true',
-    maxConnections: parseInt(process.env.DB_MAX_CONNECTIONS || '20', 10),
+    maxConnections: parseInt(process.env.DB_MAX_CONNECTIONS || '50', 10),
   },
 
   // Redis configuration (Upstash with TLS)

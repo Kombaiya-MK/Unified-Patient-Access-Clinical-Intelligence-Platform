@@ -1,0 +1,93 @@
+/**
+ * Desktop Hover States
+ *
+ * Hover effects for interactive elements, scoped to pointer devices
+ * via @media (hover: hover) to exclude touch-only devices.
+ * Timing: 200ms ease per designsystem.md.
+ *
+ * Selectors target actual DOM class names verified via Playwright:
+ *   Buttons: .queue-action-btn / .queue-action--primary (QueueActions.tsx)
+ *   Cards:   .dashboard__nav-card (StaffDashboard.tsx, AdminDashboard.tsx)
+ *   Nav:     .nav-sidebar__item (NavigationSidebar.tsx)
+ *   Table:   .queue-table tbody tr (QueueTable.tsx)
+ *
+ * @task US_044 TASK_008, BUG_TASK008_DESKTOP_UX
+ */
+
+/* ═══════════════════════════════════════════════
+   Transition base (all interactive elements)
+   ═══════════════════════════════════════════════ */
+@media (hover: hover) {
+
+  /* ─── Queue action buttons ─── */
+  .queue-action--primary:hover:not(:disabled) {
+    background-color: var(--primary-700, #2563EB);
+    box-shadow: var(--shadow-1, 0px 1px 3px rgba(0,0,0,0.12), 0px 1px 2px rgba(0,0,0,0.24));
+  }
+
+  .queue-action--start:hover:not(:disabled) {
+    box-shadow: var(--shadow-1, 0px 1px 3px rgba(0,0,0,0.12), 0px 1px 2px rgba(0,0,0,0.24));
+  }
+
+  .queue-action--complete:hover:not(:disabled) {
+    box-shadow: var(--shadow-1, 0px 1px 3px rgba(0,0,0,0.12), 0px 1px 2px rgba(0,0,0,0.24));
+  }
+
+  .queue-action--more:hover:not(:disabled) {
+    background-color: var(--neutral-100, #F3F4F6);
+  }
+
+  /* ═══════════════════════════════════════════════
+     Dashboard nav card hover (shadow lift)
+     ═══════════════════════════════════════════════ */
+  .dashboard__nav-card {
+    transition: box-shadow 200ms ease, border-color 200ms ease, transform 200ms ease;
+  }
+
+  .dashboard__nav-card:hover {
+    box-shadow: var(--shadow-2, 0px 3px 6px rgba(0,0,0,0.15), 0px 2px 4px rgba(0,0,0,0.12));
+    transform: translateY(-1px);
+  }
+
+  /* ═══════════════════════════════════════════════
+     Link hover (underline on hover)
+     ═══════════════════════════════════════════════ */
+  a:not([class]):hover {
+    text-decoration: underline;
+  }
+
+  /* ═══════════════════════════════════════════════
+     Sidebar navigation items
+     ═══════════════════════════════════════════════ */
+  .nav-sidebar__item:hover {
+    background: var(--neutral-100, #F5F5F5);
+    transition: background-color 200ms ease;
+  }
+
+  /* ═══════════════════════════════════════════════
+     Table rows
+     ═══════════════════════════════════════════════ */
+  .queue-table tbody tr:hover {
+    background: var(--neutral-50, #FAFAFA);
+    transition: background-color 200ms ease;
+  }
+
+  /* ═══════════════════════════════════════════════
+     Focus-visible enhancement
+     ═══════════════════════════════════════════════ */
+  .queue-action-btn:focus-visible,
+  .dashboard__nav-card:focus-visible {
+    outline: 2px solid var(--primary-600, #0066CC);
+    outline-offset: 2px;
+  }
+}
+
+/* ═══════════════════════════════════════════════
+   Reduced motion
+   ═══════════════════════════════════════════════ */
+@media (prefers-reduced-motion: reduce) {
+  .queue-action-btn,
+  .dashboard__nav-card {
+    transition: none;
+  }
+}

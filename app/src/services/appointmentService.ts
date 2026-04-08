@@ -22,14 +22,15 @@ import type {
   SlotFilters,
   AvailableDatesResponse,
 } from '../types/appointment.types';
+import { getToken } from '../utils/storage/tokenStorage';
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000/api';
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001/api';
 
 /**
- * Get authorization token from localStorage
+ * Get authorization token from storage
  */
 const getAuthToken = (): string | null => {
-  return localStorage.getItem('authToken');
+  return getToken();
 };
 
 /**
@@ -72,12 +73,13 @@ export const getSlots = async (filters?: SlotFilters): Promise<Slot[]> => {
       params.append('endDate', filters.endDate);
     }
 
-    const response = await axios.get<Slot[]>(
+    const response = await axios.get(
       `${API_BASE_URL}/slots?${params.toString()}`,
       createAuthenticatedRequest()
     );
 
-    return response.data;
+    const data = response.data;
+    return data.slots || data.data || data;
   } catch (error) {
     if (error instanceof AxiosError) {
       throw new Error(error.response?.data?.message || 'Failed to fetch available slots');
@@ -115,7 +117,8 @@ export const getAvailableDates = async (filters?: SlotFilters): Promise<string[]
       createAuthenticatedRequest()
     );
 
-    return response.data.dates;
+    const data = response.data;
+    return data.dates || data.data?.dates || [];
   } catch (error) {
     if (error instanceof AxiosError) {
       throw new Error(error.response?.data?.message || 'Failed to fetch available dates');
@@ -132,12 +135,13 @@ export const getAvailableDates = async (filters?: SlotFilters): Promise<string[]
  */
 export const getDepartments = async (): Promise<Department[]> => {
   try {
-    const response = await axios.get<Department[]>(
+    const response = await axios.get(
       `${API_BASE_URL}/departments`,
       createAuthenticatedRequest()
     );
 
-    return response.data;
+    const data = response.data;
+    return Array.isArray(data) ? data : (data.data || []);
   } catch (error) {
     if (error instanceof AxiosError) {
       throw new Error(error.response?.data?.message || 'Failed to fetch departments');
@@ -156,12 +160,13 @@ export const getDepartments = async (): Promise<Department[]> => {
 export const getProviders = async (departmentId?: string): Promise<Provider[]> => {
   try {
     const params = departmentId ? `?department=${departmentId}` : '';
-    const response = await axios.get<Provider[]>(
+    const response = await axios.get(
       `${API_BASE_URL}/providers${params}`,
       createAuthenticatedRequest()
     );
 
-    return response.data;
+    const data = response.data;
+    return Array.isArray(data) ? data : (data.data || []);
   } catch (error) {
     if (error instanceof AxiosError) {
       throw new Error(error.response?.data?.message || 'Failed to fetch providers');

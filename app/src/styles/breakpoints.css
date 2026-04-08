@@ -1,0 +1,48 @@
+/**
+ * Breakpoint Definitions
+ *
+ * Centralized CSS custom properties for responsive breakpoints.
+ * These values serve as the single source of truth referenced by
+ * grid.css, responsive-containers.css, and responsive-utilities.css.
+ *
+ * Mobile-first: base styles target < 768px, media queries
+ * progressively enhance for wider viewports.
+ *
+ * Breakpoints (matching designsystem.md §1.6):
+ *   Mobile:        < 768px   (base — no media query)
+ *   Tablet:        768px – 1024px
+ *   Desktop:       1025px – 1440px
+ *   Large Desktop: > 1440px
+ *
+ * @task US_044 TASK_001 (responsive layout framework)
+ */
+
+:root {
+  /* ─── Breakpoint values ─── */
+  --breakpoint-mobile: 768px;
+  --breakpoint-tablet: 1024px;
+  --breakpoint-desktop: 1440px;
+
+  /* ─── Grid column counts per breakpoint ─── */
+  --grid-columns-mobile: 4;
+  --grid-columns-tablet: 8;
+  --grid-columns-desktop: 12;
+
+  /* ─── Grid gutter (based on 8px spacing scale) ─── */
+  --grid-gutter: 16px;
+
+  /* ─── Content max-width for large desktop ─── */
+  --content-max-width: 1600px;
+}
+
+@media (min-width: 768px) {
+  :root {
+    --grid-gutter: 24px;
+  }
+}
+
+@media (min-width: 1025px) {
+  :root {
+    --grid-gutter: 32px;
+  }
+}

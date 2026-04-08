@@ -26,6 +26,7 @@ import type { LoginRequest } from '../types/auth.types';
 import { ErrorMessage } from './common/ErrorMessage';
 import { ButtonSpinner } from './common/LoadingSpinner';
 import './LoginForm.css';
+import '../styles/form-responsive.css';
 
 /**
  * LoginForm props
@@ -102,7 +103,7 @@ export function LoginForm({ onSubmit, error, loading }: LoginFormProps) {
               type="email"
               id="email"
               name="email"
-              className={`form-input ${errors.email && touched.email ? 'form-input--error' : ''}`}
+              className={`form-input input responsive-input ${errors.email && touched.email ? 'form-input--error input--error' : ''}`}
               placeholder="Enter your email"
               aria-label="Email address"
               aria-required="true"
@@ -133,7 +134,7 @@ export function LoginForm({ onSubmit, error, loading }: LoginFormProps) {
                 type={showPassword ? 'text' : 'password'}
                 id="password"
                 name="password"
-                className={`form-input ${errors.password && touched.password ? 'form-input--error' : ''}`}
+                className={`form-input input responsive-input ${errors.password && touched.password ? 'form-input--error input--error' : ''}`}
                 placeholder="Enter your password"
                 aria-label="Password"
                 aria-required="true"
@@ -215,7 +216,7 @@ export function LoginForm({ onSubmit, error, loading }: LoginFormProps) {
           {/* Submit Button */}
           <button
             type="submit"
-            className="btn btn--primary btn--block"
+            className="btn btn--primary btn--block btn-responsive btn-responsive--primary btn-responsive--full-width-mobile"
             disabled={loading || isSubmitting}
             aria-label="Sign in to your account"
           >

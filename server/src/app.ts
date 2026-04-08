@@ -13,6 +13,7 @@ import { metricsCollector } from './middleware/metricsCollector';
 import { initializeMetrics } from './utils/metricsRegistry';
 import metricsRoutes from './routes/metrics.routes';
 import { metricsAuth } from './middleware/metricsAuth';
+import { performanceLogger } from './middleware/performanceLogger';
 
 /**
  * Creates and configures Express application
@@ -75,6 +76,9 @@ export const createApp = (): Application => {
 
   // Metrics collector middleware (must be before routes)
   app.use(metricsCollector);
+
+  // Performance logger middleware
+  app.use(performanceLogger);
 
   // Health check endpoint with database status
   app.get('/api/health', async (_req: Request, res: Response) => {

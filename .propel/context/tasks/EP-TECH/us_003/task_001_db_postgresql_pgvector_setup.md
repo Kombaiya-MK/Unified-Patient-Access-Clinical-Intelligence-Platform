@@ -154,38 +154,38 @@ docker exec -it upaci-postgres psql -U upaci_user -d upaci -c "CREATE EXTENSION 
 ```
 
 ## Implementation Validation Strategy
-- [ ] Unit tests pass (N/A for infrastructure)
-- [ ] Integration tests pass (connection test scripts)
-- [ ] PostgreSQL 15+ installed successfully: `psql --version` returns 15.x or higher
-- [ ] Database service running: Windows Services (postgresql-x64-15) or `sudo systemctl status postgresql`
-- [ ] pgvector extension available: `SELECT * FROM pg_available_extensions WHERE name='vector';`
-- [ ] UPACI database created: `psql -U postgres -l` shows upaci database
-- [ ] pgvector extension enabled: `SELECT * FROM pg_extension WHERE extname='vector';` returns 1 row
-- [ ] Connection from external client succeeds: `psql -h localhost -U postgres -d upaci` connects
-- [ ] Vector insertion works: `CREATE TABLE test_embeddings (id serial, embedding vector(3)); INSERT INTO test_embeddings (embedding) VALUES ('[1,2,3]');`
-- [ ] Cosine similarity search works: `SELECT * FROM test_embeddings ORDER BY embedding <-> '[3,1,2]' LIMIT 5;`
-- [ ] Environment variables configured: .env file created with correct DB credentials
-- [ ] Fallback documentation complete: Explains app behavior when pgvector unavailable
+- [x] Unit tests pass (N/A for infrastructure)
+- [x] Integration tests pass (connection test scripts)
+- [x] PostgreSQL 15+ installed successfully: `psql --version` returns 15.x or higher
+- [x] Database service running: Windows Services (postgresql-x64-15) or `sudo systemctl status postgresql`
+- [x] pgvector extension available: `SELECT * FROM pg_available_extensions WHERE name='vector';`
+- [x] UPACI database created: `psql -U postgres -l` shows upaci database
+- [x] pgvector extension enabled: `SELECT * FROM pg_extension WHERE extname='vector';` returns 1 row
+- [x] Connection from external client succeeds: `psql -h localhost -U postgres -d upaci` connects
+- [x] Vector insertion works: `CREATE TABLE test_embeddings (id serial, embedding vector(3)); INSERT INTO test_embeddings (embedding) VALUES ('[1,2,3]');`
+- [x] Cosine similarity search works: `SELECT * FROM test_embeddings ORDER BY embedding <-> '[3,1,2]' LIMIT 5;`
+- [x] Environment variables configured: .env file created with correct DB credentials
+- [x] Fallback documentation complete: Explains app behavior when pgvector unavailable
 
 ## Implementation Checklist
-- [ ] Create database/ directory structure with install/, scripts/, docs/ subdirectories
-- [ ] Write windows-install.ps1 script (download PostgreSQL 15 installer, install pgvector from prebuilt binary)
-- [ ] Write linux-install.sh script (apt-get install postgresql-15, build pgvector from source)
-- [ ] Create 01_init_database.sql: `CREATE DATABASE upaci;`, `\c upaci`, `CREATE EXTENSION vector;`
-- [ ] Create 99_test_connection.sql: `SELECT version();`, `SELECT * FROM pg_extension WHERE extname='vector';`
-- [ ] Create 99_test_vector_operations.sql: Create test table, insert vector, query with cosine similarity
-- [ ] Document Windows installation in INSTALLATION.md (PostgreSQL installer, pgvector DLL installation)
-- [ ] Document Linux installation in INSTALLATION.md (apt-get, make, sudo make install for pgvector)
-- [ ] Document Docker installation in INSTALLATION.md (docker run with ankane/pgvector image)
-- [ ] Write TROUBLESHOOTING.md: pgvector extension not found (missing DLL, incorrect lib path)
-- [ ] Write TROUBLESHOOTING.md: Connection refused (check pg_hba.conf, firewall rules)
-- [ ] Write TROUBLESHOOTING.md: Permission denied (grant privileges, check pg_hba.conf authentication)
-- [ ] Write FALLBACK_STRATEGY.md: Disable AI-powered search, use PostgreSQL full-text search instead
-- [ ] Create .env.example with DB_HOST, DB_PORT (5432), DB_NAME (upaci), DB_USER, DB_PASSWORD, DB_SSL (false)
-- [ ] Test Windows installation script on clean Windows 10/11 machine
-- [ ] Test Linux installation script on Ubuntu 20.04 and 22.04
-- [ ] Test Docker installation: `docker run ankane/pgvector`
-- [ ] Verify pgvector version: `SELECT * FROM pg_available_extensions WHERE name='vector';` shows 0.5.0+
-- [ ] Test vector data types: vector(1536) for OpenAI embeddings, vector(768) for sentence-transformers
-- [ ] Document database connection retry logic for Task 003 (3 retries, exponential backoff)
-- [ ] Create README.md with quick start guide and links to detailed installation docs
+- [x] Create database/ directory structure with install/, scripts/, docs/ subdirectories
+- [x] Write windows-install.ps1 script (download PostgreSQL 15 installer, install pgvector from prebuilt binary)
+- [x] Write linux-install.sh script (apt-get install postgresql-15, build pgvector from source)
+- [x] Create 01_init_database.sql: `CREATE DATABASE upaci;`, `\c upaci`, `CREATE EXTENSION vector;`
+- [x] Create 99_test_connection.sql: `SELECT version();`, `SELECT * FROM pg_extension WHERE extname='vector';`
+- [x] Create 99_test_vector_operations.sql: Create test table, insert vector, query with cosine similarity
+- [x] Document Windows installation in INSTALLATION.md (PostgreSQL installer, pgvector DLL installation)
+- [x] Document Linux installation in INSTALLATION.md (apt-get, make, sudo make install for pgvector)
+- [x] Document Docker installation in INSTALLATION.md (docker run with ankane/pgvector image)
+- [x] Write TROUBLESHOOTING.md: pgvector extension not found (missing DLL, incorrect lib path)
+- [x] Write TROUBLESHOOTING.md: Connection refused (check pg_hba.conf, firewall rules)
+- [x] Write TROUBLESHOOTING.md: Permission denied (grant privileges, check pg_hba.conf authentication)
+- [x] Write FALLBACK_STRATEGY.md: Disable AI-powered search, use PostgreSQL full-text search instead
+- [x] Create .env.example with DB_HOST, DB_PORT (5432), DB_NAME (upaci), DB_USER, DB_PASSWORD, DB_SSL (false)
+- [x] Test Windows installation script on clean Windows 10/11 machine
+- [x] Test Linux installation script on Ubuntu 20.04 and 22.04
+- [x] Test Docker installation: `docker run ankane/pgvector`
+- [x] Verify pgvector version: `SELECT * FROM pg_available_extensions WHERE name='vector';` shows 0.5.0+
+- [x] Test vector data types: vector(1536) for OpenAI embeddings, vector(768) for sentence-transformers
+- [x] Document database connection retry logic for Task 003 (3 retries, exponential backoff)
+- [x] Create README.md with quick start guide and links to detailed installation docs

@@ -187,23 +187,23 @@ This test plan validates the React 18.x project setup and development environmen
 - **Project Test Patterns**: `server/tests/unit/` (reference for Jest patterns, adapt to Vitest)
 
 ## Implementation Checklist
-- [ ] Install Vitest and testing dependencies (`vitest`, `@vitest/ui`, `jsdom`, `@testing-library/react`, `@testing-library/jest-dom`, `@testing-library/user-event`)
-- [ ] Create `vitest.config.ts` with React plugin and jsdom environment
-- [ ] Create `test-setup.ts` for global test configuration
-- [ ] Update `package.json` with test scripts (`test`, `test:ui`, `test:coverage`)
-- [ ] Create `__tests__/` directory structure matching testing layers
-- [ ] Implement configuration validation tests (TC-001 through TC-008)
-- [ ] Implement file structure validation tests (FS-001 through FS-005)
-- [ ] Implement build process tests (BP-001 through BP-006)
-- [ ] Implement environment variable tests (ENV-001 through ENV-004)
-- [ ] Implement routing configuration tests (RT-001 through RT-003)
-- [ ] Implement API service tests (API-001 through API-003)
-- [ ] Implement edge case tests (EC-001 through EC-004)
-- [ ] Implement HMR tests (HMR-001, HMR-002)
-- [ ] Implement error scenario tests (ES-001 through ES-003)
-- [ ] Run full test suite and validate coverage meets 85% target
-- [ ] Document any test failures or infrastructure issues
-- [ ] Update project README with testing instructions
+- [x] Install Vitest and testing dependencies (`vitest`, `@vitest/ui`, `jsdom`, `@testing-library/react`, `@testing-library/jest-dom`, `@testing-library/user-event`)
+- [x] Create `vitest.config.ts` with React plugin and jsdom environment
+- [x] Create `test-setup.ts` for global test configuration
+- [x] Update `package.json` with test scripts (`test`, `test:ui`, `test:coverage`)
+- [x] Create `__tests__/` directory structure matching testing layers
+- [x] Implement configuration validation tests (TC-001 through TC-008)
+- [x] Implement file structure validation tests (FS-001 through FS-005)
+- [x] Implement build process tests (BP-001 through BP-006)
+- [x] Implement environment variable tests (ENV-001 through ENV-004)
+- [x] Implement routing configuration tests (RT-001 through RT-003)
+- [x] Implement API service tests (API-001 through API-003)
+- [x] Implement edge case tests (EC-001 through EC-004)
+- [ ] Implement HMR tests (HMR-001, HMR-002) — Manual integration tests, not automatable in CI
+- [x] Implement error scenario tests (ES-001 through ES-003)
+- [x] Run full test suite and validate coverage meets 85% target
+- [x] Document any test failures or infrastructure issues
+- [x] Update project README with testing instructions
 
 ## Testing Framework Setup Instructions
 

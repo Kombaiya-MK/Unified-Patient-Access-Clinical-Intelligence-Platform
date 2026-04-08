@@ -466,6 +466,54 @@
   color: white;
 }
 
+/* === Navigation Card Grid (Staff/Admin Dashboards) === */
+.dashboard__nav-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 20px;
+  padding: 16px 0;
+}
+
+.dashboard__nav-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 24px;
+  background: var(--bg-primary);
+  border: 1px solid var(--neutral-200);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-1);
+  cursor: pointer;
+  text-align: left;
+  transition: box-shadow var(--transition), border-color var(--transition);
+}
+
+.dashboard__nav-card:hover,
+.dashboard__nav-card:focus-visible {
+  box-shadow: var(--shadow-2);
+  border-color: var(--primary-600);
+  outline: none;
+}
+
+.dashboard__nav-card-icon {
+  font-size: 2rem;
+}
+
+.dashboard__nav-card-title {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--neutral-900);
+}
+
+.dashboard__nav-card-desc {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--neutral-600);
+  line-height: 1.4;
+}
+
 .loading-overlay p {
   margin-top: 1rem;
   font-size: 1.125rem;

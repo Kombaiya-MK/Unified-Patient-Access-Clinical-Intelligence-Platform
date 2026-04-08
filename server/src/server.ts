@@ -9,6 +9,7 @@ import redisClient from './utils/redisClient';
 import { startWaitlistProcessor, stopWaitlistProcessor } from './jobs/waitlistProcessor';
 import { startReminderJob, stopReminderJob } from './jobs/appointmentReminderJob';
 import { startCalendarSyncQueueJob, stopCalendarSyncQueueJob } from './jobs/calendarSyncQueueJob';
+import { initWebSocketServer, closeWebSocketServer } from './services/websocketService';
 import type { ScheduledTask } from 'node-cron';
 
 /**
@@ -53,6 +54,10 @@ const startServer = async (port: number, maxPort: number = 3005): Promise<number
       logger.info(`✓ Environment: ${config.nodeEnv}`);
       logger.info(`✓ API available at: http://localhost:${port}/api`);
       logger.info(`✓ Health check: http://localhost:${port}/api/health`);
+
+      // Initialize WebSocket server for real-time queue updates
+      initWebSocketServer(server);
+
       resolve(port);
     });
 
@@ -91,6 +96,9 @@ const startServer = async (port: number, maxPort: number = 3005): Promise<number
       server.close(async () => {
         logger.info('HTTP server closed');
         
+        // Close WebSocket connections
+        closeWebSocketServer();
+
         // Close database connections
         try {
           await closePool();

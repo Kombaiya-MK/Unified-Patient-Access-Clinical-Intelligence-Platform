@@ -1,5 +1,6 @@
 import axios from 'axios';
 import type { AxiosInstance, AxiosError, InternalAxiosRequestConfig } from 'axios';
+import { getToken } from '../utils/storage/tokenStorage';
 
 // Create Axios instance with base configuration
 const apiClient: AxiosInstance = axios.create({
@@ -13,7 +14,7 @@ const apiClient: AxiosInstance = axios.create({
 // Request interceptor - Add auth token if available
 apiClient.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
-    const token = localStorage.getItem('authToken');
+    const token = getToken();
     if (token && config.headers) {
       config.headers.Authorization = `Bearer ${token}`;
     }

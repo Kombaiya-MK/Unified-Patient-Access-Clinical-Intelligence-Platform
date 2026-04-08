@@ -26,14 +26,15 @@ import React, { createContext, useState, useEffect, useContext, useCallback } fr
 import type { ReactNode } from 'react';
 import axios from 'axios';
 import type { Appointment } from '../types/appointment.types';
+import { getToken } from '../utils/storage/tokenStorage';
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000/api';
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001/api';
 
 /**
- * Get authorization token from localStorage
+ * Get authorization token from storage
  */
 const getAuthToken = (): string | null => {
-  return localStorage.getItem('authToken');
+  return getToken();
 };
 
 /**

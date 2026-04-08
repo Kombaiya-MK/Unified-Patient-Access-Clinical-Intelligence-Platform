@@ -1,0 +1,111 @@
+/**
+ * Responsive Grid System
+ *
+ * CSS Grid-based layout system with column counts that adapt
+ * per breakpoint:
+ *   Mobile  (< 768px):  4 columns
+ *   Tablet  (768–1024): 8 columns
+ *   Desktop (≥ 1025px): 12 columns
+ *
+ * Usage:
+ *   <div class="grid">
+ *     <div class="col-4">Full width on mobile</div>
+ *     <div class="col-tablet-4">Half on tablet</div>
+ *     <div class="col-desktop-3">Quarter on desktop</div>
+ *   </div>
+ *
+ * Span classes:
+ *   .col-{n}            → mobile span (out of 4)
+ *   .col-tablet-{n}     → tablet span (out of 8)
+ *   .col-desktop-{n}    → desktop span (out of 12)
+ *
+ * @task US_044 TASK_001 (responsive layout framework)
+ */
+
+/* ═══════════════════════════════════════════════
+   Base grid – mobile (4 columns)
+   ═══════════════════════════════════════════════ */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(var(--grid-columns-mobile, 4), 1fr);
+  gap: var(--grid-gutter, 16px);
+  width: 100%;
+}
+
+/* Mobile column spans (1–4) */
+.col-1 { grid-column: span 1; }
+.col-2 { grid-column: span 2; }
+.col-3 { grid-column: span 3; }
+.col-4 { grid-column: span 4; }
+
+/* ═══════════════════════════════════════════════
+   Tablet (8 columns) ≥ 768px
+   ═══════════════════════════════════════════════ */
+@media (min-width: 768px) {
+  .grid {
+    grid-template-columns: repeat(var(--grid-columns-tablet, 8), 1fr);
+  }
+
+  .col-tablet-1 { grid-column: span 1; }
+  .col-tablet-2 { grid-column: span 2; }
+  .col-tablet-3 { grid-column: span 3; }
+  .col-tablet-4 { grid-column: span 4; }
+  .col-tablet-5 { grid-column: span 5; }
+  .col-tablet-6 { grid-column: span 6; }
+  .col-tablet-7 { grid-column: span 7; }
+  .col-tablet-8 { grid-column: span 8; }
+}
+
+/* ═══════════════════════════════════════════════
+   Desktop (12 columns) ≥ 1025px
+   ═══════════════════════════════════════════════ */
+@media (min-width: 1025px) {
+  .grid {
+    grid-template-columns: repeat(var(--grid-columns-desktop, 12), 1fr);
+  }
+
+  .col-desktop-1  { grid-column: span 1; }
+  .col-desktop-2  { grid-column: span 2; }
+  .col-desktop-3  { grid-column: span 3; }
+  .col-desktop-4  { grid-column: span 4; }
+  .col-desktop-5  { grid-column: span 5; }
+  .col-desktop-6  { grid-column: span 6; }
+  .col-desktop-7  { grid-column: span 7; }
+  .col-desktop-8  { grid-column: span 8; }
+  .col-desktop-9  { grid-column: span 9; }
+  .col-desktop-10 { grid-column: span 10; }
+  .col-desktop-11 { grid-column: span 11; }
+  .col-desktop-12 { grid-column: span 12; }
+}
+
+/* ═══════════════════════════════════════════════
+   Offset utilities (push column start)
+   ═══════════════════════════════════════════════ */
+.col-start-1 { grid-column-start: 1; }
+.col-start-2 { grid-column-start: 2; }
+.col-start-3 { grid-column-start: 3; }
+
+@media (min-width: 768px) {
+  .col-tablet-start-1 { grid-column-start: 1; }
+  .col-tablet-start-2 { grid-column-start: 2; }
+  .col-tablet-start-3 { grid-column-start: 3; }
+  .col-tablet-start-4 { grid-column-start: 4; }
+  .col-tablet-start-5 { grid-column-start: 5; }
+}
+
+@media (min-width: 1025px) {
+  .col-desktop-start-1 { grid-column-start: 1; }
+  .col-desktop-start-2 { grid-column-start: 2; }
+  .col-desktop-start-3 { grid-column-start: 3; }
+  .col-desktop-start-4 { grid-column-start: 4; }
+  .col-desktop-start-5 { grid-column-start: 5; }
+  .col-desktop-start-6 { grid-column-start: 6; }
+  .col-desktop-start-7 { grid-column-start: 7; }
+}
+
+/* ═══════════════════════════════════════════════
+   Full-width child (spans all columns)
+   ═══════════════════════════════════════════════ */
+.col-full {
+  grid-column: 1 / -1;
+}

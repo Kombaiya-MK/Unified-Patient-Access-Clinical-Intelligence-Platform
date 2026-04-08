@@ -10,9 +10,31 @@
  */
 
 import React, { useMemo } from 'react';
-import { format, parseISO, isAfter, addHours } from 'date-fns';
+import { format, parseISO, isAfter, addHours, isValid } from 'date-fns';
 import type { Slot } from '../types/appointment.types';
 import './TimeSlotsGrid.css';
+
+/**
+ * Safely parse a time string that may be ISO datetime or bare HH:MM:SS
+ */
+const safeParseSlotTime = (timeStr: string, fallbackDate?: Date | null): Date => {
+  // Try ISO format first (e.g. "2026-04-03T08:00:00")
+  const parsed = parseISO(timeStr);
+  if (isValid(parsed)) {
+    return parsed;
+  }
+
+  // Bare time string (e.g. "08:00:00") — combine with fallback date
+  if (/^\d{2}:\d{2}/.test(timeStr) && fallbackDate) {
+    const dateStr = format(fallbackDate, 'yyyy-MM-dd');
+    const combined = parseISO(`${dateStr}T${timeStr}`);
+    if (isValid(combined)) {
+      return combined;
+    }
+  }
+
+  return new Date(timeStr);
+};
 
 interface TimeSlotsGridProps {
   /** Array of available slots for the selected date */
@@ -59,7 +81,8 @@ export const TimeSlotsGrid: React.FC<TimeSlotsGridProps> = ({
    * Check if slot is within same-day restriction (< 2 hours from now)
    */
   const isTooSoon = (slotStartTime: string): boolean => {
-    const slotTime = parseISO(slotStartTime);
+    const slotTime = safeParseSlotTime(slotStartTime, selectedDate);
+    if (!isValid(slotTime)) return true;
     const twoHoursFromNow = addHours(new Date(), 2);
     return !isAfter(slotTime, twoHoursFromNow);
   };
@@ -73,8 +96,15 @@ export const TimeSlotsGrid: React.FC<TimeSlotsGridProps> = ({
     const grouped = new Map<string, Slot | null>();
 
     slots.forEach((slot) => {
-      const timeKey = format(parseISO(slot.startTime), 'h:mm a');
-      grouped.set(timeKey, slot);
+      try {
+        const parsed = safeParseSlotTime(slot.startTime, selectedDate);
+        if (isValid(parsed)) {
+          const timeKey = format(parsed, 'h:mm a');
+          grouped.set(timeKey, slot);
+        }
+      } catch {
+        // Skip slots with unparseable times
+      }
     });
 
     return grouped;

@@ -18,6 +18,7 @@
 
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../hooks/useAuth';
 import './QuickActions.css';
 
 /**
@@ -112,38 +113,40 @@ interface QuickAction {
 }
 
 /**
- * Quick actions configuration
+ * Build quick actions based on user ID
  */
-const QUICK_ACTIONS: QuickAction[] = [
-  {
-    id: 'upload-documents',
-    label: 'Upload Documents',
-    icon: <UploadIcon />,
-    path: '/documents/upload',
-    ariaLabel: 'Upload medical documents',
-  },
-  {
-    id: 'complete-intake',
-    label: 'Complete Intake',
-    icon: <ClipboardIcon />,
-    path: '/intake',
-    ariaLabel: 'Complete patient intake form',
-  },
-  {
-    id: 'update-profile',
-    label: 'Update Profile',
-    icon: <UserIcon />,
-    path: '/profile',
-    ariaLabel: 'Update your profile information',
-  },
-  {
-    id: 'view-lab-results',
-    label: 'View Lab Results',
-    icon: <ActivityIcon />,
-    path: '/lab-results',
-    ariaLabel: 'View your lab results',
-  },
-];
+function getQuickActions(userId?: string | number): QuickAction[] {
+  return [
+    {
+      id: 'book-appointment',
+      label: 'Book Appointment',
+      icon: <ClipboardIcon />,
+      path: '/appointments/book',
+      ariaLabel: 'Book a new appointment',
+    },
+    ...(userId ? [{
+      id: 'upload-documents',
+      label: 'Upload Documents',
+      icon: <UploadIcon />,
+      path: `/documents/upload/${userId}`,
+      ariaLabel: 'Upload medical documents',
+    }] : []),
+    {
+      id: 'complete-intake',
+      label: 'AI Intake',
+      icon: <ActivityIcon />,
+      path: '/intake/ai',
+      ariaLabel: 'Start AI-assisted patient intake',
+    },
+    {
+      id: 'manual-intake',
+      label: 'Manual Intake',
+      icon: <UserIcon />,
+      path: '/intake/manual',
+      ariaLabel: 'Complete manual intake form',
+    },
+  ];
+}
 
 /**
  * QuickActions Component
@@ -162,6 +165,8 @@ const QUICK_ACTIONS: QuickAction[] = [
  */
 export const QuickActions: React.FC = () => {
   const navigate = useNavigate();
+  const { user } = useAuth();
+  const quickActions = getQuickActions(user?.id);
 
   /**
    * Handle action button click
@@ -176,7 +181,7 @@ export const QuickActions: React.FC = () => {
     <section className="quick-actions" aria-label="Quick actions">
       <h2 className="quick-actions__title">Quick Actions</h2>
       <div className="quick-actions__grid">
-        {QUICK_ACTIONS.map((action) => (
+        {quickActions.map((action) => (
           <button
             key={action.id}
             className="quick-actions__button"

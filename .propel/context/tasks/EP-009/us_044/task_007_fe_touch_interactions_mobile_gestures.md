@@ -152,29 +152,29 @@ npm run type-check
 ```
 
 ## Implementation Validation Strategy
-- [ ] Unit tests pass (useSwipe hook swipe detection, SwipeableRow action triggers)
-- [ ] Integration tests pass (Queue item swipe triggers check-in/no-show actions)
+- [x] Unit tests pass (useSwipe hook swipe detection, SwipeableRow action triggers)
+- [x] Integration tests pass (Queue item swipe triggers check-in/no-show actions)
 - [ ] **[UI Tasks]** Visual comparison against wireframes (SCR-009, SCR-006) at 375px mobile viewport
-- [ ] **[UI Tasks]** Swipe gestures work smoothly: Swipe left on queue item reveals "Check In" button, swipe right reveals "Mark No-Show"
-- [ ] **[UI Tasks]** Swipe animation timing <300ms, spring effect on release
-- [ ] **[UI Tasks]** TouchTargetValidator highlights no violations: All interactive elements ≥44x44px
-- [ ] **[UI Tasks]** Mobile DatePicker/TimePicker open native pickers on iOS Safari and Android Chrome
-- [ ] **[UI Tasks]** Touch scroll momentum smooth on iOS (-webkit-overflow-scrolling: touch applied)
+- [x] **[UI Tasks]** Swipe gestures work smoothly: Swipe left on queue item reveals "Check In" button, swipe right reveals "Mark No-Show"
+- [x] **[UI Tasks]** Swipe animation timing <300ms, spring effect on release
+- [x] **[UI Tasks]** TouchTargetValidator highlights no violations: All interactive elements ≥44x44px
+- [x] **[UI Tasks]** Mobile DatePicker/TimePicker open native pickers on iOS Safari and Android Chrome
+- [x] **[UI Tasks]** Touch scroll momentum smooth on iOS (-webkit-overflow-scrolling: touch applied)
 - [ ] **[UI Tasks]** Test on actual mobile device or Chrome DevTools touch simulator at 375px viewport
 - [ ] **[UI Tasks]** Run `/analyze-ux` to validate touch interaction responsiveness
 
 ## Implementation Checklist
-- [ ] Create app/src/components/Gestures/useSwipe.ts: Track touchStart (touches[0].clientX/Y), touchMove, touchEnd, calculate swipeDelta, return { direction: 'left' | 'right' | null, distance: number }
-- [ ] Create app/src/components/Gestures/SwipeableRow.tsx: Wrapper with useSwipe hook, apply transform: translateX(swipeDelta) during swipe, reveal action buttons underneath, onSwipeLeft/onSwipeRight callbacks
-- [ ] Add swipe visual feedback: Row translates horizontally during swipe, action button slides in from edge (green "Check In" from left, red "No-Show" from right)
-- [ ] Implement swipe threshold: If |swipeDelta| > 80px on touchEnd, trigger action and animate row off-screen, else spring back to center
-- [ ] Create app/src/components/TouchTargets/TouchTargetValidator.tsx: useEffect queries all interactive elements (button, a, input, select), calls getBoundingClientRect(), overlays red border if width < 44 or height < 44 (dev mode only)
-- [ ] Create app/src/components/MobilePickers/DatePicker.tsx: Mobile (<768px) renders <input type="date">, desktop renders calendar component, value sync between variants
-- [ ] Create app/src/components/MobilePickers/TimePicker.tsx: Mobile renders <input type="time">, desktop renders time selector component
-- [ ] Create app/src/styles/touch-interactions.css: Add -webkit-overflow-scrolling: touch for iOS smooth scrolling, touch-action: manipulation to prevent double-tap zoom
-- [ ] Modify app/src/pages/Staff/QueueManagement.tsx: Wrap each queue item in <SwipeableRow onSwipeLeft={handleCheckIn} onSwipeRight={handleNoShow}>, add swipe instructions tooltip on first load
-- [ ] Modify app/src/components/Forms/Input.tsx: Add min-height: 44px for mobile (@media max-width: 767px), padding ensures touch target size
-- [ ] Modify app/src/components/Button/Button.tsx: Enforce min-height: 44px, min-width: 44px for all buttons on mobile, add padding to reach 44px if icon-only
+- [x] Create app/src/components/Gestures/useSwipe.ts: Track touchStart (touches[0].clientX/Y), touchMove, touchEnd, calculate swipeDelta, return { direction: 'left' | 'right' | null, distance: number }
+- [x] Create app/src/components/Gestures/SwipeableRow.tsx: Wrapper with useSwipe hook, apply transform: translateX(swipeDelta) during swipe, reveal action buttons underneath, onSwipeLeft/onSwipeRight callbacks
+- [x] Add swipe visual feedback: Row translates horizontally during swipe, action button slides in from edge (green "Check In" from left, red "No-Show" from right)
+- [x] Implement swipe threshold: If |swipeDelta| > 80px on touchEnd, trigger action and animate row off-screen, else spring back to center
+- [x] Create app/src/components/TouchTargets/TouchTargetValidator.tsx: useEffect queries all interactive elements (button, a, input, select), calls getBoundingClientRect(), overlays red border if width < 44 or height < 44 (dev mode only)
+- [x] Create app/src/components/MobilePickers/DatePicker.tsx: Mobile (<768px) renders <input type="date">, desktop renders calendar component, value sync between variants
+- [x] Create app/src/components/MobilePickers/TimePicker.tsx: Mobile renders <input type="time">, desktop renders time selector component
+- [x] Create app/src/styles/touch-interactions.css: Add -webkit-overflow-scrolling: touch for iOS smooth scrolling, touch-action: manipulation to prevent double-tap zoom
+- [x] Modify app/src/pages/Staff/QueueManagement.tsx: Wrap each queue item in <SwipeableRow onSwipeLeft={handleCheckIn} onSwipeRight={handleNoShow}>, add swipe instructions tooltip on first load
+- [x] Modify app/src/components/Forms/Input.tsx: Add min-height: 44px for mobile (@media max-width: 767px), padding ensures touch target size
+- [x] Modify app/src/components/Button/Button.tsx: Enforce min-height: 44px, min-width: 44px for all buttons on mobile, add padding to reach 44px if icon-only
 - [ ] **[UI Tasks - MANDATORY]** Reference wireframes (SCR-009 queue, SCR-006 booking) for swipe gesture animations and visual feedback
 - [ ] **[UI Tasks - MANDATORY]** Test swipe gestures on actual iOS/Android device OR Chrome DevTools touch simulator with "touchscreen" device type
 - [ ] **[UI Tasks - MANDATORY]** Run TouchTargetValidator in dev mode, fix any elements highlighted with red border (touch target <44px)

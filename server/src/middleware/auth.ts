@@ -117,9 +117,20 @@ export const authenticate = async (
       error: errorMessage,
     });
 
-    // Check if Redis is down
-    if (errorMessage.includes('Redis') || errorMessage.includes('ECONNREFUSED')) {
-      return next(new ApiError(503, 'Authentication service unavailable'));
+    // If Redis is down, fall back to JWT-only authentication
+    if (errorMessage.includes('Redis') || errorMessage.includes('ECONNREFUSED') || errorMessage.includes('Connection')) {
+      logger.warn('Redis unavailable during auth — falling back to JWT-only authentication');
+      // Re-verify JWT and attach user without Redis session checks
+      const fallbackHeader = req.headers.authorization;
+      const fallbackToken = fallbackHeader?.split(' ')[1];
+      if (fallbackToken) {
+        const fallbackPayload = verifyToken(fallbackToken);
+        if (fallbackPayload) {
+          req.user = fallbackPayload;
+          return next();
+        }
+      }
+      return next(new ApiError(401, 'Authentication failed'));
     }
 
     next(new ApiError(500, 'Authentication failed'));
@@ -146,7 +157,7 @@ export const authenticate = async (
  * @param allowedRoles - Array of roles that can access the route
  * @returns Express middleware function
  */
-export const authorize = (...allowedRoles: Array<'patient' | 'staff' | 'admin' | '*' | '**'>) => {
+export const authorize = (...allowedRoles: Array<'patient' | 'staff' | 'admin' | 'doctor' | '*' | '**'>) => {
   return async (req: AuthRequest, _res: Response, next: NextFunction): Promise<void> => {
     try {
       // Import here to avoid circular dependency

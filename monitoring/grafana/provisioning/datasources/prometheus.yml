@@ -13,10 +13,7 @@ datasources:
       defaultTimezone: browser
       # Custom query parameters
       customQueryParameters: ''
-      # Enable alerting on this datasource
-      manage
-
-Alerts: true
+      manageAlerts: true
     editable: true
     version: 1
     uid: prometheus-datasource

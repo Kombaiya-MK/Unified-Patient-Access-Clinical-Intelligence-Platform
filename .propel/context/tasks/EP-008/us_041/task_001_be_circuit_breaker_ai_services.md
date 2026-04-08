@@ -545,88 +545,88 @@ curl -X POST http://localhost:3001/api/ai/intake \
 ```
 
 ## Implementation Validation Strategy
-- [ ] Migration V029 runs successfully, ai_extraction_jobs_queue table created
-- [ ] 4 circuit breakers configured: gpt4IntakeBreaker, gpt4VisionExtractionBreaker, gpt4CodingBreaker, gpt4ConflictsBreaker
-- [ ] Circuit breaker opens: Simulate 10 requests with >50% failure rate, verify breaker opens after threshold
-- [ ] Circuit breaker cooldown: After 60s, verify breaker attemps half-open state with test request
-- [ ] Exponential backoff: After repeated failures, verify cooldown increases: 60s → 120s → 300s
-- [ ] AI intake fallback: When breaker open, verify response: {fallbackMode: true, action: 'manual_form'}
-- [ ] Document extraction queueing: When breaker open, verify job inserted into ai_extraction_jobs_queue
-- [ ] Medical coding fallback: When breaker open, verify message: 'AI suggestion unavailable - use manual coding'
-- [ ] Medication conflicts fallback: When breaker open, verify rule-based conflicts returned with disclaimer
-- [ ] Retry worker processes queue: After circuit closes, verify queued jobs processed in FIFO order
-- [ ] Rate limiting: Verify retry worker processes max 10 jobs/minute
-- [ ] Retry exponential backoff: Verify failed jobs retry at 1min, 5min, 15min intervals
-- [ ] Max retries: Verify job marked failed after 3 unsuccessful retries
-- [ ] Email notification sent: On circuit open, verify admin receives email alert
-- [ ] SMS notification sent: On circuit open, verify admin receives SMS alert (if configured)
-- [ ] Prometheus metrics exported: Verify circuit_breaker_state gauge shows correct state (0/1/2)
-- [ ] Fallback counter incremented: Verify fallback_activation_count increases when fallback triggered
-- [ ] Circuit breaker recovery: After successful test request in half-open, verify transitions to closed
+- [x] Migration V029 runs successfully, ai_extraction_jobs_queue table created
+- [x] 4 circuit breakers configured: gpt4IntakeBreaker, gpt4VisionExtractionBreaker, gpt4CodingBreaker, gpt4ConflictsBreaker
+- [x] Circuit breaker opens: Simulate 10 requests with >50% failure rate, verify breaker opens after threshold
+- [x] Circuit breaker cooldown: After 60s, verify breaker attemps half-open state with test request
+- [x] Exponential backoff: After repeated failures, verify cooldown increases: 60s → 120s → 300s
+- [x] AI intake fallback: When breaker open, verify response: {fallbackMode: true, action: 'manual_form'}
+- [x] Document extraction queueing: When breaker open, verify job inserted into ai_extraction_jobs_queue
+- [x] Medical coding fallback: When breaker open, verify message: 'AI suggestion unavailable - use manual coding'
+- [x] Medication conflicts fallback: When breaker open, verify rule-based conflicts returned with disclaimer
+- [x] Retry worker processes queue: After circuit closes, verify queued jobs processed in FIFO order
+- [x] Rate limiting: Verify retry worker processes max 10 jobs/minute
+- [x] Retry exponential backoff: Verify failed jobs retry at 1min, 5min, 15min intervals
+- [x] Max retries: Verify job marked failed after 3 unsuccessful retries
+- [x] Email notification sent: On circuit open, verify admin receives email alert
+- [x] SMS notification sent: On circuit open, verify admin receives SMS alert (if configured)
+- [x] Prometheus metrics exported: Verify circuit_breaker_state gauge shows correct state (0/1/2)
+- [x] Fallback counter incremented: Verify fallback_activation_count increases when fallback triggered
+- [x] Circuit breaker recovery: After successful test request in half-open, verify transitions to closed
 
 ## Implementation Checklist
-- [ ] Create database/migrations/V029__ai_extraction_jobs_queue.sql with ai_extraction_jobs_queue table
-- [ ] Add columns: document_id, job_type, status, retry_count, scheduled_at, processed_at, error_details
-- [ ] Create indexes: idx_extraction_jobs_status, idx_extraction_jobs_document
-- [ ] Test migration: psql -f V029__ai_extraction_jobs_queue.sql
-- [ ] Install nodemailer: npm install nodemailer @types/nodemailer
-- [ ] Create server/src/config/circuit-breaker.config.ts (or extend from US-040)
-- [ ] Configure gpt4IntakeBreaker with opossum: errorThresholdPercentage=50%, volumeThreshold=10, timeout=30s
-- [ ] Configure gpt4VisionExtractionBreaker: Same config but timeout=45s
-- [ ] Configure gpt4CodingBreaker: Same config
-- [ ] Configure gpt4ConflictsBreaker: Same config
-- [ ] Implement exponential backoff logic: 60s → 120s → 300s on repeated failures
-- [ ] Add event handlers: on('open'), on('halfOpen'), on('close') for all breakers
-- [ ] Create server/src/services/fallback/ai-intake-fallback.service.ts
-- [ ] Implement getFallbackResponse() returning manual form mode
-- [ ] Create server/src/services/fallback/extraction-fallback.service.ts
-- [ ] Implement queueForRetry() inserting job into ai_extraction_jobs_queue
-- [ ] Create server/src/services/fallback/coding-fallback.service.ts
-- [ ] Implement getFallbackMessage() returning manual coding message
-- [ ] Create server/src/services/fallback/conflicts-fallback.service.ts
-- [ ] Implement checkBasicInteractions() with rule-based drug interaction database
-- [ ] Add basic_interactions map with common drug pairs
-- [ ] Create server/src/workers/ai-extraction-retry-worker.ts
-- [ ] Set up Bull queue with Redis connection
-- [ ] Implement queue processor with rate limiting (10 jobs/minute)
-- [ ] Add retry logic with exponential backoff (1min, 5min, 15min)
-- [ ] Mark job as failed after 3 retries
-- [ ] Add cron job checking for queued jobs every minute
-- [ ] Create server/src/services/circuit-breaker-alerts.service.ts
-- [ ] Configure nodemailer with SMTP settings
-- [ ] Implement sendCriticalAlert() for email notifications
-- [ ] Add SMS notification via gateway API (Twilio or similar)
-- [ ] Extend server/src/config/metrics.ts: Add 3 new Prometheus metrics
-- [ ] Add circuit_breaker_state gauge with labels {service, model}
-- [ ] Add api_failure_rate histogram
-- [ ] Add fallback_activation_count counter with labels {service, fallback_type}
-- [ ] Modify server/src/services/ai-intake.service.ts (US-025)
-- [ ] Wrap OpenAI API calls with gpt4IntakeBreaker.fire()
-- [ ] Add try/catch: On error, call aiIntakeFallbackService.getFallbackResponse()
-- [ ] Modify server/src/services/document-extraction.service.ts (US-029)
-- [ ] Wrap OpenAI Vision calls with gpt4VisionExtractionBreaker.fire()
-- [ ] On error, call extractionFallbackService.queueForRetry()
-- [ ] Modify server/src/services/medical-coding.service.ts (US-032)
-- [ ] Wrap OpenAI calls with gpt4CodingBreaker.fire()
-- [ ] On error, return codingFallbackService.getFallbackMessage()
-- [ ] Modify server/src/services/medication-conflicts.service.ts (US-033)
-- [ ] Wrap OpenAI calls with gpt4ConflictsBreaker.fire()
-- [ ] On error, call conflictsFallbackService.checkBasicInteractions()
-- [ ] Test circuit breaker opening: Simulate 10 failed OpenAI requests
-- [ ] Verify breaker state transitions: Closed → Open
-- [ ] Verify cooldown: After 60s, breaker attempts half-open
-- [ ] Verify recovery: Successful test request transitions to Closed
-- [ ] Test AI intake fallback: With circuit open, verify manual form mode returned
-- [ ] Test document extraction queueing: With circuit open, verify job queued
-- [ ] Test medical coding fallback: With circuit open, verify fallback message
-- [ ] Test medication conflicts fallback: With circuit open, verify rule-based conflicts
-- [ ] Test retry worker: Add job to queue, verify processing
-- [ ] Test rate limiting: Add 20 jobs, verify max 10 processed per minute
-- [ ] Test exponential backoff: Fail job twice, verify retry times (1min, 5min)
-- [ ] Test max retries: Fail job 3 times, verify marked as failed
-- [ ] Test email notification: Trigger circuit open, verify admin email received
-- [ ] Test SMS notification: Verify SMS sent (if configured)
-- [ ] Verify Prometheus metrics: curl /metrics, check circuit_breaker_state, fallback_activation_count
-- [ ] Load test with circuit breaker: Run k6 tests from US-040 with simulated AI failures
-- [ ] Document circuit breaker configuration in server/README.md
-- [ ] Commit all files to version control
+- [x] Create database/migrations/V029__ai_extraction_jobs_queue.sql with ai_extraction_jobs_queue table
+- [x] Add columns: document_id, job_type, status, retry_count, scheduled_at, processed_at, error_details
+- [x] Create indexes: idx_extraction_jobs_status, idx_extraction_jobs_document
+- [x] Test migration: psql -f V029__ai_extraction_jobs_queue.sql
+- [x] Install nodemailer: npm install nodemailer @types/nodemailer
+- [x] Create server/src/config/circuit-breaker.config.ts (or extend from US-040)
+- [x] Configure gpt4IntakeBreaker with opossum: errorThresholdPercentage=50%, volumeThreshold=10, timeout=30s
+- [x] Configure gpt4VisionExtractionBreaker: Same config but timeout=45s
+- [x] Configure gpt4CodingBreaker: Same config
+- [x] Configure gpt4ConflictsBreaker: Same config
+- [x] Implement exponential backoff logic: 60s → 120s → 300s on repeated failures
+- [x] Add event handlers: on('open'), on('halfOpen'), on('close') for all breakers
+- [x] Create server/src/services/fallback/ai-intake-fallback.service.ts
+- [x] Implement getFallbackResponse() returning manual form mode
+- [x] Create server/src/services/fallback/extraction-fallback.service.ts
+- [x] Implement queueForRetry() inserting job into ai_extraction_jobs_queue
+- [x] Create server/src/services/fallback/coding-fallback.service.ts
+- [x] Implement getFallbackMessage() returning manual coding message
+- [x] Create server/src/services/fallback/conflicts-fallback.service.ts
+- [x] Implement checkBasicInteractions() with rule-based drug interaction database
+- [x] Add basic_interactions map with common drug pairs
+- [x] Create server/src/workers/ai-extraction-retry-worker.ts
+- [x] Set up Bull queue with Redis connection
+- [x] Implement queue processor with rate limiting (10 jobs/minute)
+- [x] Add retry logic with exponential backoff (1min, 5min, 15min)
+- [x] Mark job as failed after 3 retries
+- [x] Add cron job checking for queued jobs every minute
+- [x] Create server/src/services/circuit-breaker-alerts.service.ts
+- [x] Configure nodemailer with SMTP settings
+- [x] Implement sendCriticalAlert() for email notifications
+- [x] Add SMS notification via gateway API (Twilio or similar)
+- [x] Extend server/src/config/metrics.ts: Add 3 new Prometheus metrics
+- [x] Add circuit_breaker_state gauge with labels {service, model}
+- [x] Add api_failure_rate histogram
+- [x] Add fallback_activation_count counter with labels {service, fallback_type}
+- [x] Modify server/src/services/ai-intake.service.ts (US-025)
+- [x] Wrap OpenAI API calls with gpt4IntakeBreaker.fire()
+- [x] Add try/catch: On error, call aiIntakeFallbackService.getFallbackResponse()
+- [x] Modify server/src/services/document-extraction.service.ts (US-029)
+- [x] Wrap OpenAI Vision calls with gpt4VisionExtractionBreaker.fire()
+- [x] On error, call extractionFallbackService.queueForRetry()
+- [x] Modify server/src/services/medical-coding.service.ts (US-032)
+- [x] Wrap OpenAI calls with gpt4CodingBreaker.fire()
+- [x] On error, return codingFallbackService.getFallbackMessage()
+- [x] Modify server/src/services/medication-conflicts.service.ts (US-033)
+- [x] Wrap OpenAI calls with gpt4ConflictsBreaker.fire()
+- [x] On error, call conflictsFallbackService.checkBasicInteractions()
+- [x] Test circuit breaker opening: Simulate 10 failed OpenAI requests
+- [x] Verify breaker state transitions: Closed → Open
+- [x] Verify cooldown: After 60s, breaker attempts half-open
+- [x] Verify recovery: Successful test request transitions to Closed
+- [x] Test AI intake fallback: With circuit open, verify manual form mode returned
+- [x] Test document extraction queueing: With circuit open, verify job queued
+- [x] Test medical coding fallback: With circuit open, verify fallback message
+- [x] Test medication conflicts fallback: With circuit open, verify rule-based conflicts
+- [x] Test retry worker: Add job to queue, verify processing
+- [x] Test rate limiting: Add 20 jobs, verify max 10 processed per minute
+- [x] Test exponential backoff: Fail job twice, verify retry times (1min, 5min)
+- [x] Test max retries: Fail job 3 times, verify marked as failed
+- [x] Test email notification: Trigger circuit open, verify admin email received
+- [x] Test SMS notification: Verify SMS sent (if configured)
+- [x] Verify Prometheus metrics: curl /metrics, check circuit_breaker_state, fallback_activation_count
+- [x] Load test with circuit breaker: Run k6 tests from US-040 with simulated AI failures
+- [x] Document circuit breaker configuration in server/README.md
+- [x] Commit all files to version control

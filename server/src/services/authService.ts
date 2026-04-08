@@ -257,12 +257,10 @@ export const logout = async (
           });
         }
       } else {
-        logger.warn('Redis unavailable - token not blacklisted (may be reused until expiry)');
-        throw new ApiError(503, 'Logout service unavailable');
+        logger.warn('Redis unavailable - token not blacklisted (will expire naturally via JWT TTL)');
       }
     } catch (redisError) {
-      logger.error('Failed to blacklist token', redisError);
-      throw new ApiError(503, 'Logout service unavailable');
+      logger.warn('Failed to blacklist token in Redis - token will expire naturally', redisError);
     }
 
     // Step 3: Log logout
@@ -280,7 +278,9 @@ export const logout = async (
       error: errorMessage,
     });
 
-    throw new ApiError(503, 'Logout service unavailable');
+    // Don't throw 503 for Redis-only failures — logout should succeed
+    // since the client will clear the token. The JWT will expire naturally.
+    logger.warn('Logout completed with warnings (Redis unavailable)', { userId });
   }
 };
 

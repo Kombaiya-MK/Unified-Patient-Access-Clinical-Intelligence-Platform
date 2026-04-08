@@ -50,12 +50,16 @@ export const authService = {
         // Store token using tokenStorage utility
         saveToken(response.data.token, credentials.rememberMe);
         
-        // Store user data
+        // Backend returns user data nested: { success, token, user: { id, email, role, firstName, lastName } }
+        const respData = response.data;
+        const nested = respData.user;
         const user: AuthUser = {
-          id: response.data.userId,
-          email: response.data.email,
-          role: response.data.role,
-          name: response.data.name,
+          id: nested?.id ?? respData.userId ?? 0,
+          email: nested?.email ?? respData.email ?? '',
+          role: nested?.role ?? respData.role ?? 'patient',
+          name: nested?.firstName
+            ? `${nested.firstName} ${nested.lastName ?? ''}`.trim()
+            : respData.name,
         };
         saveUser(user, credentials.rememberMe);
       }

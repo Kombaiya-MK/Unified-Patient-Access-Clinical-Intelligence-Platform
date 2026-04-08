@@ -12,7 +12,7 @@
 /**
  * User roles in the system
  */
-export type UserRole = 'patient' | 'staff' | 'admin';
+export type UserRole = 'patient' | 'doctor' | 'staff' | 'admin';
 
 /**
  * User role constants
@@ -43,14 +43,24 @@ export interface LoginResponse {
   success: boolean;
   /** JWT authentication token */
   token: string;
-  /** User ID */
-  userId: number;
-  /** User's role (determines dashboard redirect) */
-  role: UserRole;
-  /** User's email */
-  email: string;
-  /** User's full name (optional) */
+  /** Nested user object from backend */
+  user?: {
+    id: number;
+    email: string;
+    role: UserRole;
+    firstName?: string;
+    lastName?: string;
+  };
+  /** User ID (flat format fallback) */
+  userId?: number;
+  /** User's role (flat format fallback) */
+  role?: UserRole;
+  /** User's email (flat format fallback) */
+  email?: string;
+  /** User's full name (flat format fallback) */
   name?: string;
+  /** Token expiry in seconds */
+  expiresIn?: number;
   /** Error message (if success is false) */
   message?: string;
 }

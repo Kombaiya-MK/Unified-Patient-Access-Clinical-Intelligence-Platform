@@ -44,7 +44,7 @@ scrape_configs:
     # Basic authentication (if metrics endpoint is protected)
     basic_auth:
       username: 'admin'
-      password: 'secure_password'
+      password: 'admin'
     
     # Static targets (development)
     static_configs:

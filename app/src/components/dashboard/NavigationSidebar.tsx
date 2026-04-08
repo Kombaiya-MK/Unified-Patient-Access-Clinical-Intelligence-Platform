@@ -47,46 +47,112 @@ interface NavItem {
 }
 
 /**
- * Navigation menu items configuration
+ * Build navigation menu items based on user role and ID
  */
-const NAV_ITEMS: NavItem[] = [
-  {
-    id: 'dashboard',
-    label: 'Dashboard',
-    icon: '🏠',
-    path: '/patient/dashboard',
-  },
-  {
-    id: 'appointments',
-    label: 'Appointments',
-    icon: '📅',
-    path: '/appointments',
-  },
-  {
-    id: 'documents',
-    label: 'Documents',
-    icon: '📄',
-    path: '/documents',
-  },
-  {
-    id: 'intake',
-    label: 'Intake Forms',
-    icon: '📝',
-    path: '/intake',
-  },
-  {
-    id: 'profile',
-    label: 'Profile',
-    icon: '👤',
-    path: '/profile',
-  },
-  {
-    id: 'settings',
-    label: 'Settings',
-    icon: '⚙️',
-    path: '/settings',
-  },
-];
+function getNavItems(role?: string, userId?: string | number): NavItem[] {
+  const patientItems: NavItem[] = [
+    {
+      id: 'dashboard',
+      label: 'Dashboard',
+      icon: '🏠',
+      path: '/patient/dashboard',
+    },
+    {
+      id: 'appointments',
+      label: 'Book Appointment',
+      icon: '📅',
+      path: '/appointments/book',
+    },
+    {
+      id: 'documents',
+      label: 'Documents',
+      icon: '📄',
+      path: `/documents/upload/${userId || 'me'}`,
+    },
+    {
+      id: 'intake-ai',
+      label: 'AI Intake',
+      icon: '🤖',
+      path: '/intake/ai',
+    },
+    {
+      id: 'intake-manual',
+      label: 'Manual Intake',
+      icon: '📝',
+      path: '/intake/manual',
+    },
+  ];
+
+  const staffItems: NavItem[] = [
+    {
+      id: 'dashboard',
+      label: 'Dashboard',
+      icon: '🏠',
+      path: '/staff/dashboard',
+    },
+    {
+      id: 'queue',
+      label: 'Patient Queue',
+      icon: '👥',
+      path: '/staff/queue',
+    },
+    {
+      id: 'staff-booking',
+      label: 'Book for Patient',
+      icon: '📅',
+      path: '/staff/appointments/book',
+    },
+    {
+      id: 'intake-ai',
+      label: 'AI Intake',
+      icon: '🤖',
+      path: '/intake/ai',
+    },
+    {
+      id: 'intake-manual',
+      label: 'Manual Intake',
+      icon: '📝',
+      path: '/intake/manual',
+    },
+  ];
+
+  const adminItems: NavItem[] = [
+    {
+      id: 'dashboard',
+      label: 'Dashboard',
+      icon: '🏠',
+      path: '/admin/dashboard',
+    },
+    {
+      id: 'queue',
+      label: 'Patient Queue',
+      icon: '👥',
+      path: '/staff/queue',
+    },
+    {
+      id: 'staff-booking',
+      label: 'Book for Patient',
+      icon: '📅',
+      path: '/staff/appointments/book',
+    },
+    {
+      id: 'audit-logs',
+      label: 'Audit Logs',
+      icon: '🔐',
+      path: '/admin/audit-logs',
+    },
+  ];
+
+  switch (role) {
+    case 'staff':
+    case 'doctor':
+      return staffItems;
+    case 'admin':
+      return adminItems;
+    default:
+      return patientItems;
+  }
+}
 
 /**
  * Navigation Sidebar Component
@@ -101,6 +167,7 @@ const NAV_ITEMS: NavItem[] = [
  */
 export const NavigationSidebar: React.FC = () => {
   const { user } = useAuth();
+  const navItems = getNavItems(user?.role, user?.id);
 
   return (
     <nav className="nav-sidebar" role="navigation" aria-label="Main navigation">
@@ -113,7 +180,7 @@ export const NavigationSidebar: React.FC = () => {
 
       {/* Navigation Menu */}
       <ul className="nav-sidebar__menu" role="menu">
-        {NAV_ITEMS.map((item) => (
+        {navItems.map((item) => (
           <li key={item.id} role="none">
             <NavLink
               to={item.path}

@@ -173,14 +173,14 @@ npm run lighthouse:mobile
 ```
 
 ## Implementation Validation Strategy
-- [ ] Unit tests pass (useKeyboardShortcuts hook registration, KeyboardShortcut tooltip display)
-- [ ] Integration tests pass (Multi-panel layout switches correctly at breakpoints)
+- [x] Unit tests pass (useKeyboardShortcuts hook registration, KeyboardShortcut tooltip display)
+- [x] Integration tests pass (Multi-panel layout switches correctly at breakpoints)
 - [ ] **[UI Tasks]** Visual comparison against wireframes at 1024px, 1440px desktop viewports
-- [ ] **[UI Tasks]** All buttons/links have hover states: Background 10% darker, transition 200ms
-- [ ] **[UI Tasks]** Cards have hover elevation: Shadow level-2, transition 200ms
-- [ ] **[UI Tasks]** Keyboard shortcuts work: Ctrl+N opens new appointment, Esc closes modals, Ctrl+K focuses search
-- [ ] **[UI Tasks]** Keyboard shortcut tooltips visible on hover: "Ctrl+N" badge displayed in tooltip
-- [ ] **[UI Tasks]** Multi-panel layouts work: QueueManagement shows list + details side-by-side desktop, stacked mobile
+- [x] **[UI Tasks]** All buttons/links have hover states: Background 10% darker, transition 200ms
+- [x] **[UI Tasks]** Cards have hover elevation: Shadow level-2, transition 200ms
+- [x] **[UI Tasks]** Keyboard shortcuts work: Ctrl+N opens new appointment, Esc closes modals, Ctrl+K focuses search
+- [x] **[UI Tasks]** Keyboard shortcut tooltips visible on hover: "Ctrl+N" badge displayed in tooltip
+- [x] **[UI Tasks]** Multi-panel layouts work: QueueManagement shows list + details side-by-side desktop, stacked mobile
 - [ ] **[UI Tasks]** Google Mobile-Friendly Test passes with 100% score (manual test at https://search.google.com/test/mobile-friendly)
 - [ ] **[UI Tasks]** Lighthouse CI mobile test passes: mobile-friendly score 100, bundle size <500KB
 - [ ] **[UI Tasks]** Responsive breakpoint tests pass: Playwright validates layout at 375px, 768px, 1024px, 1440px
@@ -188,13 +188,13 @@ npm run lighthouse:mobile
 - [ ] **[UI Tasks]** Run `/analyze-ux` to validate desktop responsiveness and hover state alignment
 
 ## Implementation Checklist
-- [ ] Create app/src/components/Tooltip/KeyboardShortcut.tsx: React Tooltip wrapper, displays shortcut badge (e.g., "Ctrl+N"), appears on hover with 200ms delay
-- [ ] Create app/src/hooks/useKeyboardShortcuts.ts: Registers keyboard shortcuts with API: registerShortcut('ctrl+n', callback), handles keydown events, prevents default
-- [ ] Create app/src/components/Layouts/MultiPanel.tsx: CSS Grid layout, grid-template-columns: 40% 60% desktop (@media min-width: 1024px), 100% mobile, panel divider
-- [ ] Create app/src/styles/hover-states.css: @media (hover: hover) rules for all interactive elements, transition: background-color 200ms, box-shadow 200ms
-- [ ] Create app/src/styles/multi-panel-layout.css: Multi-panel grid styles, responsive breakpoints, panel header styles
-- [ ] Modify app/src/components/Button/Button.tsx: Add &:hover rule in @media (hover: hover), darken background 10% (primary-700 instead of primary-600)
-- [ ] Modify app/src/components/Card/Card.tsx: Add &:hover rule in @media (hover: hover), elevate shadow (level-1 → level-2)
+- [x] Create app/src/components/Tooltip/KeyboardShortcut.tsx: React Tooltip wrapper, displays shortcut badge (e.g., "Ctrl+N"), appears on hover with 200ms delay
+- [x] Create app/src/hooks/useKeyboardShortcuts.ts: Registers keyboard shortcuts with API: registerShortcut('ctrl+n', callback), handles keydown events, prevents default
+- [x] Create app/src/components/Layouts/MultiPanel.tsx: CSS Grid layout, grid-template-columns: 40% 60% desktop (@media min-width: 1024px), 100% mobile, panel divider
+- [x] Create app/src/styles/hover-states.css: @media (hover: hover) rules for all interactive elements, transition: background-color 200ms, box-shadow 200ms
+- [x] Create app/src/styles/multi-panel-layout.css: Multi-panel grid styles, responsive breakpoints, panel header styles
+- [x] Modify app/src/components/Button/Button.tsx: Add &:hover rule in @media (hover: hover), darken background 10% (primary-700 instead of primary-600)
+- [x] Modify app/src/components/Card/Card.tsx: Add &:hover rule in @media (hover: hover), elevate shadow (level-1 → level-2)
 - [ ] Modify app/src/pages/Staff/QueueManagement.tsx: Wrap in <MultiPanel left={<QueueList />} right={<PatientDetails />} />, show single column mobile
 - [ ] Modify app/src/pages/Admin/UserManagement.tsx: Wrap in <MultiPanel left={<UserList />} right={<UserForm />} />
 - [ ] Create app/tests/responsive/responsive-breakpoints.spec.ts: Playwright test, loop through breakpoints [375, 768, 1024, 1440], set viewport, screenshot, validate no horizontal scroll

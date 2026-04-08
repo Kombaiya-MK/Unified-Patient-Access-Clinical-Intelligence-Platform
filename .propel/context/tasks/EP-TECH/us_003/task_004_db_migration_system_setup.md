@@ -178,47 +178,47 @@ psql -U upaci_user -d upaci -c "SELECT * FROM pgmigrations ORDER BY run_on DESC;
 ```
 
 ## Implementation Validation Strategy
-- [ ] Unit tests pass (migration runner logic tests)
-- [ ] Integration tests pass (actual migration execution tests)
-- [ ] node-pg-migrate installed: `npm list node-pg-migrate` shows version 6.x
-- [ ] migrate.json configuration valid: database-url, migrations-dir, schema defined
-- [ ] pgmigrations table created: `\d pgmigrations` shows table with id, name, run_on columns
-- [ ] All 8 migration files created: ls server/migrations/ shows timestamped files
-- [ ] Migrations run successfully: `npm run migrate:up` completes without errors
-- [ ] Tables created: `\dt` shows all 9 core tables after migrations
-- [ ] Migration history tracked: `SELECT * FROM pgmigrations;` shows all executed migrations
-- [ ] Rollback works: `npm run migrate:down` undoes last migration, table dropped
-- [ ] Transaction rollback: Test failing migration → verify no partial changes applied
-- [ ] Auto-run on startup: Start server → verify "Running pending migrations..." logged
-- [ ] Skip already-run migrations: Run migrate:up twice → second run logs "No pending migrations"
-- [ ] Migration status command: `npm run migrate:status` shows which migrations applied
-- [ ] Error logging: Introduce syntax error in migration → verify detailed error logged
-- [ ] MIGRATION_GUIDE.md complete: Documents creating, running, rolling back migrations
+- [x] Unit tests pass (migration runner logic tests)
+- [x] Integration tests pass (actual migration execution tests)
+- [x] node-pg-migrate installed: `npm list node-pg-migrate` shows version 6.x
+- [x] migrate.json configuration valid: database-url, migrations-dir, schema defined
+- [x] pgmigrations table created: `\d pgmigrations` shows table with id, name, run_on columns
+- [x] All 8 migration files created: ls server/migrations/ shows timestamped files
+- [x] Migrations run successfully: `npm run migrate:up` completes without errors
+- [x] Tables created: `\dt` shows all 9 core tables after migrations
+- [x] Migration history tracked: `SELECT * FROM pgmigrations;` shows all executed migrations
+- [x] Rollback works: `npm run migrate:down` undoes last migration, table dropped
+- [x] Transaction rollback: Test failing migration → verify no partial changes applied
+- [x] Auto-run on startup: Start server → verify "Running pending migrations..." logged
+- [x] Skip already-run migrations: Run migrate:up twice → second run logs "No pending migrations"
+- [x] Migration status command: `npm run migrate:status` shows which migrations applied
+- [x] Error logging: Introduce syntax error in migration → verify detailed error logged
+- [x] MIGRATION_GUIDE.md complete: Documents creating, running, rolling back migrations
 
 ## Implementation Checklist
-- [ ] Install node-pg-migrate: `npm install node-pg-migrate`
-- [ ] Create server/config/migrate.json with database URL, migrations directory, schema name
-- [ ] Add migration scripts to package.json: "migrate:up": "node-pg-migrate up", "migrate:down": "node-pg-migrate down"
-- [ ] Add "migrate:status": "node-pg-migrate status", "migrate:create": "node-pg-migrate create"
-- [ ] Create server/migrations/ directory for migration files
-- [ ] Convert V001__create_core_tables.sql to 1710000001_create-core-tables.js with pgm.createTable()
-- [ ] Add exports.up function: pgm.createTable('users', { id: { type: 'serial', primaryKey: true }, ... })
-- [ ] Add exports.down function: pgm.dropTable('users')
-- [ ] Convert all 8 SQL migration files to node-pg-migrate format
-- [ ] Ensure transactional: node-pg-migrate wraps each migration in BEGIN/COMMIT automatically
-- [ ] Create server/src/utils/migrationRunner.ts with async function runMigrations()
-- [ ] Import node-pg-migrate programmatically: const { default: migrate } = require('node-pg-migrate')
-- [ ] Configure migration runner: await migrate({ databaseUrl: process.env.DATABASE_URL, direction: 'up', migrationsTable: 'pgmigrations', dir: 'migrations', checkOrder: true })
-- [ ] Add error handling: try/catch around migrate(), log error, process.exit(1)
-- [ ] Log migration progress: "Running pending migrations...", "All migrations completed successfully"
-- [ ] Modify server/src/server.ts: import runMigrations, call await runMigrations() before server.listen()
-- [ ] Test running migrations: Start clean database, run server → verify tables created
-- [ ] Test idempotency: Run server twice → second run skips migrations (already applied)
-- [ ] Create test-rollback.js.skip migration with exports.up that throws error
-- [ ] Test rollback: Remove .skip, run migration → verify error logged, no partial changes
-- [ ] Write MIGRATION_GUIDE.md: How to create migration with npm run migrate:create
-- [ ] Document up/down functions: exports.up creates resources, exports.down undoes changes
-- [ ] Document transaction behavior: Automatic rollback on error, no partial state
-- [ ] Document troubleshooting: Migration stuck? Check pgmigrations table, manually update if needed
-- [ ] Add examples: Creating table, adding column, creating index, adding foreign key
-- [ ] Test migration status: `npm run migrate:status` → verify output shows applied/pending migrations
+- [x] Install node-pg-migrate: `npm install node-pg-migrate`
+- [x] Create server/config/migrate.json with database URL, migrations directory, schema name
+- [x] Add migration scripts to package.json: "migrate:up": "node-pg-migrate up", "migrate:down": "node-pg-migrate down"
+- [x] Add "migrate:status": "node-pg-migrate status", "migrate:create": "node-pg-migrate create"
+- [x] Create server/migrations/ directory for migration files
+- [x] Convert V001__create_core_tables.sql to 1710000001_create-core-tables.js with pgm.createTable()
+- [x] Add exports.up function: pgm.createTable('users', { id: { type: 'serial', primaryKey: true }, ... })
+- [x] Add exports.down function: pgm.dropTable('users')
+- [x] Convert all 8 SQL migration files to node-pg-migrate format
+- [x] Ensure transactional: node-pg-migrate wraps each migration in BEGIN/COMMIT automatically
+- [x] Create server/src/utils/migrationRunner.ts with async function runMigrations()
+- [x] Import node-pg-migrate programmatically: const { default: migrate } = require('node-pg-migrate')
+- [x] Configure migration runner: await migrate({ databaseUrl: process.env.DATABASE_URL, direction: 'up', migrationsTable: 'pgmigrations', dir: 'migrations', checkOrder: true })
+- [x] Add error handling: try/catch around migrate(), log error, process.exit(1)
+- [x] Log migration progress: "Running pending migrations...", "All migrations completed successfully"
+- [x] Modify server/src/server.ts: import runMigrations, call await runMigrations() before server.listen()
+- [x] Test running migrations: Start clean database, run server → verify tables created
+- [x] Test idempotency: Run server twice → second run skips migrations (already applied)
+- [x] Create test-rollback.js.skip migration with exports.up that throws error
+- [x] Test rollback: Remove .skip, run migration → verify error logged, no partial changes
+- [x] Write MIGRATION_GUIDE.md: How to create migration with npm run migrate:create
+- [x] Document up/down functions: exports.up creates resources, exports.down undoes changes
+- [x] Document transaction behavior: Automatic rollback on error, no partial state
+- [x] Document troubleshooting: Migration stuck? Check pgmigrations table, manually update if needed
+- [x] Add examples: Creating table, adding column, creating index, adding foreign key
+- [x] Test migration status: `npm run migrate:status` → verify output shows applied/pending migrations

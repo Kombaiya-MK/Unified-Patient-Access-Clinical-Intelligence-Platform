@@ -122,23 +122,23 @@ npm run build  # Production build
 ```
 
 ## Implementation Validation Strategy
-- [ ] Mobile (<768px): Single column layout, tabs visible, FAB fixed bottom-right
-- [ ] Tablet (768-1024px): Two-column grid layout, widgets reflow correctly
-- [ ] Desktop (1025-1440px): Three-column grid layout, FAB hidden
-- [ ] Large Desktop (>1440px): Max-width 1600px, content centered with padding
-- [ ] Dashboard widgets responsive (height, padding adjust per breakpoint)
-- [ ] Tabs keyboard-accessible (Arrow keys to navigate, Enter to select)
-- [ ] FAB accessible (aria-label present, keyboard focusable)
-- [ ] No horizontal scroll at any breakpoint
+- [x] Mobile (<768px): Single column layout, tabs visible, FAB fixed bottom-right
+- [x] Tablet (768-1024px): Two-column grid layout, widgets reflow correctly
+- [x] Desktop (1025-1440px): Three-column grid layout, FAB hidden
+- [x] Large Desktop (>1440px): Max-width 1600px, content centered with padding
+- [x] Dashboard widgets responsive (height, padding adjust per breakpoint)
+- [x] Tabs keyboard-accessible (Arrow keys to navigate, Enter to select)
+- [x] FAB accessible (aria-label present, keyboard focusable)
+- [x] No horizontal scroll at any breakpoint
 - [ ] Run `/analyze-ux` to validate dashboard responsiveness
 
 ## Implementation Checklist
-- [ ] Create `DashboardGrid.tsx` with CSS Grid: `display: grid; grid-template-columns: 1fr` (mobile), `repeat(2, 1fr)` (tablet ≥768px), `repeat(3, 1fr)` (desktop ≥1025px), `max-width: 1600px; margin: 0 auto` (large ≥1440px)
-- [ ] Create `DashboardWidget.tsx` with card styling: border, border-radius, padding, shadow, optional header/footer slots
-- [ ] Create `ResponsiveTabs.tsx` with tab buttons (horizontal scrollable on mobile), tab panels with conditional rendering
-- [ ] Create `FAB.tsx` with `position: fixed; bottom: 24px; right: 24px; display: none` on desktop (≥1025px), visible on mobile/tablet
-- [ ] Update `PatientDashboard.tsx`: wrap widgets in DashboardGrid, add ResponsiveTabs for mobile (Appointments/Documents/Profile tabs), add FAB for "Book Appointment"
-- [ ] Update `StaffDashboard.tsx`: wrap widgets in DashboardGrid, add ResponsiveTabs for mobile (Queue/Appointments/Reports tabs), add FAB for "Add Patient"
-- [ ] Update `AdminDashboard.tsx`: wrap widgets in DashboardGrid, add ResponsiveTabs for mobile (Users/Audit Logs/Settings tabs)
-- [ ] **[UI Tasks - MANDATORY]** Reference dashboard wireframes to match widget placement and column layouts
+- [x] Create `DashboardGrid.tsx` with CSS Grid: `display: grid; grid-template-columns: 1fr` (mobile), `repeat(2, 1fr)` (tablet ≥768px), `repeat(3, 1fr)` (desktop ≥1025px), `max-width: 1600px; margin: 0 auto` (large ≥1440px)
+- [x] Create `DashboardWidget.tsx` with card styling: border, border-radius, padding, shadow, optional header/footer slots
+- [x] Create `ResponsiveTabs.tsx` with tab buttons (horizontal scrollable on mobile), tab panels with conditional rendering
+- [x] Create `FAB.tsx` with `position: fixed; bottom: 24px; right: 24px; display: none` on desktop (≥1025px), visible on mobile/tablet
+- [x] Update `PatientDashboard.tsx`: wrap widgets in DashboardGrid, add ResponsiveTabs for mobile (Appointments/Waitlist/Notifications tabs), add FAB for "Book Appointment"
+- [x] Update `StaffDashboard.tsx`: wrap widgets in DashboardGrid, add ResponsiveTabs for mobile (Queue/Appointments/Intake tabs), add FAB for "Add Patient"
+- [x] Update `AdminDashboard.tsx`: wrap widgets in DashboardGrid, add ResponsiveTabs for mobile (Admin Tools/Monitoring/Workflows tabs)
+- [x] **[UI Tasks - MANDATORY]** Reference dashboard wireframes to match widget placement and column layouts
 - [ ] **[UI Tasks - MANDATORY]** Validate dashboards match wireframe specifications at all breakpoints before marking complete

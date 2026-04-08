@@ -1,0 +1,206 @@
+/**
+ * Responsive Modal / Bottom Sheet Styles
+ *
+ * Mobile-first: bottom sheet on mobile (<768px), centered overlay on desktop.
+ * Uses design tokens from designsystem.md §2.5 Modal.
+ *
+ * Animations:
+ *   Mobile:  translateY(100%) → translateY(0)  (slide from bottom)
+ *   Desktop: opacity 0 + scale(0.95) → opacity 1 + scale(1)
+ *
+ * @task US_044 TASK_003
+ */
+
+/* ═══════════════════════════════════════════════
+   Overlay / Backdrop
+   ═══════════════════════════════════════════════ */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 200;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 200ms ease, visibility 200ms ease;
+}
+
+.modal-overlay--open {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* ═══════════════════════════════════════════════
+   Modal Container (mobile-first = bottom sheet)
+   ═══════════════════════════════════════════════ */
+.modal {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  max-height: 90vh;
+  background: #FFFFFF;
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 201;
+  display: flex;
+  flex-direction: column;
+  transform: translateY(100%);
+  transition: transform 300ms ease;
+  overflow: hidden;
+}
+
+.modal--open {
+  transform: translateY(0);
+}
+
+/* Drag handle (mobile bottom sheet) */
+.modal__drag-handle {
+  display: flex;
+  justify-content: center;
+  padding: 8px 0 4px;
+}
+
+.modal__drag-handle::before {
+  content: "";
+  width: 32px;
+  height: 4px;
+  background: #CCCCCC;
+  border-radius: 2px;
+}
+
+/* ═══════════════════════════════════════════════
+   Modal Header
+   ═══════════════════════════════════════════════ */
+.modal__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px;
+  border-bottom: 1px solid #E5E5E5;
+  flex-shrink: 0;
+}
+
+.modal__title {
+  font-size: var(--font-size-base);
+  font-weight: 600;
+  color: #1A1A1A;
+  margin: 0;
+}
+
+.modal__close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background: none;
+  border: none;
+  border-radius: var(--radius-md);
+  color: #4D4D4D;
+  cursor: pointer;
+  padding: 0;
+  flex-shrink: 0;
+}
+
+.modal__close:hover {
+  background: #F5F5F5;
+}
+
+.modal__close:focus-visible {
+  outline: 2px solid #0066CC;
+  outline-offset: 2px;
+}
+
+/* ═══════════════════════════════════════════════
+   Modal Content
+   ═══════════════════════════════════════════════ */
+.modal__body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* ═══════════════════════════════════════════════
+   Modal Footer / Actions
+   ═══════════════════════════════════════════════ */
+.modal__footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  padding: 16px;
+  border-top: 1px solid #E5E5E5;
+  flex-shrink: 0;
+}
+
+/* Stack buttons on mobile */
+.modal__footer--stacked {
+  flex-direction: column-reverse;
+}
+
+.modal__footer--stacked > * {
+  width: 100%;
+}
+
+/* ═══════════════════════════════════════════════
+   Modal Sizes
+   ═══════════════════════════════════════════════ */
+.modal--sm { /* uses small on desktop */ }
+.modal--lg { /* uses large on desktop */ }
+
+/* ═══════════════════════════════════════════════
+   Desktop: centered overlay
+   ═══════════════════════════════════════════════ */
+@media (min-width: 768px) {
+  .modal {
+    bottom: auto;
+    left: 50%;
+    top: 50%;
+    right: auto;
+    transform: translate(-50%, -50%) scale(0.95);
+    opacity: 0;
+    max-height: calc(100vh - 64px);
+    width: 600px;
+    max-width: calc(100vw - 64px);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    transition: transform 200ms ease, opacity 200ms ease;
+  }
+
+  .modal--open {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+
+  .modal--sm {
+    width: 400px;
+  }
+
+  .modal--lg {
+    width: 800px;
+  }
+
+  .modal__drag-handle {
+    display: none;
+  }
+
+  .modal__header {
+    padding: 24px 24px 16px;
+  }
+
+  .modal__body {
+    padding: 24px;
+  }
+
+  .modal__footer {
+    padding: 16px 24px 24px;
+  }
+
+  .modal__footer--stacked {
+    flex-direction: row;
+  }
+
+  .modal__footer--stacked > * {
+    width: auto;
+  }
+}

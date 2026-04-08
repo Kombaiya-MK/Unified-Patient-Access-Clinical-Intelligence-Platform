@@ -203,92 +203,92 @@ npm start
 ```
 
 ## Implementation Validation Strategy
-- [ ] Unit tests pass (metrics collection logic tests)
-- [ ] Integration tests pass (metrics endpoint tests)
-- [ ] prom-client installed: `npm list prom-client` shows version 15.x
-- [ ] /metrics endpoint created: GET /metrics returns 200 OK
-- [ ] Prometheus format validated: Metrics follow Prometheus exposition format
-- [ ] Histogram created: http_request_duration_seconds with 7 buckets
-- [ ] Counter created: http_requests_total increments on each request
-- [ ] Gauge created: active_connections tracks concurrent requests
-- [ ] Labels applied: method, route, status_code, user_role present on metrics
-- [ ] Route normalization: /api/users/123 → /api/users/{id} (no high cardinality)
-- [ ] Middleware works: All API requests automatically tracked
-- [ ] Auth protection: Unauthorized request → 401 (if auth enabled)
-- [ ] Basic auth works: Valid credentials → 200 with metrics
-- [ ] IP whitelist works: Request from 127.0.0.1 → 200 (if whitelist enabled)
-- [ ] Default metrics: nodejs_* metrics present (heap_size, event_loop_lag, etc.)
-- [ ] High-cardinality prevented: No user_id, request_id, or session_id labels
-- [ ] Performance impact minimal: Metrics collection adds <5ms to request time
+- [x] Unit tests pass (metrics collection logic tests)
+- [x] Integration tests pass (metrics endpoint tests)
+- [x] prom-client installed: `npm list prom-client` shows version 15.x
+- [x] /metrics endpoint created: GET /metrics returns 200 OK
+- [x] Prometheus format validated: Metrics follow Prometheus exposition format
+- [x] Histogram created: http_request_duration_seconds with 7 buckets
+- [x] Counter created: http_requests_total increments on each request
+- [x] Gauge created: active_connections tracks concurrent requests
+- [x] Labels applied: method, route, status_code, user_role present on metrics
+- [x] Route normalization: /api/users/123 → /api/users/{id} (no high cardinality)
+- [x] Middleware works: All API requests automatically tracked
+- [x] Auth protection: Unauthorized request → 401 (if auth enabled)
+- [x] Basic auth works: Valid credentials → 200 with metrics
+- [x] IP whitelist works: Request from 127.0.0.1 → 200 (if whitelist enabled)
+- [x] Default metrics: nodejs_* metrics present (heap_size, event_loop_lag, etc.)
+- [x] High-cardinality prevented: No user_id, request_id, or session_id labels
+- [x] Performance impact minimal: Metrics collection adds <5ms to request time
 
 ## Implementation Checklist
-- [ ] Install prom-client: `npm install prom-client`
-- [ ] Create server/src/types/metrics.types.ts with interfaces
-- [ ] Define MetricsConfig: { enabled: boolean, auth: { enabled, username, password }, ipWhitelist: string[] }
-- [ ] Define MetricLabels: { method: string, route: string, status_code: number, user_role?: string }
-- [ ] Create server/src/config/metrics.ts
-- [ ] Define histogram buckets: [0.01, 0.05, 0.1, 0.5, 1, 2, 5] for request duration
-- [ ] Define allowed labels: ['method', 'route', 'status_code', 'user_role']
-- [ ] Export metricsConfig object with configuration
-- [ ] Create server/src/utils/metricsRegistry.ts
-- [ ] Import: const { Registry, Histogram, Counter, Gauge, collectDefaultMetrics } = require('prom-client')
-- [ ] Create registry: const register = new Registry()
-- [ ] Enable default metrics: collectDefaultMetrics({ register, prefix: 'nodejs_' })
-- [ ] Create histogram: httpRequestDuration = new Histogram({ name: 'http_request_duration_seconds', help: 'HTTP request duration in seconds', labelNames: ['method', 'route', 'status_code', 'user_role'], buckets: [0.01, 0.05, 0.1, 0.5, 1, 2, 5], registers: [register] })
-- [ ] Create counter: httpRequestsTotal = new Counter({ name: 'http_requests_total', help: 'Total HTTP requests', labelNames: ['method', 'route', 'status_code', 'user_role'], registers: [register] })
-- [ ] Create gauge: activeConnections = new Gauge({ name: 'active_connections', help: 'Number of active connections', registers: [register] })
-- [ ] Export: { register, httpRequestDuration, httpRequestsTotal, activeConnections }
-- [ ] Create server/src/middleware/metricsCollector.ts
-- [ ] Import metrics from metricsRegistry
-- [ ] Implement middleware: (req, res, next) => {}
-- [ ] Increment activeConnections on request start: activeConnections.inc()
-- [ ] Capture start time: const startTime = Date.now()
-- [ ] On response finish: calculate duration = (Date.now() - startTime) / 1000
-- [ ] Normalize route: replace :id, :uuid, numeric segments with {id}, {uuid}
-- [ ] Extract user role: const userRole = req.user?.role || 'anonymous'
-- [ ] Record histogram: httpRequestDuration.observe({ method: req.method, route: normalizedRoute, status_code: res.statusCode, user_role: userRole }, duration)
-- [ ] Increment counter: httpRequestsTotal.inc({ method: req.method, route: normalizedRoute, status_code: res.statusCode, user_role: userRole })
-- [ ] Decrement gauge: activeConnections.dec()
-- [ ] Create server/src/middleware/metricsAuth.ts
-- [ ] Check if auth enabled: const authEnabled = process.env.METRICS_AUTH_ENABLED === 'true'
-- [ ] If IP whitelist: const whitelist = process.env.METRICS_IP_WHITELIST?.split(',') || ['127.0.0.1', '::1']
-- [ ] Check IP: if (whitelist.includes(req.ip)) return next()
-- [ ] If basic auth: extract Authorization header, decode base64
-- [ ] Validate: if (username === process.env.METRICS_AUTH_USER && password === process.env.METRICS_AUTH_PASS) return next()
-- [ ] Else: return res.status(401).set('WWW-Authenticate', 'Basic realm="Metrics"').send('Unauthorized')
-- [ ] Create server/src/routes/metrics.routes.ts
-- [ ] Import: const { register } = require('../utils/metricsRegistry')
-- [ ] Define: router.get('/metrics', async (req, res) => { res.set('Content-Type', register.contentType); res.end(await register.metrics()) })
-- [ ] Export router
-- [ ] Modify server/src/app.ts
-- [ ] Import: const metricsCollector = require('./middleware/metricsCollector')
-- [ ] Register globally: app.use(metricsCollector) BEFORE route definitions
-- [ ] This ensures all requests are tracked
-- [ ] Modify server/src/routes/index.ts
-- [ ] Import: const metricsRouter = require('./metrics.routes'), const metricsAuth = require('../middleware/metricsAuth')
-- [ ] Register: app.use('/metrics', metricsAuth, metricsRouter)
-- [ ] Update server/.env.example with METRICS_AUTH_ENABLED, METRICS_AUTH_USER, METRICS_AUTH_PASS, METRICS_IP_WHITELIST
-- [ ] Test: Start server, make 10 API requests to various endpoints
-- [ ] Test: curl /metrics → verify http_requests_total shows count of 10+
-- [ ] Test: Verify histogram buckets populated with request durations
-- [ ] Test: Verify active_connections goes up during concurrent requests, back to 0 when idle
-- [ ] Test: Check route normalization: /api/users/123 recorded as /api/users/{id}
-- [ ] Test: Verify user_role label: authenticated requests show 'patient'/'doctor', unauthenticated show 'anonymous'
-- [ ] Test auth: curl /metrics without credentials → 401
-- [ ] Test auth: curl -u admin:wrong_pass /metrics → 401
-- [ ] Test auth: curl -u admin:correct_pass /metrics → 200 with metrics
-- [ ] Test IP whitelist: Request from external IP → 401 (if whitelist enabled)
-- [ ] Create server/docs/PROMETHEUS_SETUP.md
-- [ ] Document prometheus.yml configuration for scraping
-- [ ] Document basic_auth setup in Prometheus
-- [ ] Document static_configs with backend target
-- [ ] Document scrape_interval recommendation (15s)
-- [ ] Create server/docs/METRICS_REFERENCE.md
-- [ ] Document each metric: name, type (histogram/counter/gauge), labels, purpose, example values
-- [ ] Document http_request_duration_seconds: measures request latency distribution
-- [ ] Document http_requests_total: counts total requests by endpoint, method, status
-- [ ] Document active_connections: current number of concurrent requests
-- [ ] Document nodejs_* default metrics: heap size, GC duration, event loop lag
-- [ ] Add example PromQL queries: rate(http_requests_total[5m]), histogram_quantile(0.95, http_request_duration_seconds)
-- [ ] Add Grafana dashboard JSON example for visualizing metrics
-- [ ] Test Prometheus integration: Start Prometheus server, configure scrape, verify metrics collected
+- [x] Install prom-client: `npm install prom-client`
+- [x] Create server/src/types/metrics.types.ts with interfaces
+- [x] Define MetricsConfig: { enabled: boolean, auth: { enabled, username, password }, ipWhitelist: string[] }
+- [x] Define MetricLabels: { method: string, route: string, status_code: number, user_role?: string }
+- [x] Create server/src/config/metrics.ts
+- [x] Define histogram buckets: [0.01, 0.05, 0.1, 0.5, 1, 2, 5] for request duration
+- [x] Define allowed labels: ['method', 'route', 'status_code', 'user_role']
+- [x] Export metricsConfig object with configuration
+- [x] Create server/src/utils/metricsRegistry.ts
+- [x] Import: const { Registry, Histogram, Counter, Gauge, collectDefaultMetrics } = require('prom-client')
+- [x] Create registry: const register = new Registry()
+- [x] Enable default metrics: collectDefaultMetrics({ register, prefix: 'nodejs_' })
+- [x] Create histogram: httpRequestDuration = new Histogram({ name: 'http_request_duration_seconds', help: 'HTTP request duration in seconds', labelNames: ['method', 'route', 'status_code', 'user_role'], buckets: [0.01, 0.05, 0.1, 0.5, 1, 2, 5], registers: [register] })
+- [x] Create counter: httpRequestsTotal = new Counter({ name: 'http_requests_total', help: 'Total HTTP requests', labelNames: ['method', 'route', 'status_code', 'user_role'], registers: [register] })
+- [x] Create gauge: activeConnections = new Gauge({ name: 'active_connections', help: 'Number of active connections', registers: [register] })
+- [x] Export: { register, httpRequestDuration, httpRequestsTotal, activeConnections }
+- [x] Create server/src/middleware/metricsCollector.ts
+- [x] Import metrics from metricsRegistry
+- [x] Implement middleware: (req, res, next) => {}
+- [x] Increment activeConnections on request start: activeConnections.inc()
+- [x] Capture start time: const startTime = Date.now()
+- [x] On response finish: calculate duration = (Date.now() - startTime) / 1000
+- [x] Normalize route: replace :id, :uuid, numeric segments with {id}, {uuid}
+- [x] Extract user role: const userRole = req.user?.role || 'anonymous'
+- [x] Record histogram: httpRequestDuration.observe({ method: req.method, route: normalizedRoute, status_code: res.statusCode, user_role: userRole }, duration)
+- [x] Increment counter: httpRequestsTotal.inc({ method: req.method, route: normalizedRoute, status_code: res.statusCode, user_role: userRole })
+- [x] Decrement gauge: activeConnections.dec()
+- [x] Create server/src/middleware/metricsAuth.ts
+- [x] Check if auth enabled: const authEnabled = process.env.METRICS_AUTH_ENABLED === 'true'
+- [x] If IP whitelist: const whitelist = process.env.METRICS_IP_WHITELIST?.split(',') || ['127.0.0.1', '::1']
+- [x] Check IP: if (whitelist.includes(req.ip)) return next()
+- [x] If basic auth: extract Authorization header, decode base64
+- [x] Validate: if (username === process.env.METRICS_AUTH_USER && password === process.env.METRICS_AUTH_PASS) return next()
+- [x] Else: return res.status(401).set('WWW-Authenticate', 'Basic realm="Metrics"').send('Unauthorized')
+- [x] Create server/src/routes/metrics.routes.ts
+- [x] Import: const { register } = require('../utils/metricsRegistry')
+- [x] Define: router.get('/metrics', async (req, res) => { res.set('Content-Type', register.contentType); res.end(await register.metrics()) })
+- [x] Export router
+- [x] Modify server/src/app.ts
+- [x] Import: const metricsCollector = require('./middleware/metricsCollector')
+- [x] Register globally: app.use(metricsCollector) BEFORE route definitions
+- [x] This ensures all requests are tracked
+- [x] Modify server/src/routes/index.ts
+- [x] Import: const metricsRouter = require('./metrics.routes'), const metricsAuth = require('../middleware/metricsAuth')
+- [x] Register: app.use('/metrics', metricsAuth, metricsRouter)
+- [x] Update server/.env.example with METRICS_AUTH_ENABLED, METRICS_AUTH_USER, METRICS_AUTH_PASS, METRICS_IP_WHITELIST
+- [x] Test: Start server, make 10 API requests to various endpoints
+- [x] Test: curl /metrics → verify http_requests_total shows count of 10+
+- [x] Test: Verify histogram buckets populated with request durations
+- [x] Test: Verify active_connections goes up during concurrent requests, back to 0 when idle
+- [x] Test: Check route normalization: /api/users/123 recorded as /api/users/{id}
+- [x] Test: Verify user_role label: authenticated requests show 'patient'/'doctor', unauthenticated show 'anonymous'
+- [x] Test auth: curl /metrics without credentials → 401
+- [x] Test auth: curl -u admin:wrong_pass /metrics → 401
+- [x] Test auth: curl -u admin:correct_pass /metrics → 200 with metrics
+- [x] Test IP whitelist: Request from external IP → 401 (if whitelist enabled)
+- [x] Create server/docs/PROMETHEUS_SETUP.md
+- [x] Document prometheus.yml configuration for scraping
+- [x] Document basic_auth setup in Prometheus
+- [x] Document static_configs with backend target
+- [x] Document scrape_interval recommendation (15s)
+- [x] Create server/docs/METRICS_REFERENCE.md
+- [x] Document each metric: name, type (histogram/counter/gauge), labels, purpose, example values
+- [x] Document http_request_duration_seconds: measures request latency distribution
+- [x] Document http_requests_total: counts total requests by endpoint, method, status
+- [x] Document active_connections: current number of concurrent requests
+- [x] Document nodejs_* default metrics: heap size, GC duration, event loop lag
+- [x] Add example PromQL queries: rate(http_requests_total[5m]), histogram_quantile(0.95, http_request_duration_seconds)
+- [x] Add Grafana dashboard JSON example for visualizing metrics
+- [x] Test Prometheus integration: Start Prometheus server, configure scrape, verify metrics collected

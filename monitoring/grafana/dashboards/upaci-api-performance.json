@@ -339,7 +339,38 @@
   "schemaVersion": 38,
   "tags": ["upaci", "api-performance", "monitoring"],
   "templating": {
-    "list": []
+    "list": [
+      {
+        "current": { "selected": false, "text": "development", "value": "development" },
+        "hide": 0,
+        "includeAll": true,
+        "multi": false,
+        "name": "environment",
+        "options": [
+          { "selected": false, "text": "All", "value": "$__all" },
+          { "selected": true, "text": "development", "value": "development" },
+          { "selected": false, "text": "staging", "value": "staging" },
+          { "selected": false, "text": "production", "value": "production" }
+        ],
+        "query": "development,staging,production",
+        "type": "custom",
+        "label": "Environment"
+      },
+      {
+        "current": { "selected": false, "text": "backend-api", "value": "backend-api" },
+        "hide": 0,
+        "includeAll": true,
+        "multi": false,
+        "name": "service",
+        "options": [
+          { "selected": false, "text": "All", "value": "$__all" },
+          { "selected": true, "text": "backend-api", "value": "backend-api" }
+        ],
+        "query": "backend-api",
+        "type": "custom",
+        "label": "Service"
+      }
+    ]
   },
   "time": {
     "from": "now-6h",

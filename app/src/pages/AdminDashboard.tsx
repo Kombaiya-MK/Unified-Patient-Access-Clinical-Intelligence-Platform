@@ -2,66 +2,144 @@
  * Admin Dashboard Page (SCR-004)
  * 
  * Main dashboard for administrators to:
- * - Manage users (patients, staff)
- * - View system analytics
- * - Configure system settings
- * - Generate reports
- * 
- * This is a placeholder component - full implementation in future tasks.
+ * - View audit logs
+ * - Manage patient queue
+ * - Schedule appointments
+ * - Access clinical review
  * 
  * @module AdminDashboard
  * @created 2026-03-18
- * @task US_012 TASK_003
+ * @updated 2026-04-07
+ * @task US_012 TASK_003, US_044 TASK_005
  */
 
 import React from 'react';
-import { useAuth } from '../hooks/useAuth';
+import { useNavigate } from 'react-router-dom';
+import { CircuitBreakerStatusPanel } from '../components/circuit-breaker/CircuitBreakerStatusPanel';
+import { DashboardGrid } from '../components/Dashboard/DashboardGrid';
+import { DashboardWidget } from '../components/Dashboard/DashboardWidget';
+import { ResponsiveTabs, type TabItem } from '../components/Dashboard/ResponsiveTabs';
 import './Dashboard.css';
+
+interface NavCard {
+  title: string;
+  description: string;
+  path: string;
+  icon: string;
+}
+
+const ADMIN_CARDS: NavCard[] = [
+  {
+    title: 'System Metrics',
+    description: 'Real-time operational metrics, system health, and analytics.',
+    path: '/admin/metrics',
+    icon: '📊',
+  },
+  {
+    title: 'Audit Logs',
+    description: 'View, filter, and export system-wide audit trail.',
+    path: '/admin/audit-logs',
+    icon: '🔐',
+  },
+  {
+    title: 'User Management',
+    description: 'Manage user accounts, roles, and permissions.',
+    path: '/admin/users',
+    icon: '👤',
+  },
+  {
+    title: 'Departments & Providers',
+    description: 'Manage departments, providers, and schedules.',
+    path: '/admin/departments',
+    icon: '🏥',
+  },
+];
+
+const WORKFLOW_CARDS: NavCard[] = [
+  {
+    title: 'Patient Queue',
+    description: 'View and manage the patient queue, update status, and assign providers.',
+    path: '/staff/queue',
+    icon: '👥',
+  },
+  {
+    title: 'Book Appointment',
+    description: 'Schedule appointments on behalf of patients.',
+    path: '/staff/appointments/book',
+    icon: '📅',
+  },
+  {
+    title: 'AI Intake',
+    description: 'AI-assisted patient intake with smart form filling.',
+    path: '/intake/ai',
+    icon: '🤖',
+  },
+  {
+    title: 'Manual Intake',
+    description: 'Manually enter patient intake data.',
+    path: '/intake/manual',
+    icon: '📋',
+  },
+];
+
+function NavCardGrid({ cards, navigate }: { cards: NavCard[]; navigate: (path: string) => void }) {
+  return (
+    <DashboardGrid>
+      {cards.map((card) => (
+        <DashboardWidget key={card.path}>
+          <button
+            className="dashboard__nav-card"
+            onClick={() => navigate(card.path)}
+            type="button"
+            style={{ width: '100%', border: 'none', background: 'transparent', padding: 0, textAlign: 'left', cursor: 'pointer' }}
+          >
+            <span className="dashboard__nav-card-icon" aria-hidden="true">{card.icon}</span>
+            <h3 className="dashboard__nav-card-title">{card.title}</h3>
+            <p className="dashboard__nav-card-desc">{card.description}</p>
+          </button>
+        </DashboardWidget>
+      ))}
+    </DashboardGrid>
+  );
+}
 
 /**
  * Admin Dashboard Component
  */
 export const AdminDashboard: React.FC = () => {
-  const { user, logout } = useAuth();
+  const navigate = useNavigate();
+
+  const usersContent = (
+    <>
+      <NavCardGrid cards={ADMIN_CARDS} navigate={navigate} />
+    </>
+  );
+
+  const auditContent = (
+    <DashboardWidget title="Circuit Breaker Status" span="full">
+      <CircuitBreakerStatusPanel />
+    </DashboardWidget>
+  );
+
+  const workflowContent = (
+    <NavCardGrid cards={WORKFLOW_CARDS} navigate={navigate} />
+  );
+
+  const tabs: TabItem[] = [
+    { id: 'admin', label: 'Admin Tools', content: usersContent },
+    { id: 'monitoring', label: 'Monitoring', content: auditContent },
+    { id: 'workflows', label: 'Workflows', content: workflowContent },
+  ];
 
   return (
     <div className="dashboard">
-      <header className="dashboard__header">
-        <div className="dashboard__header-content">
-          <h1 className="dashboard__title">Admin Dashboard</h1>
-          <div className="dashboard__user-info">
-            <span className="dashboard__user-name">{user?.name || user?.email}</span>
-            <span className="dashboard__user-role">({user?.role})</span>
-            <button onClick={logout} className="btn btn--secondary">
-              Logout
-            </button>
-          </div>
-        </div>
-      </header>
-
       <main className="dashboard__content">
         <section className="dashboard__welcome">
-          <h2>✅ Authentication Successful</h2>
-          <p>Welcome to the Admin Dashboard!</p>
-          <p className="dashboard__user-details">
-            <strong>Email:</strong> {user?.email}<br />
-            <strong>Role:</strong> {user?.role}<br />
-            <strong>ID:</strong> {user?.id}
-          </p>
+          <h2>Admin Dashboard</h2>
+          <p>Select a workflow to get started.</p>
         </section>
 
-        <section className="dashboard__placeholder">
-          <h3>Upcoming Features</h3>
-          <ul>
-            <li>👥 User management (CRUD operations)</li>
-            <li>📊 System analytics and metrics</li>
-            <li>⚙️ System configuration</li>
-            <li>📈 Generate reports</li>
-            <li>🔐 Security audit logs</li>
-            <li>🏥 Manage facilities and departments</li>
-          </ul>
-          <p><em>This is a placeholder dashboard. Full implementation coming in future tasks.</em></p>
-        </section>
+        <ResponsiveTabs tabs={tabs} defaultTab="admin" ariaLabel="Admin dashboard sections" />
       </main>
     </div>
   );

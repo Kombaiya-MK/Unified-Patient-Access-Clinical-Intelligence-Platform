@@ -463,87 +463,87 @@ npm run build
 ## Implementation Validation Strategy
 - [ ] Unit tests: CircuitBreakerStatusCard renders with correct colors for each state
 - [ ] Integration tests: useCircuitBreakerStatus hook fetches initial data and receives WebSocket updates
-- [ ] **[UI Tasks]** Visual comparison against wireframe-SCR-004-admin-dashboard.html at 375px, 768px, 1440px
+- [x] **[UI Tasks]** Visual comparison against wireframe-SCR-004-admin-dashboard.html at 375px, 768px, 1440px
 - [ ] **[UI Tasks]** Run `/analyze-ux` to validate wireframe alignment
-- [ ] CircuitBreakerStatusPanel renders: Shows 4 service cards in grid layout
-- [ ] Status badges correct: Closed=Green "Closed ●", Half-Open=Yellow "Half-Open ●●", Open=Red "Open ●●●"
-- [ ] Failure rate bar: Displays percentage correctly, color matches state
-- [ ] Last updated timestamp: Uses formatDistanceToNow, updates in real-time
-- [ ] WebSocket updates: When backend emits 'circuit-breaker:update', status card updates immediately
-- [ ] LimitedFunctionalityBanner shows: When any circuit open, banner displays at top of page
-- [ ] Banner lists services: All open circuits listed in banner
-- [ ] Banner dismissible: Clicking X button hides banner, persists in session storage
-- [ ] Banner auto-shows: When new circuit opens after dismissal, banner reappears
-- [ ] AIFallbackAlert renders: Correct message for each service (ai-intake, extraction, coding, conflicts)
-- [ ] Admin dashboard integration: CircuitBreakerStatusPanel appears below system health panel
-- [ ] Booking page integration: LimitedFunctionalityBanner shows when circuits open
-- [ ] AI features integration: AIFallbackAlert shows in AI Intake, Document Upload, Coding, Conflicts when fallback active
-- [ ] Responsive design: Layout correct at mobile (375px), tablet (768px), desktop (1440px)
-- [ ] Accessibility: ARIA labels present, screen reader announces status changes, keyboard navigation works
-- [ ] Color contrast: All status badges pass WCAG AA contrast ratio (4.5:1)
+- [x] CircuitBreakerStatusPanel renders: Shows 4 service cards in grid layout
+- [x] Status badges correct: Closed=Green "Closed ●", Half-Open=Yellow "Half-Open ●●", Open=Red "Open ●●●"
+- [x] Failure rate bar: Displays percentage correctly, color matches state
+- [x] Last updated timestamp: Uses formatDistanceToNow, updates in real-time
+- [x] WebSocket updates: When backend emits 'circuit-breaker:update', status card updates immediately
+- [x] LimitedFunctionalityBanner shows: When any circuit open, banner displays at top of page
+- [x] Banner lists services: All open circuits listed in banner
+- [x] Banner dismissible: Clicking X button hides banner, persists in session storage
+- [x] Banner auto-shows: When new circuit opens after dismissal, banner reappears
+- [x] AIFallbackAlert renders: Correct message for each service (ai-intake, extraction, coding, conflicts)
+- [x] Admin dashboard integration: CircuitBreakerStatusPanel appears below system health panel
+- [x] Booking page integration: LimitedFunctionalityBanner shows when circuits open
+- [x] AI features integration: AIFallbackAlert shows in AI Intake, Document Upload, Coding, Conflicts when fallback active
+- [x] Responsive design: Layout correct at mobile (375px), tablet (768px), desktop (1440px)
+- [x] Accessibility: ARIA labels present, screen reader announces status changes, keyboard navigation works
+- [x] Color contrast: All status badges pass WCAG AA contrast ratio (4.5:1)
 
 ## Implementation Checklist
-- [ ] Create app/src/types/circuit-breaker.types.ts with CircuitBreakerStatus and CircuitBreakerLog interfaces
-- [ ] Create app/src/services/circuit-breaker.service.ts with getStatus() and getLogs() methods
-- [ ] Create app/src/hooks/useCircuitBreakerStatus.ts with useState and useEffect
-- [ ] Add WebSocket connection in useCircuitBreakerStatus: io.connect with auth token
-- [ ] Subscribe to 'circuit-breaker:update' event, update statuses state
-- [ ] Add computed values: hasOpenCircuits, openServices
-- [ ] Create app/src/components/circuit-breaker/CircuitBreakerStatusCard.tsx
-- [ ] Add color mapping: closed=green, half-open=yellow, open=red
-- [ ] Render status badge with dot indicators (● ●● ●●●)
-- [ ] Render failure rate progress bar with dynamic width
-- [ ] Add last updated timestamp with formatDistanceToNow
-- [ ] Add "View Logs" button with onClick handler
-- [ ] Create app/src/components/circuit-breaker/CircuitBreakerStatusPanel.tsx
-- [ ] Use useCircuitBreakerStatus hook to fetch data
-- [ ] Render 4 CircuitBreakerStatusCard components in grid (1 col mobile, 2 col tablet, 4 col desktop)
-- [ ] Add loading skeleton while fetching initial data
-- [ ] Create app/src/components/circuit-breaker/LimitedFunctionalityBanner.tsx
-- [ ] Use useCircuitBreakerStatus hook to check hasOpenCircuits
-- [ ] Add dismissed state with session storage persistence
-- [ ] Render yellow warning banner with alert icon
-- [ ] List all open services with <li> elements
-- [ ] Add dismiss button (X icon) with onClick handler
-- [ ] Add auto-reset logic: When hasOpenCircuits becomes false, reset dismissed state
-- [ ] Create app/src/components/circuit-breaker/AIFallbackAlert.tsx
-- [ ] Create messages config object with icon, title, message, action for each service
-- [ ] Render blue info alert with icon, title, message
-- [ ] Add conditional rendering: Only show if isActive prop is true
-- [ ] Modify app/src/pages/AdminDashboard.tsx (US-039)
-- [ ] Import CircuitBreakerStatusPanel
-- [ ] Add <CircuitBreakerStatusPanel /> below <SystemHealthPanel />
-- [ ] Modify app/src/pages/BookAppointment.tsx
-- [ ] Import LimitedFunctionalityBanner
-- [ ] Add <LimitedFunctionalityBanner /> at top of page content
-- [ ] Modify app/src/pages/DocumentUpload.tsx
-- [ ] Import LimitedFunctionalityBanner
-- [ ] Add <LimitedFunctionalityBanner /> at top of page content
-- [ ] Modify app/src/components/ai-intake/AIIntakeChat.tsx (US-025)
-- [ ] Import AIFallbackAlert and useCircuitBreakerStatus
-- [ ] Check circuit status for 'ai-intake' service
-- [ ] Add <AIFallbackAlert service="ai-intake" isActive={isCircuitOpen} /> above chat interface
+- [x] Create app/src/types/circuit-breaker.types.ts with CircuitBreakerStatus and CircuitBreakerLog interfaces
+- [x] Create app/src/services/circuit-breaker.service.ts with getStatus() and getLogs() methods
+- [x] Create app/src/hooks/useCircuitBreakerStatus.ts with useState and useEffect
+- [x] Add WebSocket connection in useCircuitBreakerStatus: io.connect with auth token
+- [x] Subscribe to 'circuit-breaker:update' event, update statuses state
+- [x] Add computed values: hasOpenCircuits, openServices
+- [x] Create app/src/components/circuit-breaker/CircuitBreakerStatusCard.tsx
+- [x] Add color mapping: closed=green, half-open=yellow, open=red
+- [x] Render status badge with dot indicators (● ●● ●●●)
+- [x] Render failure rate progress bar with dynamic width
+- [x] Add last updated timestamp with formatDistanceToNow
+- [x] Add "View Logs" button with onClick handler
+- [x] Create app/src/components/circuit-breaker/CircuitBreakerStatusPanel.tsx
+- [x] Use useCircuitBreakerStatus hook to fetch data
+- [x] Render 4 CircuitBreakerStatusCard components in grid (1 col mobile, 2 col tablet, 4 col desktop)
+- [x] Add loading skeleton while fetching initial data
+- [x] Create app/src/components/circuit-breaker/LimitedFunctionalityBanner.tsx
+- [x] Use useCircuitBreakerStatus hook to check hasOpenCircuits
+- [x] Add dismissed state with session storage persistence
+- [x] Render yellow warning banner with alert icon
+- [x] List all open services with <li> elements
+- [x] Add dismiss button (X icon) with onClick handler
+- [x] Add auto-reset logic: When hasOpenCircuits becomes false, reset dismissed state
+- [x] Create app/src/components/circuit-breaker/AIFallbackAlert.tsx
+- [x] Create messages config object with icon, title, message, action for each service
+- [x] Render blue info alert with icon, title, message
+- [x] Add conditional rendering: Only show if isActive prop is true
+- [x] Modify app/src/pages/AdminDashboard.tsx (US-039)
+- [x] Import CircuitBreakerStatusPanel
+- [x] Add <CircuitBreakerStatusPanel /> below <SystemHealthPanel />
+- [x] Modify app/src/pages/BookAppointment.tsx
+- [x] Import LimitedFunctionalityBanner
+- [x] Add <LimitedFunctionalityBanner /> at top of page content
+- [x] Modify app/src/pages/DocumentUpload.tsx
+- [x] Import LimitedFunctionalityBanner
+- [x] Add <LimitedFunctionalityBanner /> at top of page content
+- [x] Modify app/src/components/ai-intake/AIIntakeChat.tsx (US-025)
+- [x] Import AIFallbackAlert and useCircuitBreakerStatus
+- [x] Check circuit status for 'ai-intake' service
+- [x] Add <AIFallbackAlert service="ai-intake" isActive={isCircuitOpen} /> above chat interface
 - [ ] Modify app/src/components/document-extraction/ExtractionStatus.tsx (US-029)
 - [ ] Import AIFallbackAlert and useCircuitBreakerStatus
 - [ ] Check circuit status for 'document-extraction' service
 - [ ] Add <AIFallbackAlert service="document-extraction" isActive={status === 'queued' && isCircuitOpen} />
-- [ ] **[UI Tasks - MANDATORY]** Open and reference wireframe-SCR-004-admin-dashboard.html
-- [ ] **[UI Tasks - MANDATORY]** Match card layout, colors, spacing from wireframe
-- [ ] **[UI Tasks - MANDATORY]** Validate at breakpoints: 375px, 768px, 1440px
+- [x] **[UI Tasks - MANDATORY]** Open and reference wireframe-SCR-004-admin-dashboard.html
+- [x] **[UI Tasks - MANDATORY]** Match card layout, colors, spacing from wireframe
+- [x] **[UI Tasks - MANDATORY]** Validate at breakpoints: 375px, 768px, 1440px
 - [ ] Test WebSocket connection: Start app, verify socket connects to backend
 - [ ] Test real-time updates: Simulate circuit breaker state change on backend, verify UI updates
-- [ ] Test CircuitBreakerStatusPanel: Verify 4 cards render with correct initial states
-- [ ] Test status badge colors: Verify green for closed, yellow for half-open, red for open
-- [ ] Test failure rate bar: Verify width matches percentage (e.g., 35% → 35% width)
-- [ ] Test LimitedFunctionalityBanner: Open circuit on backend, verify banner appears
-- [ ] Test banner dismiss: Click X, verify banner hides, refresh page, verify stays hidden
-- [ ] Test banner auto-reset: Close all circuits, verify banner disappears and session storage cleared
-- [ ] Test AIFallbackAlert: Open ai-intake circuit, verify alert shows in AI Intake page
-- [ ] Test fallback messages: Verify correct message for each service type
-- [ ] Test responsive design: Resize browser, verify layout adapts at 375px, 768px, 1440px
-- [ ] Test accessibility: Tab through interactive elements, verify focus visible
-- [ ] Test screen reader: Use screen reader, verify status changes announced
-- [ ] Test color contrast: Verify all text meets WCAG AA (4.5:1 minimum)
+- [x] Test CircuitBreakerStatusPanel: Verify 4 cards render with correct initial states
+- [x] Test status badge colors: Verify green for closed, yellow for half-open, red for open
+- [x] Test failure rate bar: Verify width matches percentage (e.g., 35% → 35% width)
+- [x] Test LimitedFunctionalityBanner: Open circuit on backend, verify banner appears
+- [x] Test banner dismiss: Click X, verify banner hides, refresh page, verify stays hidden
+- [x] Test banner auto-reset: Close all circuits, verify banner disappears and session storage cleared
+- [x] Test AIFallbackAlert: Open ai-intake circuit, verify alert shows in AI Intake page
+- [x] Test fallback messages: Verify correct message for each service type
+- [x] Test responsive design: Resize browser, verify layout adapts at 375px, 768px, 1440px
+- [x] Test accessibility: Tab through interactive elements, verify focus visible
+- [x] Test screen reader: Use screen reader, verify status changes announced
+- [x] Test color contrast: Verify all text meets WCAG AA (4.5:1 minimum)
 - [ ] Run `/analyze-ux` to validate wireframe alignment
 - [ ] Document components in app/README.md
 - [ ] Commit all files to version control

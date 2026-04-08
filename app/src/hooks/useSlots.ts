@@ -80,6 +80,8 @@ export const useAvailableDates = (filters?: SlotFilters): UseQueryResult<string[
   return useQuery({
     queryKey: slotsKeys.availableDates(filters),
     queryFn: () => getAvailableDates(filters),
+    // Keep the calendar renderable while loading/refetching without masking failures
+    placeholderData: [],
     // Cache for 10 minutes (dates change less frequently)
     staleTime: 10 * 60 * 1000,
     refetchOnWindowFocus: true,

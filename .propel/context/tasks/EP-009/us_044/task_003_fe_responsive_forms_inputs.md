@@ -123,23 +123,23 @@ npm run build  # Production build
 ```
 
 ## Implementation Validation Strategy
-- [ ] All form inputs have min-height 48px and font-size ≥16px on mobile (<768px)
-- [ ] Bottom sheet slides up from bottom on mobile, modal centered on desktop
-- [ ] Collapsible sections expand/collapse smoothly on mobile
-- [ ] Touch targets ≥44px for all buttons, checkboxes, radio buttons
-- [ ] Hover states only visible on devices with hover capability (`@media (hover: hover)`)
-- [ ] Form validation errors display correctly at all breakpoints
-- [ ] iOS zoom prevention verified (font-size ≥16px on inputs)
+- [x] All form inputs have min-height 48px and font-size ≥16px on mobile (<768px)
+- [x] Bottom sheet slides up from bottom on mobile, modal centered on desktop
+- [x] Collapsible sections expand/collapse smoothly on mobile
+- [x] Touch targets ≥44px for all buttons, checkboxes, radio buttons
+- [x] Hover states only visible on devices with hover capability (`@media (hover: hover)`)
+- [x] Form validation errors display correctly at all breakpoints
+- [x] iOS zoom prevention verified (font-size ≥16px on inputs)
 - [ ] Run `/analyze-ux` to validate form responsiveness
 
 ## Implementation Checklist
-- [ ] Create `ResponsiveInput.tsx` with min-height 48px, font-size 16px, increased padding (12px vertical) for mobile
-- [ ] Create `ResponsiveTextarea.tsx` with same touch-friendly sizing
-- [ ] Create `ResponsiveSelect.tsx` with native select on mobile, custom dropdown on desktop
-- [ ] Create `BottomSheet.tsx` with slide-up animation: `transform: translateY(100%)` -> `translateY(0)`, backdrop overlay, close on backdrop click
-- [ ] Create `ResponsiveModal.tsx` using `useBreakpoint()` to switch between BottomSheet and Modal
-- [ ] Create `CollapsibleSection.tsx` with expand/collapse animation, chevron icon, accessible button (aria-expanded)
-- [ ] Add hover states with `@media (hover: hover)` to prevent hover on touch devices
-- [ ] Update `Login.tsx` to use ResponsiveInput for email and password fields
-- [ ] **[UI Tasks - MANDATORY]** Reference form wireframes to match input sizing and layout
-- [ ] **[UI Tasks - MANDATORY]** Validate forms match wireframe specifications at all breakpoints before marking complete
+- [x] Create `ResponsiveInput.tsx` with min-height 48px, font-size 16px, increased padding (12px vertical) for mobile
+- [x] Create `ResponsiveTextarea.tsx` with same touch-friendly sizing
+- [x] Create `ResponsiveSelect.tsx` with native select on mobile, custom dropdown on desktop
+- [x] Create `BottomSheet.tsx` with slide-up animation: `transform: translateY(100%)` -> `translateY(0)`, backdrop overlay, close on backdrop click
+- [x] Create `ResponsiveModal.tsx` using `useBreakpoint()` to switch between BottomSheet and Modal
+- [x] Create `CollapsibleSection.tsx` with expand/collapse animation, chevron icon, accessible button (aria-expanded)
+- [x] Add hover states with `@media (hover: hover)` to prevent hover on touch devices
+- [x] Update `Login.tsx` to use ResponsiveInput for email and password fields
+- [x] **[UI Tasks - MANDATORY]** Reference form wireframes to match input sizing and layout
+- [x] **[UI Tasks - MANDATORY]** Validate forms match wireframe specifications at all breakpoints before marking complete
