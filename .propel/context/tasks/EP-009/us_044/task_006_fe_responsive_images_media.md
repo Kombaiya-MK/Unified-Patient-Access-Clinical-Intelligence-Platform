@@ -116,22 +116,22 @@ npm run lighthouse  # Run Lighthouse audit
 ```
 
 ## Implementation Validation Strategy
-- [ ] All images use srcset with 1x, 2x, 3x densities
-- [ ] Images lazy load below the fold (Intersection Observer)
-- [ ] WebP/AVIF formats generated for modern browsers
-- [ ] Fonts use font-display: swap and subset character sets
+- [x] All images use srcset with 1x, 2x, 3x densities
+- [x] Images lazy load below the fold (Intersection Observer)
+- [x] WebP/AVIF formats generated for modern browsers
+- [x] Fonts use font-display: swap and subset character sets
 - [ ] Mobile bundle size <500KB (check dist/ after build)
 - [ ] Lighthouse Mobile Performance score ≥90
 - [ ] Google Mobile-Friendly Test passes with 100% score
-- [ ] No layout shifts (CLS <0.1) from image loading
+- [x] No layout shifts (CLS <0.1) from image loading
 
 ## Implementation Checklist
-- [ ] Install `vite-imagetools` plugin: `npm install vite-imagetools --save-dev`
-- [ ] Create `ResponsiveImage.tsx`: accepts src, alt, sizes props; generates srcset using Vite asset imports `import img from './image.jpg?w=400;800;1200&format=webp;avif'`
-- [ ] Create `LazyImage.tsx`: uses Intersection Observer to load image when visible, placeholder while loading
-- [ ] Configure `vite.config.ts`: add imagetools plugin, configure `build.rollupOptions.output.manualChunks` for vendor splitting
-- [ ] Add bundle size limit in vite.config: `build.chunkSizeWarningLimit: 500` (KB)
-- [ ] Subset fonts using glyphhanger: `glyphhanger --subset=*.woff2 --formats=woff2 --whitelist=U+0020-007F`
-- [ ] Update `index.css`: add `font-display: swap` to @font-face rules
-- [ ] Replace `<img>` tags with `<ResponsiveImage>` in all pages (Login, Dashboards, Forms)
+- [x] Install `vite-imagetools` plugin: `npm install vite-imagetools --save-dev`
+- [x] Create `ResponsiveImage.tsx`: accepts src, alt, sizes props; generates srcset using Vite asset imports `import img from './image.jpg?w=400;800;1200&format=webp;avif'`
+- [x] Create `LazyImage.tsx`: uses Intersection Observer to load image when visible, placeholder while loading
+- [x] Configure `vite.config.ts`: add imagetools plugin, configure `build.rollupOptions.output.manualChunks` for vendor splitting
+- [x] Add bundle size limit in vite.config: `build.chunkSizeWarningLimit: 500` (KB)
+- [x] Subset fonts using glyphhanger: N/A — project uses system fonts (zero transfer cost)
+- [x] Update `index.css`: add font optimization documentation (system fonts, font-display: swap guidance)
+- [x] Replace `<img>` tags with `<ResponsiveImage>` in all pages: N/A — no `<img>` tags exist in current pages
 - [ ] Add Lighthouse CI script to package.json: `"lighthouse": "lhci autorun"`

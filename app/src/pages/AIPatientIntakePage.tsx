@@ -18,6 +18,9 @@ import { useAIConversation } from '../hooks/useAIConversation';
 import { aiDataToManualForm } from '../utils/intakeDataMapper';
 import { useAuth } from '../hooks/useAuth';
 import { PatientSelector } from '../components/intake/PatientSelector';
+import { CollapsibleSection } from '../components/Forms/CollapsibleSection';
+import { useBreakpoint } from '../hooks/useBreakpoint';
+import '../styles/form-responsive.css';
 
 export const AIPatientIntakePage: React.FC = () => {
   const navigate = useNavigate();
@@ -45,6 +48,8 @@ export const AIPatientIntakePage: React.FC = () => {
   const [showSwitchModal, setShowSwitchModal] = useState(false);
   const { statuses } = useCircuitBreakerStatus();
   const isIntakeCircuitOpen = statuses.some((s) => s.service === 'ai-intake' && s.state === 'open');
+  const breakpoint = useBreakpoint();
+  const isMobile = breakpoint === 'mobile';
 
   // Start conversation on mount
   useEffect(() => {
@@ -84,6 +89,7 @@ export const AIPatientIntakePage: React.FC = () => {
       className="ai-intake-page"
       style={{
         display: 'flex',
+        flexDirection: isMobile ? 'column' : 'row',
         height: '100vh',
         backgroundColor: '#ffffff',
       }}
@@ -118,6 +124,7 @@ export const AIPatientIntakePage: React.FC = () => {
                 color: '#374151',
                 fontSize: '13px',
                 cursor: 'pointer',
+                minHeight: '44px',
               }}
             >
               Switch to Manual
@@ -170,8 +177,14 @@ export const AIPatientIntakePage: React.FC = () => {
       </div>
 
       {/* Right Panel - Data Summary */}
-      <div style={{ flex: '0 0 340px', borderLeft: '1px solid #e5e7eb' }}>
-        <DataSummaryPanel extractedData={extractedData} progress={progress} />
+      <div style={{ flex: isMobile ? 'none' : '0 0 340px', borderLeft: isMobile ? 'none' : '1px solid #e5e7eb', borderTop: isMobile ? '1px solid #e5e7eb' : 'none' }}>
+        {isMobile ? (
+          <CollapsibleSection title="Collected Data Summary" defaultOpen={false}>
+            <DataSummaryPanel extractedData={extractedData} progress={progress} />
+          </CollapsibleSection>
+        ) : (
+          <DataSummaryPanel extractedData={extractedData} progress={progress} />
+        )}
       </div>
 
       {/* Switch Modal */}

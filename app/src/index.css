@@ -1,3 +1,21 @@
+/* ─── Responsive design system (US_044 TASK_001) ─── */
+@import './styles/breakpoints.css';
+@import './styles/variables-responsive.css';
+@import './styles/responsive.css';
+@import './styles/grid.css';
+@import './styles/responsive-containers.css';
+@import './styles/responsive-utilities.css';
+@import './styles/touch-interactions.css';
+@import './styles/hover-states.css';
+
+/*
+ * Font optimization (US_044 TASK_006):
+ * - System fonts used — no @font-face needed, zero font transfer cost
+ * - font-display: swap set via CSS property as safety net
+ * - If custom fonts are added later, use @font-face with font-display: swap
+ *   and subset to Latin (U+0020-007F) via glyphhanger
+ */
+
 :root {
   --text: #6b6375;
   --text-h: #08060d;
@@ -14,7 +32,7 @@
   --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
   --mono: ui-monospace, Consolas, monospace;
 
-  font: 18px/145% var(--sans);
+  font: 16px/150% var(--sans);
   letter-spacing: 0.18px;
   color-scheme: light dark;
   color: var(--text);
@@ -23,9 +41,12 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
 
-  @media (max-width: 1024px) {
-    font-size: 16px;
+/* Scale font up on desktop */
+@media (min-width: 1025px) {
+  :root {
+    font-size: 18px;
   }
 }
 
@@ -56,10 +77,28 @@
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
+  overflow-x: hidden; /* WCAG 1.4.10 reflow */
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
 }
 
 body {
   margin: 0;
+  -webkit-text-size-adjust: 100%;
+  overflow-x: hidden;
+}
+
+/* Mobile-first touch-friendly inputs (prevents iOS auto-zoom) */
+input, select, textarea {
+  font-size: 16px;
+  min-height: var(--input-min-height, 48px);
+}
+
+button, [role="button"] {
+  min-height: var(--button-min-height, 44px);
+  min-width: var(--touch-target-min, 44px);
 }
 
 h1,
@@ -70,21 +109,25 @@ h2 {
 }
 
 h1 {
-  font-size: 56px;
+  font-size: var(--font-size-3xl, 36px);
   letter-spacing: -1.68px;
-  margin: 32px 0;
-  @media (max-width: 1024px) {
-    font-size: 36px;
-    margin: 20px 0;
+  margin: 20px 0;
+}
+@media (min-width: 1025px) {
+  h1 {
+    font-size: 56px;
+    margin: 32px 0;
   }
 }
 h2 {
-  font-size: 24px;
+  font-size: var(--font-size-lg, 20px);
   line-height: 118%;
   letter-spacing: -0.24px;
   margin: 0 0 8px;
-  @media (max-width: 1024px) {
-    font-size: 20px;
+}
+@media (min-width: 1025px) {
+  h2 {
+    font-size: 24px;
   }
 }
 p {

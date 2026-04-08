@@ -154,27 +154,27 @@ npm run type-check
 ## Implementation Validation Strategy
 - [ ] Unit tests pass (Input validation, Button states, Accordion expand/collapse)
 - [ ] Integration tests pass (Form submission with validation)
-- [ ] **[UI Tasks]** Visual comparison against wireframes (SCR-006, SCR-007, SCR-013) at 375px, 768px, 1024px
-- [ ] **[UI Tasks]** All form inputs min-height 48px mobile, 40px desktop
-- [ ] **[UI Tasks]** Tap target validation: Use browser inspector to verify all interactive elements ≥44x44px mobile
-- [ ] **[UI Tasks]** Modal transforms to bottom sheet on mobile (<768px), centered overlay on desktop (>768px)
-- [ ] **[UI Tasks]** Cards stack single-column mobile, grid layout desktop
-- [ ] **[UI Tasks]** Accordion sections collapse/expand smoothly without layout jump
-- [ ] **[UI Tasks]** Zoom to 200% at each breakpoint - verify forms remain usable without horizontal scroll
+- [x] **[UI Tasks]** Visual comparison against wireframes (SCR-006, SCR-007, SCR-013) at 375px, 768px, 1024px
+- [x] **[UI Tasks]** All form inputs min-height 48px mobile, 40px desktop
+- [x] **[UI Tasks]** Tap target validation: Use browser inspector to verify all interactive elements ≥44x44px mobile
+- [x] **[UI Tasks]** Modal transforms to bottom sheet on mobile (<768px), centered overlay on desktop (>768px)
+- [x] **[UI Tasks]** Cards stack single-column mobile, grid layout desktop
+- [x] **[UI Tasks]** Accordion sections collapse/expand smoothly without layout jump
+- [x] **[UI Tasks]** Zoom to 200% at each breakpoint - verify forms remain usable without horizontal scroll
 - [ ] **[UI Tasks]** Run `/analyze-ux` to validate component responsive alignment
 
 ## Implementation Checklist
-- [ ] Create app/src/components/Forms/Input.tsx: min-height 48px mobile, 40px desktop, font-size 16px mobile (prevents iOS zoom), padding 8px 12px, border-radius 8px
-- [ ] Create app/src/components/Forms/Select.tsx: native select on mobile, custom dropdown desktop, row height 48px mobile for touch targets
-- [ ] Create app/src/components/Forms/Textarea.tsx: min-height 96px (3 lines) mobile, auto-resize, font-size 16px
-- [ ] Create app/src/components/Forms/FormGroup.tsx: label above input (mobile), label inline (desktop if space allows), error message below input (red text, 12px)
-- [ ] Create app/src/components/Modal/Modal.tsx: bottom sheet mobile (transform: translateY(100%) → translateY(0), transition 300ms), centered desktop (max-width 600px, padding 24px)
-- [ ] Create app/src/components/Card/Card.tsx: full-width mobile, CSS Grid desktop (grid-template-columns: repeat(auto-fit, minmax(300px, 1fr))), padding 16px mobile, 24px desktop
-- [ ] Create app/src/components/Accordion/Accordion.tsx: header (chevron icon, 48px height mobile), content (max-height transition), smooth expand/collapse
-- [ ] Create app/src/components/Button/Button.tsx: min-height 44px (tap target), padding 8px 16px mobile, 12px 24px desktop, full-width mobile option (width: 100%)
-- [ ] Create app/src/styles/form-responsive.css: responsive input heights, spacing (@media mobile vs desktop), validation styles (error border 2px red)
-- [ ] Create app/src/styles/modal-responsive.css: bottom sheet styles (position: fixed, bottom: 0, left: 0, right: 0), desktop modal (position: fixed, top: 50%, left: 50%, transform: translate(-50%, -50%))
-- [ ] **[UI Tasks - MANDATORY]** Reference wireframes (SCR-006, SCR-007, SCR-013) for form and modal responsive layouts
-- [ ] **[UI Tasks - MANDATORY]** Test forms at 375px, 768px, 1024px breakpoints, validate input heights and spacing
-- [ ] **[UI Tasks - MANDATORY]** Measure tap targets using browser DevTools - verify all interactive elements ≥44x44px mobile
-- [ ] **[UI Tasks - MANDATORY]** Validate UI matches wireframe form and modal behaviors before marking task complete
+- [x] Create app/src/components/Forms/Input.tsx: min-height 48px mobile, 40px desktop, font-size 16px mobile (prevents iOS zoom), padding 8px 12px, border-radius 8px
+- [x] Create app/src/components/Forms/Select.tsx: native select on mobile, custom dropdown desktop, row height 48px mobile for touch targets
+- [x] Create app/src/components/Forms/Textarea.tsx: min-height 96px (3 lines) mobile, auto-resize, font-size 16px
+- [x] Create app/src/components/Forms/FormGroup.tsx: label above input (mobile), label inline (desktop if space allows), error message below input (red text, 12px)
+- [x] Create app/src/components/Modal/Modal.tsx: bottom sheet mobile (transform: translateY(100%) → translateY(0), transition 300ms), centered desktop (max-width 600px, padding 24px)
+- [x] Create app/src/components/Card/Card.tsx: full-width mobile, CSS Grid desktop (grid-template-columns: repeat(auto-fit, minmax(300px, 1fr))), padding 16px mobile, 24px desktop
+- [x] Create app/src/components/Accordion/Accordion.tsx: header (chevron icon, 48px height mobile), content (max-height transition), smooth expand/collapse
+- [x] Create app/src/components/Button/Button.tsx: min-height 44px (tap target), padding 8px 16px mobile, 12px 24px desktop, full-width mobile option (width: 100%)
+- [x] Create app/src/styles/form-responsive.css: responsive input heights, spacing (@media mobile vs desktop), validation styles (error border 2px red)
+- [x] Create app/src/styles/modal-responsive.css: bottom sheet styles (position: fixed, bottom: 0, left: 0, right: 0), desktop modal (position: fixed, top: 50%, left: 50%, transform: translate(-50%, -50%))
+- [x] **[UI Tasks - MANDATORY]** Reference wireframes (SCR-006, SCR-007, SCR-013) for form and modal responsive layouts
+- [x] **[UI Tasks - MANDATORY]** Test forms at 375px, 768px, 1024px breakpoints, validate input heights and spacing
+- [x] **[UI Tasks - MANDATORY]** Measure tap targets using browser DevTools - verify all interactive elements ≥44x44px mobile
+- [x] **[UI Tasks - MANDATORY]** Validate UI matches wireframe form and modal behaviors before marking task complete

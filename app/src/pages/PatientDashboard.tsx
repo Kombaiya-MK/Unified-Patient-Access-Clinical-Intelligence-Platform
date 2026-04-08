@@ -10,8 +10,8 @@
  * 
  * @module PatientDashboard
  * @created 2026-03-18
- * @updated 2026-03-19
- * @task US_012 TASK_003, US_013 TASK_006, US_014 TASK_001, US_019 TASK_001, US_019 TASK_003
+ * @updated 2026-04-07
+ * @task US_012 TASK_003, US_013 TASK_006, US_014 TASK_001, US_019 TASK_001, US_019 TASK_003, US_044 TASK_005
  */
 
 import React, { useState } from 'react';
@@ -21,11 +21,14 @@ import { cancelAppointment } from '../services/appointmentService';
 import { LoadingSpinner } from '../components/common/LoadingSpinner';
 import { AppointmentCard } from '../components/dashboard/AppointmentCard';
 import { WaitlistSection } from '../components/waitlist/WaitlistSection';
-import { DashboardLayout } from '../components/dashboard/DashboardLayout';
-import { NavigationSidebar } from '../components/dashboard/NavigationSidebar';
 import { WelcomeBanner } from '../components/dashboard/WelcomeBanner';
 import { NotificationsPanel } from '../components/dashboard/NotificationsPanel';
 import { QuickActions } from '../components/dashboard/QuickActions';
+import { DashboardGrid } from '../components/Dashboard/DashboardGrid';
+import { DashboardWidget } from '../components/Dashboard/DashboardWidget';
+import { ResponsiveTabs } from '../components/Dashboard/ResponsiveTabs';
+import { FAB } from '../components/Dashboard/FAB';
+import type { TabItem } from '../components/Dashboard/ResponsiveTabs';
 import './Dashboard.css';
 
 /**
@@ -61,84 +64,88 @@ export const PatientDashboard: React.FC = () => {
     navigate('/appointments/book');
   };
 
-  return (
-    <DashboardLayout
-      sidebar={<NavigationSidebar />}
-      notifications={<NotificationsPanel />}
-      showNotifications={true}
+  const appointmentsContent = (
+    <DashboardWidget
+      title="My Appointments"
+      span="full"
+      headerAction={
+        <button
+          onClick={() => refreshAppointments()}
+          className="btn btn--text"
+          disabled={loading}
+          aria-label="Refresh appointments"
+        >
+          {loading ? 'Refreshing...' : 'Refresh'}
+        </button>
+      }
     >
-      {/* Skip Link for Accessibility */}
-      <a href="#main-content" className="skip-link">
-        Skip to main content
-      </a>
+      {loading && (
+        <div className="loading-container">
+          <LoadingSpinner />
+          <p>Loading appointments...</p>
+        </div>
+      )}
+      {error && !loading && (
+        <div className="error-message" role="alert">
+          <strong>Error:</strong> {error}
+          <button onClick={() => refreshAppointments()} className="btn btn--text">
+            Try Again
+          </button>
+        </div>
+      )}
+      {!loading && !error && appointments.length === 0 && (
+        <div className="empty-state">
+          <p>No upcoming appointments</p>
+          <button onClick={handleBookAppointment} className="btn btn--primary" style={{ marginTop: '12px' }}>
+            Book Your First Appointment
+          </button>
+        </div>
+      )}
+      {!loading && !error && appointments.length > 0 && (
+        <div className="appointments-grid">
+          {appointments.map((appointment) => (
+            <AppointmentCard
+              key={appointment.id}
+              appointment={appointment}
+              onCancel={handleCancel}
+            />
+          ))}
+        </div>
+      )}
+    </DashboardWidget>
+  );
 
-      {/* Welcome Banner */}
+  const waitlistContent = (
+    <DashboardWidget title="Waitlist" span="full">
+      <WaitlistSection onUpdate={() => refreshAppointments()} />
+    </DashboardWidget>
+  );
+
+  const notificationsContent = (
+    <DashboardWidget title="Notifications">
+      <NotificationsPanel />
+    </DashboardWidget>
+  );
+
+  const tabs: TabItem[] = [
+    { id: 'appointments', label: 'Appointments', content: appointmentsContent },
+    { id: 'waitlist', label: 'Waitlist', content: waitlistContent },
+    { id: 'notifications', label: 'Notifications', content: notificationsContent },
+  ];
+
+  return (
+    <div className="dashboard">
       <WelcomeBanner />
+      <QuickActions />
 
-      {/* Main Content */}
-      <div id="main-content">
-        {/* Quick Actions Grid */}
-        <QuickActions />
+      <ResponsiveTabs tabs={tabs} defaultTab="appointments" ariaLabel="Patient dashboard sections" />
 
-        {/* Appointments Section */}
-        <section className="dashboard__appointments" aria-label="My appointments">
-          <div className="section-header">
-            <h2 className="section-title">My Appointments</h2>
-            <button
-              onClick={() => refreshAppointments()}
-              className="btn btn--text"
-              disabled={loading}
-              aria-label="Refresh appointments"
-            >
-              {loading ? 'Refreshing...' : 'Refresh'}
-            </button>
-          </div>
-
-          {/* Loading State */}
-          {loading && (
-            <div className="loading-container">
-              <LoadingSpinner />
-              <p>Loading appointments...</p>
-            </div>
-          )}
-
-          {/* Error State */}
-          {error && !loading && (
-            <div className="error-message" role="alert">
-              <strong>Error:</strong> {error}
-              <button onClick={() => refreshAppointments()} className="btn btn--text">
-                Try Again
-              </button>
-            </div>
-          )}
-
-          {/* Empty State */}
-          {!loading && !error && appointments.length === 0 && (
-            <div className="empty-state">
-              <p>No upcoming appointments</p>
-              <button onClick={handleBookAppointment} className="btn btn--primary" style={{ marginTop: '12px' }}>
-                Book Your First Appointment
-              </button>
-            </div>
-          )}
-
-          {/* Appointments List */}
-          {!loading && !error && appointments.length > 0 && (
-            <div className="appointments-grid">
-              {appointments.map((appointment) => (
-                <AppointmentCard
-                  key={appointment.id}
-                  appointment={appointment}
-                  onCancel={handleCancel}
-                />
-              ))}
-            </div>
-          )}
-        </section>
-
-        {/* Waitlist Section */}
-        <WaitlistSection onUpdate={() => refreshAppointments()} />
-      </div>
-    </DashboardLayout>
+      <FAB
+        icon="+"
+        label="Book Appointment"
+        onClick={handleBookAppointment}
+        ariaLabel="Book a new appointment"
+      />
+    </div>
   );
 };

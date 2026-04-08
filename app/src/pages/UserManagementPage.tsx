@@ -16,8 +16,6 @@ import { UserTable } from '../components/admin/UserTable';
 import { CreateUserModal } from '../components/admin/CreateUserModal';
 import { EditUserModal } from '../components/admin/EditUserModal';
 import { DeactivateUserDialog } from '../components/admin/DeactivateUserDialog';
-import { DashboardLayout } from '../components/dashboard/DashboardLayout';
-import { NavigationSidebar } from '../components/dashboard/NavigationSidebar';
 import type { User, CreateUserInput, UpdateUserInput } from '../types/user.types';
 
 export const UserManagementPage: React.FC = () => {
@@ -188,7 +186,7 @@ export const UserManagementPage: React.FC = () => {
   };
 
   return (
-    <DashboardLayout sidebar={<NavigationSidebar />}>
+    <div>
       <div style={containerStyle}>
         {/* Toast */}
         {toast && (
@@ -376,7 +374,7 @@ export const UserManagementPage: React.FC = () => {
           submitting={deactivating}
         />
       </div>
-    </DashboardLayout>
+    </div>
   );
 };
 

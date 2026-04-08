@@ -1,0 +1,234 @@
+/**
+ * Touch Interaction Styles
+ *
+ * Mobile-first CSS for swipe gestures, touch targets, and
+ * momentum scrolling. Complements form-responsive.css.
+ *
+ * @task US_044 TASK_007
+ */
+
+/* ═══════════════════════════════════════════════
+   Touch Optimizations (global)
+   ═══════════════════════════════════════════════ */
+
+/* Prevent 300ms tap delay on mobile */
+html {
+  touch-action: manipulation;
+}
+
+/* iOS momentum scrolling for overflowing containers */
+.touch-scroll {
+  -webkit-overflow-scrolling: touch;
+  overflow-y: auto;
+}
+
+/* ═══════════════════════════════════════════════
+   SwipeableRow
+   ═══════════════════════════════════════════════ */
+.swipeable-row {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-md, 8px);
+}
+
+.swipeable-row__content {
+  position: relative;
+  z-index: 1;
+  background: var(--bg-primary, #fff);
+  will-change: transform;
+  touch-action: pan-y;
+}
+
+.swipeable-row__content--swiping {
+  transition: none;
+  cursor: grabbing;
+}
+
+/* Spring-back animation when released */
+.swipeable-row__content:not(.swipeable-row__content--swiping) {
+  transition: transform 250ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.swipeable-row__content--triggered {
+  transition: transform 200ms ease-out;
+}
+
+/* ─── Action panels underneath ─── */
+.swipeable-row__action {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  opacity: 0;
+  transition: opacity 150ms ease;
+}
+
+.swipeable-row__action--visible {
+  opacity: 1;
+}
+
+/* Left action (revealed when swiping right) — No-Show (red) */
+.swipeable-row__action--left {
+  left: 0;
+  background: var(--error-600, #DC3545);
+  color: #fff;
+  border-radius: var(--radius-md, 8px) 0 0 var(--radius-md, 8px);
+}
+
+/* Right action (revealed when swiping left) — Check In (green) */
+.swipeable-row__action--right {
+  right: 0;
+  background: var(--success-600, #00A145);
+  color: #fff;
+  border-radius: 0 var(--radius-md, 8px) var(--radius-md, 8px) 0;
+}
+
+.swipeable-row__action-label {
+  font-size: 14px;
+  font-weight: 600;
+  white-space: nowrap;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* ═══════════════════════════════════════════════
+   Touch Target Enforcement
+   ═══════════════════════════════════════════════ */
+
+/* Enforce minimum ≥44px touch targets on mobile */
+@media (max-width: 767px) {
+  button,
+  [role="button"],
+  a,
+  input,
+  select,
+  textarea {
+    min-height: 44px;
+  }
+
+  /* Icon-only buttons need minimum width too */
+  button:not(:has(> span + span)),
+  [role="button"] {
+    min-width: 44px;
+  }
+}
+
+/* ═══════════════════════════════════════════════
+   Mobile Date/Time Pickers
+   ═══════════════════════════════════════════════ */
+.mobile-picker {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.mobile-picker__label {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--neutral-700, #4D4D4D);
+}
+
+.mobile-picker__input {
+  min-height: 48px;
+  padding: 8px 12px;
+  font-size: 16px;
+  border: 1px solid var(--neutral-200, #E5E5E5);
+  border-radius: var(--radius-md, 8px);
+  background: var(--bg-primary, #fff);
+  color: var(--neutral-900, #1A1A1A);
+  width: 100%;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.mobile-picker__input:focus {
+  outline: 2px solid var(--primary-600, #0066CC);
+  outline-offset: -2px;
+  border-color: var(--primary-600, #0066CC);
+}
+
+.mobile-picker__input--error {
+  border-color: var(--error-600, #DC3545);
+}
+
+/* ═══════════════════════════════════════════════
+   TouchTargetValidator (dev mode overlay)
+   ═══════════════════════════════════════════════ */
+.touch-target-violation {
+  outline: 3px dashed #DC3545 !important;
+  outline-offset: 2px !important;
+  position: relative;
+}
+
+.touch-target-violation::after {
+  content: attr(data-touch-violation);
+  position: absolute;
+  top: -18px;
+  left: 0;
+  font-size: 10px;
+  background: #DC3545;
+  color: #fff;
+  padding: 1px 4px;
+  border-radius: 2px;
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* ═══════════════════════════════════════════════
+   Swipe Peek (first-use discoverability)
+   ═══════════════════════════════════════════════ */
+@keyframes swipe-peek {
+  0%   { transform: translateX(0); }
+  40%  { transform: translateX(-30px); }
+  70%  { transform: translateX(10px); }
+  100% { transform: translateX(0); }
+}
+
+.swipeable-row__content--peek {
+  animation: swipe-peek 800ms cubic-bezier(0.25, 0.46, 0.45, 0.94) 500ms both;
+}
+
+/* ═══════════════════════════════════════════════
+   Destructive Swipe Confirmation
+   ═══════════════════════════════════════════════ */
+.swipeable-row__confirm-tap {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 16px;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #fff;
+  cursor: pointer;
+  z-index: 2;
+  min-height: 44px;
+}
+
+.swipeable-row__confirm-tap--left {
+  left: 0;
+  width: 120px;
+  background: var(--error-600, #DC3545);
+  border-radius: var(--radius-md, 8px) 0 0 var(--radius-md, 8px);
+}
+
+/* ═══════════════════════════════════════════════
+   Reduced motion
+   ═══════════════════════════════════════════════ */
+@media (prefers-reduced-motion: reduce) {
+  .swipeable-row__content,
+  .swipeable-row__action {
+    transition: none;
+  }
+
+  .swipeable-row__content--peek {
+    animation: none;
+  }
+}

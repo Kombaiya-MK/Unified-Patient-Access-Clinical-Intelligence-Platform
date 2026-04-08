@@ -10,12 +10,13 @@
  * @task US_020 TASK_001
  */
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import { useQueueData } from '../hooks/useQueueData';
 import { useQueueActions } from '../hooks/useQueueActions';
 import { useWebSocket } from '../hooks/useWebSocket';
+import { useKeyboardShortcuts } from '../hooks/useKeyboardShortcuts';
 import { QueueFilters } from '../components/queue/QueueFilters';
 import { QueueTable } from '../components/queue/QueueTable';
 import { RealtimeNotification } from '../components/queue/RealtimeNotification';
@@ -144,6 +145,30 @@ export const QueueManagementPage: React.FC = () => {
 
   const { updateStatus, updatingId, conflict, error: actionError, successMessage, clearError, clearSuccess } = useQueueActions();
   const { connected, lastUpdate } = useWebSocket();
+
+  const shortcuts = useMemo(() => [
+    {
+      key: 'ctrl+k',
+      handler: () => {
+        const searchInput = document.querySelector<HTMLInputElement>('[aria-label="Search patients by name"]');
+        searchInput?.focus();
+      },
+      description: 'Focus search',
+    },
+    {
+      key: 'escape',
+      handler: () => {
+        const active = document.activeElement;
+        if (active instanceof HTMLInputElement) {
+          active.blur();
+        }
+        resetFilters();
+      },
+      description: 'Clear filters',
+    },
+  ], [resetFilters]);
+
+  useKeyboardShortcuts(shortcuts);
 
   const handleStatusUpdate = async (appointmentId: string, newStatus: import('../types/queue.types').QueueStatus, version: number) => {
     await updateStatus(appointmentId, newStatus, version);

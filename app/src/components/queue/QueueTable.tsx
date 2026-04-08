@@ -13,12 +13,15 @@
 import React from 'react';
 import { QueueTableRow } from './QueueTableRow';
 import { QueueMobileCard } from './QueueMobileCard';
+import { SwipeableRow } from '../Gestures/SwipeableRow';
+import { TableScrollContainer } from '../Tables/TableScrollContainer';
 import type {
   QueueAppointment,
   QueueSortConfig,
   QueueSortField,
   QueueStatus,
 } from '../../types/queue.types';
+import '../../styles/responsive-table.css';
 import './QueueTable.css';
 
 /**
@@ -91,6 +94,7 @@ export const QueueTable: React.FC<QueueTableProps> = ({
 
       {/* Desktop Table View */}
       <div className="queue-table__desktop">
+        <TableScrollContainer>
         <table className="queue-table" aria-label="Patient queue" aria-live="polite">
           <thead>
             <tr>
@@ -140,18 +144,38 @@ export const QueueTable: React.FC<QueueTableProps> = ({
             ))}
           </tbody>
         </table>
+        </TableScrollContainer>
       </div>
 
       {/* Mobile Card View */}
       <div className="queue-table__mobile">
-        {appointments.map((appointment) => (
-          <QueueMobileCard
-            key={appointment.id}
-            appointment={appointment}
-            isUpdating={updatingId === appointment.id}
-            onStatusUpdate={onStatusUpdate}
-          />
-        ))}
+        {appointments.map((appointment) => {
+          const canSwipe = appointment.status === 'scheduled';
+          return (
+            <SwipeableRow
+              key={appointment.id}
+              onSwipeLeft={
+                canSwipe
+                  ? () => onStatusUpdate(appointment.id, 'arrived', appointment.version)
+                  : undefined
+              }
+              onSwipeRight={
+                canSwipe
+                  ? () => onStatusUpdate(appointment.id, 'no_show', appointment.version)
+                  : undefined
+              }
+              rightActionLabel="Check In"
+              leftActionLabel="No-Show"
+              disabled={updatingId === appointment.id || !canSwipe}
+            >
+              <QueueMobileCard
+                appointment={appointment}
+                isUpdating={updatingId === appointment.id}
+                onStatusUpdate={onStatusUpdate}
+              />
+            </SwipeableRow>
+          );
+        })}
       </div>
 
       {/* Footer with count */}

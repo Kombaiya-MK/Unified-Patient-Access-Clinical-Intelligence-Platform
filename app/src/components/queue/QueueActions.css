@@ -28,7 +28,7 @@
   border-radius: 4px;
   cursor: pointer;
   white-space: nowrap;
-  transition: background-color 0.15s ease, opacity 0.15s ease;
+  transition: background-color 200ms ease, opacity 200ms ease;
 }
 
 .queue-action-btn:disabled {

@@ -1,0 +1,119 @@
+/**
+ * Responsive Containers
+ *
+ * Content container components with max-width constraints.
+ * Large desktop (>1440px) centers content at 1600px with padding.
+ *
+ * Hierarchy:
+ *   .container       — standard content container
+ *   .container-sm    — narrow container (forms, articles)
+ *   .container-lg    — wide container (dashboards, tables)
+ *   .container-fluid — full-width, no max-width
+ *
+ * @task US_044 TASK_001 (responsive layout framework)
+ */
+
+/* ═══════════════════════════════════════════════
+   Standard container
+   ═══════════════════════════════════════════════ */
+.container {
+  width: 100%;
+  margin-inline: auto;
+  padding-inline: 16px;
+  box-sizing: border-box;
+}
+
+@media (min-width: 768px) {
+  .container {
+    padding-inline: 24px;
+  }
+}
+
+@media (min-width: 1025px) {
+  .container {
+    padding-inline: 32px;
+    max-width: 1200px;
+  }
+}
+
+@media (min-width: 1441px) {
+  .container {
+    max-width: var(--content-max-width, 1600px);
+    padding-inline: 48px;
+  }
+}
+
+/* ═══════════════════════════════════════════════
+   Narrow container (forms, article content)
+   ═══════════════════════════════════════════════ */
+.container-sm {
+  width: 100%;
+  margin-inline: auto;
+  padding-inline: 16px;
+  box-sizing: border-box;
+}
+
+@media (min-width: 768px) {
+  .container-sm {
+    padding-inline: 24px;
+    max-width: 640px;
+  }
+}
+
+@media (min-width: 1025px) {
+  .container-sm {
+    max-width: 768px;
+    padding-inline: 32px;
+  }
+}
+
+/* ═══════════════════════════════════════════════
+   Wide container (dashboards, data tables)
+   ═══════════════════════════════════════════════ */
+.container-lg {
+  width: 100%;
+  margin-inline: auto;
+  padding-inline: 16px;
+  box-sizing: border-box;
+}
+
+@media (min-width: 768px) {
+  .container-lg {
+    padding-inline: 24px;
+  }
+}
+
+@media (min-width: 1025px) {
+  .container-lg {
+    padding-inline: 32px;
+    max-width: 1400px;
+  }
+}
+
+@media (min-width: 1441px) {
+  .container-lg {
+    max-width: var(--content-max-width, 1600px);
+    padding-inline: 48px;
+  }
+}
+
+/* ═══════════════════════════════════════════════
+   Fluid container (full viewport width)
+   ═══════════════════════════════════════════════ */
+.container-fluid {
+  width: 100%;
+  padding-inline: 16px;
+  box-sizing: border-box;
+}
+
+@media (min-width: 768px) {
+  .container-fluid {
+    padding-inline: 24px;
+  }
+}
+
+@media (min-width: 1025px) {
+  .container-fluid {
+    padding-inline: 32px;
+  }
+}

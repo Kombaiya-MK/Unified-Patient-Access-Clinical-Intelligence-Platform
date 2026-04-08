@@ -11,12 +11,17 @@
  * @task US_012 TASK_001, TASK_003; US_013 TASK_001
  */
 
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate, Outlet } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { AuthProvider } from './context/AuthContext';
+import { NavigationProvider } from './context/NavigationContext';
 import { AppointmentProvider } from './context/AppointmentContext';
 import { WaitlistProvider } from './context/WaitlistContext';
 import { ProtectedRoute, UnauthorizedPage } from './components/auth/ProtectedRoute';
+import { Header } from './components/Navigation/Header';
+import { Sidebar } from './components/Navigation/Sidebar';
+import { MobileMenu } from './components/Navigation/MobileMenu';
+import { BottomNav } from './components/Navigation/BottomNav';
 import { LoginPage } from './pages/LoginPage';
 import { PatientDashboard } from './pages/PatientDashboard';
 import { StaffDashboard } from './pages/StaffDashboard';
@@ -32,6 +37,7 @@ import AuditLogsPage from './pages/AuditLogsPage';
 import { UserManagementPage } from './pages/UserManagementPage';
 import { DepartmentProviderManagement } from './pages/DepartmentProviderManagement';
 import { AdminMetricsDashboard } from './pages/AdminMetricsDashboard';
+import navStyles from './components/Navigation/navigation.module.css';
 import './App.css';
 
 // Create a client for React Query
@@ -45,18 +51,44 @@ const queryClient = new QueryClient({
   },
 });
 
+/**
+ * Layout wrapper for authenticated routes.
+ * Renders responsive Header, Sidebar, MobileMenu, and BottomNav.
+ */
+function AuthenticatedLayout() {
+  return (
+    <div className={navStyles.appLayout}>
+      <a href="#main-content" className="skip-link">
+        Skip to main content
+      </a>
+      <Header />
+      <div className={navStyles.appBody}>
+        <Sidebar />
+        <main id="main-content" className={navStyles.appContent}>
+          <Outlet />
+        </main>
+      </div>
+      <MobileMenu />
+      <BottomNav />
+    </div>
+  );
+}
+
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
+        <NavigationProvider>
         <AppointmentProvider>
           <WaitlistProvider>
-            <div className="app">
               <Routes>
                 {/* Public Routes */}
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/unauthorized" element={<UnauthorizedPage />} />
-              
+
+                {/* Authenticated Routes with Navigation Layout */}
+                <Route element={<AuthenticatedLayout />}>
+
               {/* Protected Routes - Patient */}
               <Route
                 path="/patient/dashboard"
@@ -206,14 +238,16 @@ function App() {
                   </ProtectedRoute>
                 }
               />
-              
+
+                </Route>
+
               {/* Fallback Routes */}
               <Route path="/" element={<Navigate to="/login" replace />} />
               <Route path="*" element={<Navigate to="/login" replace />} />
             </Routes>
-          </div>
           </WaitlistProvider>
         </AppointmentProvider>
+        </NavigationProvider>
       </AuthProvider>
     </QueryClientProvider>
   );
