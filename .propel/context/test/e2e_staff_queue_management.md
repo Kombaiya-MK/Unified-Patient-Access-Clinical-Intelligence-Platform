@@ -325,17 +325,17 @@ pages:
 ```
 
 ## Success Criteria
-- [ ] All journey phases complete without errors
-- [ ] Session state maintained across all phases
-- [ ] Checkpoints validate intermediate states
-- [ ] Journey runs independently with test data cleanup
-- [ ] All assertions use web-first patterns
-- [ ] Staff authentication persists throughout journey
-- [ ] Walk-in patient successfully added to queue
-- [ ] Status transitions follow correct workflow (In Queue → Arrived → In Progress → Completed)
-- [ ] No-show is logged immutably for audit
-- [ ] Risk assessment data is updated after no-show
-- [ ] All staff actions are immutably logged
+- [x] All journey phases complete without errors
+- [x] Session state maintained across all phases
+- [x] Checkpoints validate intermediate states
+- [x] Journey runs independently with test data cleanup
+- [x] All assertions use web-first patterns
+- [x] Staff authentication persists throughout journey
+- [x] Walk-in patient successfully added to queue
+- [x] Status transitions follow correct workflow (In Queue → Arrived → In Progress → Completed)
+- [x] No-show is logged immutably for audit
+- [x] Risk assessment data is updated after no-show
+- [x] All staff actions are immutably logged
 
 ## Locator Reference
 | Priority | Method | Example |

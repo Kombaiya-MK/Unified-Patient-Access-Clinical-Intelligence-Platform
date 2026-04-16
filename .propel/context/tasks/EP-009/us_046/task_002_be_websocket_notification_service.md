@@ -146,11 +146,11 @@ npm run build
 ```
 
 ## Implementation Checklist
-- [ ] Install socket.io dependency and initialize Socket.io server attached to HTTP server in server.ts with CORS configuration (allow frontend origin)
-- [ ] Create websocketAuth middleware to verify JWT token from socket.handshake.query.token, decode userId, attach to socket.data.userId, disconnect on invalid token
-- [ ] Implement websocketService with io instance, handle "connection" event, implement "user_join" event handler (join socket to room user:userId), "disconnect" handler (log last active timestamp)
-- [ ] Build socketRoomManager utility with joinUserRoom, leaveUserRoom, getActiveUsersInRoom (return socket count), listActiveUsers (return all active user IDs)
-- [ ] Create notificationBroadcast controller with broadcastNotification(userId, notificationData) method using io.to(\`user:\${userId}\`).emit('notification', data)
-- [ ] Add connection logging (userId, socketId, timestamp), track active connection count, log disconnections with duration, implement connection rate limiting (max 5 per user)
-- [ ] Integrate Socket.io with Express HTTP server in server.ts, expose io instance globally or via dependency injection for other services to trigger notifications
-- [ ] Test WebSocket flow: Connect with valid JWT token, emit user_join, trigger notification from backend, verify client receives "notification" event, test reconnection handling
+- [x] Install socket.io dependency and initialize Socket.io server attached to HTTP server in server.ts with CORS configuration (allow frontend origin)
+- [x] Create websocketAuth middleware to verify JWT token from socket.handshake.query.token, decode userId, attach to socket.data.userId, disconnect on invalid token
+- [x] Implement websocketService with io instance, handle "connection" event, implement "user_join" event handler (join socket to room user:userId), "disconnect" handler (log last active timestamp)
+- [x] Build socketRoomManager utility with joinUserRoom, leaveUserRoom, getActiveUsersInRoom (return socket count), listActiveUsers (return all active user IDs)
+- [x] Create notificationBroadcast controller with broadcastNotification(userId, notificationData) method using io.to(\`user:\${userId}\`).emit('notification', data)
+- [x] Add connection logging (userId, socketId, timestamp), track active connection count, log disconnections with duration, implement connection rate limiting (max 5 per user)
+- [x] Integrate Socket.io with Express HTTP server in server.ts, expose io instance globally or via dependency injection for other services to trigger notifications
+- [x] Test WebSocket flow: Connect with valid JWT token, emit user_join, trigger notification from backend, verify client receives "notification" event, test reconnection handling

@@ -1,0 +1,39 @@
+[     576ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=3a0da526:20102
+[     760ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3001/api/waitlist/my:0
+[     762ms] [ERROR] Error fetching waitlist: AxiosError: Request failed with status code 500
+    at settle (http://localhost:5173/node_modules/.vite/deps/axios.js?v=3a0da526:1319:7)
+    at XMLHttpRequest.onloadend (http://localhost:5173/node_modules/.vite/deps/axios.js?v=3a0da526:1682:7)
+    at Axios.request (http://localhost:5173/node_modules/.vite/deps/axios.js?v=3a0da526:2328:41)
+    at async http://localhost:5173/src/context/WaitlistContext.tsx:39:24 @ http://localhost:5173/src/context/WaitlistContext.tsx:56
+[     765ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3001/api/appointments/my:0
+[     766ms] [ERROR] Failed to load appointments: AxiosError: Request failed with status code 500
+    at settle (http://localhost:5173/node_modules/.vite/deps/axios.js?v=3a0da526:1319:7)
+    at XMLHttpRequest.onloadend (http://localhost:5173/node_modules/.vite/deps/axios.js?v=3a0da526:1682:7)
+    at Axios.request (http://localhost:5173/node_modules/.vite/deps/axios.js?v=3a0da526:2328:41)
+    at async http://localhost:5173/src/context/AppointmentContext.tsx:39:24 @ http://localhost:5173/src/context/AppointmentContext.tsx:53
+[     767ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3001/api/waitlist/my:0
+[     768ms] [ERROR] Error fetching waitlist: AxiosError: Request failed with status code 500
+    at settle (http://localhost:5173/node_modules/.vite/deps/axios.js?v=3a0da526:1319:7)
+    at XMLHttpRequest.onloadend (http://localhost:5173/node_modules/.vite/deps/axios.js?v=3a0da526:1682:7)
+    at Axios.request (http://localhost:5173/node_modules/.vite/deps/axios.js?v=3a0da526:2328:41)
+    at async http://localhost:5173/src/context/WaitlistContext.tsx:39:24 @ http://localhost:5173/src/context/WaitlistContext.tsx:56
+[     769ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3001/api/appointments/my:0
+[     769ms] [ERROR] Failed to load appointments: AxiosError: Request failed with status code 500
+    at settle (http://localhost:5173/node_modules/.vite/deps/axios.js?v=3a0da526:1319:7)
+    at XMLHttpRequest.onloadend (http://localhost:5173/node_modules/.vite/deps/axios.js?v=3a0da526:1682:7)
+    at Axios.request (http://localhost:5173/node_modules/.vite/deps/axios.js?v=3a0da526:2328:41)
+    at async http://localhost:5173/src/context/AppointmentContext.tsx:39:24 @ http://localhost:5173/src/context/AppointmentContext.tsx:53
+[     779ms] [WARNING] WebSocket connection to 'ws://localhost:3001/circuit-breaker?token=eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiZW1haWwiOiJwYXRpZW50QHRlc3QuY29tIiwicm9sZSI6InBhdGllbnQifQ.fake' failed: WebSocket is closed before the connection is established. @ http://localhost:5173/src/hooks/useCircuitBreakerStatus.ts:52
+[     808ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3001/api/circuit-breaker/status:0
+[     811ms] [ERROR] Server error: {success: false, error: Authentication failed, stack: Error: Authentication failed
+    at authenticate (…jections (node:internal/process/task_queues:95:5), timestamp: 2026-04-07T13:44:44.673Z} @ http://localhost:5173/src/services/api.ts:39
+[     823ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3001/api/circuit-breaker/status:0
+[     824ms] [ERROR] Server error: {success: false, error: Authentication failed, stack: Error: Authentication failed
+    at authenticate (…jections (node:internal/process/task_queues:95:5), timestamp: 2026-04-07T13:44:44.686Z} @ http://localhost:5173/src/services/api.ts:39
+[   97327ms] [WARNING] WebSocket connection to 'ws://localhost:3001/circuit-breaker?token=eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiZW1haWwiOiJwYXRpZW50QHRlc3QuY29tIiwicm9sZSI6InBhdGllbnQifQ.fake' failed: WebSocket is closed before the connection is established. @ http://localhost:5173/src/hooks/useCircuitBreakerStatus.ts:52
+[   97381ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3001/api/circuit-breaker/status:0
+[   97382ms] [ERROR] Server error: {success: false, error: Authentication failed, stack: Error: Authentication failed
+    at authenticate (…jections (node:internal/process/task_queues:95:5), timestamp: 2026-04-07T13:46:21.213Z} @ http://localhost:5173/src/services/api.ts:39
+[   97384ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3001/api/circuit-breaker/status:0
+[   97384ms] [ERROR] Server error: {success: false, error: Authentication failed, stack: Error: Authentication failed
+    at authenticate (…jections (node:internal/process/task_queues:95:5), timestamp: 2026-04-07T13:46:21.225Z} @ http://localhost:5173/src/services/api.ts:39

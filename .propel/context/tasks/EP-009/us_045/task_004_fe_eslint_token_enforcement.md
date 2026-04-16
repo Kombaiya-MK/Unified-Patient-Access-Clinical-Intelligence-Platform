@@ -139,11 +139,11 @@ npm run dev
 ```
 
 ## Implementation Checklist
-- [ ] Install Stylelint and dependencies (stylelint, stylelint-config-standard) for CSS linting
-- [ ] Create custom ESLint rule (no-hardcoded-design-values.js) using AST parsing to detect hex colors (/#[0-9A-Fa-f]{6}/) and hardcoded px values (/\d+px/)
-- [ ] Configure .eslintrc.js with custom rule and .stylelintrc.json with color-no-hex rule to enforce token usage
-- [ ] Create .eslintignore to exclude tokens.css, Storybook files, and .storybook/** from linting (intentional hardcoded values)
-- [ ] Add npm scripts: "lint:tokens" (run ESLint + Stylelint) and "lint:tokens:fix" (auto-fix violations) to package.json
-- [ ] Write test cases for custom ESLint rule verifying error detection on hardcoded values and auto-fix replacing hex with var(--token-name)
-- [ ] Test linting: Run npm run lint:tokens on file with color: #FF0000, verify error shows "Use design token var(--color-primary-main)"
-- [ ] Integrate with CI: Add "npm run lint:tokens" step to pipeline, verify build fails when violations found and passes with compliant code
+- [x] Install Stylelint and dependencies (stylelint, stylelint-config-standard) for CSS linting
+- [x] Create custom ESLint rule (no-hardcoded-design-values.js) using AST parsing to detect hex colors (/#[0-9A-Fa-f]{6}/) and hardcoded px values (/\d+px/)
+- [x] Configure .eslintrc.js with custom rule and .stylelintrc.json with color-no-hex rule to enforce token usage
+- [x] Create .eslintignore to exclude tokens.css, Storybook files, and .storybook/** from linting (intentional hardcoded values)
+- [x] Add npm scripts: "lint:tokens" (run ESLint + Stylelint) and "lint:tokens:fix" (auto-fix violations) to package.json
+- [x] Write test cases for custom ESLint rule verifying error detection on hardcoded values and auto-fix replacing hex with var(--token-name)
+- [x] Test linting: Run npm run lint:tokens on file with color: #FF0000, verify error shows "Use design token var(--color-primary-main)"
+- [x] Integrate with CI: Add "npm run lint:tokens" step to pipeline, verify build fails when violations found and passes with compliant code

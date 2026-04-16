@@ -91,7 +91,8 @@ class AppointmentsService {
           ts.doctor_id AS "providerId",
           ts.department_id AS "departmentId",
           u.first_name || ' ' || u.last_name AS "providerName",
-          d.name AS "departmentName"
+          d.name AS "departmentName",
+          EXTRACT(EPOCH FROM (ts.slot_end::time - ts.slot_start::time)) / 60 AS "duration"
         FROM time_slots ts
         LEFT JOIN users u ON ts.doctor_id = u.id
         JOIN departments d ON ts.department_id = d.id
@@ -172,6 +173,7 @@ class AppointmentsService {
       const slotQuery = `
         SELECT 
           ts.*,
+          ts.slot_date::text AS "slotDateText",
           ts.slot_date AS "slotDate",
           ts.slot_start AS "startTime",
           ts.slot_end AS "endTime",
@@ -179,7 +181,8 @@ class AppointmentsService {
           ts.doctor_id AS "providerId",
           ts.department_id AS "departmentId",
           u.first_name || ' ' || u.last_name AS "providerName",
-          d.name AS "departmentName"
+          d.name AS "departmentName",
+          EXTRACT(EPOCH FROM (ts.slot_end::time - ts.slot_start::time)) / 60 AS "duration"
         FROM time_slots ts
         LEFT JOIN users u ON ts.doctor_id = u.id
         JOIN departments d ON ts.department_id = d.id
@@ -235,8 +238,8 @@ class AppointmentsService {
       }
 
       // Validate same-day restriction (>2 hours notice)
-      // Combine slotDate + startTime to build a real datetime
-      const slotDateStr = new Date(slot.slotDate).toISOString().split('T')[0];
+      // Use slotDateText (text cast) to avoid timezone issues with Date parsing
+      const slotDateStr = slot.slotDateText || new Date(slot.slotDate).toISOString().split('T')[0];
       const slotDateTime = new Date(`${slotDateStr}T${slot.startTime}`);
       const now = new Date();
       const isToday = slotDateTime.toDateString() === now.toDateString();
@@ -308,7 +311,7 @@ class AppointmentsService {
         slot.providerId,
         slot.departmentId,
         slotDateTime,
-        slot.duration || 30,
+        Math.round(Number(slot.duration) || 30),
         notes || null,
         slotId,
       ]);
@@ -353,11 +356,22 @@ class AppointmentsService {
         });
       });
 
+      // Enrich appointment with slot details for the confirmation modal
+      const enrichedAppointment = {
+        ...appointment,
+        startTime: slot.startTime,
+        endTime: slot.endTime,
+        providerName: slot.providerName,
+        departmentName: slot.departmentName,
+        duration: Math.round(Number(slot.duration) || 30),
+        appointmentDate: slotDateStr,
+      };
+
       return {
         appointmentId: appointment.id,
         status: appointment.status,
         message: 'Appointment booked successfully',
-        appointment,
+        appointment: enrichedAppointment,
       };
     } catch (error: any) {
       await client.query('ROLLBACK');
@@ -388,9 +402,18 @@ class AppointmentsService {
     const { slotId, preferredDate, departmentId, providerId, notes } = waitlistData;
 
     try {
+      // Resolve user ID to patient_profile ID (FK references patient_profiles)
+      const profileResult = await pool.query(
+        'SELECT id FROM patient_profiles WHERE user_id = $1',
+        [patientId]
+      );
+      if (profileResult.rows.length === 0) {
+        throw new Error('Patient profile not found');
+      }
+      const profileId = profileResult.rows[0].id;
+
       const insertQuery = `
         INSERT INTO waitlist (
-          id,
           patient_id,
           slot_id,
           preferred_date,
@@ -400,7 +423,6 @@ class AppointmentsService {
           notes,
           created_at
         ) VALUES (
-          gen_random_uuid(),
           $1, $2, $3, $4, $5, 'waiting', $6, NOW()
         )
         RETURNING *,
@@ -413,7 +435,7 @@ class AppointmentsService {
       `;
 
       const result = await pool.query(insertQuery, [
-        patientId,
+        profileId,
         slotId || null,
         preferredDate,
         departmentId,
@@ -448,9 +470,9 @@ class AppointmentsService {
         message: "You've been added to the waitlist. We'll notify you when a slot becomes available.",
         entry: { ...entry, position },
       };
-    } catch (error) {
+    } catch (error: any) {
       logger.error('Error joining waitlist:', error);
-      throw new Error('Failed to join waitlist');
+      throw new Error(`Failed to join waitlist: ${error.message || error}`);
     }
   }
 

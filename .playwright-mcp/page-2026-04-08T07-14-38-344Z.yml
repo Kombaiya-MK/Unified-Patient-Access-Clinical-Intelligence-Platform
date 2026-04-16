@@ -1,0 +1,71 @@
+- generic [ref=e47]:
+  - link "Skip to main content" [ref=e48] [cursor=pointer]:
+    - /url: "#main-content"
+  - banner [ref=e49]:
+    - generic [ref=e50]:
+      - link "UPACI" [ref=e51] [cursor=pointer]:
+        - /url: /admin/dashboard
+      - generic [ref=e52]: admin
+    - generic [ref=e53]:
+      - button "Notifications" [ref=e54] [cursor=pointer]:
+        - img [ref=e55]
+      - 'generic "User: Admin System" [ref=e59]': AS
+  - generic [ref=e60]:
+    - navigation "Main navigation" [ref=e61]:
+      - navigation [ref=e62]:
+        - link "Dashboard" [ref=e63] [cursor=pointer]:
+          - /url: /admin/dashboard
+          - img [ref=e65]
+          - generic [ref=e70]: Dashboard
+        - link "Users" [ref=e71] [cursor=pointer]:
+          - /url: /admin/users
+          - img [ref=e73]
+          - generic [ref=e78]: Users
+        - link "Departments" [ref=e79] [cursor=pointer]:
+          - /url: /admin/departments
+          - img [ref=e81]
+          - generic [ref=e85]: Departments
+        - link "Audit Logs" [ref=e86] [cursor=pointer]:
+          - /url: /admin/audit-logs
+          - img [ref=e88]
+          - generic [ref=e92]: Audit Logs
+        - link "Metrics" [ref=e93] [cursor=pointer]:
+          - /url: /admin/metrics
+          - img [ref=e95]
+          - generic [ref=e99]: Metrics
+        - link "Queue" [ref=e100] [cursor=pointer]:
+          - /url: /staff/queue
+          - img [ref=e102]
+          - generic [ref=e103]: Queue
+      - button "Logout" [ref=e105] [cursor=pointer]:
+        - img [ref=e107]
+        - generic [ref=e110]: Logout
+    - main [ref=e111]:
+      - generic [ref=e112]:
+        - generic [ref=e113]:
+          - heading "Admin Dashboard" [level=2] [ref=e114]
+          - paragraph [ref=e115]: System overview and management — Wednesday, April 8, 2026
+        - generic [ref=e116]:
+          - generic [ref=e117]:
+            - generic [ref=e118]: Total Users
+            - generic [ref=e119]: ...
+          - generic [ref=e120]:
+            - generic [ref=e121]: Active Staff
+            - generic [ref=e122]: ...
+          - generic [ref=e123]:
+            - generic [ref=e124]: Today's Appointments
+            - generic [ref=e125]: ...
+          - generic [ref=e126]:
+            - generic [ref=e127]: System Alerts
+            - generic [ref=e128]: ...
+        - generic [ref=e129]:
+          - region "Recent users" [ref=e130]:
+            - generic [ref=e131]:
+              - heading "Recent Users" [level=3] [ref=e132]
+              - button "View All Users →" [ref=e133] [cursor=pointer]
+            - paragraph [ref=e135]: Loading...
+          - region "Recent audit logs" [ref=e136]:
+            - generic [ref=e137]:
+              - heading "Recent Audit Logs" [level=3] [ref=e138]
+              - button "View All Logs →" [ref=e139] [cursor=pointer]
+            - paragraph [ref=e141]: Loading...

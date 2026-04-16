@@ -83,6 +83,7 @@ async function createStaffBooking(
     const slotResult = await client.query(
       `SELECT
          ts.*,
+         ts.slot_date::text AS "slotDateText",
          ts.slot_date AS "slotDate",
          ts.slot_start AS "startTime",
          ts.slot_end AS "endTime",
@@ -91,9 +92,12 @@ async function createStaffBooking(
          ts.department_id AS "departmentId",
          ts.max_appointments AS "maxAppointments",
          ts.booked_count AS "bookedCount",
-         u.first_name || ' ' || u.last_name AS "providerName"
+         u.first_name || ' ' || u.last_name AS "providerName",
+         d.name AS "departmentName",
+         EXTRACT(EPOCH FROM (ts.slot_end::time - ts.slot_start::time)) / 60 AS "duration"
        FROM time_slots ts
        LEFT JOIN users u ON ts.doctor_id = u.id
+       LEFT JOIN departments d ON ts.department_id = d.id
        WHERE ts.id = $1
        FOR UPDATE OF ts`,
       [slotId],
@@ -118,7 +122,8 @@ async function createStaffBooking(
     }
 
     // Build the appointment datetime from slot_date + slot_start
-    const appointmentDatetime = `${slot.slotDate}T${slot.startTime}`;
+    const slotDateStr = slot.slotDateText || new Date(slot.slotDate).toISOString().split('T')[0];
+    const appointmentDatetime = `${slotDateStr}T${slot.startTime}`;
 
     // Create the appointment
     const insertResult = await client.query(
@@ -126,6 +131,7 @@ async function createStaffBooking(
          patient_id,
          doctor_id,
          department_id,
+         slot_id,
          appointment_date,
          duration_minutes,
          status,
@@ -140,8 +146,8 @@ async function createStaffBooking(
          created_at,
          updated_at
        ) VALUES (
-         $1, $2, $3, $4, 30, 'confirmed', $5, $6, $7,
-         TRUE, $8, $9, $10, $11,
+         $1, $2, $3, $4, $5, 30, 'confirmed', $6, $7, $8,
+         TRUE, $9, $10, $11, $12,
          NOW(), NOW()
        )
        RETURNING id, appointment_date`,
@@ -149,6 +155,7 @@ async function createStaffBooking(
         patientId,
         slot.doctorId,
         slot.departmentId,
+        slotId,
         appointmentDatetime,
         appointmentType,
         reasonForVisit || null,

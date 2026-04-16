@@ -12,6 +12,12 @@
 # ─────────────────────────────────────────────────────────────
 set -euo pipefail
 
+# Load Redis credentials from environment file if present (before deriving paths)
+if [ -f "${BACKUP_ENV_FILE:-/etc/app/backup.env}" ]; then
+  # shellcheck source=/dev/null
+  source "${BACKUP_ENV_FILE:-/etc/app/backup.env}"
+fi
+
 TIMESTAMP=$(date +%Y-%m-%d_%H-%M-%S)
 BACKUP_DIR="${BACKUP_DIR_REDIS:-/var/backups/redis}"
 BACKUP_FILE="${BACKUP_DIR}/dump-${TIMESTAMP}.rdb"
@@ -19,12 +25,6 @@ BGSAVE_WAIT_SECS="${BGSAVE_WAIT_SECS:-5}"
 
 # Ensure directory exists
 mkdir -p "${BACKUP_DIR}"
-
-# Load Redis credentials from environment file if present
-if [ -f "${BACKUP_ENV_FILE:-/etc/app/backup.env}" ]; then
-  # shellcheck source=/dev/null
-  source "${BACKUP_ENV_FILE:-/etc/app/backup.env}"
-fi
 
 : "${REDIS_HOST:?REDIS_HOST is required}"
 : "${REDIS_PORT:?REDIS_PORT is required}"

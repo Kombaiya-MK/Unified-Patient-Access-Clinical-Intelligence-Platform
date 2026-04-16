@@ -1,0 +1,104 @@
+/**
+ * Theme Setup - Dark Mode Infrastructure (US_045 TASK_002)
+ *
+ * Provides [data-theme] attribute selectors to override semantic tokens.
+ * Light theme is the default (:root). Dark mode overrides semantic tokens
+ * so components using var(--color-text-primary), var(--color-bg-primary)
+ * etc. switch automatically — no component code changes needed.
+ *
+ * Usage:
+ *   <html data-theme="dark"> — activates dark mode
+ *   <html data-theme="light"> — explicit light mode (same as default)
+ *   <html> — light mode by default (no attribute needed)
+ */
+
+/* ─── Light theme (explicit, mirrors :root defaults) ─── */
+[data-theme="light"] {
+  color-scheme: light;
+}
+
+/* ─── Dark theme (overrides semantic tokens) ─── */
+[data-theme="dark"] {
+  color-scheme: dark;
+
+  /* Text colors — swap to lighter tones */
+  --color-text-primary:     var(--color-neutral-100);
+  --color-text-secondary:   var(--color-neutral-400);
+  --color-text-body:        var(--color-neutral-200);
+  --color-text-placeholder: var(--color-neutral-500);
+  --color-text-disabled:    var(--color-neutral-600);
+  --color-text-inverse:     var(--color-neutral-900);
+  --color-text-link:        var(--color-primary-400);
+  --color-text-error:       var(--color-error-500);
+  --color-text-success:     var(--color-success-500);
+  --color-text-warning:     var(--color-warning-500);
+
+  /* Background colors — swap to dark surfaces */
+  --color-bg-primary:   var(--color-neutral-900);
+  --color-bg-secondary: var(--color-neutral-800);
+  --color-bg-tertiary:  #121212;
+  --color-bg-inverse:   var(--color-white);
+  --color-bg-overlay:   rgba(0, 0, 0, 0.7);
+  --color-bg-success:   #0a2e1a;
+  --color-bg-warning:   #2e1f0a;
+  --color-bg-error:     #2e0a0a;
+  --color-bg-info:      #0a1a2e;
+
+  /* Border colors — muted for dark surfaces */
+  --color-border-default: var(--color-neutral-700);
+  --color-border-light:   var(--color-neutral-800);
+  --color-border-focus:   var(--color-primary-400);
+  --color-border-error:   var(--color-error-500);
+  --color-border-success: var(--color-success-500);
+
+  /* Button colors */
+  --color-button-primary-bg:     var(--color-primary-500);
+  --color-button-primary-text:   var(--color-white);
+  --color-button-primary-hover:  var(--color-primary-400);
+  --color-button-primary-active: var(--color-primary-600);
+  --color-button-secondary-text:   var(--color-primary-400);
+  --color-button-secondary-border: var(--color-primary-400);
+
+  /* Status colors */
+  --color-status-success: var(--color-success-500);
+  --color-status-warning: var(--color-warning-500);
+  --color-status-error:   var(--color-error-500);
+  --color-status-info:    var(--color-info-500);
+
+  /* Shadows — more opaque for dark backgrounds */
+  --shadow-level-1: 0px 1px 3px rgba(0, 0, 0, 0.3), 0px 1px 2px rgba(0, 0, 0, 0.5);
+  --shadow-level-2: 0px 3px 6px rgba(0, 0, 0, 0.35), 0px 2px 4px rgba(0, 0, 0, 0.3);
+  --shadow-level-3: 0px 10px 20px rgba(0, 0, 0, 0.35), 0px 3px 6px rgba(0, 0, 0, 0.25);
+  --shadow-focus-ring: 0 0 0 2px var(--color-neutral-900), 0 0 0 4px var(--color-primary-400);
+}
+
+/* ─── System preference auto-detection ─── */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    /* Same overrides as [data-theme="dark"] for auto-detection */
+    --color-text-primary:     var(--color-neutral-100);
+    --color-text-secondary:   var(--color-neutral-400);
+    --color-text-body:        var(--color-neutral-200);
+    --color-text-placeholder: var(--color-neutral-500);
+    --color-text-disabled:    var(--color-neutral-600);
+    --color-text-inverse:     var(--color-neutral-900);
+    --color-text-link:        var(--color-primary-400);
+
+    --color-bg-primary:   var(--color-neutral-900);
+    --color-bg-secondary: var(--color-neutral-800);
+    --color-bg-tertiary:  #121212;
+    --color-bg-inverse:   var(--color-white);
+
+    --color-border-default: var(--color-neutral-700);
+    --color-border-light:   var(--color-neutral-800);
+    --color-border-focus:   var(--color-primary-400);
+
+    --color-button-primary-bg:    var(--color-primary-500);
+    --color-button-primary-hover: var(--color-primary-400);
+    --color-button-secondary-text:   var(--color-primary-400);
+    --color-button-secondary-border: var(--color-primary-400);
+
+    --shadow-level-1: 0px 1px 3px rgba(0, 0, 0, 0.3), 0px 1px 2px rgba(0, 0, 0, 0.5);
+    --shadow-focus-ring: 0 0 0 2px var(--color-neutral-900), 0 0 0 4px var(--color-primary-400);
+  }
+}

@@ -278,11 +278,11 @@ Invoke-WebRequest https://localhost/healthcheck.html
 - [x] 502 Bad Gateway testing: Stop UPACI-Backend service, send API request via IIS, verify IIS returns HTTP 502 (backend unavailable)
 
 ## Implementation Checklist
-- [ ] Install Application Request Routing 3.0 (ARR) module via install-arr.ps1 and enable WebSocket protocol support in ARR settings
-- [ ] Modify web.config to add API proxy rule (rewrite /api/* to http://localhost:3000/api/*) and WebSocket proxy rule (rewrite /socket.io/* to http://localhost:3000/socket.io/*) with X-Forwarded-For and X-Forwarded-Proto headers
-- [ ] Configure ARR to allow setting X-Forwarded-* server variables via PowerShell (Add-WebConfigurationProperty for allowedServerVariables)
-- [ ] Create Windows Firewall inbound rules via configure-firewall.ps1 (allow TCP ports 80 and 443 for Domain, Private, Public profiles)
-- [ ] Install IIS Application Initialization module (Web-AppInit feature) and configure preloadEnabled=true for UPACI-Frontend site with /healthcheck.html initialization page
-- [ ] Create monitor-service.ps1 PowerShell script to track UPACI-Backend service status, CPU, memory, uptime, and schedule via Task Scheduler (every 5 minutes)
-- [ ] Test reverse proxy (send API request to https://yoursite.com/api/health, verify backend response) and WebSocket proxy (connect Socket.io client, verify handshake)
-- [ ] Document deployment runbook in .propel/docs/windows-deployment.md with 10 sections (prerequisites, IIS installation, service setup, SSL config, proxy config, firewall, health checks, monitoring, troubleshooting) and include screenshots for each step
+- [x] Install Application Request Routing 3.0 (ARR) module via install-arr.ps1 and enable WebSocket protocol support in ARR settings
+- [x] Modify web.config to add API proxy rule (rewrite /api/* to http://localhost:3000/api/*) and WebSocket proxy rule (rewrite /socket.io/* to http://localhost:3000/socket.io/*) with X-Forwarded-For and X-Forwarded-Proto headers
+- [x] Configure ARR to allow setting X-Forwarded-* server variables via PowerShell (Add-WebConfigurationProperty for allowedServerVariables)
+- [x] Create Windows Firewall inbound rules via configure-firewall.ps1 (allow TCP ports 80 and 443 for Domain, Private, Public profiles)
+- [x] Install IIS Application Initialization module (Web-AppInit feature) and configure preloadEnabled=true for UPACI-Frontend site with /healthcheck.html initialization page
+- [x] Create monitor-service.ps1 PowerShell script to track UPACI-Backend service status, CPU, memory, uptime, and schedule via Task Scheduler (every 5 minutes)
+- [x] Test reverse proxy (send API request to https://yoursite.com/api/health, verify backend response) and WebSocket proxy (connect Socket.io client, verify handshake)
+- [x] Document deployment runbook in .propel/docs/windows-deployment.md with 10 sections (prerequisites, IIS installation, service setup, SSL config, proxy config, firewall, health checks, monitoring, troubleshooting) and include screenshots for each step

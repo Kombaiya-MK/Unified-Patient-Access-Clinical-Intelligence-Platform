@@ -1,0 +1,75 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - text: "Viewport: 384px × 512px | Breakpoint:"
+    - strong [ref=e3]: Mobile
+    - text: "| Grid: 4 columns"
+  - generic [ref=e4]:
+    - generic [ref=e5]:
+      - heading "Grid System — Column Count Test" [level=2] [ref=e6]
+      - paragraph [ref=e7]: Each cell = 1 column. Count cells per row to verify 4/8/12 columns.
+      - generic [ref=e8]:
+        - generic [ref=e9]: "1"
+        - generic [ref=e10]: "2"
+        - generic [ref=e11]: "3"
+        - generic [ref=e12]: "4"
+        - generic [ref=e13]: "5"
+        - generic [ref=e14]: "6"
+        - generic [ref=e15]: "7"
+        - generic [ref=e16]: "8"
+        - generic [ref=e17]: "9"
+        - generic [ref=e18]: "10"
+        - generic [ref=e19]: "11"
+        - generic [ref=e20]: "12"
+    - generic [ref=e21]:
+      - heading "Responsive Span Classes" [level=2] [ref=e22]
+      - paragraph [ref=e23]: Cells adapt span width based on breakpoint
+      - generic [ref=e24]:
+        - generic [ref=e25]: Full → Half → Quarter
+        - generic [ref=e26]: Full → Half → Quarter
+        - generic [ref=e27]: Full → Half → Quarter
+        - generic [ref=e28]: Full → Half → Quarter
+    - generic [ref=e29]:
+      - heading "Dashboard Layout Simulation" [level=2] [ref=e30]
+      - paragraph [ref=e31]: Sidebar + Content area with responsive behavior
+      - generic [ref=e32]:
+        - generic [ref=e34]:
+          - heading "Sidebar" [level=3] [ref=e35]
+          - generic [ref=e36]:
+            - generic [ref=e37]: Nav Item 1
+            - generic [ref=e38]: Nav Item 2
+            - generic [ref=e39]: Nav Item 3
+            - generic [ref=e40]: Nav Item 4
+        - generic [ref=e42]:
+          - heading "Main Content Area" [level=3] [ref=e43]
+          - generic [ref=e44]:
+            - generic [ref=e45]:
+              - generic [ref=e46]: "42"
+              - generic [ref=e47]: Appointments
+            - generic [ref=e48]:
+              - generic [ref=e49]: "8"
+              - generic [ref=e50]: Pending
+            - generic [ref=e51]:
+              - generic [ref=e52]: 97%
+              - generic [ref=e53]: Compliance
+          - paragraph [ref=e54]: "Content adapts: stacked on mobile, sidebar+content on tablet/desktop."
+    - generic [ref=e55]:
+      - heading "Container Max-Width (1600px on Large Desktop)" [level=2] [ref=e56]
+      - paragraph [ref=e57]: On viewports >1440px, this container should be centered and max 1600px wide.
+      - generic [ref=e58]: Max-width indicator bar — should not exceed 1600px
+    - generic [ref=e59]:
+      - heading "Visibility Utilities" [level=2] [ref=e60]
+      - generic [ref=e61]:
+        - generic [ref=e62]: MOBILE ONLY
+        - generic [ref=e63]: DESKTOP ONLY
+      - paragraph [ref=e64]: "At 375px: see \"MOBILE ONLY\" badge. At 768px+: see \"TABLET & UP\" badge. At 1025px+: see \"DESKTOP ONLY\" badge."
+    - generic [ref=e65]:
+      - heading "Spacing Utilities Demo" [level=2] [ref=e66]
+      - generic [ref=e68]: Spacing scaled by --space-sm/md/lg/xl CSS variables
+    - generic [ref=e69]:
+      - heading "Zoom Compliance (WCAG 1.4.10 Reflow)" [level=2] [ref=e70]
+      - paragraph [ref=e71]: At 200% zoom, content should reflow without horizontal scrollbar. The layout uses relative units and percentage-based widths to ensure compliance.
+      - generic [ref=e72]:
+        - generic [ref=e73]: Block A
+        - generic [ref=e74]: Block B
+        - generic [ref=e75]: Block C (Desktop)
+  - generic [ref=e76]: Responsive Layout Framework Test Page — US_044 TASK_001

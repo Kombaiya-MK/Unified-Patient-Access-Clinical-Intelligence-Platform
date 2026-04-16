@@ -245,9 +245,7 @@ export const JoinWaitlistModal: React.FC<JoinWaitlistModalProps> = ({
     const requestData: JoinWaitlistRequest = {
       departmentId: slotData.departmentId,
       providerId: slotData.providerId,
-      requestedDate: format(slotData.date, 'yyyy-MM-dd'),
-      preferredTimeStart: slotData.timeStart,
-      preferredTimeEnd: slotData.timeEnd,
+      preferredDate: format(slotData.date, 'yyyy-MM-dd'),
     };
 
     const result = await join(requestData);

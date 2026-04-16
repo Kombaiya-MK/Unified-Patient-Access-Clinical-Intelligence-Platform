@@ -1,0 +1,164 @@
+- generic [ref=e47]:
+  - link "Skip to main content" [ref=e48] [cursor=pointer]:
+    - /url: "#main-content"
+  - banner [ref=e49]:
+    - generic [ref=e50]:
+      - link "UPACI" [ref=e54] [cursor=pointer]:
+        - /url: /staff/dashboard
+      - generic [ref=e55]: staff
+    - generic [ref=e56]:
+      - button "Notifications" [ref=e57] [cursor=pointer]:
+        - img [ref=e58]
+      - 'generic "User: Sarah Wilson" [ref=e62]': SW
+  - generic [ref=e63]:
+    - navigation "Main navigation" [ref=e152]:
+      - navigation [ref=e153]:
+        - link "Dashboard" [ref=e154] [cursor=pointer]:
+          - /url: /staff/dashboard
+          - img [ref=e156]
+          - generic [ref=e161]: Dashboard
+        - link "Queue" [active] [ref=e162] [cursor=pointer]:
+          - /url: /staff/queue
+          - img [ref=e164]
+          - generic [ref=e165]: Queue
+        - link "Book for Patient" [ref=e166] [cursor=pointer]:
+          - /url: /staff/appointments/book
+          - img [ref=e168]
+          - generic [ref=e170]: Book for Patient
+        - link "AI Intake" [ref=e171] [cursor=pointer]:
+          - /url: /intake/ai
+          - img [ref=e173]
+          - generic [ref=e175]: AI Intake
+        - link "Manual Intake" [ref=e176] [cursor=pointer]:
+          - /url: /intake/manual
+          - img [ref=e178]
+          - generic [ref=e180]: Manual Intake
+      - button "Logout" [ref=e182] [cursor=pointer]:
+        - img [ref=e184]
+        - generic [ref=e187]: Logout
+    - main [ref=e64]:
+      - generic [ref=e250]:
+        - banner [ref=e251]:
+          - generic [ref=e252]:
+            - generic [ref=e253]: UPACI
+            - generic [ref=e254]: Queue Management
+          - generic [ref=e255]:
+            - button "User menu" [ref=e256] [cursor=pointer]: SW
+            - button "Logout" [ref=e257] [cursor=pointer]
+        - main [ref=e258]:
+          - navigation "Breadcrumb" [ref=e259]:
+            - link "Dashboard" [ref=e260] [cursor=pointer]:
+              - /url: /staff/dashboard
+            - generic [ref=e261]: ›
+            - generic [ref=e262]: Queue Management
+          - generic [ref=e263]:
+            - heading "Queue Management" [level=1] [ref=e265]
+            - generic [ref=e268]: Live — Real-time
+          - search "Filter queue appointments" [ref=e269]:
+            - generic [ref=e270]:
+              - generic [ref=e271]: Search Patient
+              - searchbox "Search patients by name" [ref=e272]
+            - group "Status" [ref=e273]:
+              - generic [ref=e274]: Status
+              - generic [ref=e275]:
+                - generic [ref=e276] [cursor=pointer]:
+                  - checkbox "Filter by Scheduled" [ref=e277]
+                  - generic [ref=e278]: Scheduled
+                - generic [ref=e279] [cursor=pointer]:
+                  - checkbox "Filter by Arrived" [ref=e280]
+                  - generic [ref=e281]: Arrived
+                - generic [ref=e282] [cursor=pointer]:
+                  - checkbox "Filter by In Progress" [ref=e283]
+                  - generic [ref=e284]: In Progress
+                - generic [ref=e285] [cursor=pointer]:
+                  - checkbox "Filter by Completed" [ref=e286]
+                  - generic [ref=e287]: Completed
+                - generic [ref=e288] [cursor=pointer]:
+                  - checkbox "Filter by No Show" [ref=e289]
+                  - generic [ref=e290]: No Show
+            - generic [ref=e291]:
+              - generic [ref=e292]: Provider
+              - combobox "Filter by provider" [ref=e293] [cursor=pointer]:
+                - option "All Providers" [selected]
+                - option "John Smith"
+            - generic [ref=e294]:
+              - generic [ref=e295]: Department
+              - combobox "Filter by department" [ref=e296] [cursor=pointer]:
+                - option "All Departments" [selected]
+                - option "Cardiology"
+          - generic [ref=e297]:
+            - generic [ref=e298]:
+              - heading "Today's Queue" [level=2] [ref=e299]
+              - generic [ref=e300]: 3 IN QUEUE
+            - table "Patient queue" [ref=e304]:
+              - rowgroup [ref=e305]:
+                - row "# Patient ID Patient Appointment Time Type Department Status Intake Status Wait Time Actions" [ref=e306]:
+                  - columnheader "#" [ref=e307]
+                  - columnheader "Patient ID" [ref=e308]
+                  - columnheader "Patient" [ref=e309]
+                  - columnheader "Appointment Time" [ref=e310] [cursor=pointer]: Appointment Time↑
+                  - columnheader "Type" [ref=e311]
+                  - columnheader "Department" [ref=e312]
+                  - columnheader "Status" [ref=e313] [cursor=pointer]: Status⇅
+                  - columnheader "Intake Status" [ref=e314]
+                  - columnheader "Wait Time" [ref=e315]
+                  - columnheader "Actions" [ref=e316]
+              - rowgroup [ref=e317]:
+                - 'row "1 6 View details for Unknown Patient 10:00 AM Scheduled Cardiology Status: Scheduled Pending — Actions for Unknown Patient" [ref=e318]':
+                  - cell "1" [ref=e319]
+                  - cell "6" [ref=e320]
+                  - cell "View details for Unknown Patient" [ref=e321]:
+                    - link "View details for Unknown Patient" [ref=e322] [cursor=pointer]:
+                      - /url: /patient/6
+                      - text: Unknown Patient
+                  - cell "10:00 AM" [ref=e323]
+                  - cell "Scheduled" [ref=e324]
+                  - cell "Cardiology" [ref=e325]
+                  - 'cell "Status: Scheduled" [ref=e326]':
+                    - 'status "Status: Scheduled" [ref=e327]': Scheduled
+                  - cell "Pending" [ref=e328]:
+                    - generic [ref=e329]: Pending
+                  - cell "—" [ref=e330]
+                  - cell "Actions for Unknown Patient" [ref=e331]:
+                    - group "Actions for Unknown Patient" [ref=e332]:
+                      - button "Mark Arrived for Unknown Patient" [ref=e333] [cursor=pointer]: Mark Arrived
+                      - button "More actions for Unknown Patient" [ref=e335] [cursor=pointer]: ⋮
+                - 'row "2 5 View details for Unknown Patient 11:00 AM Scheduled Cardiology Status: Scheduled Pending — Actions for Unknown Patient" [ref=e336]':
+                  - cell "2" [ref=e337]
+                  - cell "5" [ref=e338]
+                  - cell "View details for Unknown Patient" [ref=e339]:
+                    - link "View details for Unknown Patient" [ref=e340] [cursor=pointer]:
+                      - /url: /patient/5
+                      - text: Unknown Patient
+                  - cell "11:00 AM" [ref=e341]
+                  - cell "Scheduled" [ref=e342]
+                  - cell "Cardiology" [ref=e343]
+                  - 'cell "Status: Scheduled" [ref=e344]':
+                    - 'status "Status: Scheduled" [ref=e345]': Scheduled
+                  - cell "Pending" [ref=e346]:
+                    - generic [ref=e347]: Pending
+                  - cell "—" [ref=e348]
+                  - cell "Actions for Unknown Patient" [ref=e349]:
+                    - group "Actions for Unknown Patient" [ref=e350]:
+                      - button "Mark Arrived for Unknown Patient" [ref=e351] [cursor=pointer]: Mark Arrived
+                      - button "More actions for Unknown Patient" [ref=e353] [cursor=pointer]: ⋮
+                - 'row "3 7 View details for Unknown Patient 3:30 PM Scheduled Cardiology Status: Scheduled Pending — Actions for Unknown Patient" [ref=e354]':
+                  - cell "3" [ref=e355]
+                  - cell "7" [ref=e356]
+                  - cell "View details for Unknown Patient" [ref=e357]:
+                    - link "View details for Unknown Patient" [ref=e358] [cursor=pointer]:
+                      - /url: /patient/7
+                      - text: Unknown Patient
+                  - cell "3:30 PM" [ref=e359]
+                  - cell "Scheduled" [ref=e360]
+                  - cell "Cardiology" [ref=e361]
+                  - 'cell "Status: Scheduled" [ref=e362]':
+                    - 'status "Status: Scheduled" [ref=e363]': Scheduled
+                  - cell "Pending" [ref=e364]:
+                    - generic [ref=e365]: Pending
+                  - cell "—" [ref=e366]
+                  - cell "Actions for Unknown Patient" [ref=e367]:
+                    - group "Actions for Unknown Patient" [ref=e368]:
+                      - button "Mark Arrived for Unknown Patient" [ref=e369] [cursor=pointer]: Mark Arrived
+                      - button "More actions for Unknown Patient" [ref=e371] [cursor=pointer]: ⋮
+            - generic [ref=e373]: Showing 3 of 3 patients

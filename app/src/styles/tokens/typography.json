@@ -1,0 +1,42 @@
+{
+  "typography": {
+    "fontFamily": {
+      "heading": { "value": "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif" },
+      "body":    { "value": "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif" },
+      "mono":    { "value": "'Fira Code', 'Consolas', 'Monaco', 'Courier New', monospace" }
+    },
+    "fontSize": {
+      "xs":   { "value": "12px", "comment": "Caption, helper text" },
+      "sm":   { "value": "14px", "comment": "Body small, table cells, labels" },
+      "base": { "value": "16px", "comment": "Default body text, form inputs" },
+      "lg":   { "value": "18px", "comment": "Body large, H4" },
+      "xl":   { "value": "20px", "comment": "H3" },
+      "2xl":  { "value": "24px", "comment": "H2" },
+      "3xl":  { "value": "32px", "comment": "H1 page titles" },
+      "4xl":  { "value": "48px", "comment": "Display large" }
+    },
+    "fontWeight": {
+      "regular":  { "value": "400", "comment": "Body text" },
+      "medium":   { "value": "500", "comment": "Labels, emphasis" },
+      "semibold": { "value": "600", "comment": "Headings" },
+      "bold":     { "value": "700", "comment": "Display, H1" }
+    },
+    "lineHeight": {
+      "tight":    { "value": "1.2",  "comment": "Display headings" },
+      "snug":     { "value": "1.25", "comment": "H1" },
+      "normal":   { "value": "1.33", "comment": "H2, H4, caption" },
+      "relaxed":  { "value": "1.43", "comment": "H3, body small, H6" },
+      "loose":    { "value": "1.5",  "comment": "H5, body medium" },
+      "spacious": { "value": "1.56", "comment": "Body large" },
+      "extra":    { "value": "1.8",  "comment": "Loose reading" }
+    },
+    "letterSpacing": {
+      "tight":  { "value": "-0.5px", "comment": "Display headings" },
+      "snug":   { "value": "-0.25px", "comment": "H1" },
+      "normal": { "value": "0px",    "comment": "Default" },
+      "wide":   { "value": "0.1px",  "comment": "Labels" },
+      "wider":  { "value": "0.18px", "comment": "Body text" },
+      "widest": { "value": "1px",    "comment": "Overline / uppercase" }
+    }
+  }
+}

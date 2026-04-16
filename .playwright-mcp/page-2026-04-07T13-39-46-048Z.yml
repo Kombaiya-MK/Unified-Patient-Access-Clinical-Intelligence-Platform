@@ -1,0 +1,115 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e3]: UPACI
+    - generic [ref=e4]: Patient Dashboard
+    - generic [ref=e5]:
+      - button "Notifications (4 unread)" [ref=e7] [cursor=pointer]:
+        - text: 🔔
+        - generic [ref=e8]: "4"
+      - button "User menu" [ref=e9] [cursor=pointer]: JD
+  - navigation "Main navigation" [ref=e10]:
+    - generic [ref=e11]: Patient
+    - list [ref=e12]:
+      - listitem [ref=e13]:
+        - link "🏠 Dashboard" [ref=e14] [cursor=pointer]:
+          - /url: wireframe-SCR-002-patient-dashboard.html
+          - generic [ref=e15]: 🏠
+          - text: Dashboard
+      - listitem [ref=e16]:
+        - link "📅 Book Appointment" [ref=e17] [cursor=pointer]:
+          - /url: wireframe-SCR-006-appointment-booking.html
+          - generic [ref=e18]: 📅
+          - text: Book Appointment
+      - listitem [ref=e19]:
+        - link "📋 Patient Intake" [ref=e20] [cursor=pointer]:
+          - /url: wireframe-SCR-007-patient-intake.html
+          - generic [ref=e21]: 📋
+          - text: Patient Intake
+      - listitem [ref=e22]:
+        - link "📁 Documents" [ref=e23] [cursor=pointer]:
+          - /url: wireframe-SCR-008-document-upload.html
+          - generic [ref=e24]: 📁
+          - text: Documents
+      - listitem [ref=e25]:
+        - link "👤 Profile & Settings" [ref=e26] [cursor=pointer]:
+          - /url: wireframe-SCR-005-profile-settings.html
+          - generic [ref=e27]: 👤
+          - text: Profile & Settings
+  - main [ref=e28]:
+    - heading "Welcome, Jane" [level=1] [ref=e29]
+    - paragraph [ref=e30]: Here's your health overview and quick actions
+    - region "Quick actions" [ref=e31]:
+      - link "Book a new appointment" [ref=e32] [cursor=pointer]:
+        - /url: wireframe-SCR-006-appointment-booking.html
+        - generic [ref=e33]: 📅
+        - generic [ref=e34]: Book Appointment
+        - generic [ref=e35]: Find and book available time slots
+      - link "Complete patient intake" [ref=e36] [cursor=pointer]:
+        - /url: wireframe-SCR-007-patient-intake.html
+        - generic [ref=e37]: 📋
+        - generic [ref=e38]: Complete Intake
+        - generic [ref=e39]: AI-assisted or manual intake form
+      - link "Upload medical documents" [ref=e40] [cursor=pointer]:
+        - /url: wireframe-SCR-008-document-upload.html
+        - generic [ref=e41]: 📁
+        - generic [ref=e42]: Upload Documents
+        - generic [ref=e43]: Upload medical records and files
+    - generic [ref=e44]:
+      - generic [ref=e45]:
+        - heading "Upcoming Appointments" [level=2] [ref=e47]
+        - list [ref=e49]:
+          - button "Dr. Lisa Wang, Routine Screening, Mar 15 — Completed" [ref=e50] [cursor=pointer]:
+            - generic [ref=e51]:
+              - generic [ref=e52]: "15"
+              - text: MAR
+            - generic [ref=e53]:
+              - generic [ref=e54]: Dr. Lisa Wang — Routine Screening
+              - generic [ref=e55]: 9:00 AM — Room 105
+            - status [ref=e56]: Completed
+          - button "Dr. Sarah Mitchell, General Checkup, Mar 22 at 10:00 AM — click to manage" [ref=e57] [cursor=pointer]:
+            - generic [ref=e58]:
+              - generic [ref=e59]: "22"
+              - text: MAR
+            - generic [ref=e60]:
+              - generic [ref=e61]: Dr. Sarah Mitchell — General Checkup
+              - generic [ref=e62]: 10:00 AM — Room 204
+            - status [ref=e63]: Confirmed
+            - generic [ref=e64]:
+              - button "Reschedule appointment with Dr. Mitchell on Mar 22" [ref=e65]: Reschedule
+              - button "Cancel appointment with Dr. Mitchell on Mar 22" [ref=e66]: Cancel
+          - button "Dr. James Patel, Lab Results Review, Mar 25 at 2:30 PM — click to manage" [ref=e67] [cursor=pointer]:
+            - generic [ref=e68]:
+              - generic [ref=e69]: "25"
+              - text: MAR
+            - generic [ref=e70]:
+              - generic [ref=e71]: Dr. James Patel — Lab Results Review
+              - generic [ref=e72]: 2:30 PM — Room 112
+            - status [ref=e73]: Scheduled
+          - button "Dr. Emily Zhao, Follow-up, Apr 2 at 11:15 AM — Pending Intake — click to manage" [ref=e74] [cursor=pointer]:
+            - generic [ref=e75]:
+              - generic [ref=e76]: "02"
+              - text: APR
+            - generic [ref=e77]:
+              - generic [ref=e78]: Dr. Emily Zhao — Follow-up
+              - generic [ref=e79]: 11:15 AM — Room 301
+              - generic [ref=e80]:
+                - text: ⚠ Please
+                - link "complete your intake form" [ref=e81]:
+                  - /url: wireframe-SCR-007-patient-intake.html
+                - text: before this appointment.
+            - status [ref=e82]: Pending Intake
+      - generic [ref=e83]:
+        - heading "Notifications" [level=2] [ref=e85]
+        - list [ref=e87]:
+          - listitem [ref=e88]:
+            - generic [ref=e90]:
+              - generic [ref=e91]: Your appointment with Dr. Mitchell has been confirmed.
+              - generic [ref=e92]: 2 hours ago
+          - listitem [ref=e93]:
+            - generic [ref=e95]:
+              - generic [ref=e96]: Please complete your intake form before Mar 22.
+              - generic [ref=e97]: 5 hours ago
+          - listitem [ref=e98]:
+            - generic [ref=e100]:
+              - generic [ref=e101]: Your lab results are ready for review.
+              - generic [ref=e102]: 1 day ago

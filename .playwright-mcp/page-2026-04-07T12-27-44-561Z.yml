@@ -1,0 +1,217 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e3]: UPACI
+    - generic [ref=e4]: Staff Dashboard
+    - generic [ref=e5]:
+      - button "Notifications (5 unread)" [ref=e6] [cursor=pointer]:
+        - text: 🔔
+        - generic [ref=e7]: "5"
+      - button "User menu" [ref=e8] [cursor=pointer]: SM
+  - navigation "Main navigation" [ref=e9]:
+    - generic [ref=e10]: Staff
+    - list [ref=e11]:
+      - listitem [ref=e12]:
+        - link "🏠 Dashboard" [ref=e13] [cursor=pointer]:
+          - /url: wireframe-SCR-003-staff-dashboard.html
+          - generic [ref=e14]: 🏠
+          - text: Dashboard
+      - listitem [ref=e15]:
+        - link "📊 Queue Management" [ref=e16] [cursor=pointer]:
+          - /url: wireframe-SCR-009-queue-management.html
+          - generic [ref=e17]: 📊
+          - text: Queue Management
+      - listitem [ref=e18]:
+        - link "🩺 Clinical Review" [ref=e19] [cursor=pointer]:
+          - /url: wireframe-SCR-010-clinical-data-review.html
+          - generic [ref=e20]: 🩺
+          - text: Clinical Review
+      - listitem [ref=e21]:
+        - link "📅 Appointments" [ref=e22] [cursor=pointer]:
+          - /url: wireframe-SCR-011-appointment-management.html
+          - generic [ref=e23]: 📅
+          - text: Appointments
+      - listitem [ref=e24]:
+        - link "👤 Profile & Settings" [ref=e25] [cursor=pointer]:
+          - /url: wireframe-SCR-005-staff-profile-settings.html
+          - generic [ref=e26]: 👤
+          - text: Profile & Settings
+  - main [ref=e27]:
+    - heading "Good Morning, Sarah" [level=1] [ref=e28]
+    - paragraph [ref=e29]: Today's schedule and patient overview — March 17, 2026
+    - region "Today's statistics" [ref=e30]:
+      - generic [ref=e31]:
+        - generic [ref=e32]: Today's Appointments
+        - generic [ref=e33]: "18"
+      - generic [ref=e34]:
+        - generic [ref=e35]: Patients Arrived
+        - generic [ref=e36]: "12"
+      - generic [ref=e37]:
+        - generic [ref=e38]: Pending Intake
+        - generic [ref=e39]: "4"
+    - generic [ref=e40]:
+      - heading "Today's Appointments" [level=2] [ref=e41]
+      - generic [ref=e42]: 18 TOTAL
+    - generic [ref=e43]:
+      - generic [ref=e44]:
+        - generic [ref=e45]:
+          - heading "General Medicine" [level=3] [ref=e46]
+          - generic [ref=e47]: "4"
+        - table "General Medicine appointments" [ref=e49]:
+          - rowgroup [ref=e50]:
+            - row "Time Patient ID Patient Type Status" [ref=e51]:
+              - columnheader "Time" [ref=e52]
+              - columnheader "Patient ID" [ref=e53]
+              - columnheader "Patient" [ref=e54]
+              - columnheader "Type" [ref=e55]
+              - columnheader "Status" [ref=e56]
+          - rowgroup [ref=e57]:
+            - row "8:00 AM PAT-1001 Jane Doe General Checkup Completed" [ref=e58]:
+              - cell "8:00 AM" [ref=e59]
+              - cell "PAT-1001" [ref=e60]
+              - cell "Jane Doe" [ref=e61]:
+                - link "Jane Doe" [ref=e62] [cursor=pointer]:
+                  - /url: wireframe-SCR-010-clinical-data-review.html
+              - cell "General Checkup" [ref=e63]
+              - cell "Completed" [ref=e64]:
+                - generic [ref=e65]: Completed
+            - row "9:30 AM PAT-1004 David Kim New Patient Scheduled" [ref=e66]:
+              - cell "9:30 AM" [ref=e67]
+              - cell "PAT-1004" [ref=e68]
+              - cell "David Kim" [ref=e69]:
+                - link "David Kim" [ref=e70] [cursor=pointer]:
+                  - /url: wireframe-SCR-010-clinical-data-review.html
+              - cell "New Patient" [ref=e71]
+              - cell "Scheduled" [ref=e72]:
+                - generic [ref=e73]: Scheduled
+      - generic [ref=e74]:
+        - generic [ref=e75]:
+          - heading "Cardiology" [level=3] [ref=e76]
+          - generic [ref=e77]: "3"
+        - table "Cardiology appointments" [ref=e79]:
+          - rowgroup [ref=e80]:
+            - row "Time Patient ID Patient Type Status" [ref=e81]:
+              - columnheader "Time" [ref=e82]
+              - columnheader "Patient ID" [ref=e83]
+              - columnheader "Patient" [ref=e84]
+              - columnheader "Type" [ref=e85]
+              - columnheader "Status" [ref=e86]
+          - rowgroup [ref=e87]:
+            - row "8:30 AM PAT-1002 Robert Chen Follow-up Arrived" [ref=e88]:
+              - cell "8:30 AM" [ref=e89]
+              - cell "PAT-1002" [ref=e90]
+              - cell "Robert Chen" [ref=e91]:
+                - link "Robert Chen" [ref=e92] [cursor=pointer]:
+                  - /url: wireframe-SCR-010-clinical-data-review.html
+              - cell "Follow-up" [ref=e93]
+              - cell "Arrived" [ref=e94]:
+                - generic [ref=e95]: Arrived
+      - generic [ref=e96]:
+        - generic [ref=e97]:
+          - heading "Orthopedics" [level=3] [ref=e98]
+          - generic [ref=e99]: "3"
+        - table "Orthopedics appointments" [ref=e101]:
+          - rowgroup [ref=e102]:
+            - row "Time Patient ID Patient Type Status" [ref=e103]:
+              - columnheader "Time" [ref=e104]
+              - columnheader "Patient ID" [ref=e105]
+              - columnheader "Patient" [ref=e106]
+              - columnheader "Type" [ref=e107]
+              - columnheader "Status" [ref=e108]
+          - rowgroup [ref=e109]:
+            - row "9:00 AM PAT-1003 Maria Garcia Lab Review Scheduled" [ref=e110]:
+              - cell "9:00 AM" [ref=e111]
+              - cell "PAT-1003" [ref=e112]
+              - cell "Maria Garcia" [ref=e113]:
+                - link "Maria Garcia" [ref=e114] [cursor=pointer]:
+                  - /url: wireframe-SCR-010-clinical-data-review.html
+              - cell "Lab Review" [ref=e115]
+              - cell "Scheduled" [ref=e116]:
+                - generic [ref=e117]: Scheduled
+      - generic [ref=e118]:
+        - generic [ref=e119]:
+          - heading "Neurology" [level=3] [ref=e120]
+          - generic [ref=e121]: "3"
+        - table "Neurology appointments" [ref=e123]:
+          - rowgroup [ref=e124]:
+            - row "Time Patient ID Patient Type Status" [ref=e125]:
+              - columnheader "Time" [ref=e126]
+              - columnheader "Patient ID" [ref=e127]
+              - columnheader "Patient" [ref=e128]
+              - columnheader "Type" [ref=e129]
+              - columnheader "Status" [ref=e130]
+          - rowgroup [ref=e131]:
+            - row "10:00 AM PAT-1005 Emily Watson Medication Review Pending Intake" [ref=e132]:
+              - cell "10:00 AM" [ref=e133]
+              - cell "PAT-1005" [ref=e134]
+              - cell "Emily Watson" [ref=e135]:
+                - link "Emily Watson" [ref=e136] [cursor=pointer]:
+                  - /url: wireframe-SCR-010-clinical-data-review.html
+              - cell "Medication Review" [ref=e137]
+              - cell "Pending Intake" [ref=e138]:
+                - generic [ref=e139]: Pending Intake
+      - generic [ref=e140]:
+        - generic [ref=e141]:
+          - heading "Dermatology" [level=3] [ref=e142]
+          - generic [ref=e143]: "2"
+        - table "Dermatology appointments" [ref=e145]:
+          - rowgroup [ref=e146]:
+            - row "Time Patient ID Patient Type Status" [ref=e147]:
+              - columnheader "Time" [ref=e148]
+              - columnheader "Patient ID" [ref=e149]
+              - columnheader "Patient" [ref=e150]
+              - columnheader "Type" [ref=e151]
+              - columnheader "Status" [ref=e152]
+          - rowgroup [ref=e153]:
+            - row "10:30 AM PAT-1006 Sarah Lee Skin Consultation Scheduled" [ref=e154]:
+              - cell "10:30 AM" [ref=e155]
+              - cell "PAT-1006" [ref=e156]
+              - cell "Sarah Lee" [ref=e157]:
+                - link "Sarah Lee" [ref=e158] [cursor=pointer]:
+                  - /url: wireframe-SCR-010-clinical-data-review.html
+              - cell "Skin Consultation" [ref=e159]
+              - cell "Scheduled" [ref=e160]:
+                - generic [ref=e161]: Scheduled
+      - generic [ref=e162]:
+        - generic [ref=e163]:
+          - heading "Pediatrics" [level=3] [ref=e164]
+          - generic [ref=e165]: "2"
+        - table "Pediatrics appointments" [ref=e167]:
+          - rowgroup [ref=e168]:
+            - row "Time Patient ID Patient Type Status" [ref=e169]:
+              - columnheader "Time" [ref=e170]
+              - columnheader "Patient ID" [ref=e171]
+              - columnheader "Patient" [ref=e172]
+              - columnheader "Type" [ref=e173]
+              - columnheader "Status" [ref=e174]
+          - rowgroup [ref=e175]:
+            - row "11:00 AM PAT-1007 Anita Kumar Vaccination Scheduled" [ref=e176]:
+              - cell "11:00 AM" [ref=e177]
+              - cell "PAT-1007" [ref=e178]
+              - cell "Anita Kumar" [ref=e179]:
+                - link "Anita Kumar" [ref=e180] [cursor=pointer]:
+                  - /url: wireframe-SCR-010-clinical-data-review.html
+              - cell "Vaccination" [ref=e181]
+              - cell "Scheduled" [ref=e182]:
+                - generic [ref=e183]: Scheduled
+      - generic [ref=e184]:
+        - generic [ref=e185]:
+          - heading "ENT" [level=3] [ref=e186]
+          - generic [ref=e187]: "1"
+        - table "ENT appointments" [ref=e189]:
+          - rowgroup [ref=e190]:
+            - row "Time Patient ID Patient Type Status" [ref=e191]:
+              - columnheader "Time" [ref=e192]
+              - columnheader "Patient ID" [ref=e193]
+              - columnheader "Patient" [ref=e194]
+              - columnheader "Type" [ref=e195]
+              - columnheader "Status" [ref=e196]
+          - rowgroup [ref=e197]:
+            - row "11:30 AM PAT-1008 Tom Harris Hearing Assessment Arrived" [ref=e198]:
+              - cell "11:30 AM" [ref=e199]
+              - cell "PAT-1008" [ref=e200]
+              - cell "Tom Harris" [ref=e201]:
+                - link "Tom Harris" [ref=e202] [cursor=pointer]:
+                  - /url: wireframe-SCR-010-clinical-data-review.html
+              - cell "Hearing Assessment" [ref=e203]
+              - cell "Arrived" [ref=e204]:
+                - generic [ref=e205]: Arrived

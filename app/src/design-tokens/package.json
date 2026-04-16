@@ -1,0 +1,23 @@
+{
+  "name": "@upaci/design-tokens",
+  "version": "1.0.0",
+  "description": "Unified Patient Access Clinical Intelligence Platform — Design Tokens",
+  "main": "tokens.json",
+  "files": [
+    "tokens.json",
+    "tokens.scss"
+  ],
+  "keywords": [
+    "design-tokens",
+    "design-system",
+    "healthcare",
+    "upaci"
+  ],
+  "author": "Design System Team",
+  "license": "UNLICENSED",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "directory": "app/src/design-tokens"
+  }
+}

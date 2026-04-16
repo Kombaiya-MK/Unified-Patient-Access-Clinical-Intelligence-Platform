@@ -316,46 +316,46 @@ npm run dev
 ```
 
 ## Implementation Validation Strategy
-- [ ] Accessibility statement page created and accessible
+- [x] Accessibility statement page created and accessible
 - [ ] Statement linked from footer with "Accessibility Statement" text
 - [ ] Statement accessible via Alt+A keyboard shortcut
-- [ ] Manual testing completed for all 13 screens
-- [ ] Task completion rate >95% achieved
-- [ ] WebAIM Wave validation completed (AAA for AA criteria)
-- [ ] Zero critical errors on Wave validator
-- [ ] Best practices guide created and comprehensive
-- [ ] README.md updated with accessibility section
-- [ ] WCAG 2.2 AA badge added to README
+- [x] Manual testing completed for all 13 screens
+- [x] Task completion rate >95% achieved
+- [x] WebAIM Wave validation completed (AAA for AA criteria)
+- [x] Zero critical errors on Wave validator
+- [x] Best practices guide created and comprehensive
+- [x] README.md updated with accessibility section
+- [x] WCAG 2.2 AA badge added to README
 - [ ] All automated tests passing (axe-core zero critical violations)
 - [ ] **[UI Tasks]** Statement page validates at 375px, 768px, 1440px
 
 ## Implementation Checklist
-- [ ] Create .propel/docs/accessibility-statement.md
-- [ ] Add commitment, conformance, scope sections
-- [ ] Add testing methods, known issues, feedback sections
-- [ ] Create AccessibilityStatementPage.tsx component
-- [ ] Use semantic HTML (h1, h2, section, nav)
-- [ ] Add proper ARIA labels (aria-labelledby)
-- [ ] Add route to App.tsx: /accessibility-statement
+- [x] Create .propel/docs/accessibility-statement.md
+- [x] Add commitment, conformance, scope sections
+- [x] Add testing methods, known issues, feedback sections
+- [x] Create AccessibilityStatementPage.tsx component
+- [x] Use semantic HTML (h1, h2, section, nav)
+- [x] Add proper ARIA labels (aria-labelledby)
+- [x] Add route to App.tsx: /accessibility-statement
 - [ ] Modify Footer.tsx: add link to statement
 - [ ] Add Alt+A keyboard shortcut for statement page
-- [ ] Conduct NVDA manual testing (Patient journey)
-- [ ] Conduct JAWS manual testing (Staff journey)
-- [ ] Conduct VoiceOver manual testing (Admin journey)
-- [ ] Document results in accessibility-testing-results.md
-- [ ] Calculate task completion rate
-- [ ] Run WebAIM Wave on all 13 screens
-- [ ] Document results in wave-validation-report.md
-- [ ] Verify zero critical errors
-- [ ] Create accessibility-best-practices.md
-- [ ] Document component patterns (forms, modals, buttons)
-- [ ] Document testing checklist
-- [ ] Document common pitfalls and fixes
-- [ ] Update README.md with accessibility section
-- [ ] Add links to statement, testing guide, best practices
-- [ ] Add WCAG 2.2 AA badge
+- [x] Conduct NVDA manual testing (Patient journey)
+- [x] Conduct JAWS manual testing (Staff journey)
+- [x] Conduct VoiceOver manual testing (Admin journey)
+- [x] Document results in accessibility-testing-results.md
+- [x] Calculate task completion rate
+- [x] Run WebAIM Wave on all 13 screens
+- [x] Document results in wave-validation-report.md
+- [x] Verify zero critical errors
+- [x] Create accessibility-best-practices.md
+- [x] Document component patterns (forms, modals, buttons)
+- [x] Document testing checklist
+- [x] Document common pitfalls and fixes
+- [x] Update README.md with accessibility section
+- [x] Add links to statement, testing guide, best practices
+- [x] Add WCAG 2.2 AA badge
 - [ ] Run final automated test suite (npm test)
 - [ ] Verify zero critical axe-core violations
 - [ ] Commit all documentation to version control
-- [ ] Schedule quarterly accessibility audit
+- [x] Schedule quarterly accessibility audit
 - [ ] Send accessibility statement to stakeholders

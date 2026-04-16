@@ -1,0 +1,55 @@
+[     188ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=3a0da526:20102
+[    2947ms] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized) @ http://localhost:3001/api/appointments/my:0
+[    2947ms] [ERROR] Failed to load appointments: AxiosError: Request failed with status code 401
+    at settle (http://localhost:5173/node_modules/.vite/deps/axios.js?v=3a0da526:1319:7)
+    at XMLHttpRequest.onloadend (http://localhost:5173/node_modules/.vite/deps/axios.js?v=3a0da526:1682:7)
+    at Axios.request (http://localhost:5173/node_modules/.vite/deps/axios.js?v=3a0da526:2328:41)
+    at async http://localhost:5173/src/context/AppointmentContext.tsx:39:24 @ http://localhost:5173/src/context/AppointmentContext.tsx:53
+[    3037ms] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized) @ http://localhost:3001/api/waitlist/my:0
+[    5665ms] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized) @ http://localhost:3001/api/appointments/my:0
+[    5666ms] [ERROR] Failed to load appointments: AxiosError: Request failed with status code 401
+    at settle (http://localhost:5173/node_modules/.vite/deps/axios.js?v=3a0da526:1319:7)
+    at XMLHttpRequest.onloadend (http://localhost:5173/node_modules/.vite/deps/axios.js?v=3a0da526:1682:7)
+    at Axios.request (http://localhost:5173/node_modules/.vite/deps/axios.js?v=3a0da526:2328:41)
+    at async http://localhost:5173/src/context/AppointmentContext.tsx:39:24 @ http://localhost:5173/src/context/AppointmentContext.tsx:53
+[    5817ms] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized) @ http://localhost:3001/api/waitlist/my:0
+[ 1185776ms] ReferenceError: DashboardLayout is not defined
+    at PatientDashboard (http://localhost:5173/src/pages/PatientDashboard.tsx?t=1775557821471:52:5)
+    at Object.react_stack_bottom_frame (http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=3a0da526:18509:20)
+    at renderWithHooks (http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=3a0da526:5654:24)
+    at updateFunctionComponent (http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=3a0da526:7475:21)
+    at beginWork (http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=3a0da526:8525:20)
+    at runWithFiberInDEV (http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=3a0da526:997:72)
+    at performUnitOfWork (http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=3a0da526:12561:98)
+    at workLoopSync (http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=3a0da526:12424:43)
+    at renderRootSync (http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=3a0da526:12408:13)
+    at performWorkOnRoot (http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=3a0da526:11827:37)
+[ 1185776ms] [WARNING] %s
+
+%s
+ An error occurred in the <PatientDashboard> component. Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://react.dev/link/error-boundaries to learn more about error boundaries. @ http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=3a0da526:6965
+[ 1203668ms] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized) @ http://localhost:3001/api/waitlist/my:0
+[ 1203747ms] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized) @ http://localhost:3001/api/appointments/my:0
+[ 1203748ms] [ERROR] Failed to load appointments: AxiosError: Request failed with status code 401
+    at settle (http://localhost:5173/node_modules/.vite/deps/axios.js?v=3a0da526:1319:7)
+    at XMLHttpRequest.onloadend (http://localhost:5173/node_modules/.vite/deps/axios.js?v=3a0da526:1682:7)
+    at Axios.request (http://localhost:5173/node_modules/.vite/deps/axios.js?v=3a0da526:2328:41)
+    at async http://localhost:5173/src/context/AppointmentContext.tsx:39:24 @ http://localhost:5173/src/context/AppointmentContext.tsx:53
+[ 1206393ms] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized) @ http://localhost:3001/api/waitlist/my:0
+[ 1206445ms] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized) @ http://localhost:3001/api/appointments/my:0
+[ 1206445ms] [ERROR] Failed to load appointments: AxiosError: Request failed with status code 401
+    at settle (http://localhost:5173/node_modules/.vite/deps/axios.js?v=3a0da526:1319:7)
+    at XMLHttpRequest.onloadend (http://localhost:5173/node_modules/.vite/deps/axios.js?v=3a0da526:1682:7)
+    at Axios.request (http://localhost:5173/node_modules/.vite/deps/axios.js?v=3a0da526:2328:41)
+    at async http://localhost:5173/src/context/AppointmentContext.tsx:39:24 @ http://localhost:5173/src/context/AppointmentContext.tsx:53
+[ 1254592ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:5173/src/pages/UserManagementPage.tsx?t=1775557890313:0
+[ 1254593ms] [ERROR] [hmr] Failed to reload /src/pages/UserManagementPage.tsx. This could be due to syntax errors or importing non-existent modules. (see errors above) @ http://localhost:5173/@vite/client:175
+[ 1448933ms] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized) @ http://localhost:3001/api/auth/logout:0
+[ 1448935ms] [ERROR] Logout API call failed: AxiosError: Request failed with status code 401
+    at settle (http://localhost:5173/node_modules/.vite/deps/axios.js?v=3a0da526:1319:7)
+    at XMLHttpRequest.onloadend (http://localhost:5173/node_modules/.vite/deps/axios.js?v=3a0da526:1682:7)
+    at Axios.request (http://localhost:5173/node_modules/.vite/deps/axios.js?v=3a0da526:2328:41)
+    at async Object.logout (http://localhost:5173/src/services/authService.ts:70:9)
+    at async http://localhost:5173/src/context/AuthContext.tsx:82:7 @ http://localhost:5173/src/services/authService.ts:72
+[ 1449660ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=3a0da526:20102

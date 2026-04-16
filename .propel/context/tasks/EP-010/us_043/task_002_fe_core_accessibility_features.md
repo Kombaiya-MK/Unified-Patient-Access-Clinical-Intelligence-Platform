@@ -663,25 +663,25 @@ npm test -- --testPathPattern=accessibility
 ```
 
 ## Implementation Validation Strategy
-- [ ] SkipLink component renders at top of every page
-- [ ] Tab key focuses skip link (visible with 2px blue outline)
-- [ ] Skip link navigates to main content on Enter/Click
-- [ ] Semantic landmarks present: header, nav, main, aside, footer
-- [ ] Each landmark has descriptive aria-label when multiple of same type
-- [ ] Keyboard shortcuts work: Alt+B, Alt+I, Alt+U, Alt+D, Alt+/ (per role)
-- [ ] Alt+/ opens keyboard shortcuts legend modal
-- [ ] Shortcuts legend modal traps focus (Tab cycles within modal)
-- [ ] Escape key closes shortcuts legend modal
-- [ ] useFocusTrap hook implemented and tested
-- [ ] ConfirmationModal uses useFocusTrap, focus returns to trigger on close
-- [ ] LiveRegion component announces updates to screen readers
-- [ ] AccessibleTable has <th> headers with scope="col"
-- [ ] AccessibleTable has <caption> element
-- [ ] Sortable columns have aria-sort attribute
+- [x] SkipLink component renders at top of every page
+- [x] Tab key focuses skip link (visible with 2px blue outline)
+- [x] Skip link navigates to main content on Enter/Click
+- [x] Semantic landmarks present: header, nav, main, aside, footer
+- [x] Each landmark has descriptive aria-label when multiple of same type
+- [x] Keyboard shortcuts work: Alt+B, Alt+I, Alt+U, Alt+D, Alt+/ (per role)
+- [x] Alt+/ opens keyboard shortcuts legend modal
+- [x] Shortcuts legend modal traps focus (Tab cycles within modal)
+- [x] Escape key closes shortcuts legend modal
+- [x] useFocusTrap hook implemented and tested
+- [x] ConfirmationModal uses useFocusTrap, focus returns to trigger on close
+- [x] LiveRegion component announces updates to screen readers
+- [x] AccessibleTable has <th> headers with scope="col"
+- [x] AccessibleTable has <caption> element
+- [x] Sortable columns have aria-sort attribute
 - [ ] AppointmentCalendar supports arrow key navigation
-- [ ] TimeSlotsGrid buttons are Tab-navigable, activated with Enter/Space
-- [ ] All dashboard pages wrapped in <main id="main-content"> landmark
-- [ ] Focus visible only on keyboard navigation (not mouse click)
+- [x] TimeSlotsGrid buttons are Tab-navigable, activated with Enter/Space
+- [x] All dashboard pages wrapped in <main id="main-content"> landmark
+- [x] Focus visible only on keyboard navigation (not mouse click)
 - [ ] **[UI Tasks]** Validate against wireframes at 375px, 768px, 1440px
 - [ ] Manual test: Navigate entire app using only keyboard (Tab, Enter, Space, Esc, Arrows)
 - [ ] Manual test: Screen reader announces skip link, landmarks, live regions
@@ -689,55 +689,55 @@ npm test -- --testPathPattern=accessibility
 - [ ] Automated test: KeyboardShortcuts integration test (shortcuts navigate to correct pages)
 
 ## Implementation Checklist
-- [ ] Install dependencies (if needed)
-- [ ] Create app/src/components/accessibility/ folder
-- [ ] Create SkipLink.tsx component with href="#main-content"
-- [ ] Create SkipLink.css with absolute positioning, top: -40px default, top: 0 on focus
-- [ ] Add 2px blue focus outline to skip link
-- [ ] Create KeyboardShortcuts.tsx with useEffect keyboard listener
-- [ ] Add Alt+B, Alt+I, Alt+U, Alt+D shortcuts for Patient role
-- [ ] Add Alt+Q, Alt+D shortcuts for Staff role
-- [ ] Add Alt+U, Alt+D shortcuts for Admin role
-- [ ] Add Alt+/ shortcut to show shortcuts legend modal
-- [ ] Create keyboard shortcuts legend modal with all shortcuts listed
-- [ ] Add close button to shortcuts legend modal
-- [ ] Create LiveRegion.tsx with role="status" (polite) and role="alert" (assertive)
-- [ ] Add aria-live, aria-atomic attributes to LiveRegion
-- [ ] Create AccessibleTable.tsx with <caption>, <th scope="col">, <tbody>, <td>
-- [ ] Add sortable column support with aria-sort attribute
-- [ ] Add sort button with aria-label to table headers
-- [ ] Create app/src/utils/focus-management.ts file
-- [ ] Implement getFocusableElements(container) helper function
-- [ ] Implement useFocusTrap(isOpen) custom hook
-- [ ] Store previouslyFocusedElement on modal open
-- [ ] Focus first focusable element in modal
-- [ ] Add Tab/Shift+Tab handler to cycle focus within modal
-- [ ] Restore focus to previouslyFocusedElement on modal close
-- [ ] Implement useFocusVisible() hook with keyboard/mouse detection
-- [ ] Add "keyboard-navigation" class to body on Tab key
-- [ ] Remove "keyboard-navigation" class on mouse click
-- [ ] Modify App.tsx: Import SkipLink, KeyboardShortcuts
-- [ ] Add <SkipLink targetId="main-content">Skip to main content</SkipLink> at top
-- [ ] Add <KeyboardShortcuts /> component
-- [ ] Wrap navigation in <header role="banner"><nav role="navigation" aria-label="Primary"></nav></header>
-- [ ] Wrap routes in <main id="main-content" role="main" tabIndex={-1}></main>
+- [x] Install dependencies (if needed)
+- [x] Create app/src/components/accessibility/ folder
+- [x] Create SkipLink.tsx component with href="#main-content"
+- [x] Create SkipLink.css with absolute positioning, top: -40px default, top: 0 on focus
+- [x] Add 2px blue focus outline to skip link
+- [x] Create KeyboardShortcuts.tsx with useEffect keyboard listener
+- [x] Add Alt+B, Alt+I, Alt+U, Alt+D shortcuts for Patient role
+- [x] Add Alt+Q, Alt+D shortcuts for Staff role
+- [x] Add Alt+U, Alt+D shortcuts for Admin role
+- [x] Add Alt+/ shortcut to show shortcuts legend modal
+- [x] Create keyboard shortcuts legend modal with all shortcuts listed
+- [x] Add close button to shortcuts legend modal
+- [x] Create LiveRegion.tsx with role="status" (polite) and role="alert" (assertive)
+- [x] Add aria-live, aria-atomic attributes to LiveRegion
+- [x] Create AccessibleTable.tsx with <caption>, <th scope="col">, <tbody>, <td>
+- [x] Add sortable column support with aria-sort attribute
+- [x] Add sort button with aria-label to table headers
+- [x] Create app/src/utils/focus-management.ts file
+- [x] Implement getFocusableElements(container) helper function
+- [x] Implement useFocusTrap(isOpen) custom hook
+- [x] Store previouslyFocusedElement on modal open
+- [x] Focus first focusable element in modal
+- [x] Add Tab/Shift+Tab handler to cycle focus within modal
+- [x] Restore focus to previouslyFocusedElement on modal close
+- [x] Implement useFocusVisible() hook with keyboard/mouse detection
+- [x] Add "keyboard-navigation" class to body on Tab key
+- [x] Remove "keyboard-navigation" class on mouse click
+- [x] Modify App.tsx: Import SkipLink, KeyboardShortcuts
+- [x] Add <SkipLink targetId="main-content">Skip to main content</SkipLink> at top
+- [x] Add <KeyboardShortcuts /> component
+- [x] Wrap navigation in <header role="banner"><nav role="navigation" aria-label="Primary"></nav></header>
+- [x] Wrap routes in <main id="main-content" role="main" tabIndex={-1}></main>
 - [ ] Add <aside role="complementary" aria-label="..."></aside> for sidebars
 - [ ] Add <footer role="contentinfo"></footer>
-- [ ] Modify ConfirmationModal.tsx: Import useFocusTrap
-- [ ] Add const containerRef = useFocusTrap<HTMLDivElement>(!!appointment);
-- [ ] Add ref={containerRef} to modal container div
-- [ ] Add role="dialog", aria-modal="true", aria-labelledby="confirmation-title"
-- [ ] Add Escape key listener to close modal
+- [x] Modify ConfirmationModal.tsx: Import useFocusTrap
+- [x] Add const containerRef = useFocusTrap<HTMLDivElement>(!!appointment);
+- [x] Add ref={containerRef} to modal container div
+- [x] Add role="dialog", aria-modal="true", aria-labelledby="confirmation-title"
+- [x] Add Escape key listener to close modal
 - [ ] Modify AppointmentCalendar.tsx: Add handleKeyDown function
 - [ ] Add ArrowRight/Left handlers (navigate days)
 - [ ] Add ArrowUp/Down handlers (navigate weeks)
 - [ ] Add Enter/Space handler (select date)
 - [ ] Add onKeyDown={handleKeyDown} to date buttons
-- [ ] Modify TimeSlotsGrid.tsx: Verify Tab order of slot buttons
-- [ ] Ensure Enter/Space activates slot buttons (native button behavior)
-- [ ] Modify PatientDashboard.tsx: Wrap content in <main> landmark if not already
-- [ ] Modify StaffDashboard.tsx: Wrap content in <main> landmark if not already
-- [ ] Modify AdminDashboard.tsx: Wrap content in <main> landmark if not already
+- [x] Modify TimeSlotsGrid.tsx: Verify Tab order of slot buttons
+- [x] Ensure Enter/Space activates slot buttons (native button behavior)
+- [x] Modify PatientDashboard.tsx: Wrap content in <main> landmark if not already
+- [x] Modify StaffDashboard.tsx: Wrap content in <main> landmark if not already
+- [x] Modify AdminDashboard.tsx: Wrap content in <main> landmark if not already
 - [ ] Test SkipLink: Tab on page, verify skip link appears, press Enter, verify focus moves to main
 - [ ] Test keyboard shortcuts: Alt+B navigates to booking page (Patient role)
 - [ ] Test shortcuts legend: Alt+/ opens modal, Tab cycles within modal, Esc closes modal

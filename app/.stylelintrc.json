@@ -1,0 +1,22 @@
+{
+  "extends": "stylelint-config-standard",
+  "rules": {
+    "color-no-hex": true,
+    "color-named": "never",
+    "declaration-property-value-disallowed-list": {
+      "/^(padding|margin|gap|top|right|bottom|left|inset|width|height|min-width|min-height|max-width|max-height|border-radius|font-size)/": [
+        "/^\\d+px$/",
+        "/^\\d+rem$/",
+        "/^\\d+em$/"
+      ]
+    },
+    "function-disallowed-list": ["rgb", "rgba", "hsl", "hsla"]
+  },
+  "ignoreFiles": [
+    "src/styles/tokens/**",
+    "src/styles/generated/**",
+    "src/design-tokens/**",
+    "src/stories/**",
+    "dist/**"
+  ]
+}

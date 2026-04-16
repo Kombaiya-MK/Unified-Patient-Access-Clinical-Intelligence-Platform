@@ -13,7 +13,10 @@ import { getCircuitBreakerStatus } from '../services/circuit-breaker.service';
 import { getToken } from '../utils/storage/tokenStorage';
 import type { CircuitBreakerStatus, CircuitBreakerServiceId } from '../types/circuit-breaker.types';
 
-const WS_BASE_URL = import.meta.env.VITE_WS_URL || 'ws://localhost:3001';
+const WS_BASE_URL = import.meta.env.VITE_WS_URL ||
+  (typeof window !== 'undefined'
+    ? `${window.location.protocol === 'https:' ? 'wss:' : 'ws:'}//${window.location.host}`
+    : 'ws://localhost:3001');
 
 interface UseCircuitBreakerStatusReturn {
   statuses: CircuitBreakerStatus[];
@@ -65,10 +68,18 @@ export function useCircuitBreakerStatus(): UseCircuitBreakerStatusReturn {
         try {
           const message = JSON.parse(event.data);
           if (message.event === 'circuit-breaker:update') {
-            const update = message.data as CircuitBreakerStatus;
-            setStatuses((prev) =>
-              prev.map((s) => (s.service === update.service ? update : s)),
-            );
+            const update = message.data as Partial<CircuitBreakerStatus> & { service: CircuitBreakerServiceId };
+            if (!update.service) return;
+            setStatuses((prev) => {
+              const exists = prev.some((s) => s.service === update.service);
+              if (exists) {
+                return prev.map((s) =>
+                  s.service === update.service ? { ...s, ...update } : s,
+                );
+              }
+              // Upsert: add new service if not already tracked
+              return [...prev, update as CircuitBreakerStatus];
+            });
           }
         } catch {
           // malformed message — ignore

@@ -63,3 +63,21 @@ describe('CircuitBreakerStatusCard', () => {
     expect(region).toHaveAttribute('aria-label', expect.stringContaining('Open'));
   });
 });
+
+describe('CircuitBreakerStatusCard Accessibility', () => {
+  it('has no axe accessibility violations in closed state', async () => {
+    const { container } = render(
+      <CircuitBreakerStatusCard status={makeStatus({ state: 'closed' })} onViewLogs={() => {}} />,
+    );
+    const { expectNoA11yViolations } = await import('../../src/utils/accessibility-testing');
+    await expectNoA11yViolations(container);
+  });
+
+  it('has no axe accessibility violations in open state', async () => {
+    const { container } = render(
+      <CircuitBreakerStatusCard status={makeStatus({ state: 'open', failureRate: 75 })} onViewLogs={() => {}} />,
+    );
+    const { expectNoA11yViolations } = await import('../../src/utils/accessibility-testing');
+    await expectNoA11yViolations(container);
+  });
+});

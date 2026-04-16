@@ -1,48 +1,49 @@
 /**
  * Notification Type Definitions
- * 
+ *
  * Defines TypeScript interfaces for notification data structures.
- * Supports appointment, document, and system notification types.
- * 
+ * Supports appointment, document, and system notification types
+ * with priority levels for real-time WebSocket delivery.
+ *
  * @module notification.types
  * @created 2026-03-19
- * @task US_019 TASK_003
+ * @updated 2026-04-09
+ * @task US_019 TASK_003, US_046 TASK_001
  */
 
-/**
- * Notification type enum
- */
 export type NotificationType = 'appointment' | 'document' | 'system';
 
-/**
- * Notification interface
- * 
- * @property id - Unique notification identifier
- * @property title - Notification title (bold text)
- * @property message - Notification message body
- * @property type - Category of notification (appointment/document/system)
- * @property read - Whether notification has been read
- * @property timestamp - ISO 8601 timestamp when notification was created
- * @property icon - Emoji or icon identifier for visual representation
- */
+export type NotificationPriority = 'info' | 'warning' | 'critical';
+
 export interface Notification {
   id: string;
   title: string;
   message: string;
   type: NotificationType;
+  priority: NotificationPriority;
   read: boolean;
-  timestamp: string; // ISO 8601 date string
+  acknowledged: boolean;
+  timestamp: string;
   icon: string;
+  actionUrl?: string;
 }
 
-/**
- * Notifications hook return type
- */
 export interface UseNotificationsReturn {
   notifications: Notification[];
   unreadCount: number;
+  addNotification: (notification: Notification) => void;
   markAsRead: (id: string) => void;
   markAllAsRead: () => void;
+  acknowledge: (id: string) => void;
+  dismissPopup: (id: string) => void;
+  clearRead: () => void;
   loading: boolean;
   error: string | null;
+  isConnected: boolean;
+  popups: Notification[];
+  isPanelOpen: boolean;
+  togglePanel: () => void;
+  closePanel: () => void;
+  loadMore: () => void;
+  hasMore: boolean;
 }

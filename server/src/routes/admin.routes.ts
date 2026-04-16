@@ -66,6 +66,8 @@ import {
   resolveAlertHandler,
   exportMetricsCSV,
 } from '../controllers/metrics.controller';
+import { validateRequest } from '../middleware/validation.middleware';
+import { UserManagementDTOSchema, UserUpdateDTOSchema } from '../schemas/userManagementDTO.schema';
 
 const router = Router();
 
@@ -129,7 +131,7 @@ router.get('/users', getUsers);
  * @access  Private (Admin only)
  * @body    { email, password, role, first_name, last_name, phone_number?, department_id? }
  */
-router.post('/users', createUser);
+router.post('/users', validateRequest(UserManagementDTOSchema), createUser);
 
 /**
  * @route   PUT /api/admin/users/:id
@@ -137,7 +139,7 @@ router.post('/users', createUser);
  * @access  Private (Admin only)
  * @body    { role?, first_name?, last_name?, phone_number?, department_id? }
  */
-router.put('/users/:id', updateUser);
+router.put('/users/:id', validateRequest(UserUpdateDTOSchema), updateUser);
 
 /**
  * @route   DELETE /api/admin/users/:id

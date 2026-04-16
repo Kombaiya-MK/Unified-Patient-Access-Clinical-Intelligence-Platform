@@ -19,6 +19,7 @@ Complete specification of all tables in the Clinical Appointment Platform (UPACI
   - [allergies](#allergies)
 - [System Tables](#system-tables)
   - [notifications](#notifications)
+  - [notification_preferences](#notification_preferences)
 
 ---
 
@@ -257,11 +258,65 @@ Complete specification of all tables in the Clinical Appointment Platform (UPACI
 
 **Indexes:**
 - `idx_notifications_user_unread` (partial: unread notifications only)
-- B-tree indexes on user_id, type, priority, created_at
+- `idx_notifications_user_created` (composite: user_id, created_at DESC — missed-notification queries)
+- `idx_notifications_user_read_status` (composite: user_id, is_read — unread count)
+- `idx_notifications_user_type` (composite: user_id, type — type filtering)
+- `idx_notifications_user_priority` (composite: user_id, priority — priority filtering)
+- `idx_notifications_read_created` (partial: created_at WHERE is_read = TRUE — retention cleanup)
+
+**Triggers:**
+- `trg_notification_set_read_at`: Auto-sets read_at = NOW() when is_read changes to TRUE, clears when FALSE
+
+**Functions:**
+- `fn_archive_old_notifications()`: Deletes read notifications > 90 days old; preserves unread. Run via scheduler daily.
+
+**Query patterns:**
+```sql
+-- Missed notifications (reconnection sync)
+SELECT * FROM notifications WHERE user_id = $1 AND created_at > $2 ORDER BY created_at DESC LIMIT $3;
+
+-- Unread count (Redis-cached 60s)
+SELECT COUNT(*) FROM notifications WHERE user_id = $1 AND is_read = FALSE;
+
+-- Paginated history with filters
+SELECT * FROM notifications WHERE user_id = $1 [AND type = $2] [AND priority = $3] [AND is_read = $4]
+ORDER BY created_at DESC LIMIT $5 OFFSET $6;
+```
 
 ---
 
-**Table Definitions Version:** 1.0.0  
-**Last Updated:** March 18, 2026  
-**Total Tables:** 11  
+### notification_preferences
+
+**Purpose:** Per-user notification delivery and category preferences.
+
+| Column | Type | Constraints | Description |
+|--------|------|-------------|-------------|
+| id | BIGSERIAL | PRIMARY KEY | Unique identifier |
+| user_id | BIGINT | NOT NULL, UNIQUE, FK→users.id | User reference |
+| reminder_sms_enabled | BOOLEAN | NOT NULL, DEFAULT TRUE | SMS reminders on/off |
+| reminder_email_enabled | BOOLEAN | NOT NULL, DEFAULT TRUE | Email reminders on/off |
+| sms_opt_out | BOOLEAN | NOT NULL, DEFAULT FALSE | Global SMS opt-out |
+| email_opt_out | BOOLEAN | NOT NULL, DEFAULT FALSE | Global email opt-out |
+| preferred_contact_method | VARCHAR(20) | NOT NULL, DEFAULT 'both', CHECK | 'sms', 'email', 'both', 'none' |
+| reminder_hours_before | INTEGER | NOT NULL, DEFAULT 24, CHECK 0–168 | Hours before appointment for reminder |
+| timezone | VARCHAR(50) | DEFAULT 'America/New_York' | IANA timezone |
+| category_appointment | BOOLEAN | NOT NULL, DEFAULT TRUE | Enable appointment notifications |
+| category_medication | BOOLEAN | NOT NULL, DEFAULT TRUE | Enable medication notifications |
+| category_system | BOOLEAN | NOT NULL, DEFAULT TRUE | Enable system alert notifications |
+| category_waitlist | BOOLEAN | NOT NULL, DEFAULT TRUE | Enable waitlist notifications |
+| created_at | TIMESTAMPTZ | NOT NULL, DEFAULT NOW() | Record creation timestamp |
+| updated_at | TIMESTAMPTZ | NOT NULL, DEFAULT NOW() | Last update timestamp |
+
+**Indexes:**
+- `idx_notification_preferences_user_id` (user_id)
+- `idx_notification_preferences_opt_outs` (partial: opt-out rows)
+
+**Triggers:**
+- `trg_notification_preferences_updated_at`: Auto-updates updated_at on UPDATE
+
+---
+
+**Table Definitions Version:** 1.1.0
+**Last Updated:** April 9, 2026
+**Total Tables:** 13
 **Clinical Appointment Platform Team**

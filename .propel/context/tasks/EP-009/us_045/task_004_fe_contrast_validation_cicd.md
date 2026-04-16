@@ -105,21 +105,21 @@ npm run test:accessibility:report  # Generate detailed report
 ```
 
 ## Implementation Validation Strategy
-- [ ] Contrast test runs successfully on all screens (Login, Dashboards, Forms)
-- [ ] Test detects intentional contrast violation (e.g., text with 3:1 ratio)
-- [ ] Test passes when all colors meet WCAG AA minimum
-- [ ] Violation report JSON contains component selector, current ratio, expected ratio
-- [ ] CI pipeline fails PR when contrast violations detected
-- [ ] Console output clearly identifies failing components
-- [ ] Test completes within 60 seconds (performance requirement)
+- [x] Contrast test runs successfully on all screens (Login, Dashboards, Forms)
+- [x] Test detects intentional contrast violation (e.g., text with 3:1 ratio)
+- [x] Test passes when all colors meet WCAG AA minimum
+- [x] Violation report JSON contains component selector, current ratio, expected ratio
+- [x] CI pipeline fails PR when contrast violations detected
+- [x] Console output clearly identifies failing components
+- [x] Test completes within 60 seconds (performance requirement)
 
 ## Implementation Checklist
-- [ ] Install axe deps: `npm install axe-core @axe-core/playwright --save-dev`
-- [ ] Create `axe-helpers.ts`: `runAxe(page)` function wrapping `injectAxe()` and `checkA11y()`, `filterContrastViolations()` to extract color-contrast issues only
-- [ ] Create `contrast-validation.spec.ts`: test navigates to each screen, runs `runAxe(page)`, asserts `violations.length === 0`, logs violations if found
-- [ ] Add screens to test: Login (SCR-001), Patient Dashboard (SCR-002), Staff Dashboard (SCR-003), Booking Form (SCR-006), Queue (SCR-009)
-- [ ] Implement violation formatter: `formatViolation(v)` returns `{ component: selector, currentRatio: X:1, expectedRatio: 4.5:1, suggestion: "Use --color-text-primary" }`
-- [ ] Configure `playwright.config.ts`: add `reporters: [['html'], ['json', { outputFile: 'reports/contrast-report.json' }]]`
-- [ ] Create `.github/workflows/contrast-check.yml`: run `npm run test:accessibility` on PR, fail if exit code non-zero
-- [ ] Add exclusion config: create `axe-config.json` with `exclude: ['.disabled-button']` for non-critical violations
-- [ ] Test with intentional violation: add `color: #999999` text on white, verify test fails and reports correct ratio
+- [x] Install axe deps: `npm install axe-core @axe-core/playwright --save-dev`
+- [x] Create `axe-helpers.ts`: `runAxeContrastScan(page)` wrapping AxeBuilder with color-contrast rule, `filterContrastViolations()`, `formatViolationsForConsole()`, `writeContrastReport()`
+- [x] Create `contrast-validation.spec.ts`: tests navigate to each screen, run axe scan, assert violations.length === 0, log violations if found
+- [x] Add screens to test: Login (SCR-001), Patient Dashboard (SCR-002), Staff Dashboard (SCR-003), Booking Form (SCR-006), Queue (SCR-009)
+- [x] Implement violation formatter: returns component selector, currentRatio, expectedRatio, suggestion with token recommendation
+- [x] Configure `playwright.config.ts`: added accessibility project with e2e/accessibility testDir, json+html reporters
+- [x] Create `.github/workflows/contrast-check.yml`: runs on PR, builds app, serves static, runs accessibility project, uploads reports
+- [x] Add exclusion config: `axe-config.json` with exclude list for disabled elements and skeleton loaders
+- [x] Test with intentional violation: spec injects #999999 text on white, verifies axe detects it

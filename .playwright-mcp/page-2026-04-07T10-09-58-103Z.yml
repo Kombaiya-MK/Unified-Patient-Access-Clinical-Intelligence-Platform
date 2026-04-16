@@ -1,0 +1,121 @@
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - generic [ref=e5]:
+      - button "Open navigation menu" [ref=e6] [cursor=pointer]:
+        - img [ref=e7]
+      - link "UPACI" [ref=e9] [cursor=pointer]:
+        - /url: /patient/dashboard
+    - generic [ref=e11]:
+      - button "Notifications" [ref=e12] [cursor=pointer]:
+        - img [ref=e13]
+      - 'generic "User: Jane Smith" [ref=e17]': JS
+  - main [ref=e19]:
+    - generic [ref=e20]:
+      - navigation "Main navigation" [ref=e21]:
+        - navigation "Main navigation" [ref=e22]:
+          - 'status "User role: patient" [ref=e23]': Patient
+          - menu [ref=e24]:
+            - menuitem "Dashboard" [ref=e25] [cursor=pointer]:
+              - generic [ref=e26]: 🏠
+              - generic [ref=e27]: Dashboard
+            - menuitem "Book Appointment" [ref=e28] [cursor=pointer]:
+              - generic [ref=e29]: 📅
+              - generic [ref=e30]: Book Appointment
+            - menuitem "Documents" [ref=e31] [cursor=pointer]:
+              - generic [ref=e32]: 📄
+              - generic [ref=e33]: Documents
+            - menuitem "AI Intake" [ref=e34] [cursor=pointer]:
+              - generic [ref=e35]: 🤖
+              - generic [ref=e36]: AI Intake
+            - menuitem "Manual Intake" [ref=e37] [cursor=pointer]:
+              - generic [ref=e38]: 📝
+              - generic [ref=e39]: Manual Intake
+          - generic [ref=e41]:
+            - generic [ref=e42]: UPACI
+            - generic [ref=e43]: v1.0
+      - main [ref=e44]:
+        - link "Skip to main content" [ref=e45] [cursor=pointer]:
+          - /url: "#main-content"
+        - banner "Welcome banner" [ref=e46]:
+          - generic [ref=e47]:
+            - generic [ref=e48]:
+              - heading "Good afternoon, Jane Smith!" [level=2] [ref=e49]
+              - paragraph [ref=e50]: Manage your appointments and view your medical information
+            - generic [ref=e51]:
+              - generic "Profile photo for Jane Smith" [ref=e52] [cursor=pointer]:
+                - generic "User initials" [ref=e53]: JS
+              - button "Log out of your account" [ref=e54] [cursor=pointer]:
+                - generic [ref=e55]: 🚪
+                - generic [ref=e56]: Logout
+        - generic [ref=e57]:
+          - region "Quick actions" [ref=e58]:
+            - heading "Quick Actions" [level=2] [ref=e59]
+            - generic [ref=e60]:
+              - button "Book a new appointment" [ref=e61] [cursor=pointer]:
+                - img [ref=e63]
+                - generic [ref=e66]: Book Appointment
+              - button "Upload medical documents" [ref=e67] [cursor=pointer]:
+                - img [ref=e69]
+                - generic [ref=e72]: Upload Documents
+              - button "Start AI-assisted patient intake" [ref=e73] [cursor=pointer]:
+                - img [ref=e75]
+                - generic [ref=e77]: AI Intake
+              - button "Complete manual intake form" [ref=e78] [cursor=pointer]:
+                - img [ref=e80]
+                - generic [ref=e83]: Manual Intake
+          - region "My appointments" [ref=e84]:
+            - generic [ref=e85]:
+              - heading "My Appointments" [level=2] [ref=e86]
+              - button "Refresh appointments" [ref=e87] [cursor=pointer]: Refresh
+            - alert [ref=e167]:
+              - strong [ref=e168]: "Error:"
+              - text: Request failed with status code 401
+              - button "Try Again" [ref=e169] [cursor=pointer]
+          - region "My Waitlist" [ref=e94]:
+            - generic [ref=e95]:
+              - generic [ref=e96]:
+                - img [ref=e97]
+                - heading "My Waitlist" [level=2] [ref=e100]
+              - button "Refresh waitlist entries" [ref=e101] [cursor=pointer]:
+                - img [ref=e102]
+            - generic [ref=e170]:
+              - img [ref=e171]
+              - heading "No Active Waitlist Entries" [level=3] [ref=e174]
+              - paragraph [ref=e175]: When you join a waitlist for a fully booked appointment slot, it will appear here. We'll notify you if the slot becomes available.
+  - dialog "Navigation menu" [ref=e109]:
+    - generic [ref=e110]:
+      - generic [ref=e111]: UPACI
+      - button "Close navigation menu" [active] [ref=e112] [cursor=pointer]:
+        - img [ref=e113]
+    - navigation "Navigation menu" [ref=e115]:
+      - link "Dashboard" [ref=e116] [cursor=pointer]:
+        - /url: /patient/dashboard
+        - img [ref=e118]
+        - generic [ref=e123]: Dashboard
+      - link "Book Appointment" [ref=e124] [cursor=pointer]:
+        - /url: /appointments/book
+        - img [ref=e126]
+        - generic [ref=e128]: Book Appointment
+      - link "Patient Intake" [ref=e129] [cursor=pointer]:
+        - /url: /intake/ai
+        - img [ref=e131]
+        - generic [ref=e133]: Patient Intake
+      - link "Manual Intake" [ref=e134] [cursor=pointer]:
+        - /url: /intake/manual
+        - img [ref=e136]
+        - generic [ref=e138]: Manual Intake
+    - button "Logout" [ref=e140] [cursor=pointer]:
+      - img [ref=e142]
+      - generic [ref=e145]: Logout
+  - navigation "Bottom navigation" [ref=e146]:
+    - link "Dashboard" [ref=e147] [cursor=pointer]:
+      - /url: /patient/dashboard
+      - img [ref=e149]
+      - generic [ref=e154]: Dashboard
+    - link "Book Appointment" [ref=e155] [cursor=pointer]:
+      - /url: /appointments/book
+      - img [ref=e157]
+      - generic [ref=e159]: Book Appointment
+    - button "Open navigation menu" [ref=e160] [cursor=pointer]:
+      - img [ref=e162]
+      - generic [ref=e166]: More

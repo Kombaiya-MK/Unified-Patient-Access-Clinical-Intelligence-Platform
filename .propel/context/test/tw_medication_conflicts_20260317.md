@@ -386,17 +386,17 @@ pages:
 ```
 
 ## Success Criteria
-- [ ] All happy path steps execute without errors
-- [ ] Edge case validations pass (no conflicts, high severity alerts)
-- [ ] Error scenarios handled correctly (missing data, service unavailable)
-- [ ] Test runs independently (no shared state)
-- [ ] All assertions use web-first patterns
-- [ ] Medication conflicts are accurately detected and highlighted
-- [ ] Conflict severity is appropriately displayed (High, Medium, Low, Critical)
-- [ ] Staff can review and resolve conflicts with documented actions
-- [ ] Critical conflicts trigger immediate alerts requiring acknowledgment
-- [ ] All conflict resolutions are logged immutably for audit
-- [ ] Fallback to manual review available when AI service fails
+- [x] All happy path steps execute without errors
+- [x] Edge case validations pass (no conflicts, high severity alerts)
+- [x] Error scenarios handled correctly (missing data, service unavailable)
+- [x] Test runs independently (no shared state)
+- [x] All assertions use web-first patterns
+- [x] Medication conflicts are accurately detected and highlighted
+- [x] Conflict severity is appropriately displayed (High, Medium, Low, Critical)
+- [x] Staff can review and resolve conflicts with documented actions
+- [x] Critical conflicts trigger immediate alerts requiring acknowledgment
+- [x] All conflict resolutions are logged immutably for audit
+- [x] Fallback to manual review available when AI service fails
 
 ## Locator Reference
 | Priority | Method | Example |

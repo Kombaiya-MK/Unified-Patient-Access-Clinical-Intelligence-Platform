@@ -25,8 +25,10 @@ import { loginSchema, type LoginFormValues } from '../utils/validators';
 import type { LoginRequest } from '../types/auth.types';
 import { ErrorMessage } from './common/ErrorMessage';
 import { ButtonSpinner } from './common/LoadingSpinner';
+import { PasswordToggle } from './common/PasswordToggle';
 import './LoginForm.css';
 import '../styles/form-responsive.css';
+import '../styles/formValidation.css';
 
 /**
  * LoginForm props
@@ -92,7 +94,14 @@ export function LoginForm({ onSubmit, error, loading }: LoginFormProps) {
       validateOnBlur={true}
       validateOnChange={false}
     >
-      {({ isSubmitting, errors, touched }) => (
+      {({ isSubmitting, errors, touched }) => {
+        // Sync Formik errors with form error tracking
+        const touchedErrors = Object.keys(errors).filter(
+          (key) => touched[key as keyof typeof touched]
+        );
+        const hasTouchedErrors = touchedErrors.length > 0;
+
+        return (
         <Form className="login-form" noValidate>
           {/* Email Field */}
           <div className="form-group">
@@ -115,6 +124,7 @@ export function LoginForm({ onSubmit, error, loading }: LoginFormProps) {
             <FormikErrorMessage name="email">
               {(msg) => (
                 <ErrorMessage
+                  id="email-error"
                   message={msg}
                   variant="inline"
                   ariaLive="polite"
@@ -143,43 +153,17 @@ export function LoginForm({ onSubmit, error, loading }: LoginFormProps) {
                 autoComplete="current-password"
                 disabled={loading || isSubmitting}
               />
-              <button
-                type="button"
-                className="password-toggle"
-                onClick={togglePasswordVisibility}
-                aria-label={showPassword ? 'Hide password' : 'Show password'}
-                tabIndex={0}
+              <PasswordToggle
+                showPassword={showPassword}
+                onToggle={togglePasswordVisibility}
                 disabled={loading || isSubmitting}
-              >
-                {showPassword ? (
-                  // Eye slash icon (hide password)
-                  <svg
-                    width="20"
-                    height="20"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                    aria-hidden="true"
-                  >
-                    <path d="M10 4C5 4 1.73 7.11 1 10c.73 2.89 4 6 9 6s8.27-3.11 9-6c-.73-2.89-4-6-9-6zm0 10c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm0-6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z" />
-                    <path d="M2 2l16 16" stroke="currentColor" strokeWidth="2" />
-                  </svg>
-                ) : (
-                  // Eye icon (show password)
-                  <svg
-                    width="20"
-                    height="20"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                    aria-hidden="true"
-                  >
-                    <path d="M10 4C5 4 1.73 7.11 1 10c.73 2.89 4 6 9 6s8.27-3.11 9-6c-.73-2.89-4-6-9-6zm0 10c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm0-6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z" />
-                  </svg>
-                )}
-              </button>
+                testId="password-toggle"
+              />
             </div>
             <FormikErrorMessage name="password">
               {(msg) => (
                 <ErrorMessage
+                  id="password-error"
                   message={msg}
                   variant="inline"
                   ariaLive="polite"
@@ -214,23 +198,35 @@ export function LoginForm({ onSubmit, error, loading }: LoginFormProps) {
           )}
 
           {/* Submit Button */}
-          <button
-            type="submit"
-            className="btn btn--primary btn--block btn-responsive btn-responsive--primary btn-responsive--full-width-mobile"
-            disabled={loading || isSubmitting}
-            aria-label="Sign in to your account"
-          >
-            {loading || isSubmitting ? (
-              <>
-                <ButtonSpinner label="Signing in" />
-                <span>Signing in...</span>
-              </>
-            ) : (
-              <span>Sign In</span>
-            )}
-          </button>
+          <div title={hasTouchedErrors ? `Please fix ${touchedErrors.length} error${touchedErrors.length === 1 ? '' : 's'}` : undefined}>
+            <button
+              type="submit"
+              className={`btn btn--primary btn--block btn-responsive btn-responsive--primary btn-responsive--full-width-mobile${hasTouchedErrors ? ' btn--disabled' : ''}`}
+              disabled={loading || isSubmitting || hasTouchedErrors}
+              aria-label="Sign in to your account"
+              aria-disabled={hasTouchedErrors ? 'true' : undefined}
+            >
+              {loading || isSubmitting ? (
+                <>
+                  <ButtonSpinner label="Signing in" />
+                  <span>Signing in...</span>
+                </>
+              ) : (
+                <span>Sign In</span>
+              )}
+            </button>
+          </div>
+
+          {/* ARIA Live Regions for Assistive Technology */}
+          <div role="status" aria-live="polite" className="sr-only">
+            {loading || isSubmitting ? 'Signing in, please wait...' : ''}
+          </div>
+          <div role="alert" aria-live="assertive" className="sr-only">
+            {error || ''}
+          </div>
         </Form>
-      )}
+        );
+      }}
     </Formik>
   );
 }

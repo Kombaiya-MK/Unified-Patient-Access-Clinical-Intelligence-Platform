@@ -228,13 +228,13 @@ npm run dev
 - [x] Flag cache performance - measure flag evaluation impact (<10ms overhead per AI request)
 
 ## Implementation Checklist
-- [ ] Modify aiIntakeService.ts to add processIntakeWithFlags method with ai_intake_enabled flag check and gpt_intake_model flag for model selection, returning redirect response when disabled
-- [ ] Modify aiExtractionService.ts to add extractDocumentWithFlags method with ai_extraction_enabled flag check and gpt_vision_model flag for vision API, returning queue response when disabled
-- [ ] Modify medicalCodingService.ts to add generateCodesWithFlags method with ai_coding_enabled flag check and medical_coding_prompt_version flag for prompt selection, returning "AI unavailable" message when disabled
-- [ ] Modify conflictDetectionService.ts to add detectConflictsWithFlags method with ai_conflicts_enabled flag check, falling back to rule-based drug interaction checks when AI disabled
-- [ ] Create modelValidator.ts with model whitelists (intake: gpt-4-turbo/gpt-4/gpt-3.5-turbo, vision: gpt-4-vision-preview/gpt-4v) and validation logic with fallbacks and admin alerts on invalid models
-- [ ] Create promptVersionManager.ts to load prompt files from prompts/medical-coding/coding-prompt-${version}.txt with in-memory caching and v1 fallback on missing versions
-- [ ] Modify intake.routes.ts and extraction.routes.ts to return graceful fallback responses (redirect to manual form, queue for manual entry) when AI flags are disabled
+- [x] Modify aiIntakeService.ts to add processIntakeWithFlags method with ai_intake_enabled flag check and gpt_intake_model flag for model selection, returning redirect response when disabled
+- [x] Modify aiExtractionService.ts to add extractDocumentWithFlags method with ai_extraction_enabled flag check and gpt_vision_model flag for vision API, returning queue response when disabled
+- [x] Modify medicalCodingService.ts to add generateCodesWithFlags method with ai_coding_enabled flag check and medical_coding_prompt_version flag for prompt selection, returning "AI unavailable" message when disabled
+- [x] Modify conflictDetectionService.ts to add detectConflictsWithFlags method with ai_conflicts_enabled flag check, falling back to rule-based drug interaction checks when AI disabled
+- [x] Create modelValidator.ts with model whitelists (intake: gpt-4-turbo/gpt-4/gpt-3.5-turbo, vision: gpt-4-vision-preview/gpt-4v) and validation logic with fallbacks and admin alerts on invalid models
+- [x] Create promptVersionManager.ts to load prompt files from prompts/medical-coding/coding-prompt-${version}.txt with in-memory caching and v1 fallback on missing versions
+- [x] Modify intake.routes.ts and extraction.routes.ts to return graceful fallback responses (redirect to manual form, queue for manual entry) when AI flags are disabled
 - [ ] Write unit tests for all AI services with flag configurations (enabled/disabled, valid/invalid models, different prompt versions), validate graceful degradation and audit logging
 - **[AI Tasks - MANDATORY]** Validate AIR-O01 requirement (model version rollback within 15 minutes via feature flags)
 - **[AI Tasks - MANDATORY]** Verify graceful fallbacks work correctly (AI disabled → manual workflows)

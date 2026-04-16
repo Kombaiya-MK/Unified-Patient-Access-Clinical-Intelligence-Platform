@@ -17,11 +17,17 @@ import { AuthProvider } from './context/AuthContext';
 import { NavigationProvider } from './context/NavigationContext';
 import { AppointmentProvider } from './context/AppointmentContext';
 import { WaitlistProvider } from './context/WaitlistContext';
+import { NotificationProvider } from './contexts/NotificationContext';
 import { ProtectedRoute, UnauthorizedPage } from './components/auth/ProtectedRoute';
 import { Header } from './components/Navigation/Header';
 import { Sidebar } from './components/Navigation/Sidebar';
 import { MobileMenu } from './components/Navigation/MobileMenu';
 import { BottomNav } from './components/Navigation/BottomNav';
+import { NotificationPopupStack } from './components/notifications/NotificationPopup';
+import { KeyboardShortcuts } from './components/accessibility/KeyboardShortcuts';
+import { useFocusVisible } from './utils/focus-management';
+import { useNotifications as useNotificationsHook } from './hooks/useNotifications';
+import { useAuth } from './hooks/useAuth';
 import { LoginPage } from './pages/LoginPage';
 import { PatientDashboard } from './pages/PatientDashboard';
 import { StaffDashboard } from './pages/StaffDashboard';
@@ -37,6 +43,7 @@ import AuditLogsPage from './pages/AuditLogsPage';
 import { UserManagementPage } from './pages/UserManagementPage';
 import { DepartmentProviderManagement } from './pages/DepartmentProviderManagement';
 import { AdminMetricsDashboard } from './pages/AdminMetricsDashboard';
+import { AccessibilityStatementPage } from './pages/AccessibilityStatementPage';
 import navStyles from './components/Navigation/navigation.module.css';
 import './App.css';
 
@@ -52,19 +59,44 @@ const queryClient = new QueryClient({
 });
 
 /**
+ * Connects the popup stack to the NotificationContext.
+ * Only renders when user is authenticated to prevent 401 redirect on public routes.
+ */
+function NotificationPopupConnector() {
+  const { isAuthenticated } = useAuth();
+  if (!isAuthenticated) return null;
+
+  return <AuthenticatedNotificationPopups />;
+}
+
+function AuthenticatedNotificationPopups() {
+  const { popups, dismissPopup, acknowledge } = useNotificationsHook();
+  return (
+    <NotificationPopupStack
+      popups={popups}
+      onDismiss={dismissPopup}
+      onAcknowledge={acknowledge}
+    />
+  );
+}
+
+/**
  * Layout wrapper for authenticated routes.
  * Renders responsive Header, Sidebar, MobileMenu, and BottomNav.
  */
 function AuthenticatedLayout() {
+  useFocusVisible();
+
   return (
     <div className={navStyles.appLayout}>
       <a href="#main-content" className="skip-link">
         Skip to main content
       </a>
+      <KeyboardShortcuts />
       <Header />
       <div className={navStyles.appBody}>
         <Sidebar />
-        <main id="main-content" className={navStyles.appContent}>
+        <main id="main-content" className={navStyles.appContent} tabIndex={-1}>
           <Outlet />
         </main>
       </div>
@@ -78,13 +110,16 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
+        <NotificationProvider>
         <NavigationProvider>
         <AppointmentProvider>
           <WaitlistProvider>
+              <NotificationPopupConnector />
               <Routes>
                 {/* Public Routes */}
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/unauthorized" element={<UnauthorizedPage />} />
+                <Route path="/accessibility-statement" element={<AccessibilityStatementPage />} />
 
                 {/* Authenticated Routes with Navigation Layout */}
                 <Route element={<AuthenticatedLayout />}>
@@ -248,6 +283,7 @@ function App() {
           </WaitlistProvider>
         </AppointmentProvider>
         </NavigationProvider>
+        </NotificationProvider>
       </AuthProvider>
     </QueryClientProvider>
   );

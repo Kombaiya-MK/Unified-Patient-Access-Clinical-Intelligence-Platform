@@ -9,6 +9,12 @@
  */
 
 export { ErrorMessage, ErrorList } from './ErrorMessage';
+export type { ErrorSeverity } from './ErrorMessage';
 export { LoadingSpinner, ButtonSpinner } from './LoadingSpinner';
 export { Toast } from './Toast';
 export type { ToastType, ToastProps } from './Toast';
+export { SuccessIndicator } from './SuccessIndicator';
+export { CharacterCounter } from './CharacterCounter';
+export { FormErrorSummary } from './FormErrorSummary';
+export { AsyncValidationSpinner } from './AsyncValidationSpinner';
+export { PasswordToggle } from './PasswordToggle';

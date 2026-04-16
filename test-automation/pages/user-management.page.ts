@@ -67,6 +67,10 @@ export class UserManagementPage {
     return this.page.getByLabel('Reason for Deactivation');
   }
 
+  get confirmDeactivationButton(): Locator {
+    return this.page.getByRole('button', { name: 'Confirm Deactivation' });
+  }
+
   async createUser(name: string, email: string, role: string, department: string, phone: string): Promise<void> {
     await this.createUserButton.click();
     await this.fullNameInput.fill(name);
@@ -88,5 +92,12 @@ export class UserManagementPage {
     await this.editUserButton.click();
     await this.roleSelect.selectOption(newRole);
     await this.saveChangesButton.click();
+  }
+
+  async deactivateUser(email: string, reason: string): Promise<void> {
+    await this.page.getByRole('row', { name: new RegExp(email) }).click();
+    await this.deactivateUserButton.click();
+    await this.deactivationReasonInput.fill(reason);
+    await this.confirmDeactivationButton.click();
   }
 }

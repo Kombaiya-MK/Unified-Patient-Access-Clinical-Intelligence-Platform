@@ -251,11 +251,11 @@ node uninstall-service.js
 - [x] Health check endpoint testing: Call /api/health, verify JSON response with status=healthy, timestamp, uptime, database/redis status, HTTP 200
 
 ## Implementation Checklist
-- [ ] Install node-windows package and create install-service.js with service configuration (name: UPACI-Backend, auto-start, maxRestarts: 3, wait: 30s)
-- [ ] Create uninstall-service.js for service removal and add npm scripts to package.json (npm run install-service, npm run uninstall-service)
-- [ ] Configure Winston for Windows Event Log (winston-eventlog transport, Application log, source: UPACI) and file logging (C:\Logs\UPACI\backend-%DATE%.log, daily rotation, 30-day retention)
-- [ ] Create PowerShell script setup-logging.ps1 to create C:\Logs\UPACI\ directory and grant NETWORK SERVICE/LOCAL SERVICE write permissions
-- [ ] Add X-Forwarded-For and X-Forwarded-Proto middleware to server.ts (app.set('trust proxy', 1), extract clientIp from x-forwarded-for header)
-- [ ] Update audit logging and Winston logger context to use req.clientIp instead of req.ip for correct client IP behind IIS proxy
-- [ ] Verify /api/health endpoint returns IIS-compatible JSON (status, timestamp, uptime, database, redis fields) with HTTP 200/503 status codes
-- [ ] Configure service account (LOCAL_SERVICE default or custom domain account), set file system permissions (read app files, write logs), and test service lifecycle (install, start, crash recovery, uninstall)
+- [x] Install node-windows package and create install-service.js with service configuration (name: UPACI-Backend, auto-start, maxRestarts: 3, wait: 30s)
+- [x] Create uninstall-service.js for service removal and add npm scripts to package.json (npm run install-service, npm run uninstall-service)
+- [x] Configure Winston for Windows Event Log (winston-eventlog transport, Application log, source: UPACI) and file logging (C:\Logs\UPACI\backend-%DATE%.log, daily rotation, 30-day retention)
+- [x] Create PowerShell script setup-logging.ps1 to create C:\Logs\UPACI\ directory and grant NETWORK SERVICE/LOCAL SERVICE write permissions
+- [x] Add X-Forwarded-For and X-Forwarded-Proto middleware to server.ts (app.set('trust proxy', 1), extract clientIp from x-forwarded-for header)
+- [x] Update audit logging and Winston logger context to use req.clientIp instead of req.ip for correct client IP behind IIS proxy
+- [x] Verify /api/health endpoint returns IIS-compatible JSON (status, timestamp, uptime, database, redis fields) with HTTP 200/503 status codes
+- [x] Configure service account (LOCAL_SERVICE default or custom domain account), set file system permissions (read app files, write logs), and test service lifecycle (install, start, crash recovery, uninstall)

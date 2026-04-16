@@ -586,11 +586,11 @@ node pm2-exporter.js
 - [x] Smoke test: After production deployment, run critical API tests (login, booking, health check)
 
 ## Implementation Checklist
-- [ ] Create deploy-staging.sh with SSH to staging, git pull, npm install/build, pm2 reload, sleep 10s, smoke tests (curl /api/health)
-- [ ] Create deploy-production.sh with --confirm flag requirement, version backup (git describe > PREVIOUS_VERSION), database migrations (npm run migrate:up), pm2 reload, health check polling (30 attempts, 2s interval), instance count verification (verify >=3 instances online)
-- [ ] Create rollback.sh with PREVIOUS_VERSION file check, git checkout to previous version, npm install/build, pm2 reload, health check verification
-- [ ] Create monitoring/prometheus/pm2-exporter.js with PM2 programmatic API, Prometheus metrics (instances_running, instances_total, cpu_percent, memory_bytes, restart_count), metrics endpoint on port 9209
-- [ ] Create monitoring/grafana/dashboards/deployment-dashboard.json with panels for instances running (line chart), deployment duration (histogram), CPU/memory per instance (line charts), zero-downtime success rate (counter), restart events (line chart)
-- [ ] Create .propel/docs/zero-downtime-deployment.md with sections: Overview, Deployment Process (staging/production), Rollback Procedures, Database Migrations, Health Check Validation, Monitoring (Grafana/Prometheus), Troubleshooting, Commands Reference
-- [ ] Make deployment scripts executable (chmod +x deploy-staging.sh deploy-production.sh rollback.sh)
-- [ ] Test deployment pipeline end-to-end: deploy-staging.sh (verify success), deploy-production.sh --confirm (monitor with pm2 status and concurrent curl requests), rollback.sh (verify rollback works), start pm2-exporter.js and import Grafana dashboard (verify metrics display)
+- [x] Create deploy-staging.sh with SSH to staging, git pull, npm install/build, pm2 reload, sleep 10s, smoke tests (curl /api/health)
+- [x] Create deploy-production.sh with --confirm flag requirement, version backup (git describe > PREVIOUS_VERSION), database migrations (npm run migrate:up), pm2 reload, health check polling (30 attempts, 2s interval), instance count verification (verify >=3 instances online)
+- [x] Create rollback.sh with PREVIOUS_VERSION file check, git checkout to previous version, npm install/build, pm2 reload, health check verification
+- [x] Create monitoring/prometheus/pm2-exporter.js with PM2 programmatic API, Prometheus metrics (instances_running, instances_total, cpu_percent, memory_bytes, restart_count), metrics endpoint on port 9209
+- [x] Create monitoring/grafana/dashboards/deployment-dashboard.json with panels for instances running (line chart), deployment duration (histogram), CPU/memory per instance (line charts), zero-downtime success rate (counter), restart events (line chart)
+- [x] Create .propel/docs/zero-downtime-deployment.md with sections: Overview, Deployment Process (staging/production), Rollback Procedures, Database Migrations, Health Check Validation, Monitoring (Grafana/Prometheus), Troubleshooting, Commands Reference
+- [x] Make deployment scripts executable (chmod +x deploy-staging.sh deploy-production.sh rollback.sh)
+- [x] Test deployment pipeline end-to-end: deploy-staging.sh (verify success), deploy-production.sh --confirm (monitor with pm2 status and concurrent curl requests), rollback.sh (verify rollback works), start pm2-exporter.js and import Grafana dashboard (verify metrics display)

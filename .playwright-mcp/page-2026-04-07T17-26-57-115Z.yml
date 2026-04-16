@@ -1,0 +1,76 @@
+- generic [ref=e47]:
+  - link "Skip to main content" [ref=e48] [cursor=pointer]:
+    - /url: "#main-content"
+  - banner [ref=e49]:
+    - generic [ref=e50]:
+      - button "Open navigation menu" [ref=e51] [cursor=pointer]:
+        - img [ref=e52]
+      - link "UPACI" [ref=e54] [cursor=pointer]:
+        - /url: /staff/dashboard
+    - generic [ref=e56]:
+      - button "Notifications" [ref=e57] [cursor=pointer]:
+        - img [ref=e58]
+      - 'generic "User: Sarah Wilson" [ref=e62]': SW
+  - main [ref=e64]:
+    - generic [ref=e361]:
+      - main [ref=e362]:
+        - generic [ref=e363]:
+          - heading "Staff Dashboard" [level=2] [ref=e364]
+          - paragraph [ref=e365]: Select a workflow to get started.
+        - generic [ref=e366]:
+          - tablist "Staff dashboard sections" [ref=e367]:
+            - tab "Queue" [selected] [ref=e368] [cursor=pointer]
+            - tab "Appointments" [ref=e369] [cursor=pointer]
+            - tab "Intake" [ref=e370] [cursor=pointer]
+          - tabpanel "Queue" [ref=e371]:
+            - button "Patient Queue View and manage the patient queue, update status, and assign providers." [ref=e375] [cursor=pointer]:
+              - generic [ref=e376]: 👥
+              - heading "Patient Queue" [level=3] [ref=e377]
+              - paragraph [ref=e378]: View and manage the patient queue, update status, and assign providers.
+      - button "Start AI patient intake" [ref=e379] [cursor=pointer]:
+        - generic [ref=e380]: +
+  - dialog "Navigation menu" [ref=e86]:
+    - generic [ref=e87]:
+      - generic [ref=e88]: UPACI
+      - button "Close navigation menu" [ref=e89] [cursor=pointer]:
+        - img [ref=e90]
+    - navigation "Navigation menu" [ref=e92]:
+      - link "Dashboard" [ref=e93] [cursor=pointer]:
+        - /url: /staff/dashboard
+        - img [ref=e95]
+        - generic [ref=e100]: Dashboard
+      - link "Queue" [ref=e101] [cursor=pointer]:
+        - /url: /staff/queue
+        - img [ref=e103]
+        - generic [ref=e104]: Queue
+      - link "Book for Patient" [ref=e105] [cursor=pointer]:
+        - /url: /staff/appointments/book
+        - img [ref=e107]
+        - generic [ref=e109]: Book for Patient
+      - link "AI Intake" [ref=e110] [cursor=pointer]:
+        - /url: /intake/ai
+        - img [ref=e112]
+        - generic [ref=e114]: AI Intake
+      - link "Manual Intake" [ref=e115] [cursor=pointer]:
+        - /url: /intake/manual
+        - img [ref=e117]
+        - generic [ref=e119]: Manual Intake
+    - button "Logout" [ref=e121] [cursor=pointer]:
+      - img [ref=e123]
+      - generic [ref=e126]: Logout
+  - navigation "Bottom navigation" [ref=e127]:
+    - link "Dashboard" [active] [ref=e128] [cursor=pointer]:
+      - /url: /staff/dashboard
+      - img [ref=e130]
+      - generic [ref=e135]: Dashboard
+    - link "Queue" [ref=e136] [cursor=pointer]:
+      - /url: /staff/queue
+      - img [ref=e138]
+      - generic [ref=e139]: Queue
+    - link "Book for Patient" [ref=e140] [cursor=pointer]:
+      - /url: /staff/appointments/book
+      - img [ref=e142]
+      - generic [ref=e144]: Book for Patient
+    - button "Open navigation menu" [ref=e145] [cursor=pointer]:
+      - img [ref=e147]
+      - generic [ref=e151]: More

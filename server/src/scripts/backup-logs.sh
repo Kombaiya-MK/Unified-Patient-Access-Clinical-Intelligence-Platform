@@ -12,6 +12,12 @@
 # ─────────────────────────────────────────────────────────────
 set -euo pipefail
 
+# Load environment file if present (before deriving paths)
+if [ -f "${BACKUP_ENV_FILE:-/etc/app/backup.env}" ]; then
+  # shellcheck source=/dev/null
+  source "${BACKUP_ENV_FILE:-/etc/app/backup.env}"
+fi
+
 TIMESTAMP=$(date +%Y-%m-%d_%H-%M-%S)
 BACKUP_DIR="${BACKUP_DIR_LOGS:-/var/backups/logs}"
 BACKUP_FILE="${BACKUP_DIR}/app-logs-${TIMESTAMP}.tar"
@@ -20,12 +26,6 @@ RETENTION_DAYS="${LOG_RETENTION_DAYS:-90}"
 
 # Ensure directories exist
 mkdir -p "${BACKUP_DIR}"
-
-# Load environment file if present
-if [ -f "${BACKUP_ENV_FILE:-/etc/app/backup.env}" ]; then
-  # shellcheck source=/dev/null
-  source "${BACKUP_ENV_FILE:-/etc/app/backup.env}"
-fi
 
 # Validate log directory
 if [ ! -d "${LOG_DIR}" ]; then

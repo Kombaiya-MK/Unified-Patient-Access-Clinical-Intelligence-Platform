@@ -1,0 +1,87 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e3]: UPACI
+    - generic [ref=e4]: Patient Dashboard
+    - generic [ref=e5]:
+      - button "Notifications (4 unread)" [ref=e7] [cursor=pointer]:
+        - text: 🔔
+        - generic [ref=e8]: "4"
+      - button "User menu" [ref=e9] [cursor=pointer]: JD
+  - main [ref=e10]:
+    - heading "Welcome, Jane" [level=1] [ref=e11]
+    - paragraph [ref=e12]: Here's your health overview and quick actions
+    - region "Quick actions" [ref=e13]:
+      - link "Book a new appointment" [ref=e14] [cursor=pointer]:
+        - /url: wireframe-SCR-006-appointment-booking.html
+        - generic [ref=e15]: 📅
+        - generic [ref=e16]: Book Appointment
+        - generic [ref=e17]: Find and book available time slots
+      - link "Complete patient intake" [ref=e18] [cursor=pointer]:
+        - /url: wireframe-SCR-007-patient-intake.html
+        - generic [ref=e19]: 📋
+        - generic [ref=e20]: Complete Intake
+        - generic [ref=e21]: AI-assisted or manual intake form
+      - link "Upload medical documents" [ref=e22] [cursor=pointer]:
+        - /url: wireframe-SCR-008-document-upload.html
+        - generic [ref=e23]: 📁
+        - generic [ref=e24]: Upload Documents
+        - generic [ref=e25]: Upload medical records and files
+    - generic [ref=e26]:
+      - generic [ref=e27]:
+        - heading "Upcoming Appointments" [level=2] [ref=e29]
+        - list [ref=e31]:
+          - button "Dr. Lisa Wang, Routine Screening, Mar 15 — Completed" [ref=e32] [cursor=pointer]:
+            - generic [ref=e33]:
+              - generic [ref=e34]: "15"
+              - text: MAR
+            - generic [ref=e35]:
+              - generic [ref=e36]: Dr. Lisa Wang — Routine Screening
+              - generic [ref=e37]: 9:00 AM — Room 105
+            - status [ref=e38]: Completed
+          - button "Dr. Sarah Mitchell, General Checkup, Mar 22 at 10:00 AM — click to manage" [ref=e39] [cursor=pointer]:
+            - generic [ref=e40]:
+              - generic [ref=e41]: "22"
+              - text: MAR
+            - generic [ref=e42]:
+              - generic [ref=e43]: Dr. Sarah Mitchell — General Checkup
+              - generic [ref=e44]: 10:00 AM — Room 204
+            - status [ref=e45]: Confirmed
+            - generic [ref=e46]:
+              - button "Reschedule appointment with Dr. Mitchell on Mar 22" [ref=e47]: Reschedule
+              - button "Cancel appointment with Dr. Mitchell on Mar 22" [ref=e48]: Cancel
+          - button "Dr. James Patel, Lab Results Review, Mar 25 at 2:30 PM — click to manage" [ref=e49] [cursor=pointer]:
+            - generic [ref=e50]:
+              - generic [ref=e51]: "25"
+              - text: MAR
+            - generic [ref=e52]:
+              - generic [ref=e53]: Dr. James Patel — Lab Results Review
+              - generic [ref=e54]: 2:30 PM — Room 112
+            - status [ref=e55]: Scheduled
+          - button "Dr. Emily Zhao, Follow-up, Apr 2 at 11:15 AM — Pending Intake — click to manage" [ref=e56] [cursor=pointer]:
+            - generic [ref=e57]:
+              - generic [ref=e58]: "02"
+              - text: APR
+            - generic [ref=e59]:
+              - generic [ref=e60]: Dr. Emily Zhao — Follow-up
+              - generic [ref=e61]: 11:15 AM — Room 301
+              - generic [ref=e62]:
+                - text: ⚠ Please
+                - link "complete your intake form" [ref=e63]:
+                  - /url: wireframe-SCR-007-patient-intake.html
+                - text: before this appointment.
+            - status [ref=e64]: Pending Intake
+      - generic [ref=e65]:
+        - heading "Notifications" [level=2] [ref=e67]
+        - list [ref=e69]:
+          - listitem [ref=e70]:
+            - generic [ref=e72]:
+              - generic [ref=e73]: Your appointment with Dr. Mitchell has been confirmed.
+              - generic [ref=e74]: 2 hours ago
+          - listitem [ref=e75]:
+            - generic [ref=e77]:
+              - generic [ref=e78]: Please complete your intake form before Mar 22.
+              - generic [ref=e79]: 5 hours ago
+          - listitem [ref=e80]:
+            - generic [ref=e82]:
+              - generic [ref=e83]: Your lab results are ready for review.
+              - generic [ref=e84]: 1 day ago

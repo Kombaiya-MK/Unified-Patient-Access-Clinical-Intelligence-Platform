@@ -143,11 +143,11 @@ npm run build
 ```
 
 ## Implementation Checklist
-- [ ] Install Style Dictionary and configure config.js for CSS output to src/styles/tokens.css using css/variables format
-- [ ] Create build.js to run StyleDictionary transformation and add npm scripts: "tokens:build" and "tokens:watch" to package.json
-- [ ] Run npm run tokens:build to generate tokens.css with :root selector containing all CSS variables (--color-*, --spacing-*, --font-*, --radius-*, --shadow-*)
-- [ ] Create utilities.css with helper classes: .text-primary, .bg-secondary, .p-md using var() references to tokens
-- [ ] Create theme-setup.css with [data-theme="light"] and [data-theme="dark"] selectors overriding semantic tokens for dark mode
-- [ ] Import tokens.css and utilities.css in index.css to make variables globally available
-- [ ] Validate CSS variable generation: Inspect :root in browser DevTools, verify all tokens present and semantic variables reference primitives correctly
-- [ ] Test theming: Add data-theme="dark" to <html>, verify semantic tokens override correctly and components update automatically
+- [x] Install Style Dictionary and configure config.js for CSS output to src/styles/tokens.css using css/variables format
+- [x] Create build.js to run StyleDictionary transformation and add npm scripts: "tokens:build" and "tokens:watch" to package.json
+- [x] Run npm run tokens:build to generate tokens.css with :root selector containing all CSS variables (--color-*, --spacing-*, --font-*, --radius-*, --shadow-*)
+- [x] Create utilities.css with helper classes: .text-primary, .bg-secondary, .p-md using var() references to tokens
+- [x] Create theme-setup.css with [data-theme="light"] and [data-theme="dark"] selectors overriding semantic tokens for dark mode
+- [x] Import tokens.css and utilities.css in index.css to make variables globally available
+- [x] Validate CSS variable generation: Inspect :root in browser DevTools, verify all tokens present and semantic variables reference primitives correctly
+- [x] Test theming: Add data-theme="dark" to <html>, verify semantic tokens override correctly and components update automatically

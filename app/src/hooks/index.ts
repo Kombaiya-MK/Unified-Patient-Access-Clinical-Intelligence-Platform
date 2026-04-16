@@ -12,6 +12,12 @@ export { useAuth } from './useAuth';
 // Form Validation Hooks (US_012 TASK_002)
 export { useFormValidation, useDebouncedValidation } from './useFormValidation';
 
+// Async Validation Hook (US_047 TASK_002)
+export { useAsyncValidation } from './useAsyncValidation';
+
+// Form Error Tracking Hook (US_047 TASK_002)
+export { useFormErrorTracking } from './useFormErrorTracking';
+
 // Appointment Booking Hooks (US_013 TASK_001)
 export { useSlots, useAvailableDates } from './useSlots';
 export { useBooking, useWaitlist } from './useBooking';

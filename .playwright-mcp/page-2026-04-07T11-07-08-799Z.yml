@@ -1,0 +1,82 @@
+- generic [ref=e3]:
+  - link "Skip to main content" [ref=e4] [cursor=pointer]:
+    - /url: "#main-content"
+  - banner [ref=e5]:
+    - generic [ref=e6]:
+      - link "UPACI" [ref=e7] [cursor=pointer]:
+        - /url: /admin/dashboard
+      - generic [ref=e8]: admin
+    - generic [ref=e9]:
+      - button "Notifications" [ref=e10] [cursor=pointer]:
+        - img [ref=e11]
+      - 'generic "User: Admin User" [ref=e15]': AU
+  - generic [ref=e16]:
+    - navigation "Main navigation" [ref=e17]:
+      - navigation [ref=e18]:
+        - link "Dashboard" [ref=e19] [cursor=pointer]:
+          - /url: /admin/dashboard
+          - img [ref=e21]
+          - generic [ref=e26]: Dashboard
+        - link "Users" [ref=e27] [cursor=pointer]:
+          - /url: /admin/users
+          - img [ref=e29]
+          - generic [ref=e34]: Users
+        - link "Departments" [ref=e35] [cursor=pointer]:
+          - /url: /admin/departments
+          - img [ref=e37]
+          - generic [ref=e41]: Departments
+        - link "Audit Logs" [ref=e42] [cursor=pointer]:
+          - /url: /admin/audit-logs
+          - img [ref=e44]
+          - generic [ref=e48]: Audit Logs
+        - link "Metrics" [ref=e49] [cursor=pointer]:
+          - /url: /admin/metrics
+          - img [ref=e51]
+          - generic [ref=e55]: Metrics
+        - link "Queue" [ref=e56] [cursor=pointer]:
+          - /url: /staff/queue
+          - img [ref=e58]
+          - generic [ref=e59]: Queue
+      - button "Logout" [ref=e61] [cursor=pointer]:
+        - img [ref=e63]
+        - generic [ref=e66]: Logout
+    - main [ref=e67]:
+      - main [ref=e69]:
+        - generic [ref=e70]:
+          - heading "Admin Dashboard" [level=2] [ref=e71]
+          - paragraph [ref=e72]: Select a workflow to get started.
+        - region "AI Service Circuit Breakers" [ref=e73]:
+          - heading "AI Service Circuit Breakers" [level=3] [ref=e74]
+        - region "Admin workflows" [ref=e80]:
+          - button "System Metrics Real-time operational metrics, system health, and analytics." [ref=e81] [cursor=pointer]:
+            - generic [ref=e82]: 📊
+            - heading "System Metrics" [level=3] [ref=e83]
+            - paragraph [ref=e84]: Real-time operational metrics, system health, and analytics.
+          - button "Audit Logs View, filter, and export system-wide audit trail." [ref=e85] [cursor=pointer]:
+            - generic [ref=e86]: 🔐
+            - heading "Audit Logs" [level=3] [ref=e87]
+            - paragraph [ref=e88]: View, filter, and export system-wide audit trail.
+          - button "User Management Manage user accounts, roles, and permissions." [ref=e89] [cursor=pointer]:
+            - generic [ref=e90]: 👤
+            - heading "User Management" [level=3] [ref=e91]
+            - paragraph [ref=e92]: Manage user accounts, roles, and permissions.
+          - button "Departments & Providers Manage departments, providers, and schedules." [ref=e93] [cursor=pointer]:
+            - generic [ref=e94]: 🏥
+            - heading "Departments & Providers" [level=3] [ref=e95]
+            - paragraph [ref=e96]: Manage departments, providers, and schedules.
+          - button "Patient Queue View and manage the patient queue, update status, and assign providers." [ref=e97] [cursor=pointer]:
+            - generic [ref=e98]: 👥
+            - heading "Patient Queue" [level=3] [ref=e99]
+            - paragraph [ref=e100]: View and manage the patient queue, update status, and assign providers.
+          - button "Book Appointment Schedule appointments on behalf of patients." [ref=e101] [cursor=pointer]:
+            - generic [ref=e102]: 📅
+            - heading "Book Appointment" [level=3] [ref=e103]
+            - paragraph [ref=e104]: Schedule appointments on behalf of patients.
+          - button "AI Intake AI-assisted patient intake with smart form filling." [ref=e105] [cursor=pointer]:
+            - generic [ref=e106]: 🤖
+            - heading "AI Intake" [level=3] [ref=e107]
+            - paragraph [ref=e108]: AI-assisted patient intake with smart form filling.
+          - button "Manual Intake Manually enter patient intake data." [ref=e109] [cursor=pointer]:
+            - generic [ref=e110]: 📋
+            - heading "Manual Intake" [level=3] [ref=e111]
+            - paragraph [ref=e112]: Manually enter patient intake data.

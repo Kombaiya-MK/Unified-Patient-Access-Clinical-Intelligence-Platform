@@ -438,15 +438,15 @@ pages:
 ```
 
 ## Success Criteria
-- [ ] All happy path steps execute without errors
-- [ ] Edge case validations pass (duplicate email detection)
-- [ ] Error scenarios handled correctly (invalid email, unauthorized access)
-- [ ] Test runs independently (no shared state)
-- [ ] All assertions use web-first patterns
-- [ ] Role-based access control enforced (only admins can access)
-- [ ] User creation validates all required fields
-- [ ] Deactivation is logged immutably for audit
-- [ ] All user management actions are secure and auditable
+- [x] All happy path steps execute without errors
+- [x] Edge case validations pass (duplicate email detection)
+- [x] Error scenarios handled correctly (invalid email, unauthorized access)
+- [x] Test runs independently (no shared state)
+- [x] All assertions use web-first patterns
+- [x] Role-based access control enforced (only admins can access)
+- [x] User creation validates all required fields
+- [x] Deactivation is logged immutably for audit
+- [x] All user management actions are secure and auditable
 
 ## Locator Reference
 | Priority | Method | Example |

@@ -1,0 +1,43 @@
+- generic [ref=e3]:
+  - generic [ref=e5]:
+    - generic [ref=e6]: UPACI
+    - paragraph [ref=e7]: Unified Patient Access & Clinical Intelligence Platform
+    - img [ref=e9]
+    - list [ref=e17]:
+      - listitem [ref=e18]: ✓ Effortless Appointment Booking
+      - listitem [ref=e19]: ✓ Real-Time Queue Management
+      - listitem [ref=e20]: ✓ AI-Powered Patient Intake
+      - listitem [ref=e21]: ✓ Comprehensive Health Records
+  - generic [ref=e23]:
+    - heading "Welcome Back" [level=1] [ref=e24]
+    - paragraph [ref=e25]: Sign in to access your healthcare dashboard
+    - generic [ref=e26]:
+      - generic [ref=e27]:
+        - generic [ref=e28]: Email Address
+        - textbox "Email address" [ref=e29]:
+          - /placeholder: Enter your email
+          - text: patient2@example.com
+      - generic [ref=e30]:
+        - generic [ref=e31]: Password
+        - generic [ref=e32]:
+          - textbox "Password" [ref=e33]:
+            - /placeholder: Enter your password
+            - text: Admin123!
+          - button "Show password" [ref=e34] [cursor=pointer]:
+            - img [ref=e35]
+      - generic [ref=e38] [cursor=pointer]:
+        - checkbox "Remember me for 7 days" [ref=e39]
+        - generic [ref=e40]: Remember me for 7 days
+      - alert [ref=e47]:
+        - img [ref=e48]
+        - generic [ref=e50]: Service temporarily unavailable. Please try again.
+      - button "Sign in to your account" [ref=e41] [cursor=pointer]:
+        - generic [ref=e51]: Sign In
+    - link "Forgot your password? Click to reset" [ref=e44] [cursor=pointer]:
+      - /url: /forgot-password
+      - text: Forgot Password?
+    - generic [ref=e45]:
+      - text: Don't have an account?
+      - link "Create a new account" [ref=e46] [cursor=pointer]:
+        - /url: /register
+        - text: Create Account

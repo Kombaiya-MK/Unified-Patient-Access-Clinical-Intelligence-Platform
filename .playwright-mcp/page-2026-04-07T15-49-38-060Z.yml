@@ -1,0 +1,186 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e3]: UPACI
+    - generic [ref=e4]: Queue Management
+    - button "User menu" [ref=e6] [cursor=pointer]: SM
+  - navigation "Main navigation" [ref=e7]:
+    - generic [ref=e8]: Staff
+    - list [ref=e9]:
+      - listitem [ref=e10]:
+        - link "🏠 Dashboard" [ref=e11] [cursor=pointer]:
+          - /url: wireframe-SCR-003-staff-dashboard.html
+          - generic [ref=e12]: 🏠
+          - text: Dashboard
+      - listitem [ref=e13]:
+        - link "📊 Queue Management" [ref=e14] [cursor=pointer]:
+          - /url: wireframe-SCR-009-queue-management.html
+          - generic [ref=e15]: 📊
+          - text: Queue Management
+      - listitem [ref=e16]:
+        - link "🩺 Clinical Review" [ref=e17] [cursor=pointer]:
+          - /url: wireframe-SCR-010-clinical-data-review.html
+          - generic [ref=e18]: 🩺
+          - text: Clinical Review
+      - listitem [ref=e19]:
+        - link "📅 Appointments" [ref=e20] [cursor=pointer]:
+          - /url: wireframe-SCR-011-appointment-management.html
+          - generic [ref=e21]: 📅
+          - text: Appointments
+      - listitem [ref=e22]:
+        - link "👤 Profile & Settings" [ref=e23] [cursor=pointer]:
+          - /url: wireframe-SCR-005-staff-profile-settings.html
+          - generic [ref=e24]: 👤
+          - text: Profile & Settings
+  - main [ref=e25]:
+    - navigation "Breadcrumb" [ref=e26]:
+      - link "Dashboard" [ref=e27] [cursor=pointer]:
+        - /url: wireframe-SCR-003-staff-dashboard.html
+      - generic [ref=e28]: ›
+      - generic [ref=e29]: Queue Management
+    - generic [ref=e30]:
+      - heading "Queue Management" [level=1] [ref=e32]
+      - button "Add walk-in patient" [ref=e33] [cursor=pointer]: + Add Walk-in
+    - generic [ref=e34]:
+      - generic [ref=e35]:
+        - heading "Today's Queue" [level=2] [ref=e36]
+        - generic [ref=e37]: 12 IN QUEUE
+      - table "Patient queue" [ref=e39]:
+        - rowgroup [ref=e40]:
+          - row "# Patient ID Patient Appointment Time Type Department Status Intake Status Wait Time Actions" [ref=e41]:
+            - columnheader "#" [ref=e42]
+            - columnheader "Patient ID" [ref=e43]
+            - columnheader "Patient" [ref=e44]
+            - columnheader "Appointment Time" [ref=e45]
+            - columnheader "Type" [ref=e46]
+            - columnheader "Department" [ref=e47]
+            - columnheader "Status" [ref=e48]
+            - columnheader "Intake Status" [ref=e49]
+            - columnheader "Wait Time" [ref=e50]
+            - columnheader "Actions" [ref=e51]
+        - rowgroup [ref=e52]:
+          - row "1 PAT-1001 Jane Doe 8:00 AM Scheduled General Medicine In Progress Completed — Mark Jane Doe as completed" [ref=e53]:
+            - cell "1" [ref=e54]
+            - cell "PAT-1001" [ref=e55]
+            - cell "Jane Doe" [ref=e56]:
+              - link "Jane Doe" [ref=e57] [cursor=pointer]:
+                - /url: "#"
+            - cell "8:00 AM" [ref=e58]
+            - cell "Scheduled" [ref=e59]
+            - cell "General Medicine" [ref=e60]
+            - cell "In Progress" [ref=e61]:
+              - generic [ref=e62]: In Progress
+            - cell "Completed" [ref=e63]:
+              - generic [ref=e64]: Completed
+            - cell "—" [ref=e65]
+            - cell "Mark Jane Doe as completed" [ref=e66]:
+              - button "Mark Jane Doe as completed" [ref=e67] [cursor=pointer]: Completed
+          - row "2 PAT-1002 Robert Chen 8:30 AM Scheduled Cardiology Arrived Pending 12 min Mark Robert Chen as in progress" [ref=e68]:
+            - cell "2" [ref=e69]
+            - cell "PAT-1002" [ref=e70]
+            - cell "Robert Chen" [ref=e71]:
+              - link "Robert Chen" [ref=e72] [cursor=pointer]:
+                - /url: "#"
+            - cell "8:30 AM" [ref=e73]
+            - cell "Scheduled" [ref=e74]
+            - cell "Cardiology" [ref=e75]
+            - cell "Arrived" [ref=e76]:
+              - generic [ref=e77]: Arrived
+            - cell "Pending" [ref=e78]:
+              - generic [ref=e79]: Pending
+            - cell "12 min" [ref=e80]
+            - cell "Mark Robert Chen as in progress" [ref=e81]:
+              - button "Mark Robert Chen as in progress" [ref=e82] [cursor=pointer]: In Progress
+          - row "3 PAT-1003 Maria Garcia 9:00 AM Scheduled Orthopedics Scheduled Completed — Mark Maria Garcia as arrived Mark Maria Garcia as no show Reschedule Maria Garcia" [ref=e83]:
+            - cell "3" [ref=e84]
+            - cell "PAT-1003" [ref=e85]
+            - cell "Maria Garcia" [ref=e86]:
+              - link "Maria Garcia" [ref=e87] [cursor=pointer]:
+                - /url: "#"
+            - cell "9:00 AM" [ref=e88]
+            - cell "Scheduled" [ref=e89]
+            - cell "Orthopedics" [ref=e90]
+            - cell "Scheduled" [ref=e91]:
+              - generic [ref=e92]: Scheduled
+            - cell "Completed" [ref=e93]:
+              - generic [ref=e94]: Completed
+            - cell "—" [ref=e95]
+            - cell "Mark Maria Garcia as arrived Mark Maria Garcia as no show Reschedule Maria Garcia" [ref=e96]:
+              - button "Mark Maria Garcia as arrived" [ref=e97] [cursor=pointer]: Arrived
+              - button "Mark Maria Garcia as no show" [ref=e98] [cursor=pointer]: No Show
+              - button "Reschedule Maria Garcia" [ref=e99] [cursor=pointer]: Reschedule
+          - row "4 PAT-1004 David Kim 9:30 AM Walk-in Dermatology Scheduled N/A — Mark David Kim as arrived Mark David Kim as no show Reschedule David Kim" [ref=e100]:
+            - cell "4" [ref=e101]
+            - cell "PAT-1004" [ref=e102]
+            - cell "David Kim" [ref=e103]:
+              - link "David Kim" [ref=e104] [cursor=pointer]:
+                - /url: "#"
+            - cell "9:30 AM" [ref=e105]
+            - cell "Walk-in" [ref=e106]
+            - cell "Dermatology" [ref=e107]
+            - cell "Scheduled" [ref=e108]:
+              - generic [ref=e109]: Scheduled
+            - cell "N/A" [ref=e110]:
+              - generic [ref=e111]: N/A
+            - cell "—" [ref=e112]
+            - cell "Mark David Kim as arrived Mark David Kim as no show Reschedule David Kim" [ref=e113]:
+              - button "Mark David Kim as arrived" [ref=e114] [cursor=pointer]: Arrived
+              - button "Mark David Kim as no show" [ref=e115] [cursor=pointer]: No Show
+              - button "Reschedule David Kim" [ref=e116] [cursor=pointer]: Reschedule
+          - row "5 PAT-1005 Emily Watson 10:00 AM Scheduled Neurology Scheduled Pending — Mark Emily Watson as arrived Mark Emily Watson as no show Reschedule Emily Watson" [ref=e117]:
+            - cell "5" [ref=e118]
+            - cell "PAT-1005" [ref=e119]
+            - cell "Emily Watson" [ref=e120]:
+              - link "Emily Watson" [ref=e121] [cursor=pointer]:
+                - /url: "#"
+            - cell "10:00 AM" [ref=e122]
+            - cell "Scheduled" [ref=e123]
+            - cell "Neurology" [ref=e124]
+            - cell "Scheduled" [ref=e125]:
+              - generic [ref=e126]: Scheduled
+            - cell "Pending" [ref=e127]:
+              - generic [ref=e128]: Pending
+            - cell "—" [ref=e129]
+            - cell "Mark Emily Watson as arrived Mark Emily Watson as no show Reschedule Emily Watson" [ref=e130]:
+              - button "Mark Emily Watson as arrived" [ref=e131] [cursor=pointer]: Arrived
+              - button "Mark Emily Watson as no show" [ref=e132] [cursor=pointer]: No Show
+              - button "Reschedule Emily Watson" [ref=e133] [cursor=pointer]: Reschedule
+          - row "6 PAT-1003 Anita Kumar 8:15 AM Scheduled ENT No Show Completed — Reschedule Anita Kumar" [ref=e134]:
+            - cell "6" [ref=e135]
+            - cell "PAT-1003" [ref=e136]
+            - cell "Anita Kumar" [ref=e137]:
+              - link "Anita Kumar" [ref=e138] [cursor=pointer]:
+                - /url: "#"
+            - cell "8:15 AM" [ref=e139]
+            - cell "Scheduled" [ref=e140]
+            - cell "ENT" [ref=e141]
+            - cell "No Show" [ref=e142]:
+              - generic [ref=e143]: No Show
+            - cell "Completed" [ref=e144]:
+              - generic [ref=e145]: Completed
+            - cell "—" [ref=e146]
+            - cell "Reschedule Anita Kumar" [ref=e147]:
+              - button "Reschedule Anita Kumar" [ref=e148] [cursor=pointer]: Reschedule
+          - row "7 PAT-1006 Sarah Lee 7:30 AM Scheduled Pediatrics Completed Completed — —" [ref=e149]:
+            - cell "7" [ref=e150]
+            - cell "PAT-1006" [ref=e151]
+            - cell "Sarah Lee" [ref=e152]:
+              - link "Sarah Lee" [ref=e153] [cursor=pointer]:
+                - /url: "#"
+            - cell "7:30 AM" [ref=e154]
+            - cell "Scheduled" [ref=e155]
+            - cell "Pediatrics" [ref=e156]
+            - cell "Completed" [ref=e157]:
+              - generic [ref=e158]: Completed
+            - cell "Completed" [ref=e159]:
+              - generic [ref=e160]: Completed
+            - cell "—" [ref=e161]
+            - cell "—" [ref=e162]
+      - generic [ref=e163]:
+        - generic [ref=e164]: Showing 1–7 of 24 patients
+        - navigation "Pagination" [ref=e165]:
+          - button "Previous page" [disabled] [ref=e166] [cursor=pointer]: ‹
+          - button "Page 1" [ref=e167] [cursor=pointer]: "1"
+          - button "Page 2" [ref=e168] [cursor=pointer]: "2"
+          - button "Page 3" [ref=e169] [cursor=pointer]: "3"
+          - button "Page 4" [ref=e170] [cursor=pointer]: "4"
+          - button "Next page" [ref=e171] [cursor=pointer]: ›

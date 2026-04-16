@@ -3,6 +3,8 @@ import authController from '../controllers/authController';
 import { authenticate } from '../middleware/auth';
 import { loginRateLimiter, registerRateLimiter } from '../middleware/loginRateLimiter';
 import { applyProgressiveDelay } from '../utils/progressiveDelay';
+import { validateRequest } from '../middleware/validation.middleware';
+import { LoginDTOSchema } from '../schemas/loginDTO.schema';
 
 const router = Router();
 
@@ -37,6 +39,7 @@ router.post(
   '/login',
   loginRateLimiter,
   applyProgressiveDelay,
+  validateRequest(LoginDTOSchema),
   authController.login
 );
 

@@ -71,3 +71,20 @@ describe('LimitedFunctionalityBanner', () => {
     expect(screen.getByText('Medical Coding')).toBeInTheDocument();
   });
 });
+
+describe('LimitedFunctionalityBanner Accessibility', () => {
+  it('has no axe accessibility violations when banner is visible', async () => {
+    mockUseCircuitBreakerStatus.mockReturnValue(
+      defaultHookReturn({ hasOpenCircuits: true, openServices: ['ai-intake'] }),
+    );
+    const { container } = render(<LimitedFunctionalityBanner />);
+    const { expectNoA11yViolations } = await import('../../src/utils/accessibility-testing');
+    await expectNoA11yViolations(container);
+  });
+
+  it('has no axe accessibility violations when no circuits are open', async () => {
+    const { container } = render(<LimitedFunctionalityBanner />);
+    const { expectNoA11yViolations } = await import('../../src/utils/accessibility-testing');
+    await expectNoA11yViolations(container);
+  });
+});

@@ -259,13 +259,13 @@ npm run build
 - [x] Debounce timing validated (500ms delay for async validations)
 
 ## Implementation Checklist
-- [ ] Create SuccessIndicator component with green checkmark icon (CheckCircle, 20px, --color-success-600)
-- [ ] Create CharacterCounter component showing "X/Y characters" with red warning at 80%
-- [ ] Create FormErrorSummary component as red banner with error list and clickable field links
-- [ ] Update ErrorMessage component to support icons, use design tokens, and add ARIA live regions (role="status" polite, role="alert" assertive)
-- [ ] Create AsyncValidationSpinner component with blue spinner (20px) and "Checking..." text
+- [x] Create SuccessIndicator component with green checkmark icon (CheckCircle, 20px, --color-success-600)
+- [x] Create CharacterCounter component showing "X/Y characters" with red warning at 80%
+- [x] Create FormErrorSummary component as red banner with error list and clickable field links
+- [x] Update ErrorMessage component to support icons, use design tokens, and add ARIA live regions (role="status" polite, role="alert" assertive)
+- [x] Create AsyncValidationSpinner component with blue spinner (20px) and "Checking..." text
 - [ ] Create useDebounce hook with 500ms default delay for async validation throttling
-- [ ] Extract PasswordToggle component from LoginForm.tsx with Eye/EyeSlash icons
-- [ ] Create formValidation.css with design token-based error styling (.form-input--error, .form-input--success, .form-input--validating classes)
+- [x] Extract PasswordToggle component from LoginForm.tsx with Eye/EyeSlash icons
+- [x] Create formValidation.css with design token-based error styling (.form-input--error, .form-input--success, .form-input--validating classes)
 - **[UI Tasks - MANDATORY]** Reference wireframes from Design References table during implementation (validation states for all forms)
 - **[UI Tasks - MANDATORY]** Validate UI matches wireframe error/success/loading states before marking task complete

@@ -9,12 +9,16 @@
     "test:debug": "playwright test --debug",
     "test:ui": "playwright test --ui",
     "test:feature": "playwright test tests/",
-    "test:e2e": "playwright test e2e/",
+    "test:e2e": "playwright test --project=e2e",
+    "test:e2e:patient": "playwright test --project=e2e patient-complete-journey",
+    "test:e2e:staff": "playwright test --project=e2e staff-queue-management",
     "test:chromium": "playwright test --project=chromium",
     "test:firefox": "playwright test --project=firefox",
     "test:webkit": "playwright test --project=webkit",
     "test:mobile": "playwright test --project='Mobile Chrome' --project='Mobile Safari'",
     "report": "playwright show-report",
+    "test:accessibility": "playwright test --project=accessibility",
+    "test:accessibility:report": "playwright test --project=accessibility --reporter=json",
     "codegen": "playwright codegen",
     "install:browsers": "playwright install",
     "load-test:booking": "k6 run load-tests/scenario_booking_flow.js",
@@ -35,9 +39,10 @@
   "author": "UPACI Test Team",
   "license": "ISC",
   "devDependencies": {
+    "@axe-core/playwright": "^4.11.1",
     "@playwright/test": "^1.40.0",
     "@types/node": "^20.10.0",
+    "axe-core": "^4.11.2",
     "typescript": "^5.3.0"
-  },
-  "dependencies": {}
+  }
 }

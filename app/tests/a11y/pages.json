@@ -1,0 +1,12 @@
+{
+  "baseUrl": "http://localhost:5173",
+  "pages": [
+    { "path": "/login", "name": "Login", "auth": false },
+    { "path": "/unauthorized", "name": "Unauthorized", "auth": false },
+    { "path": "/patient/dashboard", "name": "Patient Dashboard", "auth": true, "role": "patient" },
+    { "path": "/staff/dashboard", "name": "Staff Dashboard", "auth": true, "role": "staff" },
+    { "path": "/appointments/book", "name": "Booking Form", "auth": true, "role": "patient" },
+    { "path": "/staff/queue", "name": "Queue Management", "auth": true, "role": "staff" },
+    { "path": "/admin/dashboard", "name": "Admin Dashboard", "auth": true, "role": "admin" }
+  ]
+}

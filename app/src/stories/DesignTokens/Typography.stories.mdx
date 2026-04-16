@@ -1,0 +1,114 @@
+import { Meta } from '@storybook/blocks';
+import { TokenTable, TypographySpecimen } from './components/TokenTable';
+
+<Meta title="Design Tokens/Docs/Typography" />
+
+# Typography
+
+Typography tokens built on the **Inter** typeface for optimal screen readability in clinical interfaces.
+
+---
+
+## Font Families
+
+<TokenTable
+  tokens={[
+    { name: 'Heading', cssVar: '--typography-font-family-heading', scssVar: '$typography-font-family-heading', value: "Inter, system, sans-serif", description: 'Headings and titles' },
+    { name: 'Body', cssVar: '--typography-font-family-body', scssVar: '$typography-font-family-body', value: "Inter, system, sans-serif", description: 'Body text and UI elements' },
+    { name: 'Mono', cssVar: '--typography-font-family-mono', scssVar: '$typography-font-family-mono', value: "Fira Code, Consolas, monospace", description: 'Code and data values' },
+  ]}
+  renderExample={(t) => <TypographySpecimen fontFamily={`var(${t.cssVar})`} text="Aa Bb Cc 123" />}
+/>
+
+---
+
+## Font Sizes
+
+<TokenTable
+  tokens={[
+    { name: 'xs (12px)', cssVar: '--typography-font-size-xs', scssVar: '$typography-font-size-xs', value: '12px', description: 'Caption, helper text' },
+    { name: 'sm (14px)', cssVar: '--typography-font-size-sm', scssVar: '$typography-font-size-sm', value: '14px', description: 'Body small, table cells, labels' },
+    { name: 'base (16px)', cssVar: '--typography-font-size-base', scssVar: '$typography-font-size-base', value: '16px', description: 'Default body, form inputs' },
+    { name: 'lg (18px)', cssVar: '--typography-font-size-lg', scssVar: '$typography-font-size-lg', value: '18px', description: 'Body large, H4' },
+    { name: 'xl (20px)', cssVar: '--typography-font-size-xl', scssVar: '$typography-font-size-xl', value: '20px', description: 'H3' },
+    { name: '2xl (24px)', cssVar: '--typography-font-size-2xl', scssVar: '$typography-font-size-2xl', value: '24px', description: 'H2' },
+    { name: '3xl (32px)', cssVar: '--typography-font-size-3xl', scssVar: '$typography-font-size-3xl', value: '32px', description: 'H1, page titles' },
+    { name: '4xl (48px)', cssVar: '--typography-font-size-4xl', scssVar: '$typography-font-size-4xl', value: '48px', description: 'Display large' },
+  ]}
+  renderExample={(t) => <TypographySpecimen fontSize={t.value} text="Patient Record" />}
+/>
+
+---
+
+## Font Weights
+
+<TokenTable
+  tokens={[
+    { name: 'Regular', cssVar: '--typography-font-weight-regular', scssVar: '$typography-font-weight-regular', value: '400', description: 'Body text' },
+    { name: 'Medium', cssVar: '--typography-font-weight-medium', scssVar: '$typography-font-weight-medium', value: '500', description: 'Labels, emphasis' },
+    { name: 'Semibold', cssVar: '--typography-font-weight-semibold', scssVar: '$typography-font-weight-semibold', value: '600', description: 'Headings' },
+    { name: 'Bold', cssVar: '--typography-font-weight-bold', scssVar: '$typography-font-weight-bold', value: '700', description: 'Display, H1' },
+  ]}
+  renderExample={(t) => <TypographySpecimen fontWeight={t.value} fontSize="18px" text="Appointment Scheduled" />}
+/>
+
+---
+
+## Line Heights
+
+<TokenTable
+  tokens={[
+    { name: 'Tight', cssVar: '--typography-line-height-tight', scssVar: '$typography-line-height-tight', value: '1.2', description: 'Display headings' },
+    { name: 'Snug', cssVar: '--typography-line-height-snug', scssVar: '$typography-line-height-snug', value: '1.25', description: 'H1' },
+    { name: 'Normal', cssVar: '--typography-line-height-normal', scssVar: '$typography-line-height-normal', value: '1.33', description: 'H2, H4, caption' },
+    { name: 'Relaxed', cssVar: '--typography-line-height-relaxed', scssVar: '$typography-line-height-relaxed', value: '1.43', description: 'H3, body small' },
+    { name: 'Loose', cssVar: '--typography-line-height-loose', scssVar: '$typography-line-height-loose', value: '1.5', description: 'H5, body medium' },
+    { name: 'Spacious', cssVar: '--typography-line-height-spacious', scssVar: '$typography-line-height-spacious', value: '1.56', description: 'Body large' },
+    { name: 'Extra', cssVar: '--typography-line-height-extra', scssVar: '$typography-line-height-extra', value: '1.8', description: 'Loose reading' },
+  ]}
+  renderExample={(t) => (
+    <div style={{ lineHeight: t.value, fontSize: '13px', width: '160px', background: '#E6F0FA', padding: '4px 6px', borderRadius: '4px' }}>
+      Multi-line text sample for line height
+    </div>
+  )}
+/>
+
+---
+
+## Letter Spacing
+
+<TokenTable
+  tokens={[
+    { name: 'Tight', cssVar: '--typography-letter-spacing-tight', scssVar: '$typography-letter-spacing-tight', value: '-0.5px', description: 'Display headings' },
+    { name: 'Snug', cssVar: '--typography-letter-spacing-snug', scssVar: '$typography-letter-spacing-snug', value: '-0.25px', description: 'H1' },
+    { name: 'Normal', cssVar: '--typography-letter-spacing-normal', scssVar: '$typography-letter-spacing-normal', value: '0px', description: 'Default' },
+    { name: 'Wide', cssVar: '--typography-letter-spacing-wide', scssVar: '$typography-letter-spacing-wide', value: '0.1px', description: 'Labels' },
+    { name: 'Wider', cssVar: '--typography-letter-spacing-wider', scssVar: '$typography-letter-spacing-wider', value: '0.18px', description: 'Body text' },
+    { name: 'Widest', cssVar: '--typography-letter-spacing-widest', scssVar: '$typography-letter-spacing-widest', value: '1px', description: 'Overline / uppercase' },
+  ]}
+  renderExample={(t) => <span style={{ letterSpacing: t.value, fontSize: '15px' }}>Clinical Dashboard</span>}
+/>
+
+---
+
+## Usage
+
+```css
+/* CSS Custom Property */
+.heading {
+  font-family: var(--typography-font-family-heading);
+  font-size: var(--typography-font-size-3xl);
+  font-weight: var(--typography-font-weight-bold);
+  line-height: var(--typography-line-height-snug);
+}
+```
+
+```scss
+// SCSS Variable
+.heading {
+  font-family: $typography-font-family-heading;
+  font-size: $typography-font-size-3xl;
+  font-weight: $typography-font-weight-bold;
+  line-height: $typography-line-height-snug;
+}
+```

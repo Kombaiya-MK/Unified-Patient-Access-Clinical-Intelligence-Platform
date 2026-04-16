@@ -69,14 +69,10 @@ export interface JoinWaitlistRequest {
   departmentId: number;
   /** Provider ID (optional) */
   providerId?: number | null;
-  /** Requested appointment date */
-  requestedDate: string;
-  /** Preferred time start (optional) */
-  preferredTimeStart?: string | null;
-  /** Preferred time end (optional) */
-  preferredTimeEnd?: string | null;
-  /** Reason for request (optional) */
-  reason?: string;
+  /** Preferred appointment date (ISO format YYYY-MM-DD) */
+  preferredDate: string;
+  /** Notes (optional) */
+  notes?: string;
 }
 
 /**

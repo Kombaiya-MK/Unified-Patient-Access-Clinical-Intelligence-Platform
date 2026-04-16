@@ -1,0 +1,64 @@
+- generic [ref=e225]:
+  - link "Skip to main content" [ref=e226] [cursor=pointer]:
+    - /url: "#main-content"
+  - banner [ref=e227]:
+    - generic [ref=e228]:
+      - link "UPACI" [ref=e229] [cursor=pointer]:
+        - /url: /staff/dashboard
+      - generic [ref=e230]: staff
+    - generic [ref=e231]:
+      - button "Notifications" [ref=e232] [cursor=pointer]:
+        - img [ref=e233]
+      - 'generic "User: Sarah Wilson" [ref=e237]': SW
+  - generic [ref=e238]:
+    - navigation "Main navigation" [ref=e239]:
+      - navigation [ref=e240]:
+        - link "Dashboard" [ref=e241] [cursor=pointer]:
+          - /url: /staff/dashboard
+          - img [ref=e243]
+          - generic [ref=e248]: Dashboard
+        - link "Queue" [ref=e249] [cursor=pointer]:
+          - /url: /staff/queue
+          - img [ref=e251]
+          - generic [ref=e252]: Queue
+        - link "Book for Patient" [ref=e253] [cursor=pointer]:
+          - /url: /staff/appointments/book
+          - img [ref=e255]
+          - generic [ref=e257]: Book for Patient
+        - link "AI Intake" [ref=e258] [cursor=pointer]:
+          - /url: /intake/ai
+          - img [ref=e260]
+          - generic [ref=e262]: AI Intake
+        - link "Manual Intake" [ref=e263] [cursor=pointer]:
+          - /url: /intake/manual
+          - img [ref=e265]
+          - generic [ref=e267]: Manual Intake
+      - button "Logout" [ref=e269] [cursor=pointer]:
+        - img [ref=e271]
+        - generic [ref=e274]: Logout
+    - main [ref=e275]:
+      - main [ref=e277]:
+        - generic [ref=e278]:
+          - heading "Staff Dashboard" [level=2] [ref=e279]
+          - paragraph [ref=e280]: Select a workflow to get started.
+        - generic [ref=e281]:
+          - region "Queue" [ref=e282]:
+            - button "Patient Queue View and manage the patient queue, update status, and assign providers." [ref=e286] [cursor=pointer]:
+              - generic [ref=e287]: 👥
+              - heading "Patient Queue" [level=3] [ref=e288]
+              - paragraph [ref=e289]: View and manage the patient queue, update status, and assign providers.
+          - region "Appointments" [ref=e290]:
+            - button "Book Appointment Schedule appointments on behalf of patients." [ref=e294] [cursor=pointer]:
+              - generic [ref=e295]: 📅
+              - heading "Book Appointment" [level=3] [ref=e296]
+              - paragraph [ref=e297]: Schedule appointments on behalf of patients.
+          - region "Intake" [ref=e298]:
+            - generic [ref=e299]:
+              - button "AI Intake AI-assisted patient intake with smart form filling." [ref=e302] [cursor=pointer]:
+                - generic [ref=e303]: 🤖
+                - heading "AI Intake" [level=3] [ref=e304]
+                - paragraph [ref=e305]: AI-assisted patient intake with smart form filling.
+              - button "Manual Intake Manually enter patient intake data." [ref=e308] [cursor=pointer]:
+                - generic [ref=e309]: 📋
+                - heading "Manual Intake" [level=3] [ref=e310]
+                - paragraph [ref=e311]: Manually enter patient intake data.

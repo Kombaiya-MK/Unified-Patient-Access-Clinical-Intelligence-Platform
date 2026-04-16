@@ -374,11 +374,11 @@ pm2 startup
 - [x] Log verification: Check logs/pm2-error.log and logs/pm2-out.log for startup/shutdown events
 
 ## Implementation Checklist
-- [ ] Create ecosystem.config.js with cluster mode configuration (instances: "max", exec_mode: "cluster", kill_timeout: 30000, wait_ready: true, listen_timeout: 10000, max_restarts: 10, min_uptime: 60000, max_memory_restart: "1G", environment variables, log paths)
-- [ ] Modify server.ts to add PM2 ready signal (process.send('ready') after server.listen()), update graceful shutdown timeout to 30 seconds, ensure shutdown order (HTTP server → Database pool → Redis client → process.exit)
-- [ ] Create pm2-startup.sh Linux startup script with PM2 installation check, pm2 startup command, pm2 start ecosystem.config.js, pm2 save (auto-restart on reboot)
-- [ ] Create pm2-startup.ps1 Windows PowerShell startup script with PM2 installation, pm2 startup windows command, application start/save
-- [ ] Modify package.json to add PM2 management scripts (pm2:start, pm2:reload, pm2:stop, pm2:restart, pm2:logs, pm2:monit, pm2:delete, pm2:save)
-- [ ] Create logs/ directory for PM2 output (pm2-error.log, pm2-out.log with merge_logs: true)
-- [ ] Build TypeScript (npm run build), start PM2 cluster (npm run pm2:start), verify instance count equals CPU cores (pm2 status)
-- [ ] Test zero-downtime reload with concurrent load (while true; do curl http://localhost:3000/api/health; done in background, then pm2 reload upaci-backend), verify no 502 errors, test crash recovery (pm2 stop <id>, verify auto-restart), test startup persistence (reboot, verify auto-start)
+- [x] Create ecosystem.config.js with cluster mode configuration (instances: "max", exec_mode: "cluster", kill_timeout: 30000, wait_ready: true, listen_timeout: 10000, max_restarts: 10, min_uptime: 60000, max_memory_restart: "1G", environment variables, log paths)
+- [x] Modify server.ts to add PM2 ready signal (process.send('ready') after server.listen()), update graceful shutdown timeout to 30 seconds, ensure shutdown order (HTTP server → Database pool → Redis client → process.exit)
+- [x] Create pm2-startup.sh Linux startup script with PM2 installation check, pm2 startup command, pm2 start ecosystem.config.js, pm2 save (auto-restart on reboot)
+- [x] Create pm2-startup.ps1 Windows PowerShell startup script with PM2 installation, pm2 startup windows command, application start/save
+- [x] Modify package.json to add PM2 management scripts (pm2:start, pm2:reload, pm2:stop, pm2:restart, pm2:logs, pm2:monit, pm2:delete, pm2:save)
+- [x] Create logs/ directory for PM2 output (pm2-error.log, pm2-out.log with merge_logs: true)
+- [x] Build TypeScript (npm run build), start PM2 cluster (npm run pm2:start), verify instance count equals CPU cores (pm2 status)
+- [x] Test zero-downtime reload with concurrent load (while true; do curl http://localhost:3000/api/health; done in background, then pm2 reload upaci-backend), verify no 502 errors, test crash recovery (pm2 stop <id>, verify auto-restart), test startup persistence (reboot, verify auto-start)

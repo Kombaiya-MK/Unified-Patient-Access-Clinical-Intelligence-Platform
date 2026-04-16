@@ -259,12 +259,12 @@ npm run start
 - [x] Security testing: Send malicious payloads (SQL injection, XSS) to validate sanitization works
 
 ## Implementation Checklist
-- [ ] Create validation.middleware.ts with Zod schema validation, standardized error format (HTTP 400, {success: false, errors: [{field, message, code}]}), and integrate with all route files
-- [ ] Create loginDTO.schema.ts with email, password, rememberMe validation mirroring frontend rules
-- [ ] Create appointmentBookingDTO.schema.ts with patientId, staffId, timeslotId, appointmentDate (future date), reason (max 200 chars) validation
-- [ ] Create patientIntakeDTO.schema.ts with firstName, lastName, DOB (past date, age >= 18), phone, email, medications, allergies validation
-- [ ] Create documentUploadDTO.schema.ts with patientId, documentType enum, fileName, fileSize (max 10MB) validation
-- [ ] Create userManagementDTO.schema.ts with email (unique check via database), firstName, lastName, role enum (PATIENT/STAFF/ADMIN), active boolean validation
-- [ ] Create validationController.ts with GET /api/users/check-username and POST /api/insurance/check-eligibility endpoints, plus rateLimiter.middleware.ts with express-rate-limit (max 10 req/min per IP, HTTP 429)
-- [ ] Create validationErrorLogger.ts with Winston logger (log to file, daily rotation, 30-day retention, structured log format [timestamp, IP, endpoint, field, errorCode]), and add validation error tracking metrics (count failures per endpoint/field)
+- [x] Create validation.middleware.ts with Zod schema validation, standardized error format (HTTP 400, {success: false, errors: [{field, message, code}]}), and integrate with all route files
+- [x] Create loginDTO.schema.ts with email, password, rememberMe validation mirroring frontend rules
+- [x] Create appointmentBookingDTO.schema.ts with patientId, staffId, timeslotId, appointmentDate (future date), reason (max 200 chars) validation
+- [x] Create patientIntakeDTO.schema.ts with firstName, lastName, DOB (past date, age >= 18), phone, email, medications, allergies validation
+- [x] Create documentUploadDTO.schema.ts with patientId, documentType enum, fileName, fileSize (max 10MB) validation
+- [x] Create userManagementDTO.schema.ts with email (unique check via database), firstName, lastName, role enum (PATIENT/STAFF/ADMIN), active boolean validation
+- [x] Create validationController.ts with GET /api/users/check-username and POST /api/insurance/check-eligibility endpoints, plus rateLimiter.middleware.ts with express-rate-limit (max 10 req/min per IP, HTTP 429)
+- [x] Create validationErrorLogger.ts with Winston logger (log to file, daily rotation, 30-day retention, structured log format [timestamp, IP, endpoint, field, errorCode]), and add validation error tracking metrics (count failures per endpoint/field)
 

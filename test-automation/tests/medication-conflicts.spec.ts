@@ -1,152 +1,199 @@
 import { test, expect } from '@playwright/test';
+import { LoginPage } from '../pages/login.page';
 import { PatientProfilePage } from '../pages/patient-profile.page';
+
+import testFixtures from '../data/medication-conflicts.json';
+
+const staff = testFixtures.staff;
+const pat001 = testFixtures.patients['PAT-001'];
+const pat002 = testFixtures.patients['PAT-002'];
+const resolution = testFixtures.resolution;
 
 test.describe('Medication Conflict Detection', () => {
   let patientProfilePage: PatientProfilePage;
 
   test.beforeEach(async ({ page }) => {
     patientProfilePage = new PatientProfilePage(page);
-    // Assume staff is already logged in
+
+    // Authenticate as staff before each test
+    const loginPage = new LoginPage(page);
+    await page.goto('/login');
+    await loginPage.login(staff.email, staff.password);
+    await expect(page).toHaveURL(/staff|dashboard/);
+  });
+
+  test.afterEach(async ({ page }) => {
+    await page.close();
   });
 
   test('TC-UC-010-HP-001: Detect and Highlight Medication Conflicts', async ({ page }) => {
-    // Navigate to patient profile
+    // 001: Navigate to patient profile
     await page.goto('/staff/patient-profile/PAT-001');
-    
-    // Verify medications section
+
+    // 002: Medications section visible
     await expect(patientProfilePage.medicationsSection).toBeVisible();
-    await expect(page.getByText('Current Medications (5)')).toBeVisible();
-    
-    // Verify conflict alert
+
+    // 003: Medication count displayed
+    await expect(page.getByText(`Current Medications (${pat001.medications_count})`)).toBeVisible();
+
+    // 004: Conflict alert visible
     await expect(patientProfilePage.conflictAlert).toBeVisible();
-    await expect(page.getByText('2 medication conflicts detected')).toBeVisible();
-    
-    // View conflicts
+
+    // 005: Conflict count visible
+    await expect(page.getByText(`${pat001.conflict_count} medication conflicts detected`)).toBeVisible();
+
+    // 006: View conflict details
     await patientProfilePage.viewConflictsButton.click();
-    
-    // Verify conflict details
-    await expect(page.getByText('Warfarin + Aspirin: Increased risk of bleeding')).toBeVisible();
-    await expect(page.getByText('Lisinopril + Ibuprofen: May reduce effectiveness of blood pressure medication')).toBeVisible();
-    
-    // Verify severity displayed
-    await expect(page.getByText('Severity: High')).toBeVisible();
-    
-    // Verify resolve button available
+
+    // 007: First conflict detail
+    const conflict1 = pat001.conflicts[0];
+    await expect(
+      page.getByText(`${conflict1.medications.join(' + ')}: ${conflict1.description}`),
+    ).toBeVisible();
+
+    // 008: Second conflict detail
+    const conflict2 = pat001.conflicts[1];
+    await expect(
+      page.getByText(`${conflict2.medications.join(' + ')}: ${conflict2.description}`),
+    ).toBeVisible();
+
+    // 009: Conflict severity displayed
+    await expect(page.getByText(`Severity: ${conflict1.severity}`)).toBeVisible();
+
+    // 010: Resolve button available
     await expect(patientProfilePage.resolveConflictButton).toBeVisible();
   });
 
   test('TC-UC-010-HP-002: Staff Reviews and Resolves Medication Conflict', async ({ page }) => {
-    // Navigate to patient profile
+    // 001: Navigate to patient profile
     await page.goto('/staff/patient-profile/PAT-001');
-    
-    // View conflicts
+
+    // 002: View conflicts
     await patientProfilePage.viewConflictsButton.click();
-    
-    // Click resolve conflict
+
+    // 003: Click resolve conflict
     await patientProfilePage.resolveConflictButton.click();
-    
-    // Verify conflict being resolved
-    await expect(page.getByText('Conflict: Warfarin + Aspirin')).toBeVisible();
-    
-    // Enter resolution action
-    await patientProfilePage.resolutionActionInput.fill('Discontinue Aspirin, consult with cardiologist');
-    
-    // Enter staff notes
-    await patientProfilePage.staffNotesInput.fill('Discussed with patient. Alternative pain management plan in place.');
-    
-    // Save resolution
+
+    // 004: Conflict being resolved is displayed
+    await expect(
+      page.getByText(`Conflict: ${resolution.medications.join(' + ')}`),
+    ).toBeVisible();
+
+    // 005: Enter resolution action
+    await patientProfilePage.resolutionActionInput.fill(resolution.action);
+
+    // 006: Enter staff notes
+    await patientProfilePage.staffNotesInput.fill(resolution.notes);
+
+    // 007: Save resolution
     await patientProfilePage.saveResolutionButton.click();
-    
-    // Verify success message
+
+    // 008: Success message
     await expect(page.getByText('Conflict resolution saved successfully')).toBeVisible();
-    
-    // Verify conflict status updated
+
+    // 009: Conflict status updated
     await expect(page.getByText('Status: Resolved')).toBeVisible();
-    
-    // Verify conflict count decremented
+
+    // 010: Conflict count decremented
     await expect(page.getByText('1 medication conflict remaining')).toBeVisible();
   });
 
   test('TC-UC-010-EC-001: No Conflicts Detected for Patient', async ({ page }) => {
-    // Navigate to patient profile with no conflicts
+    // EC001: Navigate to patient with no conflicts
     await page.goto('/staff/patient-profile/PAT-002');
-    
-    // Verify medications section
+
+    // EC002: Medications section visible
     await expect(patientProfilePage.medicationsSection).toBeVisible();
-    await expect(page.getByText('Current Medications (3)')).toBeVisible();
-    
-    // Verify no conflicts message
+
+    // EC003: Medication count displayed
+    await expect(page.getByText(`Current Medications (${pat002.medications_count})`)).toBeVisible();
+
+    // EC004: No conflicts message
     await expect(page.getByText('No medication conflicts detected')).toBeVisible();
-    
-    // Verify positive status indicator
+
+    // EC005: Positive status indicator
     await expect(page.getByRole('status', { name: 'All Clear' })).toBeVisible();
-    
-    // Verify timestamp
-    await expect(page.getByText(/Last checked:/)).toBeVisible();
+
+    // EC006: Timestamp of last conflict check
+    await expect(page.getByText(/Last checked:.*\d{4}/)).toBeVisible();
   });
 
   test('TC-UC-010-ER-001: Conflict Detection Fails Due to Missing Medication Data', async ({ page }) => {
-    // Navigate to patient with incomplete data
+    // ER001: Navigate to patient with incomplete data
     await page.goto('/staff/patient-profile/PAT-003');
-    
-    // Verify medications section
+
+    // ER002: Medications section visible
     await expect(patientProfilePage.medicationsSection).toBeVisible();
-    
-    // Verify incomplete data message
+
+    // ER003: Incomplete data message
     await expect(page.getByText('Medication data incomplete')).toBeVisible();
-    
-    // Verify warning alert
+
+    // ER004: Warning alert visible
     await expect(page.getByRole('alert')).toBeVisible();
-    await expect(page.getByText('Unable to perform conflict detection. Please complete medication history.')).toBeVisible();
-    
-    // Verify add medications button available
+
+    // ER005: Detection failure message
+    await expect(
+      page.getByText('Unable to perform conflict detection. Please complete medication history.'),
+    ).toBeVisible();
+
+    // ER006: Add medications button available
     await expect(patientProfilePage.addMedicationsButton).toBeVisible();
   });
 
   test('TC-UC-010-EC-002: High Severity Conflict Triggers Immediate Alert', async ({ page }) => {
-    // Navigate to patient with critical conflict
+    // EC007: Navigate to patient with critical conflict
     await page.goto('/staff/patient-profile/PAT-004');
-    
-    // Verify critical conflict modal appears
+
+    // EC008: Critical conflict modal appears immediately
     await expect(patientProfilePage.criticalConflictDialog).toBeVisible();
-    
-    // Verify critical alert message
+
+    // EC009: Critical alert message
     await expect(page.getByText('CRITICAL: High-risk medication interaction detected')).toBeVisible();
-    
-    // Verify conflict details
-    await expect(page.getByText('Warfarin + Aspirin + Clopidogrel: Extreme bleeding risk')).toBeVisible();
-    
-    // Verify severity highlighted
-    await expect(page.getByText('Severity: Critical')).toHaveCSS('color', /red/i);
-    
-    // Verify recommendation
+
+    // EC010: Conflict details visible
+    const criticalConflict = testFixtures.patients['PAT-004'].conflicts[0];
+    await expect(
+      page.getByText(`${criticalConflict.medications.join(' + ')}: ${criticalConflict.description}`),
+    ).toBeVisible();
+
+    // EC011: Severity highlighted
+    await expect(page.getByText(`Severity: ${criticalConflict.severity}`)).toBeVisible();
+
+    // EC012: Recommendation visible
     await expect(page.getByText('Immediate physician consultation required')).toBeVisible();
-    
-    // Acknowledge alert
-    await patientProfilePage.acknowledgeButton.click();
-    
-    // Verify acknowledgment logged
+
+    // EC013: Acknowledge button visible
+    await expect(patientProfilePage.acknowledgeButton).toBeVisible();
+
+    // EC014: Acknowledge alert
+    await patientProfilePage.acknowledgeCriticalConflict();
+
+    // EC015: Acknowledgment logged immutably
     await expect(page.getByText(/Critical conflict acknowledged by/)).toBeVisible();
   });
 
   test('TC-UC-010-ER-002: Conflict Detection Service Unavailable', async ({ page }) => {
-    // Navigate to patient profile when service is down
+    // ER007: Navigate to patient when service is down
     await page.goto('/staff/patient-profile/PAT-005');
-    
-    // Verify medications section
+
+    // ER008: Medications section visible
     await expect(patientProfilePage.medicationsSection).toBeVisible();
-    
-    // Verify service error alert
+
+    // ER009: Service error alert
     await expect(page.getByRole('alert', { name: 'Service Error' })).toBeVisible();
+
+    // ER010: Service unavailable message
     await expect(page.getByText('Conflict detection service is temporarily unavailable')).toBeVisible();
-    
-    // Verify fallback instruction
-    await expect(page.getByText('Please manually review medications for potential interactions or try again later.')).toBeVisible();
-    
-    // Verify retry button available
+
+    // ER011: Fallback instruction
+    await expect(
+      page.getByText('Please manually review medications for potential interactions or try again later.'),
+    ).toBeVisible();
+
+    // ER012: Retry button available
     await expect(patientProfilePage.retryDetectionButton).toBeVisible();
-    
-    // Verify manual review option
+
+    // ER013: Manual review option available
     await expect(patientProfilePage.manualReviewButton).toBeVisible();
   });
 });

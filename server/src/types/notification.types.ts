@@ -133,3 +133,32 @@ export interface UpdateNotificationParams {
   pushSent?: boolean;
   pushSentAt?: Date;
 }
+
+/**
+ * Per-category notification preferences
+ * Controls which notification types the user wants to receive
+ */
+export interface NotificationCategoryPreferences {
+  appointment: boolean;
+  medication: boolean;
+  system: boolean;
+  waitlist: boolean;
+}
+
+export const DEFAULT_CATEGORY_PREFERENCES: NotificationCategoryPreferences = {
+  appointment: true,
+  medication: true,
+  system: true,
+  waitlist: true,
+};
+
+/**
+ * Paginated notification response shape
+ */
+export interface PaginatedNotifications {
+  notifications: Notification[];
+  total: number;
+  limit: number;
+  offset: number;
+  hasMore: boolean;
+}

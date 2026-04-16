@@ -1,0 +1,25 @@
+[    2254ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=3a0da526:20102
+[    2429ms] [WARNING] WebSocket connection to 'ws://localhost:3001/circuit-breaker?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI5IiwiZW1haWwiOiJhZG1pbkB1cGFjaS5jb20iLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3NzU0ODIyMjksImV4cCI6MTc3NTQ4MzEyOX0.sQt3TCRyu8iEjbhw1XqxVw1g2d_gmJM7RJ6nWKbXLic' failed: WebSocket is closed before the connection is established. @ http://localhost:5173/src/hooks/useCircuitBreakerStatus.ts:52
+[    2444ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:3001/api/circuit-breaker/status:0
+[    2444ms] [ERROR] Resource not found: /circuit-breaker/status @ http://localhost:5173/src/services/api.ts:36
+[    2450ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:3001/api/circuit-breaker/status:0
+[    2451ms] [ERROR] Resource not found: /circuit-breaker/status @ http://localhost:5173/src/services/api.ts:36
+[    2452ms] [ERROR] WebSocket connection to 'ws://localhost:3001/circuit-breaker?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI5IiwiZW1haWwiOiJhZG1pbkB1cGFjaS5jb20iLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3NzU0ODIyMjksImV4cCI6MTc3NTQ4MzEyOX0.sQt3TCRyu8iEjbhw1XqxVw1g2d_gmJM7RJ6nWKbXLic' failed: Error during WebSocket handshake: Unexpected response code: 400 @ http://localhost:5173/src/hooks/useCircuitBreakerStatus.ts:32
+[ 1570040ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:3001/api/circuit-breaker/status:0
+[ 1570040ms] [ERROR] Resource not found: /circuit-breaker/status @ http://localhost:5173/src/services/api.ts:36
+[ 1624454ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:3001/api/circuit-breaker/status:0
+[ 1624454ms] [ERROR] Resource not found: /circuit-breaker/status @ http://localhost:5173/src/services/api.ts:36
+[ 3554201ms] [ERROR] Network error: No response received @ http://localhost:5173/src/services/api.ts:45
+[ 3554202ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:3001/api/circuit-breaker/status:0
+[ 3574446ms] [ERROR] Network error: No response received @ http://localhost:5173/src/services/api.ts:45
+[ 3574447ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:3001/api/circuit-breaker/status:0
+[ 3590457ms] [ERROR] Network error: No response received @ http://localhost:5173/src/services/api.ts:45
+[ 3590457ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:3001/api/circuit-breaker/status:0
+[ 3619542ms] [ERROR] Network error: No response received @ http://localhost:5173/src/services/api.ts:45
+[ 3619543ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:3001/api/circuit-breaker/status:0
+[ 3635940ms] [ERROR] Network error: No response received @ http://localhost:5173/src/services/api.ts:45
+[ 3635940ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:3001/api/circuit-breaker/status:0
+[ 3700294ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:5173/src/pages/DocumentUploadPage.tsx?t=1775486179615:0
+[ 3700295ms] [ERROR] [hmr] Failed to reload /src/pages/DocumentUploadPage.tsx. This could be due to syntax errors or importing non-existent modules. (see errors above) @ http://localhost:5173/@vite/client:175
+[ 5917810ms] [ERROR] Network error: No response received @ http://localhost:5173/src/services/api.ts:45
+[ 5917811ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:3001/api/circuit-breaker/status:0

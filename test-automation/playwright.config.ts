@@ -23,7 +23,7 @@ export default defineConfig({
   reporter: [
     ['html', { outputFolder: 'test-results/html' }],
     ['json', { outputFile: 'test-results/results.json' }],
-    ['list']
+    ['list'],
   ],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
@@ -71,6 +71,25 @@ export default defineConfig({
     {
       name: 'Mobile Safari',
       use: { ...devices['iPhone 12'] },
+    },
+
+    /* E2E journey tests — serial execution, single worker */
+    {
+      name: 'e2e',
+      testDir: './e2e',
+      fullyParallel: false,
+      use: {
+        ...devices['Desktop Chrome'],
+        trace: 'on',
+        video: 'retain-on-failure',
+      },
+    },
+
+    /* Accessibility / contrast validation project */
+    {
+      name: 'accessibility',
+      testDir: './e2e/accessibility',
+      use: { ...devices['Desktop Chrome'] },
     },
   ],
 

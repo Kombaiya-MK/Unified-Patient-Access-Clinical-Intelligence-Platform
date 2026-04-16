@@ -566,34 +566,34 @@ npm test -- --testPathPattern=forms
 ```
 
 ## Implementation Validation Strategy
-- [ ] All form inputs have visible labels above field
-- [ ] Labels associated with inputs via htmlFor / id
-- [ ] Required fields have asterisk (*) and aria-required="true"
-- [ ] Error messages have role="alert" and aria-live="assertive"
-- [ ] Error messages appear below field on validation failure
-- [ ] Help text linked via aria-describedby
-- [ ] Validation summary lists all errors with links to fields
-- [ ] Focus moves to first error field on submit failure
-- [ ] Autocomplete attributes added to appropriate fields
+- [x] All form inputs have visible labels above field
+- [x] Labels associated with inputs via htmlFor / id
+- [x] Required fields have asterisk (*) and aria-required="true"
+- [x] Error messages have role="alert" and aria-live="assertive"
+- [x] Error messages appear below field on validation failure
+- [x] Help text linked via aria-describedby
+- [x] Validation summary lists all errors with links to fields
+- [x] Focus moves to first error field on submit failure
+- [x] Autocomplete attributes added to appropriate fields
 - [ ] **[UI Tasks]** Validate form layout matches wireframes at all breakpoints
 - [ ] Screen reader test: NVDA announces labels, errors, help text
 - [ ] Keyboard test: Tab through form, Enter submits, Space toggles checkboxes
 
 ## Implementation Checklist
-- [ ] Create app/src/components/forms/ folder
-- [ ] Create AccessibleInput.tsx with label, input, error, help text
-- [ ] Add useId() hook for unique IDs
-- [ ] Add aria-required, aria-invalid, aria-describedby to input
-- [ ] Add role="alert", aria-live="assertive" to error message
-- [ ] Create AccessibleSelect.tsx with dropdown and optgroup support
-- [ ] Create AccessibleCheckbox.tsx with checkbox label association
-- [ ] Create AccessibleRadio.tsx with fieldset/legend for radio groups
-- [ ] Create FormError.tsx with severity levels (error/warning)
-- [ ] Create ValidationSummary.tsx with error list and focus links
-- [ ] Add autocompleteMapping object with common autocomplete values
-- [ ] Modify LoginPage.tsx to use AccessibleInput
-- [ ] Add ValidationSummary to LoginPage
-- [ ] Add handleFieldFocus function for error links
+- [x] Create app/src/components/forms/ folder
+- [x] Create AccessibleInput.tsx with label, input, error, help text
+- [x] Add useId() hook for unique IDs
+- [x] Add aria-required, aria-invalid, aria-describedby to input
+- [x] Add role="alert", aria-live="assertive" to error message
+- [x] Create AccessibleSelect.tsx with dropdown and optgroup support
+- [x] Create AccessibleCheckbox.tsx with checkbox label association
+- [x] Create AccessibleRadio.tsx with fieldset/legend for radio groups
+- [x] Create FormError.tsx with severity levels (error/warning)
+- [x] Create ValidationSummary.tsx with error list and focus links
+- [x] Add autocompleteMapping object with common autocomplete values
+- [x] Modify LoginPage.tsx to use AccessibleInput
+- [x] Add ValidationSummary to LoginPage
+- [x] Add handleFieldFocus function for error links
 - [ ] Modify BookingPage forms to use accessible components
 - [ ] Modify IntakePage forms to use accessible components
 - [ ] Modify ProfilePage forms to use accessible components

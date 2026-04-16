@@ -318,16 +318,16 @@ pages:
 ```
 
 ## Success Criteria
-- [ ] All journey phases complete without errors
-- [ ] Session state maintained across all phases
-- [ ] Checkpoints validate intermediate states
-- [ ] Journey runs independently with test data cleanup
-- [ ] All assertions use web-first patterns
-- [ ] Authentication persists throughout journey
-- [ ] Appointment is successfully created and visible
-- [ ] Intake data is saved and available to staff
-- [ ] Document upload triggers AI extraction
-- [ ] All actions are immutably logged for audit
+- [x] All journey phases complete without errors
+- [x] Session state maintained across all phases
+- [x] Checkpoints validate intermediate states
+- [x] Journey runs independently with test data cleanup
+- [x] All assertions use web-first patterns
+- [x] Authentication persists throughout journey
+- [x] Appointment is successfully created and visible
+- [x] Intake data is saved and available to staff
+- [x] Document upload triggers AI extraction
+- [x] All actions are immutably logged for audit
 
 ## Locator Reference
 | Priority | Method | Example |

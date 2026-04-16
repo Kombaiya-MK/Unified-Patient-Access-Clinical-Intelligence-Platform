@@ -305,11 +305,11 @@ Start-Process "https://localhost"
 - [x] Health check validation: Access https://yoursite.com/healthcheck.html, verify "OK" response (HTTP 200)
 
 ## Implementation Checklist
-- [ ] Install IIS roles and features (Web-Server, URL Rewrite 2.1, static compression, dynamic compression) via PowerShell script
-- [ ] Create IIS Application Pool "UPACI-Frontend" with No Managed Code and ApplicationPoolIdentity
-- [ ] Create IIS site "UPACI-Frontend" serving from C:\inetpub\wwwroot\upaci-frontend\ with HTTP binding on port 80
-- [ ] Build React app (npm run build) and deploy artifacts to C:\inetpub\wwwroot\upaci-frontend\ via deploy-frontend.ps1 script
-- [ ] Install SSL certificate (Let's Encrypt via win-acme or commercial cert) and bind to HTTPS port 443 with SNI enabled
-- [ ] Create web.config with HTTP-to-HTTPS redirect rule (301 permanent redirect) and HSTS headers (max-age=31536000, includeSubDomains, preload)
-- [ ] Enable gzip and brotli compression for static assets (text/html, text/css, application/javascript, image/svg+xml) reducing bandwidth by ~70%
-- [ ] Configure SPA routing via URL Rewrite (rewrite all routes to index.html except /api/*, /healthcheck.html, /static/* file requests) and create healthcheck.html returning "OK"
+- [x] Install IIS roles and features (Web-Server, URL Rewrite 2.1, static compression, dynamic compression) via PowerShell script
+- [x] Create IIS Application Pool "UPACI-Frontend" with No Managed Code and ApplicationPoolIdentity
+- [x] Create IIS site "UPACI-Frontend" serving from C:\inetpub\wwwroot\upaci-frontend\ with HTTP binding on port 80
+- [x] Build React app (npm run build) and deploy artifacts to C:\inetpub\wwwroot\upaci-frontend\ via deploy-frontend.ps1 script
+- [x] Install SSL certificate (Let's Encrypt via win-acme or commercial cert) and bind to HTTPS port 443 with SNI enabled
+- [x] Create web.config with HTTP-to-HTTPS redirect rule (301 permanent redirect) and HSTS headers (max-age=31536000, includeSubDomains, preload)
+- [x] Enable gzip and brotli compression for static assets (text/html, text/css, application/javascript, image/svg+xml) reducing bandwidth by ~70%
+- [x] Configure SPA routing via URL Rewrite (rewrite all routes to index.html except /api/*, /healthcheck.html, /static/* file requests) and create healthcheck.html returning "OK"

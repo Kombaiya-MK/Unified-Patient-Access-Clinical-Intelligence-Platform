@@ -135,10 +135,19 @@ Usage:
 ✓ **Critical information** (medication conflicts, errors): Minimum 7:1 for enhanced readability
 
 **Accessible Combinations:**
-- `neutral-900` on `bg-primary` (white) → 13.5:1 ✓
-- `primary-600` on `bg-primary` → 4.7:1 ✓
-- `error-600` on `bg-primary` → 5.1:1 ✓
-- `neutral-600` on `bg-primary` → 5.7:1 ✓
+- `neutral-900` on `bg-primary` (white) → 16.75:1 ✓ (AAA)
+- `neutral-700` on `bg-primary` → 9.41:1 ✓ (AAA)
+- `neutral-600` on `bg-primary` → 5.74:1 ✓ (AA)
+- `primary-600` on `bg-primary` → 5.40:1 ✓ (AA)
+- `error-600` on `bg-primary` → 4.63:1 ✓ (AA)
+- `success-700` on `bg-primary` → 5.55:1 ✓ (AA) *(text-success remapped from success-600)*
+- `warning-700` on `bg-primary` → 4.51:1 ✓ (AA)
+
+**Contrast Fixes Applied (US_043 TASK_005):**
+- `--color-text-success` remapped from `success-600` (3.94:1 FAIL) → `success-700` (5.55:1 PASS)
+- `--accent-text` introduced at #9000E0 (4.70:1) — original `--accent` kept for decorative usage
+- Desktop touch targets raised from 36px → 40px to meet UXR-304
+- See `app/docs/color-contrast-report.md` for full audit
 
 ---
 

@@ -9,6 +9,7 @@ import { errorHandler, notFoundHandler } from './middleware/errorHandler';
 import { getConnectionStatus } from './utils/dbHealthCheck';
 import { getPoolStats } from './config/database';
 import { getRedisStatus, isRedisAvailable } from './utils/redisHealthCheck';
+import { checkAIServiceHealth } from './utils/aiServiceHealthCheck';
 import { metricsCollector } from './middleware/metricsCollector';
 import { initializeMetrics } from './utils/metricsRegistry';
 import metricsRoutes from './routes/metrics.routes';
@@ -25,6 +26,10 @@ export const createApp = (): Application => {
   // Security middleware - Helmet (must be first)
   app.use(helmet());
 
+  // Trust first proxy (IIS reverse proxy) for correct X-Forwarded-For / X-Forwarded-Proto handling.
+  // With this setting, req.ip returns the real client IP from X-Forwarded-For automatically.
+  app.set('trust proxy', 1);
+
   // CORS configuration
   const corsOptions = {
     origin: (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) => {
@@ -33,17 +38,19 @@ export const createApp = (): Application => {
         return callback(null, true);
       }
 
-      const allowedOrigins = [
-        config.frontendUrl,
-        'http://localhost:3000',
-        'http://localhost:5173', // Vite default port
-        'http://127.0.0.1:3000',
-        'http://127.0.0.1:5173',
-      ];
+      const allowedOrigins = [config.frontendUrl];
 
-      // In development, allow any localhost origin
-      if (config.nodeEnv === 'development' && (origin.includes('localhost') || origin.includes('127.0.0.1'))) {
-        return callback(null, true);
+      // In development, also allow localhost origins
+      if (config.nodeEnv === 'development') {
+        allowedOrigins.push(
+          'http://localhost:3000',
+          'http://localhost:5173',
+          'http://127.0.0.1:3000',
+          'http://127.0.0.1:5173',
+        );
+        if (origin.includes('localhost') || origin.includes('127.0.0.1')) {
+          return callback(null, true);
+        }
       }
 
       if (allowedOrigins.includes(origin)) {
@@ -80,21 +87,38 @@ export const createApp = (): Application => {
   // Performance logger middleware
   app.use(performanceLogger);
 
-  // Health check endpoint with database status
+  // Health check endpoint with database status (IIS Application Initialization compatible)
   app.get('/api/health', async (_req: Request, res: Response) => {
+    const startTime = Date.now();
+
     try {
       const dbStatus = await getConnectionStatus();
       const poolStats = getPoolStats();
       const redisStatus = getRedisStatus();
+      const aiStatus = await checkAIServiceHealth();
 
-      res.status(dbStatus.status === 'ok' ? 200 : 503).json({
-        success: dbStatus.status === 'ok',
-        status: dbStatus.status,
+      const dbHealthy = dbStatus.status === 'ok';
+      const redisHealthy = redisStatus.connected;
+      const aiHealthy = aiStatus.configured ? aiStatus.available : true;
+
+      const isHealthy = dbHealthy && redisHealthy && aiHealthy;
+      const status = isHealthy
+        ? 'healthy'
+        : dbHealthy
+          ? 'degraded'
+          : 'unhealthy';
+
+      const executionTime = Date.now() - startTime;
+
+      res.status(isHealthy ? 200 : 503).json({
+        success: isHealthy,
+        status,
         timestamp: new Date().toISOString(),
         uptime: process.uptime(),
+        executionTime: `${executionTime}ms`,
         environment: config.nodeEnv,
         database: {
-          connected: dbStatus.status === 'ok',
+          status: dbHealthy ? 'connected' : 'disconnected',
           host: dbStatus.details?.host,
           port: dbStatus.details?.port,
           database: dbStatus.details?.database,
@@ -106,18 +130,26 @@ export const createApp = (): Application => {
           waiting: poolStats.waitingCount,
         },
         redis: {
-          connected: redisStatus.connected,
+          status: redisHealthy ? 'connected' : 'disconnected',
           latency: redisStatus.latency,
           lastError: redisStatus.lastError,
         },
+        aiService: {
+          configured: aiStatus.configured,
+          available: aiStatus.available,
+          latency: aiStatus.latency,
+          error: aiStatus.error,
+        },
       });
     } catch (error) {
+      const executionTime = Date.now() - startTime;
       logger.error('Health check failed:', error);
       res.status(503).json({
         success: false,
-        status: 'error',
+        status: 'unhealthy',
         timestamp: new Date().toISOString(),
         uptime: process.uptime(),
+        executionTime: `${executionTime}ms`,
         environment: config.nodeEnv,
         error: 'Health check failed',
       });

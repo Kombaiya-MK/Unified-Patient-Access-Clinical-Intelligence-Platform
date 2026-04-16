@@ -1,0 +1,9 @@
+{
+  "description": "Axe-core contrast validation exclusion config. Selectors listed here are excluded from contrast checks (e.g., intentionally disabled UI).",
+  "exclude": [
+    "[disabled]",
+    "[aria-disabled='true']",
+    ".disabled-button",
+    ".skeleton-loader"
+  ]
+}

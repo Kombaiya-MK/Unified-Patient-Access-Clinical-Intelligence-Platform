@@ -89,8 +89,11 @@ export const bookForPatient = async (
     res.status(201).json(result);
   } catch (error: unknown) {
     if (error && typeof error === 'object' && 'code' in error && 'message' in error) {
-      const typed = error as { code: number; message: string };
-      return next(new ApiError(typed.code, typed.message));
+      const typed = error as { code: number | string; message: string };
+      const httpCode = typeof typed.code === 'number' && typed.code >= 100 && typed.code < 600
+        ? typed.code
+        : 500;
+      return next(new ApiError(httpCode, typed.message));
     }
 
     const errorMessage = error instanceof Error ? error.message : 'Unknown error';

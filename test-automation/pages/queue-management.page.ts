@@ -47,6 +47,10 @@ export class QueueManagementPage {
     return this.page.getByRole('button', { name: 'Confirm' });
   }
 
+  get confirmNoShowButton(): Locator {
+    return this.page.getByRole('button', { name: 'Confirm No Show' });
+  }
+
   get noShowReasonInput(): Locator {
     return this.page.getByLabel('Reason (Optional)');
   }
@@ -91,5 +95,14 @@ export class QueueManagementPage {
     await this.page.getByRole('row', { name: new RegExp(patientName) }).click();
     await this.markCompletedButton.click();
     await this.confirmButton.click();
+  }
+
+  async markPatientNoShow(patientName: string, reason?: string): Promise<void> {
+    await this.page.getByRole('row', { name: new RegExp(patientName) }).click();
+    await this.markNoShowButton.click();
+    if (reason) {
+      await this.noShowReasonInput.fill(reason);
+    }
+    await this.confirmNoShowButton.click();
   }
 }

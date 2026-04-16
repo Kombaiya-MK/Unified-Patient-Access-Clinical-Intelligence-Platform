@@ -1,0 +1,35 @@
+[    1753ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=08b30902:20102
+[    1926ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3001/api/waitlist/my:0
+[    1927ms] [ERROR] Error fetching waitlist: AxiosError: Request failed with status code 500
+    at settle (http://localhost:5173/node_modules/.vite/deps/axios.js?v=c49443b9:1319:7)
+    at XMLHttpRequest.onloadend (http://localhost:5173/node_modules/.vite/deps/axios.js?v=c49443b9:1682:7)
+    at Axios.request (http://localhost:5173/node_modules/.vite/deps/axios.js?v=c49443b9:2328:41)
+    at async http://localhost:5173/src/context/WaitlistContext.tsx:39:24 @ http://localhost:5173/src/context/WaitlistContext.tsx:56
+[    1934ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3001/api/appointments/my:0
+[    1935ms] [ERROR] Failed to load appointments: AxiosError: Request failed with status code 500
+    at settle (http://localhost:5173/node_modules/.vite/deps/axios.js?v=c49443b9:1319:7)
+    at XMLHttpRequest.onloadend (http://localhost:5173/node_modules/.vite/deps/axios.js?v=c49443b9:1682:7)
+    at Axios.request (http://localhost:5173/node_modules/.vite/deps/axios.js?v=c49443b9:2328:41)
+    at async http://localhost:5173/src/context/AppointmentContext.tsx:39:24 @ http://localhost:5173/src/context/AppointmentContext.tsx:53
+[    1950ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3001/api/waitlist/my:0
+[    1951ms] [ERROR] Error fetching waitlist: AxiosError: Request failed with status code 500
+    at settle (http://localhost:5173/node_modules/.vite/deps/axios.js?v=c49443b9:1319:7)
+    at XMLHttpRequest.onloadend (http://localhost:5173/node_modules/.vite/deps/axios.js?v=c49443b9:1682:7)
+    at Axios.request (http://localhost:5173/node_modules/.vite/deps/axios.js?v=c49443b9:2328:41)
+    at async http://localhost:5173/src/context/WaitlistContext.tsx:39:24 @ http://localhost:5173/src/context/WaitlistContext.tsx:56
+[    1956ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3001/api/appointments/my:0
+[    1957ms] [ERROR] Failed to load appointments: AxiosError: Request failed with status code 500
+    at settle (http://localhost:5173/node_modules/.vite/deps/axios.js?v=c49443b9:1319:7)
+    at XMLHttpRequest.onloadend (http://localhost:5173/node_modules/.vite/deps/axios.js?v=c49443b9:1682:7)
+    at Axios.request (http://localhost:5173/node_modules/.vite/deps/axios.js?v=c49443b9:2328:41)
+    at async http://localhost:5173/src/context/AppointmentContext.tsx:39:24 @ http://localhost:5173/src/context/AppointmentContext.tsx:53
+[   25980ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3001/api/auth/logout:0
+[   25981ms] [ERROR] Logout API call failed: AxiosError: Request failed with status code 500
+    at settle (http://localhost:5173/node_modules/.vite/deps/axios.js?v=c49443b9:1319:7)
+    at XMLHttpRequest.onloadend (http://localhost:5173/node_modules/.vite/deps/axios.js?v=c49443b9:1682:7)
+    at Axios.request (http://localhost:5173/node_modules/.vite/deps/axios.js?v=c49443b9:2328:41)
+    at async Object.logout (http://localhost:5173/src/services/authService.ts:70:9)
+    at async http://localhost:5173/src/context/AuthContext.tsx:82:7 @ http://localhost:5173/src/services/authService.ts:72
+[  125584ms] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized) @ http://localhost:3001/api/auth/login:0
+[  125586ms] [ERROR] [API Error] {message: An unexpected error occurred. Please try again., statusCode: undefined, errorCode: undefined, retryable: false, validationErrors: undefined} @ http://localhost:5173/src/utils/api/errorHandler.ts:84
+[  125586ms] [ERROR] Login failed: An unexpected error occurred. Please try again. @ http://localhost:5173/src/pages/LoginPage.tsx:52

@@ -148,11 +148,11 @@ npm run build
 ```
 
 ## Implementation Checklist
-- [ ] Create notification routes with authentication middleware: GET /api/notifications/missed?since={timestamp}, GET /api/notifications (paginated), PUT /api/notifications/:id/read, PUT /api/notifications/read-all, GET /preferences, PUT /preferences
-- [ ] Implement notification controller with request/response handling: extract query params/body, call notificationService methods, return JSON responses with proper status codes (200, 404, 400, 500)
-- [ ] Build notificationService with database queries: getMissedNotifications (WHERE created_at > since), getNotificationHistory (paginated with filters), markAsRead (UPDATE read_status), markAllAsRead, getUnreadCount (COUNT unread)
-- [ ] Add pagination logic: parse limit (default 20, max 100) and offset, return total count in X-Total-Count header, include next/prev page URLs in response body
-- [ ] Implement filtering and sorting: support query params (type, priority, read_status), build dynamic WHERE clauses, default sort by created_at DESC, validate enum values
-- [ ] Create notification preferences endpoints: GET /preferences returns user settings (JSON object), PUT /preferences updates settings (validate boolean values per category: appointment, medication, system, waitlist)
-- [ ] Optimize missed notifications query: use index on (user_id, created_at), handle large result sets with pagination, return metadata (total count, oldest timestamp)
-- [ ] Handle read status updates: trigger WebSocket broadcast to update frontend badge count, return updated unread count in response, cache unread count in Redis with 60s TTL invalidation on updates
+- [x] Create notification routes with authentication middleware: GET /api/notifications/missed?since={timestamp}, GET /api/notifications (paginated), PUT /api/notifications/:id/read, PUT /api/notifications/read-all, GET /preferences, PUT /preferences
+- [x] Implement notification controller with request/response handling: extract query params/body, call notificationService methods, return JSON responses with proper status codes (200, 404, 400, 500)
+- [x] Build notificationService with database queries: getMissedNotifications (WHERE created_at > since), getNotificationHistory (paginated with filters), markAsRead (UPDATE read_status), markAllAsRead, getUnreadCount (COUNT unread)
+- [x] Add pagination logic: parse limit (default 20, max 100) and offset, return total count in X-Total-Count header, include next/prev page URLs in response body
+- [x] Implement filtering and sorting: support query params (type, priority, read_status), build dynamic WHERE clauses, default sort by created_at DESC, validate enum values
+- [x] Create notification preferences endpoints: GET /preferences returns user settings (JSON object), PUT /preferences updates settings (validate boolean values per category: appointment, medication, system, waitlist)
+- [x] Optimize missed notifications query: use index on (user_id, created_at), handle large result sets with pagination, return metadata (total count, oldest timestamp)
+- [x] Handle read status updates: trigger WebSocket broadcast to update frontend badge count, return updated unread count in response, cache unread count in Redis with 60s TTL invalidation on updates

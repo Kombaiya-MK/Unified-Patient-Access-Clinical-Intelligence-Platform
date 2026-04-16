@@ -16,6 +16,8 @@ import { drugDatabaseService } from './drugDatabaseService';
 import { buildConflictPrompt } from '../prompts/medication-conflict-prompt';
 import { medicationSafetyConfig } from '../config/medicationSafety.config';
 import { resolveToGeneric } from '../utils/drugNameNormalizer';
+import { featureFlagService } from './featureFlagService';
+import type { FlagEvaluationContext } from '../config/featureFlags';
 import type {
   MedicationInput,
   AllergyInput,
@@ -25,6 +27,77 @@ import type {
   UnrecognizedMedication,
 } from '../types/conflictDetection.types';
 import crypto from 'crypto';
+
+export interface ConflictFlagResult {
+  aiEnabled: boolean;
+  detectionMethod: 'ai' | 'rule-based';
+  data: ConflictCheckResponse;
+}
+
+/**
+ * Flag-aware conflict detection entry point.
+ * If ai_conflicts_enabled is false, skips AI and goes directly to rule-based detection.
+ */
+export async function detectConflictsWithFlags(
+  userId: number,
+  role: string,
+  medications: MedicationInput[],
+  allergies: AllergyInput[],
+  conditions: ConditionInput[],
+  patientId: string,
+): Promise<ConflictFlagResult> {
+  const flagCtx: FlagEvaluationContext = { userId, role };
+
+  const enabledResult = await featureFlagService.evaluateFlag('ai_conflicts_enabled', flagCtx);
+
+  if (!enabledResult.value) {
+    logger.info('AI conflict detection disabled by feature flag — using rule-based', {
+      userId,
+      flag: 'ai_conflicts_enabled',
+    });
+
+    // Bypass AI entirely, use rule-based detection only via the existing service
+    // We temporarily disable circuit breaker check by calling checkConflicts which
+    // will naturally fall through to rule-based when AI fails, but here we force it.
+    const ruleBasedConflicts = medicationConflictDetectionService.runRuleBasedDetection(
+      medications.map((med) => ({
+        ...med,
+        generic_name: drugDatabaseService.normalizeMedicationName(med.name) || resolveToGeneric(med.name),
+      })),
+      allergies,
+      conditions,
+    );
+
+    const maxSeverity = ruleBasedConflicts.length > 0
+      ? Math.max(...ruleBasedConflicts.map((c) => c.severity_level))
+      : 0;
+    const overallStatus: ConflictCheckResponse['overall_safety_status'] =
+      maxSeverity >= medicationSafetyConfig.CRITICAL_SEVERITY_THRESHOLD
+        ? 'Critical'
+        : maxSeverity >= 2
+          ? 'Warning'
+          : 'Safe';
+
+    const response: ConflictCheckResponse = {
+      conflicts: ruleBasedConflicts,
+      overall_safety_status: overallStatus,
+      no_allergy_data_warning: allergies.length === 0,
+      patient_id: patientId,
+      checked_at: new Date().toISOString(),
+    };
+
+    return { aiEnabled: false, detectionMethod: 'rule-based', data: response };
+  }
+
+  logger.info('AI conflict detection enabled by feature flag', { userId });
+  const data = await medicationConflictDetectionService.checkConflicts(
+    medications,
+    allergies,
+    conditions,
+    patientId,
+  );
+  return { aiEnabled: true, detectionMethod: 'ai', data };
+}
 
 const CACHE_KEY_PREFIX = 'conflict:check:';
 

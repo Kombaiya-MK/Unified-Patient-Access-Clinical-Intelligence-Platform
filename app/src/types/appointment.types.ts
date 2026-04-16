@@ -69,6 +69,10 @@ export interface Slot {
   departmentId: string;
   /** Appointment duration in minutes */
   duration: number;
+  /** Provider name (enriched from JOIN) */
+  providerName?: string;
+  /** Department name (enriched from JOIN) */
+  departmentName?: string;
   /** Appointment type/reason (optional) */
   appointmentType?: string;
 }
@@ -99,6 +103,14 @@ export interface Appointment {
   createdAt: string;
   /** Last updated timestamp */
   updatedAt: string;
+  /** Provider name (enriched from booking response) */
+  providerName?: string;
+  /** Department name (enriched from booking response) */
+  departmentName?: string;
+  /** Start time (HH:mm:ss format, enriched from booking response) */
+  startTime?: string;
+  /** End time (HH:mm:ss format, enriched from booking response) */
+  endTime?: string;
 }
 
 /**

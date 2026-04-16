@@ -320,44 +320,44 @@ npm test -- --testPathPattern=components
 ```
 
 ## Implementation Validation Strategy
-- [ ] All modals have role="dialog", aria-modal="true", aria-labelledby
-- [ ] Modal focus trapped, Escape closes, focus returns to trigger
-- [ ] Tooltips have role="tooltip", shown on hover+focus, dismissed on Escape
-- [ ] Dropdowns have listbox role, arrow keys navigate, Enter selects
+- [x] All modals have role="dialog", aria-modal="true", aria-labelledby
+- [x] Modal focus trapped, Escape closes, focus returns to trigger
+- [x] Tooltips have role="tooltip", shown on hover+focus, dismissed on Escape
+- [x] Dropdowns have listbox role, arrow keys navigate, Enter selects
 - [ ] All functional images have descriptive alt text
 - [ ] All decorative images have alt="" or aria-hidden="true"
 - [ ] Calendar has grid role, arrow keys navigate, Enter selects
-- [ ] Toasts have role="alert"/"status", aria-live regions
+- [x] Toasts have role="alert"/"status", aria-live regions
 - [ ] All icon buttons have aria-label
-- [ ] Loading spinners have role="status", aria-label
+- [x] Loading spinners have role="status", aria-label
 - [ ] **[UI Tasks]** Validate at 375px, 768px, 1440px breakpoints
 - [ ] Screen reader test: NVDA announces modals, tooltips, toasts correctly
-- [ ] Keyboard test: Navigate dropdown with arrows, select with Enter
+- [x] Keyboard test: Navigate dropdown with arrows, select with Enter
 
 ## Implementation Checklist
-- [ ] Create AccessibleTooltip.tsx with role="tooltip"
-- [ ] Add show/hide on hover + focus
-- [ ] Add 5s timeout and Escape dismissal
-- [ ] Create AccessibleDropdown.tsx with role="listbox"
-- [ ] Add arrow key navigation and Enter selection
-- [ ] Add typeahead search functionality
-- [ ] Modify ConfirmationModal: add role="dialog", aria-modal="true"
-- [ ] Add aria-labelledby and aria-describedby to modal
-- [ ] Ensure Escape closes modal
+- [x] Create AccessibleTooltip.tsx with role="tooltip"
+- [x] Add show/hide on hover + focus
+- [x] Add 5s timeout and Escape dismissal
+- [x] Create AccessibleDropdown.tsx with role="listbox"
+- [x] Add arrow key navigation and Enter selection
+- [x] Add typeahead search functionality
+- [x] Modify ConfirmationModal: add role="dialog", aria-modal="true"
+- [x] Add aria-labelledby and aria-describedby to modal
+- [x] Ensure Escape closes modal
 - [ ] Audit all images, add alt text or alt=""
 - [ ] Mark decorative images with aria-hidden="true"
 - [ ] Update calendar with role="grid"
 - [ ] Add role="columnheader" to weekday headers
 - [ ] Add role="gridcell" to date buttons
 - [ ] Add arrow key navigation to calendar
-- [ ] Modify Toast component: add role="alert"/"status"
-- [ ] Add aria-live="assertive"/"polite" based on severity
-- [ ] Add dismiss button with aria-label
+- [x] Modify Toast component: add role="alert"/"status"
+- [x] Add aria-live="assertive"/"polite" based on severity
+- [x] Add dismiss button with aria-label
 - [ ] Audit all icon buttons, add aria-label
 - [ ] Mark icons with aria-hidden="true" when labeled
-- [ ] Test modal focus trap with Tab key
-- [ ] Test tooltip dismissal with Escape
-- [ ] Test dropdown navigation with arrow keys
+- [x] Test modal focus trap with Tab key
+- [x] Test tooltip dismissal with Escape
+- [x] Test dropdown navigation with arrow keys
 - [ ] Test calendar navigation with arrow keys
 - [ ] Test toast dismissal with Escape
 - [ ] Run screen reader test on all components

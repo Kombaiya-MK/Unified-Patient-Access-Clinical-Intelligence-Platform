@@ -315,11 +315,13 @@ export const AppointmentBookingPage: React.FC = () => {
                 </p>
               </div>
 
-              {currentProvider && (
+              {(currentProvider || selectedSlot.providerName) && (
                 <div className="detail-section">
                   <h3>Provider</h3>
-                  <p className="detail-value">{currentProvider.name}</p>
-                  <p className="detail-value-sub">{currentProvider.specialty}</p>
+                  <p className="detail-value">{currentProvider?.name || selectedSlot.providerName}</p>
+                  {currentProvider?.specialty && (
+                    <p className="detail-value-sub">{currentProvider.specialty}</p>
+                  )}
                 </div>
               )}
 
@@ -332,7 +334,7 @@ export const AppointmentBookingPage: React.FC = () => {
 
               <div className="detail-section">
                 <h3>Duration</h3>
-                <p className="detail-value">{selectedSlot.duration} minutes</p>
+                <p className="detail-value">{Math.round(Number(selectedSlot.duration) || 30)} minutes</p>
               </div>
 
               <div className="detail-actions">

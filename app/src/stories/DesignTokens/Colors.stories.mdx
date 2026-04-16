@@ -1,0 +1,147 @@
+import { Meta } from '@storybook/blocks';
+import { TokenTable, ColorSwatch } from './components/TokenTable';
+
+<Meta title="Design Tokens/Docs/Color Palette" />
+
+# Color Palette
+
+All color tokens for the Unified Patient Access Clinical Intelligence Platform.
+Colors meet **WCAG 2.1 AA** contrast requirements for healthcare accessibility.
+
+---
+
+## Primary Colors
+
+Core brand blue palette for primary actions, links, and focus states.
+
+<TokenTable
+  tokens={[
+    { name: 'Primary 100', cssVar: '--color-primary-100', scssVar: '$color-primary-100', value: '#E6F0FA', description: 'Background tint' },
+    { name: 'Primary 200', cssVar: '--color-primary-200', scssVar: '$color-primary-200', value: '#CCE0F5', description: 'Pale' },
+    { name: 'Primary 300', cssVar: '--color-primary-300', scssVar: '$color-primary-300', value: '#99C2EB', description: 'Very light' },
+    { name: 'Primary 400', cssVar: '--color-primary-400', scssVar: '$color-primary-400', value: '#66A3E0', description: 'Lighter' },
+    { name: 'Primary 500', cssVar: '--color-primary-500', scssVar: '$color-primary-500', value: '#3385D6', description: 'Light' },
+    { name: 'Primary 600', cssVar: '--color-primary-600', scssVar: '$color-primary-600', value: '#0066CC', description: 'Base primary' },
+    { name: 'Primary 700', cssVar: '--color-primary-700', scssVar: '$color-primary-700', value: '#005BB8', description: 'Dark' },
+    { name: 'Primary 800', cssVar: '--color-primary-800', scssVar: '$color-primary-800', value: '#004C99', description: 'Darker – hover' },
+    { name: 'Primary 900', cssVar: '--color-primary-900', scssVar: '$color-primary-900', value: '#003D7A', description: 'Darkest – pressed' },
+  ]}
+  renderExample={(t) => <ColorSwatch color={t.value} />}
+/>
+
+---
+
+## Secondary Colors
+
+Healthcare green palette for secondary CTAs and positive-context indicators.
+
+<TokenTable
+  tokens={[
+    { name: 'Secondary 100', cssVar: '--color-secondary-100', scssVar: '$color-secondary-100', value: '#E6F6F0', description: 'Background tint' },
+    { name: 'Secondary 200', cssVar: '--color-secondary-200', scssVar: '$color-secondary-200', value: '#CCEDE2', description: 'Pale' },
+    { name: 'Secondary 300', cssVar: '--color-secondary-300', scssVar: '$color-secondary-300', value: '#99DCC5', description: 'Very light' },
+    { name: 'Secondary 400', cssVar: '--color-secondary-400', scssVar: '$color-secondary-400', value: '#66CAA7', description: 'Lighter' },
+    { name: 'Secondary 500', cssVar: '--color-secondary-500', scssVar: '$color-secondary-500', value: '#33B989', description: 'Light' },
+    { name: 'Secondary 600', cssVar: '--color-secondary-600', scssVar: '$color-secondary-600', value: '#00A86B', description: 'Base secondary' },
+    { name: 'Secondary 700', cssVar: '--color-secondary-700', scssVar: '$color-secondary-700', value: '#009966', description: 'Dark' },
+    { name: 'Secondary 800', cssVar: '--color-secondary-800', scssVar: '$color-secondary-800', value: '#008057', description: 'Darker' },
+    { name: 'Secondary 900', cssVar: '--color-secondary-900', scssVar: '$color-secondary-900', value: '#006647', description: 'Darkest' },
+  ]}
+  renderExample={(t) => <ColorSwatch color={t.value} />}
+/>
+
+---
+
+## Neutral Colors
+
+Grey scale for text, backgrounds, borders, and dividers.
+
+<TokenTable
+  tokens={[
+    { name: 'Neutral 50', cssVar: '--color-neutral-50', scssVar: '$color-neutral-50', value: '#FAFAFA', description: 'Background lightest' },
+    { name: 'Neutral 100', cssVar: '--color-neutral-100', scssVar: '$color-neutral-100', value: '#F5F5F5', description: 'Background light' },
+    { name: 'Neutral 200', cssVar: '--color-neutral-200', scssVar: '$color-neutral-200', value: '#E5E5E5', description: 'Dividers' },
+    { name: 'Neutral 300', cssVar: '--color-neutral-300', scssVar: '$color-neutral-300', value: '#CCCCCC', description: 'Borders' },
+    { name: 'Neutral 400', cssVar: '--color-neutral-400', scssVar: '$color-neutral-400', value: '#999999', description: 'Disabled text' },
+    { name: 'Neutral 500', cssVar: '--color-neutral-500', scssVar: '$color-neutral-500', value: '#808080', description: 'Placeholder text' },
+    { name: 'Neutral 600', cssVar: '--color-neutral-600', scssVar: '$color-neutral-600', value: '#666666', description: 'Secondary text (AA 5.74:1)' },
+    { name: 'Neutral 700', cssVar: '--color-neutral-700', scssVar: '$color-neutral-700', value: '#4D4D4D', description: 'Body text' },
+    { name: 'Neutral 800', cssVar: '--color-neutral-800', scssVar: '$color-neutral-800', value: '#333333', description: 'Dark text' },
+    { name: 'Neutral 900', cssVar: '--color-neutral-900', scssVar: '$color-neutral-900', value: '#1A1A1A', description: 'Darkest text (AAA 19.56:1)' },
+  ]}
+  renderExample={(t) => <ColorSwatch color={t.value} />}
+/>
+
+---
+
+## Semantic — Success
+
+<TokenTable
+  tokens={[
+    { name: 'Success 100', cssVar: '--color-success-100', scssVar: '$color-success-100', value: '#E6F9EF' },
+    { name: 'Success 200', cssVar: '--color-success-200', scssVar: '$color-success-200', value: '#CCF2DF' },
+    { name: 'Success 500', cssVar: '--color-success-500', scssVar: '$color-success-500', value: '#33B367' },
+    { name: 'Success 600', cssVar: '--color-success-600', scssVar: '$color-success-600', value: '#00A145', description: 'Base success' },
+    { name: 'Success 700', cssVar: '--color-success-700', scssVar: '$color-success-700', value: '#007A3D' },
+  ]}
+  renderExample={(t) => <ColorSwatch color={t.value} />}
+/>
+
+## Semantic — Warning
+
+<TokenTable
+  tokens={[
+    { name: 'Warning 100', cssVar: '--color-warning-100', scssVar: '$color-warning-100', value: '#FFF2E6' },
+    { name: 'Warning 200', cssVar: '--color-warning-200', scssVar: '$color-warning-200', value: '#FFE5CC' },
+    { name: 'Warning 500', cssVar: '--color-warning-500', scssVar: '$color-warning-500', value: '#FFA033' },
+    { name: 'Warning 600', cssVar: '--color-warning-600', scssVar: '$color-warning-600', value: '#FF8800', description: 'Base warning' },
+    { name: 'Warning 700', cssVar: '--color-warning-700', scssVar: '$color-warning-700', value: '#CC6600' },
+  ]}
+  renderExample={(t) => <ColorSwatch color={t.value} />}
+/>
+
+## Semantic — Error
+
+<TokenTable
+  tokens={[
+    { name: 'Error 100', cssVar: '--color-error-100', scssVar: '$color-error-100', value: '#FCE8EA' },
+    { name: 'Error 200', cssVar: '--color-error-200', scssVar: '$color-error-200', value: '#F8D7DA' },
+    { name: 'Error 500', cssVar: '--color-error-500', scssVar: '$color-error-500', value: '#E35D6A' },
+    { name: 'Error 600', cssVar: '--color-error-600', scssVar: '$color-error-600', value: '#DC3545', description: 'Base error' },
+    { name: 'Error 700', cssVar: '--color-error-700', scssVar: '$color-error-700', value: '#A02A2A' },
+  ]}
+  renderExample={(t) => <ColorSwatch color={t.value} />}
+/>
+
+## Semantic — Info
+
+<TokenTable
+  tokens={[
+    { name: 'Info 100', cssVar: '--color-info-100', scssVar: '$color-info-100', value: '#E6F3F9' },
+    { name: 'Info 200', cssVar: '--color-info-200', scssVar: '$color-info-200', value: '#CCE7F4' },
+    { name: 'Info 500', cssVar: '--color-info-500', scssVar: '$color-info-500', value: '#3392C5' },
+    { name: 'Info 600', cssVar: '--color-info-600', scssVar: '$color-info-600', value: '#0077B6', description: 'Base info' },
+    { name: 'Info 700', cssVar: '--color-info-700', scssVar: '$color-info-700', value: '#005A8A' },
+  ]}
+  renderExample={(t) => <ColorSwatch color={t.value} />}
+/>
+
+---
+
+## Usage
+
+```css
+/* CSS Custom Property */
+.button-primary {
+  background-color: var(--color-primary-600);
+  color: var(--color-text-inverse);
+}
+```
+
+```scss
+// SCSS Variable
+.button-primary {
+  background-color: $color-primary-600;
+  color: $color-text-inverse;
+}
+```

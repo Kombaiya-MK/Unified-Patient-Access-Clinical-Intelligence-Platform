@@ -47,6 +47,7 @@ interface AppointmentEmailData {
   appointment_date: Date;
   start_time: string;
   end_time: string;
+  duration_minutes: number;
   patient_name: string;
   patient_email: string;
   patient_id: number;
@@ -62,11 +63,13 @@ interface EmailTemplateData {
   patientName: string;
   appointmentDate: string;
   appointmentTime: string;
+  duration: string;
   providerName: string;
   departmentName: string;
   location: string;
   appointmentId: string; // UUID
   portalUrl: string;
+  bookingDate: string;
 }
 
 /**
@@ -157,6 +160,7 @@ const fetchAppointmentEmailData = async (
       a.id,
       a.appointment_date,
       a.patient_id,
+      a.duration_minutes,
       ts.start_time,
       ts.end_time,
       CONCAT(p.first_name, ' ', p.last_name) as patient_name,
@@ -234,11 +238,13 @@ const prepareEmailTemplateData = (
     patientName: appointment.patient_name,
     appointmentDate: formatDate(new Date(appointment.appointment_date)),
     appointmentTime: `${formatTime(appointment.start_time)} - ${formatTime(appointment.end_time)}`,
+    duration: `${appointment.duration_minutes || 30} minutes`,
     providerName: appointment.provider_name,
     departmentName: appointment.department_name,
     location: appointment.location,
     appointmentId: appointment.id,
     portalUrl: emailConfig.portalUrl,
+    bookingDate: formatDate(new Date()),
   };
 };
 
@@ -282,9 +288,11 @@ APPOINTMENT DETAILS
 Appointment ID: #${templateData.appointmentId}
 Date: ${templateData.appointmentDate}
 Time: ${templateData.appointmentTime}
+Duration: ${templateData.duration}
 Provider: ${templateData.providerName}
 Department: ${templateData.departmentName}
 Location: ${templateData.location}
+Booked On: ${templateData.bookingDate}
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 IMPORTANT REMINDERS

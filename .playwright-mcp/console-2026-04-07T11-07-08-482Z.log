@@ -1,0 +1,172 @@
+[     175ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:5177/node_modules/.vite/deps/react-dom_client.js?v=3a0da526:20102
+[     248ms] [WARNING] WebSocket connection to 'ws://localhost:3001/circuit-breaker?token=mock-jwt-token-for-ux-testing' failed: WebSocket is closed before the connection is established. @ http://localhost:5177/src/hooks/useCircuitBreakerStatus.ts:52
+[    2328ms] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized) @ http://localhost:3001/api/waitlist/my:0
+[    2885ms] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized) @ http://localhost:3001/api/circuit-breaker/status:0
+[    3052ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:5177/node_modules/.vite/deps/react-dom_client.js?v=3a0da526:20102
+[    3132ms] [WARNING] WebSocket connection to 'ws://localhost:3001/circuit-breaker?token=mock-jwt-token-for-ux-testing' failed: WebSocket is closed before the connection is established. @ http://localhost:5177/src/hooks/useCircuitBreakerStatus.ts:52
+[    5485ms] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized) @ http://localhost:3001/api/appointments/my:0
+[    5485ms] [ERROR] Failed to load appointments: AxiosError: Request failed with status code 401
+    at settle (http://localhost:5177/node_modules/.vite/deps/axios.js?v=3a0da526:1319:7)
+    at XMLHttpRequest.onloadend (http://localhost:5177/node_modules/.vite/deps/axios.js?v=3a0da526:1682:7)
+    at Axios.request (http://localhost:5177/node_modules/.vite/deps/axios.js?v=3a0da526:2328:41)
+    at async http://localhost:5177/src/context/AppointmentContext.tsx:39:24 @ http://localhost:5177/src/context/AppointmentContext.tsx:53
+[    5734ms] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized) @ http://localhost:3001/api/waitlist/my:0
+[    5854ms] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized) @ http://localhost:3001/api/circuit-breaker/status:0
+[    6036ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:5177/node_modules/.vite/deps/react-dom_client.js?v=3a0da526:20102
+[    6115ms] [WARNING] WebSocket connection to 'ws://localhost:3001/circuit-breaker?token=mock-jwt-token-for-ux-testing' failed: WebSocket is closed before the connection is established. @ http://localhost:5177/src/hooks/useCircuitBreakerStatus.ts:52
+[    8213ms] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized) @ http://localhost:3001/api/waitlist/my:0
+[    8489ms] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized) @ http://localhost:3001/api/appointments/my:0
+[    8489ms] [ERROR] Failed to load appointments: AxiosError: Request failed with status code 401
+    at settle (http://localhost:5177/node_modules/.vite/deps/axios.js?v=3a0da526:1319:7)
+    at XMLHttpRequest.onloadend (http://localhost:5177/node_modules/.vite/deps/axios.js?v=3a0da526:1682:7)
+    at Axios.request (http://localhost:5177/node_modules/.vite/deps/axios.js?v=3a0da526:2328:41)
+    at async http://localhost:5177/src/context/AppointmentContext.tsx:39:24 @ http://localhost:5177/src/context/AppointmentContext.tsx:53
+[    8837ms] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized) @ http://localhost:3001/api/circuit-breaker/status:0
+[    9042ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:5177/node_modules/.vite/deps/react-dom_client.js?v=3a0da526:20102
+[    9113ms] [WARNING] WebSocket connection to 'ws://localhost:3001/circuit-breaker?token=mock-jwt-token-for-ux-testing' failed: WebSocket is closed before the connection is established. @ http://localhost:5177/src/hooks/useCircuitBreakerStatus.ts:52
+[   11236ms] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized) @ http://localhost:3001/api/circuit-breaker/status:0
+[   11414ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:5177/node_modules/.vite/deps/react-dom_client.js?v=3a0da526:20102
+[   11507ms] [WARNING] WebSocket connection to 'ws://localhost:3001/circuit-breaker?token=mock-jwt-token-for-ux-testing' failed: WebSocket is closed before the connection is established. @ http://localhost:5177/src/hooks/useCircuitBreakerStatus.ts:52
+[   14117ms] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized) @ http://localhost:3001/api/waitlist/my:0
+[   14212ms] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized) @ http://localhost:3001/api/circuit-breaker/status:0
+[   14479ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:5177/node_modules/.vite/deps/react-dom_client.js?v=3a0da526:20102
+[   14578ms] [WARNING] WebSocket connection to 'ws://localhost:3001/circuit-breaker?token=mock-jwt-token-for-ux-testing' failed: WebSocket is closed before the connection is established. @ http://localhost:5177/src/hooks/useCircuitBreakerStatus.ts:52
+[   16725ms] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized) @ http://localhost:3001/api/circuit-breaker/status:0
+[   16894ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:5177/node_modules/.vite/deps/react-dom_client.js?v=3a0da526:20102
+[   16977ms] [WARNING] WebSocket connection to 'ws://localhost:3001/circuit-breaker?token=mock-jwt-token-for-ux-testing' failed: WebSocket is closed before the connection is established. @ http://localhost:5177/src/hooks/useCircuitBreakerStatus.ts:52
+[   19055ms] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized) @ http://localhost:3001/api/appointments/my:0
+[   19056ms] [ERROR] Failed to load appointments: AxiosError: Request failed with status code 401
+    at settle (http://localhost:5177/node_modules/.vite/deps/axios.js?v=3a0da526:1319:7)
+    at XMLHttpRequest.onloadend (http://localhost:5177/node_modules/.vite/deps/axios.js?v=3a0da526:1682:7)
+    at Axios.request (http://localhost:5177/node_modules/.vite/deps/axios.js?v=3a0da526:2328:41)
+    at async http://localhost:5177/src/context/AppointmentContext.tsx:39:24 @ http://localhost:5177/src/context/AppointmentContext.tsx:53
+[   19643ms] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized) @ http://localhost:3001/api/waitlist/my:0
+[   19779ms] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized) @ http://localhost:3001/api/circuit-breaker/status:0
+[   19943ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:5177/node_modules/.vite/deps/react-dom_client.js?v=3a0da526:20102
+[   20020ms] [WARNING] WebSocket connection to 'ws://localhost:3001/circuit-breaker?token=mock-jwt-token-for-ux-testing' failed: WebSocket is closed before the connection is established. @ http://localhost:5177/src/hooks/useCircuitBreakerStatus.ts:52
+[   22697ms] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized) @ http://localhost:3001/api/circuit-breaker/status:0
+[   22715ms] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized) @ http://localhost:3001/api/appointments/my:0
+[   22715ms] [ERROR] Failed to load appointments: AxiosError: Request failed with status code 401
+    at settle (http://localhost:5177/node_modules/.vite/deps/axios.js?v=3a0da526:1319:7)
+    at XMLHttpRequest.onloadend (http://localhost:5177/node_modules/.vite/deps/axios.js?v=3a0da526:1682:7)
+    at Axios.request (http://localhost:5177/node_modules/.vite/deps/axios.js?v=3a0da526:2328:41)
+    at async http://localhost:5177/src/context/AppointmentContext.tsx:39:24 @ http://localhost:5177/src/context/AppointmentContext.tsx:53
+[   22955ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:5177/node_modules/.vite/deps/react-dom_client.js?v=3a0da526:20102
+[   23048ms] [WARNING] WebSocket connection to 'ws://localhost:3001/circuit-breaker?token=mock-jwt-token-for-ux-testing' failed: WebSocket is closed before the connection is established. @ http://localhost:5177/src/hooks/useCircuitBreakerStatus.ts:52
+[   25674ms] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized) @ http://localhost:3001/api/appointments/my:0
+[   25675ms] [ERROR] Failed to load appointments: AxiosError: Request failed with status code 401
+    at settle (http://localhost:5177/node_modules/.vite/deps/axios.js?v=3a0da526:1319:7)
+    at XMLHttpRequest.onloadend (http://localhost:5177/node_modules/.vite/deps/axios.js?v=3a0da526:1682:7)
+    at Axios.request (http://localhost:5177/node_modules/.vite/deps/axios.js?v=3a0da526:2328:41)
+    at async http://localhost:5177/src/context/AppointmentContext.tsx:39:24 @ http://localhost:5177/src/context/AppointmentContext.tsx:53
+[   25709ms] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized) @ http://localhost:3001/api/waitlist/my:0
+[   25756ms] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized) @ http://localhost:3001/api/circuit-breaker/status:0
+[   26952ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:5177/node_modules/.vite/deps/react-dom_client.js?v=3a0da526:20102
+[   27057ms] [WARNING] WebSocket connection to 'ws://localhost:3001/circuit-breaker?token=mock-jwt-token-for-ux-testing' failed: WebSocket is closed before the connection is established. @ http://localhost:5177/src/hooks/useCircuitBreakerStatus.ts:52
+[   29676ms] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized) @ http://localhost:3001/api/appointments/my:0
+[   29676ms] [ERROR] Failed to load appointments: AxiosError: Request failed with status code 401
+    at settle (http://localhost:5177/node_modules/.vite/deps/axios.js?v=3a0da526:1319:7)
+    at XMLHttpRequest.onloadend (http://localhost:5177/node_modules/.vite/deps/axios.js?v=3a0da526:1682:7)
+    at Axios.request (http://localhost:5177/node_modules/.vite/deps/axios.js?v=3a0da526:2328:41)
+    at async http://localhost:5177/src/context/AppointmentContext.tsx:39:24 @ http://localhost:5177/src/context/AppointmentContext.tsx:53
+[   29743ms] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized) @ http://localhost:3001/api/waitlist/my:0
+[   29748ms] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized) @ http://localhost:3001/api/circuit-breaker/status:0
+[   30721ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:5177/node_modules/.vite/deps/react-dom_client.js?v=3a0da526:20102
+[   30803ms] [WARNING] WebSocket connection to 'ws://localhost:3001/circuit-breaker?token=mock-jwt-token-for-ux-testing' failed: WebSocket is closed before the connection is established. @ http://localhost:5177/src/hooks/useCircuitBreakerStatus.ts:52
+[   33476ms] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized) @ http://localhost:3001/api/waitlist/my:0
+[   33542ms] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized) @ http://localhost:3001/api/circuit-breaker/status:0
+[   33758ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:5177/node_modules/.vite/deps/react-dom_client.js?v=3a0da526:20102
+[   33858ms] [WARNING] WebSocket connection to 'ws://localhost:3001/circuit-breaker?token=mock-jwt-token-for-ux-testing' failed: WebSocket is closed before the connection is established. @ http://localhost:5177/src/hooks/useCircuitBreakerStatus.ts:52
+[   36201ms] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized) @ http://localhost:3001/api/waitlist/my:0
+[   36513ms] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized) @ http://localhost:3001/api/circuit-breaker/status:0
+[   37634ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:5177/node_modules/.vite/deps/react-dom_client.js?v=3a0da526:20102
+[   37804ms] [WARNING] WebSocket connection to 'ws://localhost:3001/circuit-breaker?token=mock-jwt-token-for-ux-testing' failed: WebSocket is closed before the connection is established. @ http://localhost:5177/src/hooks/useCircuitBreakerStatus.ts:52
+[   40401ms] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized) @ http://localhost:3001/api/appointments/my:0
+[   40402ms] [ERROR] Failed to load appointments: AxiosError: Request failed with status code 401
+    at settle (http://localhost:5177/node_modules/.vite/deps/axios.js?v=3a0da526:1319:7)
+    at XMLHttpRequest.onloadend (http://localhost:5177/node_modules/.vite/deps/axios.js?v=3a0da526:1682:7)
+    at Axios.request (http://localhost:5177/node_modules/.vite/deps/axios.js?v=3a0da526:2328:41)
+    at async http://localhost:5177/src/context/AppointmentContext.tsx:39:24 @ http://localhost:5177/src/context/AppointmentContext.tsx:53
+[   40451ms] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized) @ http://localhost:3001/api/circuit-breaker/status:0
+[   41232ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:5177/node_modules/.vite/deps/react-dom_client.js?v=3a0da526:20102
+[   41338ms] [WARNING] WebSocket connection to 'ws://localhost:3001/circuit-breaker?token=mock-jwt-token-for-ux-testing' failed: WebSocket is closed before the connection is established. @ http://localhost:5177/src/hooks/useCircuitBreakerStatus.ts:52
+[   43429ms] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized) @ http://localhost:3001/api/appointments/my:0
+[   43429ms] [ERROR] Failed to load appointments: AxiosError: Request failed with status code 401
+    at settle (http://localhost:5177/node_modules/.vite/deps/axios.js?v=3a0da526:1319:7)
+    at XMLHttpRequest.onloadend (http://localhost:5177/node_modules/.vite/deps/axios.js?v=3a0da526:1682:7)
+    at Axios.request (http://localhost:5177/node_modules/.vite/deps/axios.js?v=3a0da526:2328:41)
+    at async http://localhost:5177/src/context/AppointmentContext.tsx:39:24 @ http://localhost:5177/src/context/AppointmentContext.tsx:53
+[   43741ms] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized) @ http://localhost:3001/api/circuit-breaker/status:0
+[   43935ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:5177/node_modules/.vite/deps/react-dom_client.js?v=3a0da526:20102
+[   44015ms] [WARNING] WebSocket connection to 'ws://localhost:3001/circuit-breaker?token=mock-jwt-token-for-ux-testing' failed: WebSocket is closed before the connection is established. @ http://localhost:5177/src/hooks/useCircuitBreakerStatus.ts:52
+[   46686ms] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized) @ http://localhost:3001/api/waitlist/my:0
+[   46760ms] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized) @ http://localhost:3001/api/appointments/my:0
+[   46761ms] [ERROR] Failed to load appointments: AxiosError: Request failed with status code 401
+    at settle (http://localhost:5177/node_modules/.vite/deps/axios.js?v=3a0da526:1319:7)
+    at XMLHttpRequest.onloadend (http://localhost:5177/node_modules/.vite/deps/axios.js?v=3a0da526:1682:7)
+    at Axios.request (http://localhost:5177/node_modules/.vite/deps/axios.js?v=3a0da526:2328:41)
+    at async http://localhost:5177/src/context/AppointmentContext.tsx:39:24 @ http://localhost:5177/src/context/AppointmentContext.tsx:53
+[   46798ms] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized) @ http://localhost:3001/api/circuit-breaker/status:0
+[   46968ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:5177/node_modules/.vite/deps/react-dom_client.js?v=3a0da526:20102
+[   47039ms] [WARNING] WebSocket connection to 'ws://localhost:3001/circuit-breaker?token=mock-jwt-token-for-ux-testing' failed: WebSocket is closed before the connection is established. @ http://localhost:5177/src/hooks/useCircuitBreakerStatus.ts:52
+[   49162ms] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized) @ http://localhost:3001/api/appointments/my:0
+[   49162ms] [ERROR] Failed to load appointments: AxiosError: Request failed with status code 401
+    at settle (http://localhost:5177/node_modules/.vite/deps/axios.js?v=3a0da526:1319:7)
+    at XMLHttpRequest.onloadend (http://localhost:5177/node_modules/.vite/deps/axios.js?v=3a0da526:1682:7)
+    at Axios.request (http://localhost:5177/node_modules/.vite/deps/axios.js?v=3a0da526:2328:41)
+    at async http://localhost:5177/src/context/AppointmentContext.tsx:39:24 @ http://localhost:5177/src/context/AppointmentContext.tsx:53
+[   49723ms] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized) @ http://localhost:3001/api/waitlist/my:0
+[   49772ms] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized) @ http://localhost:3001/api/circuit-breaker/status:0
+[   49944ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:5177/node_modules/.vite/deps/react-dom_client.js?v=3a0da526:20102
+[   50023ms] [WARNING] WebSocket connection to 'ws://localhost:3001/circuit-breaker?token=mock-jwt-token-for-ux-testing' failed: WebSocket is closed before the connection is established. @ http://localhost:5177/src/hooks/useCircuitBreakerStatus.ts:52
+[   52166ms] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized) @ http://localhost:3001/api/circuit-breaker/status:0
+[   52347ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:5177/node_modules/.vite/deps/react-dom_client.js?v=3a0da526:20102
+[   52439ms] [WARNING] WebSocket connection to 'ws://localhost:3001/circuit-breaker?token=mock-jwt-token-for-ux-testing' failed: WebSocket is closed before the connection is established. @ http://localhost:5177/src/hooks/useCircuitBreakerStatus.ts:52
+[   54837ms] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized) @ http://localhost:3001/api/circuit-breaker/status:0
+[   55011ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:5177/node_modules/.vite/deps/react-dom_client.js?v=3a0da526:20102
+[   55078ms] [WARNING] WebSocket connection to 'ws://localhost:3001/circuit-breaker?token=mock-jwt-token-for-ux-testing' failed: WebSocket is closed before the connection is established. @ http://localhost:5177/src/hooks/useCircuitBreakerStatus.ts:52
+[   57803ms] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized) @ http://localhost:3001/api/circuit-breaker/status:0
+[   57822ms] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized) @ http://localhost:3001/api/waitlist/my:0
+[   57825ms] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized) @ http://localhost:3001/api/appointments/my:0
+[   57826ms] [ERROR] Failed to load appointments: AxiosError: Request failed with status code 401
+    at settle (http://localhost:5177/node_modules/.vite/deps/axios.js?v=3a0da526:1319:7)
+    at XMLHttpRequest.onloadend (http://localhost:5177/node_modules/.vite/deps/axios.js?v=3a0da526:1682:7)
+    at Axios.request (http://localhost:5177/node_modules/.vite/deps/axios.js?v=3a0da526:2328:41)
+    at async http://localhost:5177/src/context/AppointmentContext.tsx:39:24 @ http://localhost:5177/src/context/AppointmentContext.tsx:53
+[   57996ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:5177/node_modules/.vite/deps/react-dom_client.js?v=3a0da526:20102
+[   58066ms] [WARNING] WebSocket connection to 'ws://localhost:3001/circuit-breaker?token=mock-jwt-token-for-ux-testing' failed: WebSocket is closed before the connection is established. @ http://localhost:5177/src/hooks/useCircuitBreakerStatus.ts:52
+[   60680ms] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized) @ http://localhost:3001/api/waitlist/my:0
+[   60717ms] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized) @ http://localhost:3001/api/circuit-breaker/status:0
+[   60904ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:5177/node_modules/.vite/deps/react-dom_client.js?v=3a0da526:20102
+[   60994ms] [WARNING] WebSocket connection to 'ws://localhost:3001/circuit-breaker?token=mock-jwt-token-for-ux-testing' failed: WebSocket is closed before the connection is established. @ http://localhost:5177/src/hooks/useCircuitBreakerStatus.ts:52
+[   63090ms] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized) @ http://localhost:3001/api/appointments/my:0
+[   63091ms] [ERROR] Failed to load appointments: AxiosError: Request failed with status code 401
+    at settle (http://localhost:5177/node_modules/.vite/deps/axios.js?v=3a0da526:1319:7)
+    at XMLHttpRequest.onloadend (http://localhost:5177/node_modules/.vite/deps/axios.js?v=3a0da526:1682:7)
+    at Axios.request (http://localhost:5177/node_modules/.vite/deps/axios.js?v=3a0da526:2328:41)
+    at async http://localhost:5177/src/context/AppointmentContext.tsx:39:24 @ http://localhost:5177/src/context/AppointmentContext.tsx:53
+[   63690ms] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized) @ http://localhost:3001/api/waitlist/my:0
+[   63700ms] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized) @ http://localhost:3001/api/circuit-breaker/status:0
+[   63959ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:5177/node_modules/.vite/deps/react-dom_client.js?v=3a0da526:20102
+[   64087ms] [WARNING] WebSocket connection to 'ws://localhost:3001/circuit-breaker?token=mock-jwt-token-for-ux-testing' failed: WebSocket is closed before the connection is established. @ http://localhost:5177/src/hooks/useCircuitBreakerStatus.ts:52
+[   66421ms] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized) @ http://localhost:3001/api/appointments/my:0
+[   66421ms] [ERROR] Failed to load appointments: AxiosError: Request failed with status code 401
+    at settle (http://localhost:5177/node_modules/.vite/deps/axios.js?v=3a0da526:1319:7)
+    at XMLHttpRequest.onloadend (http://localhost:5177/node_modules/.vite/deps/axios.js?v=3a0da526:1682:7)
+    at Axios.request (http://localhost:5177/node_modules/.vite/deps/axios.js?v=3a0da526:2328:41)
+    at async http://localhost:5177/src/context/AppointmentContext.tsx:39:24 @ http://localhost:5177/src/context/AppointmentContext.tsx:53
+[   66739ms] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized) @ http://localhost:3001/api/circuit-breaker/status:0
+[   67647ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:5177/node_modules/.vite/deps/react-dom_client.js?v=3a0da526:20102
+[   67786ms] [WARNING] WebSocket connection to 'ws://localhost:3001/circuit-breaker?token=mock-jwt-token-for-ux-testing' failed: WebSocket is closed before the connection is established. @ http://localhost:5177/src/hooks/useCircuitBreakerStatus.ts:52
+[   69918ms] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized) @ http://localhost:3001/api/circuit-breaker/status:0
+[   71181ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:5177/node_modules/.vite/deps/react-dom_client.js?v=3a0da526:20102
+[   71332ms] [WARNING] WebSocket connection to 'ws://localhost:3001/circuit-breaker?token=mock-jwt-token-for-ux-testing' failed: WebSocket is closed before the connection is established. @ http://localhost:5177/src/hooks/useCircuitBreakerStatus.ts:52
+[   73898ms] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized) @ http://localhost:3001/api/waitlist/my:0
+[   74007ms] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized) @ http://localhost:3001/api/appointments/my:0
+[   74007ms] [ERROR] Failed to load appointments: AxiosError: Request failed with status code 401
+    at settle (http://localhost:5177/node_modules/.vite/deps/axios.js?v=3a0da526:1319:7)
+    at XMLHttpRequest.onloadend (http://localhost:5177/node_modules/.vite/deps/axios.js?v=3a0da526:1682:7)
+    at Axios.request (http://localhost:5177/node_modules/.vite/deps/axios.js?v=3a0da526:2328:41)
+    at async http://localhost:5177/src/context/AppointmentContext.tsx:39:24 @ http://localhost:5177/src/context/AppointmentContext.tsx:53
+[   74070ms] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized) @ http://localhost:3001/api/circuit-breaker/status:0
+[   74679ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:5177/node_modules/.vite/deps/react-dom_client.js?v=3a0da526:20102

@@ -1,0 +1,109 @@
+- generic [ref=e3]:
+  - link "Skip to main content" [ref=e4] [cursor=pointer]:
+    - /url: "#main-content"
+  - banner [ref=e5]:
+    - generic [ref=e6]:
+      - button "Open navigation menu" [ref=e7] [cursor=pointer]:
+        - img [ref=e8]
+      - link "UPACI" [ref=e10] [cursor=pointer]:
+        - /url: /staff/dashboard
+      - generic [ref=e11]: staff
+    - generic [ref=e12]:
+      - button "Notifications" [ref=e13] [cursor=pointer]:
+        - img [ref=e14]
+      - 'generic "User: Sarah Wilson" [ref=e18]': SW
+  - main [ref=e20]:
+    - generic [ref=e21]:
+      - banner [ref=e22]:
+        - generic [ref=e23]:
+          - generic [ref=e24]: UPACI
+          - generic [ref=e25]: Queue Management
+        - generic [ref=e26]:
+          - button "User menu" [ref=e27] [cursor=pointer]: SW
+          - button "Logout" [ref=e28] [cursor=pointer]
+      - main [ref=e29]:
+        - navigation "Breadcrumb" [ref=e30]:
+          - link "Dashboard" [ref=e31] [cursor=pointer]:
+            - /url: /staff/dashboard
+          - generic [ref=e32]: ›
+          - generic [ref=e33]: Queue Management
+        - generic [ref=e34]:
+          - heading "Queue Management" [level=1] [ref=e36]
+          - generic [ref=e39]: Live — Auto-refreshing
+        - search "Filter queue appointments" [ref=e40]:
+          - generic [ref=e41]:
+            - generic [ref=e42]: Search Patient
+            - searchbox "Search patients by name" [ref=e43]
+          - group "Status" [ref=e44]:
+            - generic [ref=e45]: Status
+            - generic [ref=e46]:
+              - generic [ref=e47] [cursor=pointer]:
+                - checkbox "Filter by Scheduled" [ref=e48]
+                - generic [ref=e49]: Scheduled
+              - generic [ref=e50] [cursor=pointer]:
+                - checkbox "Filter by Arrived" [ref=e51]
+                - generic [ref=e52]: Arrived
+              - generic [ref=e53] [cursor=pointer]:
+                - checkbox "Filter by In Progress" [ref=e54]
+                - generic [ref=e55]: In Progress
+              - generic [ref=e56] [cursor=pointer]:
+                - checkbox "Filter by Completed" [ref=e57]
+                - generic [ref=e58]: Completed
+              - generic [ref=e59] [cursor=pointer]:
+                - checkbox "Filter by No Show" [ref=e60]
+                - generic [ref=e61]: No Show
+          - generic [ref=e62]:
+            - generic [ref=e63]: Provider
+            - combobox "Filter by provider" [ref=e64] [cursor=pointer]:
+              - option "All Providers" [selected]
+          - generic [ref=e65]:
+            - generic [ref=e66]: Department
+            - combobox "Filter by department" [ref=e67] [cursor=pointer]:
+              - option "All Departments" [selected]
+        - status "Loading queue data" [ref=e68]:
+          - paragraph [ref=e70]: Loading queue data...
+  - dialog "Navigation menu" [ref=e71]:
+    - generic [ref=e72]:
+      - generic [ref=e73]: UPACI
+      - button "Close navigation menu" [ref=e74] [cursor=pointer]:
+        - img [ref=e75]
+    - navigation "Navigation menu" [ref=e77]:
+      - link "Dashboard" [ref=e78] [cursor=pointer]:
+        - /url: /staff/dashboard
+        - img [ref=e80]
+        - generic [ref=e85]: Dashboard
+      - link "Queue" [ref=e86] [cursor=pointer]:
+        - /url: /staff/queue
+        - img [ref=e88]
+        - generic [ref=e89]: Queue
+      - link "Book for Patient" [ref=e90] [cursor=pointer]:
+        - /url: /staff/appointments/book
+        - img [ref=e92]
+        - generic [ref=e94]: Book for Patient
+      - link "AI Intake" [ref=e95] [cursor=pointer]:
+        - /url: /intake/ai
+        - img [ref=e97]
+        - generic [ref=e99]: AI Intake
+      - link "Manual Intake" [ref=e100] [cursor=pointer]:
+        - /url: /intake/manual
+        - img [ref=e102]
+        - generic [ref=e104]: Manual Intake
+    - button "Logout" [ref=e106] [cursor=pointer]:
+      - img [ref=e108]
+      - generic [ref=e111]: Logout
+  - navigation "Bottom navigation" [ref=e112]:
+    - link "Dashboard" [ref=e113] [cursor=pointer]:
+      - /url: /staff/dashboard
+      - img [ref=e115]
+      - generic [ref=e120]: Dashboard
+    - link "Queue" [ref=e121] [cursor=pointer]:
+      - /url: /staff/queue
+      - img [ref=e123]
+      - generic [ref=e124]: Queue
+    - link "Book for Patient" [ref=e125] [cursor=pointer]:
+      - /url: /staff/appointments/book
+      - img [ref=e127]
+      - generic [ref=e129]: Book for Patient
+    - button "Open navigation menu" [ref=e130] [cursor=pointer]:
+      - img [ref=e132]
+      - generic [ref=e136]: More

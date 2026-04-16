@@ -1,0 +1,52 @@
+{
+  "spacing": {
+    "xs":   { "value": "4px",  "comment": "Compact: badge padding, icon margin" },
+    "sm":   { "value": "8px",  "comment": "Small: button padding, list items" },
+    "md":   { "value": "12px", "comment": "Medium: card padding, form field margin" },
+    "base": { "value": "16px", "comment": "Default: section margin, card content" },
+    "lg":   { "value": "24px", "comment": "Large: section gaps, modal padding" },
+    "xl":   { "value": "32px", "comment": "Page padding, major section gaps" },
+    "2xl":  { "value": "48px", "comment": "Page header margin" },
+    "3xl":  { "value": "64px", "comment": "Hero sections" },
+    "4xl":  { "value": "96px", "comment": "Rare, large page margins" }
+  },
+  "radius": {
+    "none": { "value": "0px",    "comment": "No radius: tables, dividers" },
+    "sm":   { "value": "4px",    "comment": "Small: badges, tags, chips" },
+    "md":   { "value": "8px",    "comment": "Medium DEFAULT: buttons, inputs, cards" },
+    "lg":   { "value": "12px",   "comment": "Large: modals, drawers" },
+    "xl":   { "value": "16px",   "comment": "Featured cards, hero sections" },
+    "full": { "value": "9999px", "comment": "Fully rounded: avatars, pills" }
+  },
+  "shadow": {
+    "level-0": { "value": "none",                                                                    "comment": "No shadow: inline elements" },
+    "level-1": { "value": "0px 1px 3px rgba(0, 0, 0, 0.12), 0px 1px 2px rgba(0, 0, 0, 0.24)",       "comment": "Subtle: cards, list items" },
+    "level-2": { "value": "0px 3px 6px rgba(0, 0, 0, 0.15), 0px 2px 4px rgba(0, 0, 0, 0.12)",       "comment": "Medium: dropdowns, popovers" },
+    "level-3": { "value": "0px 10px 20px rgba(0, 0, 0, 0.15), 0px 3px 6px rgba(0, 0, 0, 0.10)",     "comment": "Prominent: modals, drawers" },
+    "level-4": { "value": "0px 15px 25px rgba(0, 0, 0, 0.15), 0px 5px 10px rgba(0, 0, 0, 0.05)",    "comment": "High: tooltips on modals" },
+    "level-5": { "value": "0px 20px 40px rgba(0, 0, 0, 0.2)",                                        "comment": "Maximum: critical alerts" },
+    "focus-ring":    { "value": "0 0 0 2px #FFFFFF, 0 0 0 4px #0066CC",                              "comment": "Keyboard focus indicator" },
+    "button-active": { "value": "inset 0px 2px 4px rgba(0, 0, 0, 0.2)",                              "comment": "Button pressed state" }
+  },
+  "size": {
+    "button": {
+      "sm":  { "value": "32px", "comment": "Small button height" },
+      "md":  { "value": "40px", "comment": "Medium button height (default)" },
+      "lg":  { "value": "48px", "comment": "Large button height" }
+    },
+    "input": {
+      "height": { "value": "44px", "comment": "Default input height" }
+    },
+    "icon": {
+      "sm": { "value": "16px" },
+      "md": { "value": "20px" },
+      "lg": { "value": "24px" }
+    }
+  },
+  "breakpoint": {
+    "mobile":  { "value": "320px" },
+    "tablet":  { "value": "768px" },
+    "desktop": { "value": "1024px" },
+    "wide":    { "value": "1441px" }
+  }
+}

@@ -1,0 +1,79 @@
+import { Meta } from '@storybook/blocks';
+import { TokenTable, ShadowCard } from './components/TokenTable';
+
+<Meta title="Design Tokens/Docs/Shadows" />
+
+# Shadows & Elevation
+
+Progressive shadow depth for visual hierarchy. Higher levels indicate elements closer to the user in z-space.
+
+---
+
+## Elevation Scale
+
+<TokenTable
+  tokens={[
+    { name: 'Level 0', cssVar: '--shadow-level-0', scssVar: '$shadow-level-0', value: 'none', description: 'Inline elements – no elevation' },
+    { name: 'Level 1', cssVar: '--shadow-level-1', scssVar: '$shadow-level-1', value: '0px 1px 3px rgba(0,0,0,0.12), 0px 1px 2px rgba(0,0,0,0.24)', description: 'Subtle – cards, list items' },
+    { name: 'Level 2', cssVar: '--shadow-level-2', scssVar: '$shadow-level-2', value: '0px 3px 6px rgba(0,0,0,0.15), 0px 2px 4px rgba(0,0,0,0.12)', description: 'Medium – dropdowns, popovers' },
+    { name: 'Level 3', cssVar: '--shadow-level-3', scssVar: '$shadow-level-3', value: '0px 10px 20px rgba(0,0,0,0.15), 0px 3px 6px rgba(0,0,0,0.10)', description: 'Prominent – modals, drawers' },
+    { name: 'Level 4', cssVar: '--shadow-level-4', scssVar: '$shadow-level-4', value: '0px 15px 25px rgba(0,0,0,0.15), 0px 5px 10px rgba(0,0,0,0.05)', description: 'High – tooltips on modals' },
+    { name: 'Level 5', cssVar: '--shadow-level-5', scssVar: '$shadow-level-5', value: '0px 20px 40px rgba(0,0,0,0.2)', description: 'Maximum – critical alerts' },
+  ]}
+  renderExample={(t) => <ShadowCard shadow={t.value} />}
+/>
+
+---
+
+## Special Shadows
+
+<TokenTable
+  tokens={[
+    { name: 'Focus Ring', cssVar: '--shadow-focus-ring', scssVar: '$shadow-focus-ring', value: '0 0 0 2px #FFF, 0 0 0 4px #0066CC', description: 'Keyboard focus indicator' },
+    { name: 'Button Active', cssVar: '--shadow-button-active', scssVar: '$shadow-button-active', value: 'inset 0px 2px 4px rgba(0,0,0,0.2)', description: 'Button pressed state' },
+  ]}
+  renderExample={(t) => <ShadowCard shadow={t.value} />}
+/>
+
+---
+
+## Elevation Guidelines
+
+| Level | z-index Range | Use Case |
+|-------|--------------|----------|
+| 0 | 0 | Inline elements, no elevation needed |
+| 1 | 1–10 | Cards, list items, subtle elevation |
+| 2 | 10–100 | Dropdowns, popovers, menus |
+| 3 | 100–1000 | Modals, drawers, overlays |
+| 4 | 1000–5000 | Tooltips stacked on modals |
+| 5 | 5000+ | Critical alerts, emergency banners |
+
+---
+
+## Usage
+
+```css
+/* CSS Custom Property */
+.card {
+  box-shadow: var(--shadow-level-1);
+}
+
+.modal {
+  box-shadow: var(--shadow-level-3);
+}
+
+.interactive:focus-visible {
+  box-shadow: var(--shadow-focus-ring);
+}
+```
+
+```scss
+// SCSS Variable
+.card {
+  box-shadow: $shadow-level-1;
+}
+
+.modal {
+  box-shadow: $shadow-level-3;
+}
+```

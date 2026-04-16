@@ -15,6 +15,10 @@ import { gpt4CodingBreaker } from '../config/circuit-breaker.config';
 import { getCodingFallbackMessage } from './fallback/coding-fallback.service';
 import { buildMedicalCodingPrompt } from '../prompts/medical-coding-prompt';
 import { medicalCodingConfig } from '../config/medicalCoding.config';
+import { featureFlagService } from './featureFlagService';
+import { validateModel } from '../utils/modelValidator';
+import { loadPrompt } from '../utils/promptVersionManager';
+import type { FlagEvaluationContext } from '../config/featureFlags';
 import type {
   GenerateCodesRequest,
   GenerateCodesResponse,
@@ -26,6 +30,52 @@ import type {
   CodingAuditEntry,
 } from '../types/medicalCoding.types';
 import crypto from 'crypto';
+
+export interface CodingFlagResult {
+  aiEnabled: boolean;
+  message?: string;
+  model?: string;
+  promptVersion?: string;
+  data?: GenerateCodesResponse;
+}
+
+/**
+ * Flag-aware code generation entry point.
+ * If ai_coding_enabled is false, returns an "AI unavailable" response.
+ * Otherwise resolves model and prompt version from flags.
+ */
+export async function generateCodesWithFlags(
+  userId: number,
+  role: string,
+  request: GenerateCodesRequest,
+): Promise<CodingFlagResult> {
+  const flagCtx: FlagEvaluationContext = { userId, role };
+
+  const enabledResult = await featureFlagService.evaluateFlag('ai_coding_enabled', flagCtx);
+
+  if (!enabledResult.value) {
+    logger.info('AI coding disabled by feature flag', { userId, flag: 'ai_coding_enabled' });
+    return { aiEnabled: false, message: 'AI coding unavailable - use manual coding' };
+  }
+
+  const promptVersionResult = await featureFlagService.evaluateFlag('medical_coding_prompt_version', flagCtx);
+  const promptVersion = (promptVersionResult.value as string) || 'v1';
+
+  const modelResult = await featureFlagService.evaluateFlag('gpt_intake_model', flagCtx);
+  const model = validateModel(modelResult.value as string, 'coding');
+
+  logger.info('AI coding processing with flags', { userId, model, promptVersion });
+
+  // Try to load versioned prompt (falls back to v1 if missing)
+  try {
+    await loadPrompt('medical-coding', promptVersion);
+  } catch {
+    logger.warn('Could not load versioned prompt, using default builder', { promptVersion });
+  }
+
+  const data = await medicalCodingService.generateCodes(request);
+  return { aiEnabled: true, model, promptVersion, data };
+}
 
 const CACHE_KEY_PREFIX = 'coding:generated:';
 

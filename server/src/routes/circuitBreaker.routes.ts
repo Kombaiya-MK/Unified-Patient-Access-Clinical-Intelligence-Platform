@@ -9,7 +9,7 @@
 
 import { Router, Request, Response } from 'express';
 import { authenticateToken, authorize } from '../middleware/auth';
-import { allAIBreakers, getLogsForService } from '../config/circuit-breaker.config';
+import { allAIBreakers, getLogsForService, getLastStateChange } from '../config/circuit-breaker.config';
 
 const router = Router();
 
@@ -31,15 +31,19 @@ const MODEL_MAP: Record<string, string> = {
 
 const ALLOWED_SERVICES = new Set(Object.keys(SERVICE_ID_MAP));
 
+/** Reverse map: frontend IDs to backend keys */
+const REVERSE_SERVICE_MAP: Record<string, string> = Object.fromEntries(
+  Object.entries(SERVICE_ID_MAP).map(([k, v]) => [v, k]),
+);
+
 /**
  * @route   GET /api/circuit-breaker/status
  * @desc    Aggregate status of all AI circuit breakers
- * @access  Admin
+ * @access  Authenticated (all roles - read-only)
  */
 router.get(
   '/status',
   authenticateToken,
-  authorize('admin'),
   (_req: Request, res: Response) => {
     const statuses = allAIBreakers.map((breaker) => {
       const name = (breaker as any).options?.name ?? '';
@@ -59,7 +63,7 @@ router.get(
         model: MODEL_MAP[name] || '',
         state,
         failureRate: Math.round(failureRate * 10) / 10,
-        lastStateChange: new Date().toISOString(),
+        lastStateChange: getLastStateChange(name),
         errorCount: failures,
         successCount: successes,
       };
@@ -79,14 +83,17 @@ router.get(
   authenticateToken,
   authorize('admin'),
   (req: Request, res: Response) => {
-    const service = req.params.service as string;
+    const rawService = req.params.service as string;
 
-    if (!ALLOWED_SERVICES.has(service)) {
+    // Accept both backend keys and frontend IDs
+    const backendKey = REVERSE_SERVICE_MAP[rawService] || rawService;
+
+    if (!ALLOWED_SERVICES.has(backendKey)) {
       res.json({ success: true, data: [] });
       return;
     }
 
-    const logs = getLogsForService(service);
+    const logs = getLogsForService(backendKey);
     res.json({ success: true, data: logs });
   },
 );

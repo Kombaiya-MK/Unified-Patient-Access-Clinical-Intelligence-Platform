@@ -55,6 +55,17 @@
   margin-top: 1px;
 }
 
+/* === Warning Severity === */
+.error-message--warning {
+  color: #B7791F; /* warning-700 */
+}
+
+.error-message--warning.error-message--global {
+  background: #FEFCBF; /* warning-100 */
+  border-color: #F6E05E; /* warning-300 */
+  color: #744210; /* warning-900 */
+}
+
 /* === Error List === */
 .error-list {
   margin-bottom: 16px;

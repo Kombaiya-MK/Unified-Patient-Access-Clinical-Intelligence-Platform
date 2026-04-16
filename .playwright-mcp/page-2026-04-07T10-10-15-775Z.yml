@@ -1,0 +1,141 @@
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - generic [ref=e5]:
+      - button "Open navigation menu" [ref=e6] [cursor=pointer]:
+        - img [ref=e7]
+      - link "UPACI" [ref=e9] [cursor=pointer]:
+        - /url: /patient/dashboard
+    - generic [ref=e10]:
+      - button "Notifications" [ref=e11] [cursor=pointer]:
+        - img [ref=e12]
+      - 'generic "User: Jane Smith" [ref=e16]': JS
+  - main [ref=e18]:
+    - generic [ref=e19]:
+      - generic [ref=e20]:
+        - generic [ref=e21]:
+          - button "Go back" [ref=e22] [cursor=pointer]: ← Back
+          - heading "Book an Appointment" [level=1] [ref=e23]
+        - paragraph [ref=e24]: Select a date, time, and provider for your appointment
+      - generic [ref=e25]:
+        - generic [ref=e26]:
+          - generic [ref=e27]: Department
+          - generic:
+            - log
+            - generic:
+              - generic:
+                - generic: Select department...
+              - generic:
+                - generic:
+                  - img
+        - generic [ref=e28]:
+          - generic [ref=e29]: Provider
+          - generic:
+            - log
+            - generic:
+              - generic:
+                - generic: Select provider (optional)...
+              - generic:
+                - generic:
+                  - img
+      - generic [ref=e30]:
+        - generic [ref=e31]:
+          - heading "Select Date" [level=2] [ref=e32]
+          - application "Appointment calendar" [ref=e33]:
+            - generic [ref=e34]:
+              - generic [ref=e35]:
+                - button "«" [disabled] [ref=e36]
+                - button "‹" [disabled] [ref=e37]
+                - button "April 2026" [ref=e38] [cursor=pointer]
+                - button "›" [ref=e39] [cursor=pointer]
+                - button "»" [disabled] [ref=e40]
+              - generic [ref=e44]:
+                - generic [ref=e45]:
+                  - generic [ref=e46]: S
+                  - generic [ref=e47]: M
+                  - generic [ref=e48]: T
+                  - generic [ref=e49]: W
+                  - generic [ref=e50]: T
+                  - generic [ref=e51]: F
+                  - generic [ref=e52]: S
+                - generic [ref=e53]:
+                  - button "April 1, 2026" [disabled] [ref=e54]: "1"
+                  - button "April 2, 2026" [disabled] [ref=e55]: "2"
+                  - button "April 3, 2026" [disabled] [ref=e56]: "3"
+                  - button "April 4, 2026" [disabled] [ref=e57]: "4"
+                  - button "April 5, 2026" [disabled] [ref=e58]: "5"
+                  - button "April 6, 2026" [disabled] [ref=e59]: "6"
+                  - button "April 7, 2026" [ref=e60] [cursor=pointer]: "7"
+                  - button "April 8, 2026" [ref=e61] [cursor=pointer]: "8"
+                  - button "April 9, 2026" [ref=e62] [cursor=pointer]: "9"
+                  - button "April 10, 2026" [ref=e63] [cursor=pointer]: "10"
+                  - button "April 11, 2026" [ref=e64] [cursor=pointer]: "11"
+                  - button "April 12, 2026" [ref=e65] [cursor=pointer]: "12"
+                  - button "April 13, 2026" [ref=e66] [cursor=pointer]: "13"
+                  - button "April 14, 2026" [ref=e67] [cursor=pointer]: "14"
+                  - button "April 15, 2026" [ref=e68] [cursor=pointer]: "15"
+                  - button "April 16, 2026" [ref=e69] [cursor=pointer]: "16"
+                  - button "April 17, 2026" [ref=e70] [cursor=pointer]: "17"
+                  - button "April 18, 2026" [ref=e71] [cursor=pointer]: "18"
+                  - button "April 19, 2026" [ref=e72] [cursor=pointer]: "19"
+                  - button "April 20, 2026" [ref=e73] [cursor=pointer]: "20"
+                  - button "April 21, 2026" [ref=e74] [cursor=pointer]: "21"
+                  - button "April 22, 2026" [ref=e75] [cursor=pointer]: "22"
+                  - button "April 23, 2026" [ref=e76] [cursor=pointer]: "23"
+                  - button "April 24, 2026" [ref=e77] [cursor=pointer]: "24"
+                  - button "April 25, 2026" [ref=e78] [cursor=pointer]: "25"
+                  - button "April 26, 2026" [ref=e79] [cursor=pointer]: "26"
+                  - button "April 27, 2026" [ref=e80] [cursor=pointer]: "27"
+                  - button "April 28, 2026" [ref=e81] [cursor=pointer]: "28"
+                  - button "April 29, 2026" [ref=e82] [cursor=pointer]: "29"
+                  - button "April 30, 2026" [ref=e83] [cursor=pointer]: "30"
+            - list "Calendar legend" [ref=e84]:
+              - listitem [ref=e85]:
+                - generic "Available" [ref=e86]
+                - generic [ref=e87]: Available Slots
+              - listitem [ref=e88]:
+                - generic "Selected" [ref=e89]
+                - generic [ref=e90]: Selected Date
+              - listitem [ref=e91]:
+                - generic "Unavailable" [ref=e92]
+                - generic [ref=e93]: No Slots
+        - paragraph [ref=e96]: Select a date to view available time slots
+        - generic [ref=e97]:
+          - heading "Appointment Details" [level=2] [ref=e98]
+          - paragraph [ref=e100]: Select a time slot to view details
+  - dialog "Navigation menu" [ref=e101]:
+    - generic [ref=e102]:
+      - generic [ref=e103]: UPACI
+      - button "Close navigation menu" [ref=e104] [cursor=pointer]:
+        - img [ref=e105]
+    - navigation "Navigation menu" [ref=e107]:
+      - link "Dashboard" [ref=e108] [cursor=pointer]:
+        - /url: /patient/dashboard
+        - img [ref=e110]
+        - generic [ref=e115]: Dashboard
+      - link "Book Appointment" [ref=e116] [cursor=pointer]:
+        - /url: /appointments/book
+        - img [ref=e118]
+        - generic [ref=e120]: Book Appointment
+      - link "Patient Intake" [ref=e121] [cursor=pointer]:
+        - /url: /intake/ai
+        - img [ref=e123]
+        - generic [ref=e125]: Patient Intake
+      - link "Manual Intake" [ref=e126] [cursor=pointer]:
+        - /url: /intake/manual
+        - img [ref=e128]
+        - generic [ref=e130]: Manual Intake
+    - button "Logout" [ref=e132] [cursor=pointer]:
+      - img [ref=e134]
+      - generic [ref=e137]: Logout
+  - navigation "Bottom navigation" [ref=e138]:
+    - link "Dashboard" [ref=e139] [cursor=pointer]:
+      - /url: /patient/dashboard
+      - img [ref=e141]
+      - generic [ref=e146]: Dashboard
+    - link "Book Appointment" [ref=e147] [cursor=pointer]:
+      - /url: /appointments/book
+      - img [ref=e149]
+      - generic [ref=e151]: Book Appointment
+    - button "Open navigation menu" [ref=e152] [cursor=pointer]:
+      - img [ref=e154]
+      - generic [ref=e158]: More

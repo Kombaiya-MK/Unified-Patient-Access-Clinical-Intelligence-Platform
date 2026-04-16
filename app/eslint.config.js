@@ -4,9 +4,17 @@ import reactHooks from 'eslint-plugin-react-hooks';
 import reactRefresh from 'eslint-plugin-react-refresh';
 import tseslint from 'typescript-eslint';
 import { defineConfig, globalIgnores } from 'eslint/config';
+import designTokensPlugin from './eslint-rules/index.js';
 
 export default defineConfig([
-  globalIgnores(['dist']),
+  globalIgnores([
+    'dist',
+    'src/styles/tokens/**',
+    'src/styles/generated/**',
+    'src/design-tokens/**',
+    'config/**',
+    'eslint-rules/**',
+  ]),
   {
     files: ['**/*.{ts,tsx}'],
     extends: [
@@ -19,7 +27,16 @@ export default defineConfig([
       ecmaVersion: 2020,
       globals: globals.browser,
     },
+    plugins: {
+      'design-tokens': designTokensPlugin,
+    },
     rules: {
+      // Design token enforcement
+      'design-tokens/no-hardcoded-colors': 'error',
+      'design-tokens/no-hardcoded-spacing': 'error',
+      'design-tokens/use-design-tokens': 'warn',
+      'design-tokens/no-hardcoded-design-values': 'error',
+
       // TypeScript specific rules
       '@typescript-eslint/no-explicit-any': 'warn',
       '@typescript-eslint/explicit-function-return-type': 'off',
@@ -53,6 +70,16 @@ export default defineConfig([
       'no-nested-ternary': 'warn',
       'max-depth': ['warn', 4],
       'complexity': ['warn', 10],
+    },
+  },
+  // Disable design-token rules in files that legitimately use hardcoded values
+  {
+    files: ['**/*.stories.{ts,tsx}', '**/stories/**/*.{ts,tsx}'],
+    rules: {
+      'design-tokens/no-hardcoded-colors': 'off',
+      'design-tokens/no-hardcoded-spacing': 'off',
+      'design-tokens/use-design-tokens': 'off',
+      'design-tokens/no-hardcoded-design-values': 'off',
     },
   },
 ]);

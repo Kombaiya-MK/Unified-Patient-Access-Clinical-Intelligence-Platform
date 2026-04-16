@@ -239,11 +239,11 @@ npm run dev
 - [x] Real-time update test: Update flag in Redis, verify backend picks up change within 30 seconds
 
 ## Implementation Checklist
-- [ ] Create featureFlagService with evaluateFlag (3-tier caching: memory 60s → Redis → defaults), updateFlag, getAllFlags, invalidateCache methods
-- [ ] Create featureFlags.ts with 7 AI flag definitions (ai_intake_enabled, ai_extraction_enabled, ai_coding_enabled, ai_conflicts_enabled, gpt_intake_model, gpt_vision_model, medical_coding_prompt_version) with types and defaults
-- [ ] Create flagEvaluator.ts with targeting rule evaluation (all, beta_testers, department, role, percentage) and hierarchy logic (user > department > global)
-- [ ] Create percentageRollout.ts with deterministic user hash function (MD5/FNV-1a) for percentage rollouts (0-100% allocation)
-- [ ] Modify redis.ts to add flag-specific methods (getFlagConfig, setFlagConfig, deleteFlagConfig, getFlagKeys pattern matching) with persistent storage
-- [ ] Create featureFlagMiddleware.ts to inject req.features and req.evaluateFlag() helper into Express routes for easy flag access
-- [ ] Create featureFlags.routes.ts with admin API routes (GET/PUT flags, POST invalidate-cache, GET analytics) protected by requireRole('admin') middleware
-- [ ] Implement flag evaluation audit logging (log flag_name, user_id, evaluated_value, target_matched, timestamp to audit table), real-time flag polling (Redis check every 30s, invalidate cache on change), and write unit/integration tests
+- [x] Create featureFlagService with evaluateFlag (3-tier caching: memory 60s → Redis → defaults), updateFlag, getAllFlags, invalidateCache methods
+- [x] Create featureFlags.ts with 7 AI flag definitions (ai_intake_enabled, ai_extraction_enabled, ai_coding_enabled, ai_conflicts_enabled, gpt_intake_model, gpt_vision_model, medical_coding_prompt_version) with types and defaults
+- [x] Create flagEvaluator.ts with targeting rule evaluation (all, beta_testers, department, role, percentage) and hierarchy logic (user > department > global)
+- [x] Create percentageRollout.ts with deterministic user hash function (MD5/FNV-1a) for percentage rollouts (0-100% allocation)
+- [x] Modify redis.ts to add flag-specific methods (getFlagConfig, setFlagConfig, deleteFlagConfig, getFlagKeys pattern matching) with persistent storage
+- [x] Create featureFlagMiddleware.ts to inject req.features and req.evaluateFlag() helper into Express routes for easy flag access
+- [x] Create featureFlags.routes.ts with admin API routes (GET/PUT flags, POST invalidate-cache, GET analytics) protected by requireRole('admin') middleware
+- [x] Implement flag evaluation audit logging (log flag_name, user_id, evaluated_value, target_matched, timestamp to audit table), real-time flag polling (Redis check every 30s, invalidate cache on change), and write unit/integration tests

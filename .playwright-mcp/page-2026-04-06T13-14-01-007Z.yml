@@ -1,0 +1,132 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e3]: UPACI
+    - generic [ref=e4]: Admin Dashboard
+    - generic [ref=e5]:
+      - button "Notifications (3 unread)" [ref=e7] [cursor=pointer]:
+        - text: 🔔
+        - generic [ref=e8]: "3"
+      - button "User menu" [ref=e9] [cursor=pointer]: AD
+  - navigation "Main navigation" [ref=e10]:
+    - generic [ref=e11]: Admin
+    - list [ref=e12]:
+      - listitem [ref=e13]:
+        - link "🏠 Dashboard" [ref=e14] [cursor=pointer]:
+          - /url: wireframe-SCR-004-admin-dashboard.html
+          - generic [ref=e15]: 🏠
+          - text: Dashboard
+      - listitem [ref=e16]:
+        - link "👥 User Management" [ref=e17] [cursor=pointer]:
+          - /url: wireframe-SCR-013-user-management.html
+          - generic [ref=e18]: 👥
+          - text: User Management
+      - listitem [ref=e19]:
+        - link "🏢 Departments" [ref=e20] [cursor=pointer]:
+          - /url: wireframe-SCR-014-department-management.html
+          - generic [ref=e21]: 🏢
+          - text: Departments
+      - listitem [ref=e22]:
+        - link "🛡️ Audit Logs" [ref=e23] [cursor=pointer]:
+          - /url: wireframe-SCR-012-audit-logs.html
+          - generic [ref=e24]: 🛡️
+          - text: Audit Logs
+      - listitem [ref=e25]:
+        - link "👤 Profile & Settings" [ref=e26] [cursor=pointer]:
+          - /url: wireframe-SCR-005-admin-profile-settings.html
+          - generic [ref=e27]: 👤
+          - text: Profile & Settings
+  - main [ref=e28]:
+    - heading "Admin Dashboard" [level=1] [ref=e29]
+    - paragraph [ref=e30]: System overview and management — March 17, 2026
+    - region "System statistics" [ref=e31]:
+      - generic [ref=e32]:
+        - generic [ref=e33]: Total Users
+        - generic [ref=e34]: "342"
+      - generic [ref=e35]:
+        - generic [ref=e36]: Active Staff
+        - generic [ref=e37]: "28"
+      - generic [ref=e38]:
+        - generic [ref=e39]: Today's Appointments
+        - generic [ref=e40]: "67"
+      - generic [ref=e41]:
+        - generic [ref=e42]: System Alerts
+        - generic [ref=e43]: "3"
+    - generic [ref=e44]:
+      - generic [ref=e45]:
+        - generic [ref=e46]:
+          - heading "Recent Users" [level=2] [ref=e47]
+          - link "View All Users →" [ref=e48] [cursor=pointer]:
+            - /url: wireframe-SCR-013-user-management.html
+        - table "Recent users" [ref=e50]:
+          - rowgroup [ref=e51]:
+            - row "Name ID Email User Type Status" [ref=e52]:
+              - columnheader "Name" [ref=e53]
+              - columnheader "ID" [ref=e54]
+              - columnheader "Email" [ref=e55]
+              - columnheader "User Type" [ref=e56]
+              - columnheader "Status" [ref=e57]
+          - rowgroup [ref=e58]:
+            - row "Dr. Sarah Mitchell STF-2001 s.mitchell@clinic.com Staff Active" [ref=e59]:
+              - cell "Dr. Sarah Mitchell" [ref=e60]
+              - cell "STF-2001" [ref=e61]
+              - cell "s.mitchell@clinic.com" [ref=e62]
+              - cell "Staff" [ref=e63]:
+                - generic [ref=e64]: Staff
+              - cell "Active" [ref=e65]:
+                - generic [ref=e66]: Active
+            - row "Jane Doe PAT-1001 jane.doe@email.com Patient Active" [ref=e67]:
+              - cell "Jane Doe" [ref=e68]
+              - cell "PAT-1001" [ref=e69]
+              - cell "jane.doe@email.com" [ref=e70]
+              - cell "Patient" [ref=e71]:
+                - generic [ref=e72]: Patient
+              - cell "Active" [ref=e73]:
+                - generic [ref=e74]: Active
+            - row "Robert Chen PAT-1002 r.chen@email.com Patient Inactive" [ref=e75]:
+              - cell "Robert Chen" [ref=e76]
+              - cell "PAT-1002" [ref=e77]
+              - cell "r.chen@email.com" [ref=e78]
+              - cell "Patient" [ref=e79]:
+                - generic [ref=e80]: Patient
+              - cell "Inactive" [ref=e81]:
+                - generic [ref=e82]: Inactive
+            - row "Dr. James Patel STF-2002 j.patel@clinic.com Staff Active" [ref=e83]:
+              - cell "Dr. James Patel" [ref=e84]
+              - cell "STF-2002" [ref=e85]
+              - cell "j.patel@clinic.com" [ref=e86]
+              - cell "Staff" [ref=e87]:
+                - generic [ref=e88]: Staff
+              - cell "Active" [ref=e89]:
+                - generic [ref=e90]: Active
+      - generic [ref=e91]:
+        - generic [ref=e92]:
+          - heading "Recent Audit Logs" [level=2] [ref=e93]
+          - link "View All Logs →" [ref=e94] [cursor=pointer]:
+            - /url: wireframe-SCR-012-audit-logs.html
+        - table "Recent audit logs" [ref=e96]:
+          - rowgroup [ref=e97]:
+            - row "Action User Time" [ref=e98]:
+              - columnheader "Action" [ref=e99]
+              - columnheader "User" [ref=e100]
+              - columnheader "Time" [ref=e101]
+          - rowgroup [ref=e102]:
+            - row "User account created Admin 2 min ago" [ref=e103]:
+              - cell "User account created" [ref=e104]
+              - cell "Admin" [ref=e105]
+              - cell "2 min ago" [ref=e106]
+            - 'row "User type changed: Staff → Admin Admin 15 min ago" [ref=e107]':
+              - 'cell "User type changed: Staff → Admin" [ref=e108]'
+              - cell "Admin" [ref=e109]
+              - cell "15 min ago" [ref=e110]
+            - row "Patient record accessed Dr. Mitchell 22 min ago" [ref=e111]:
+              - cell "Patient record accessed" [ref=e112]
+              - cell "Dr. Mitchell" [ref=e113]
+              - cell "22 min ago" [ref=e114]
+            - row "Appointment marked no-show Dr. Patel 1 hour ago" [ref=e115]:
+              - cell "Appointment marked no-show" [ref=e116]
+              - cell "Dr. Patel" [ref=e117]
+              - cell "1 hour ago" [ref=e118]
+            - row "System configuration updated Admin 3 hours ago" [ref=e119]:
+              - cell "System configuration updated" [ref=e120]
+              - cell "Admin" [ref=e121]
+              - cell "3 hours ago" [ref=e122]

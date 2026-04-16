@@ -10,6 +10,7 @@ import { startWaitlistProcessor, stopWaitlistProcessor } from './jobs/waitlistPr
 import { startReminderJob, stopReminderJob } from './jobs/appointmentReminderJob';
 import { startCalendarSyncQueueJob, stopCalendarSyncQueueJob } from './jobs/calendarSyncQueueJob';
 import { initWebSocketServer, closeWebSocketServer } from './services/websocketService';
+import { initNotificationSocket, closeNotificationSocket } from './services/notificationSocketService';
 import type { ScheduledTask } from 'node-cron';
 
 /**
@@ -58,6 +59,15 @@ const startServer = async (port: number, maxPort: number = 3005): Promise<number
       // Initialize WebSocket server for real-time queue updates
       initWebSocketServer(server);
 
+      // Initialize Socket.io server for real-time notifications
+      initNotificationSocket(server);
+
+      // Signal PM2 that the app is ready to accept traffic
+      if (process.send) {
+        process.send('ready');
+        logger.info('✓ PM2 ready signal sent');
+      }
+
       resolve(port);
     });
 
@@ -99,6 +109,9 @@ const startServer = async (port: number, maxPort: number = 3005): Promise<number
         // Close WebSocket connections
         closeWebSocketServer();
 
+        // Close notification Socket.io connections
+        closeNotificationSocket();
+
         // Close database connections
         try {
           await closePool();
@@ -117,11 +130,11 @@ const startServer = async (port: number, maxPort: number = 3005): Promise<number
         process.exit(0);
       });
 
-      // Force shutdown after 10 seconds
+      // Force shutdown after 30 seconds (matches PM2 kill_timeout)
       setTimeout(() => {
-        logger.error('Forcing shutdown after timeout');
+        logger.error('Forcing shutdown after 30s timeout');
         process.exit(1);
-      }, 10000);
+      }, 30000);
     };
 
     // Handle shutdown signals

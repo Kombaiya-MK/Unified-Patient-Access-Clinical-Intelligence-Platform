@@ -1,0 +1,26 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e3]: UPACI
+    - generic [ref=e4]: Appointment Booking
+    - button "User menu" [ref=e5] [cursor=pointer]: JD
+  - main [ref=e6]:
+    - navigation "Breadcrumb" [ref=e7]:
+      - link "Dashboard" [ref=e8] [cursor=pointer]:
+        - /url: wireframe-SCR-002-patient-dashboard.html
+      - generic [ref=e9]: ›
+      - generic [ref=e10]: Book Appointment
+    - heading "Book Appointment" [level=1] [ref=e11]
+    - paragraph [ref=e12]: Select a department, date, and time slot for your visit
+    - generic [ref=e13]:
+      - generic [ref=e14]: Select Department *
+      - combobox "Select Department *" [ref=e16] [cursor=pointer]:
+        - option "Choose a department..." [disabled] [selected]
+        - option "General Medicine"
+        - option "Cardiology"
+        - option "Orthopedics"
+        - option "Neurology"
+        - option "Dermatology"
+        - option "Pediatrics"
+        - option "Family Medicine"
+        - option "Internal Medicine"
+      - generic [ref=e17]: Select a department to view available doctors and time slots.

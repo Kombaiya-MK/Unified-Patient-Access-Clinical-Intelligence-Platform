@@ -1,0 +1,50 @@
+import { Meta } from '@storybook/blocks';
+import { TokenTable, RadiusBox } from './components/TokenTable';
+
+<Meta title="Design Tokens/Docs/Border Radius" />
+
+# Border Radius
+
+Border radius tokens control corner rounding across the UI. The default (`md`) is used for buttons, inputs, and cards.
+
+---
+
+## Radius Scale
+
+<TokenTable
+  tokens={[
+    { name: 'None', cssVar: '--radius-none', scssVar: '$radius-none', value: '0px', description: 'No radius – tables, dividers' },
+    { name: 'SM', cssVar: '--radius-sm', scssVar: '$radius-sm', value: '4px', description: 'Small – badges, tags, chips' },
+    { name: 'MD (default)', cssVar: '--radius-md', scssVar: '$radius-md', value: '8px', description: 'Medium – buttons, inputs, cards' },
+    { name: 'LG', cssVar: '--radius-lg', scssVar: '$radius-lg', value: '12px', description: 'Large – modals, drawers' },
+    { name: 'XL', cssVar: '--radius-xl', scssVar: '$radius-xl', value: '16px', description: 'Extra large – featured cards, hero sections' },
+    { name: 'Full', cssVar: '--radius-full', scssVar: '$radius-full', value: '9999px', description: 'Fully rounded – avatars, pills' },
+  ]}
+  renderExample={(t) => <RadiusBox radius={t.value} />}
+/>
+
+---
+
+## Usage
+
+```css
+/* CSS Custom Property */
+.card {
+  border-radius: var(--radius-md);
+}
+
+.avatar {
+  border-radius: var(--radius-full);
+}
+```
+
+```scss
+// SCSS Variable
+.card {
+  border-radius: $radius-md;
+}
+
+.avatar {
+  border-radius: $radius-full;
+}
+```

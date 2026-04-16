@@ -16,14 +16,14 @@
 export const VALIDATION_ERRORS = {
   // Email validation
   EMAIL_REQUIRED: 'Email is required',
-  EMAIL_INVALID: 'Please enter a valid email address',
+  EMAIL_INVALID: 'Email must include @ and domain (e.g., user@example.com)',
   EMAIL_TOO_LONG: 'Email must be less than 255 characters',
   
   // Password validation
   PASSWORD_REQUIRED: 'Password is required',
   PASSWORD_TOO_SHORT: 'Password must be at least 8 characters',
   PASSWORD_TOO_LONG: 'Password must be less than 128 characters',
-  PASSWORD_WEAK: 'Password must contain at least one uppercase letter, one lowercase letter, and one number',
+  PASSWORD_WEAK: 'Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character',
   PASSWORD_MISMATCH: 'Passwords must match',
   
   // Name validation
@@ -33,15 +33,29 @@ export const VALIDATION_ERRORS = {
   
   // Phone validation
   PHONE_REQUIRED: 'Phone number is required',
-  PHONE_INVALID: 'Please enter a valid phone number',
+  PHONE_INVALID: 'Phone must be 10 digits',
+  PHONE_INTERNATIONAL_INVALID: 'Please enter a valid international phone number',
   
   // Date validation
   DATE_REQUIRED: 'Date is required',
   DATE_INVALID: 'Please enter a valid date',
-  DATE_PAST: 'Date must be in the past',
-  DATE_FUTURE: 'Date must be in the future',
+  DATE_PAST: 'Date cannot be in the future',
+  DATE_FUTURE: 'Appointment date must be in the future',
+  DATE_AGE_18: 'Patient must be 18 or older',
+  DOB_REQUIRED: 'Date of birth is required',
   
+  // Insurance validation
+  INSURANCE_ID_REQUIRED: 'Insurance member ID is required',
+  INSURANCE_ID_INVALID: 'Invalid member ID format',
+  INSURANCE_ID_TOO_SHORT: 'Member ID must be at least 6 characters',
+  INSURANCE_ID_TOO_LONG: 'Member ID must be less than 15 characters',
+
+  // Async validation
+  ASYNC_VALIDATION_FAILED: 'Unable to validate - check connection',
+  USERNAME_TAKEN: 'Username is already taken',
+
   // General validation
+  REQUIRED_FIELD: 'This field is required',
   INVALID_INPUT: 'Please check your input and try again',
 } as const;
 

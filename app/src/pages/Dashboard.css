@@ -592,3 +592,1072 @@
     align-items: flex-start;
   }
 }
+
+/* ============================================================
+   PATIENT DASHBOARD (pd-*) — SCR-002 wireframe
+   ============================================================ */
+
+.pd-dashboard {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Quick-action cards — 3 across on desktop */
+.pd-quick-actions {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.pd-action-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 28px 20px;
+  background: var(--bg-primary);
+  border: 2px dashed var(--neutral-300);
+  border-radius: var(--radius-lg);
+  cursor: pointer;
+  text-align: center;
+  transition: border-color var(--transition), box-shadow var(--transition), background var(--transition);
+}
+
+.pd-action-card:hover,
+.pd-action-card:focus-visible {
+  border-color: var(--primary-600);
+  box-shadow: var(--shadow-2);
+  background: var(--primary-100);
+  outline: none;
+}
+
+.pd-action-card__icon {
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.pd-action-card__title {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--neutral-900);
+}
+
+.pd-action-card__desc {
+  margin: 0;
+  font-size: 0.8125rem;
+  color: var(--neutral-600);
+  line-height: 1.4;
+}
+
+/* Desktop two-column layout: appointments (2/3) + notifications (1/3) */
+.pd-content-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+/* Shared card wrapper */
+.pd-card {
+  background: var(--bg-primary);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-1);
+  overflow: hidden;
+}
+
+.pd-card__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--neutral-200);
+}
+
+.pd-card__title {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--neutral-900);
+}
+
+.pd-card__body {
+  padding: 16px 20px;
+}
+
+.pd-appointments-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Mobile/Tablet tabs */
+.pd-tabs {
+  display: flex;
+  border-bottom: 2px solid var(--neutral-200);
+  gap: 0;
+}
+
+.pd-tabs__tab {
+  flex: 1;
+  padding: 12px 16px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--neutral-600);
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px;
+  cursor: pointer;
+  transition: color var(--transition), border-color var(--transition);
+}
+
+.pd-tabs__tab:hover {
+  color: var(--neutral-900);
+}
+
+.pd-tabs__tab--active {
+  color: var(--primary-600);
+  border-bottom-color: var(--primary-600);
+  font-weight: 600;
+}
+
+/* Patient dashboard responsive */
+@media (max-width: 1023px) {
+  .pd-quick-actions {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+
+  .pd-action-card {
+    padding: 20px 12px;
+  }
+}
+
+@media (max-width: 767px) {
+  .pd-dashboard {
+    padding: 16px;
+    gap: 16px;
+  }
+
+  .pd-quick-actions {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .pd-content-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ============================================================
+   STAFF DASHBOARD (sd-*) — SCR-003 wireframe
+   ============================================================ */
+
+.sd-dashboard {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.sd-welcome {
+  margin-bottom: 0;
+}
+
+.sd-welcome__greeting {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--neutral-900);
+}
+
+.sd-welcome__subtitle {
+  margin: 4px 0 0;
+  font-size: 0.875rem;
+  color: var(--neutral-600);
+}
+
+/* 3 stat cards in a row */
+.sd-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.sd-stat-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 20px;
+  background: var(--bg-primary);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-1);
+  text-align: center;
+}
+
+.sd-stat-card__label {
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--neutral-600);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.sd-stat-card__value {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--neutral-900);
+  line-height: 1.2;
+}
+
+.sd-stat-card__value--blue  { color: #0066CC; }
+.sd-stat-card__value--green { color: #16A34A; }
+.sd-stat-card__value--orange { color: #EA580C; }
+.sd-stat-card__value--red   { color: #DC3545; }
+
+/* Section header */
+.sd-section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin: 0;
+}
+
+.sd-section-header__title {
+  margin: 0;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--neutral-900);
+}
+
+.sd-section-header__count {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--neutral-500);
+  letter-spacing: 0.05em;
+}
+
+/* Department card grid (2 columns on desktop) */
+.sd-dept-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.sd-dept-card {
+  background: var(--bg-primary);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-1);
+  overflow: hidden;
+}
+
+.sd-dept-card__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  background: var(--neutral-100);
+  border-bottom: 1px solid var(--neutral-200);
+}
+
+.sd-dept-card__name {
+  margin: 0;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--neutral-900);
+}
+
+.sd-dept-card__badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 24px;
+  height: 24px;
+  padding: 0 8px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--primary-600);
+  background: var(--primary-100);
+  border-radius: var(--radius-full);
+}
+
+/* Department table */
+.sd-dept-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.8125rem;
+}
+
+.sd-dept-table th {
+  text-align: left;
+  padding: 8px 12px;
+  font-weight: 600;
+  font-size: 0.75rem;
+  color: var(--neutral-600);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  border-bottom: 1px solid var(--neutral-200);
+}
+
+.sd-dept-table td {
+  padding: 10px 12px;
+  color: var(--neutral-800);
+  border-bottom: 1px solid var(--neutral-100);
+}
+
+.sd-dept-table tbody tr:hover {
+  background: var(--neutral-50);
+}
+
+.sd-patient-link {
+  color: var(--primary-600);
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.sd-patient-link:hover {
+  text-decoration: underline;
+}
+
+/* Status badges */
+.sd-status {
+  display: inline-block;
+  padding: 2px 8px;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  border-radius: var(--radius-full);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+/* ============================================================
+   Feature Flags UI — US_049 task_003
+   ============================================================ */
+
+/* --- Tab Navigation --- */
+.ad-tabs {
+  display: flex;
+  gap: 0;
+  border-bottom: 2px solid var(--neutral-200);
+  margin: 0 1.5rem 1.5rem;
+}
+
+.ad-tabs__btn {
+  padding: 0.75rem 1.25rem;
+  border: none;
+  background: none;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--neutral-600);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px;
+  transition: color var(--transition), border-color var(--transition);
+}
+
+.ad-tabs__btn:hover {
+  color: var(--primary-600);
+}
+
+.ad-tabs__btn--active {
+  color: var(--primary-600);
+  border-bottom-color: var(--primary-600);
+  font-weight: 600;
+}
+
+.ad-tab-content {
+  padding: 0 1.5rem 1.5rem;
+}
+
+/* --- Feature Flags Table --- */
+.ff-table-wrapper {
+  position: relative;
+}
+
+.ff-table {
+  width: 100%;
+}
+
+.ff-table__name {
+  font-weight: 600;
+  font-family: 'Fira Code', 'Consolas', monospace;
+  font-size: 0.8125rem;
+}
+
+.ff-table__value {
+  font-family: 'Fira Code', 'Consolas', monospace;
+  font-size: 0.8125rem;
+}
+
+.ff-table__actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+/* --- Toggle Switch --- */
+.ff-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+}
+
+.ff-toggle__input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.ff-toggle__slider {
+  position: relative;
+  display: inline-block;
+  width: 40px;
+  height: 22px;
+  background: var(--neutral-400);
+  border-radius: 11px;
+  transition: background var(--transition);
+}
+
+.ff-toggle__slider::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 18px;
+  height: 18px;
+  background: #fff;
+  border-radius: 50%;
+  transition: transform var(--transition);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+.ff-toggle__input:checked + .ff-toggle__slider {
+  background: #2E7D32;
+}
+
+.ff-toggle__input:checked + .ff-toggle__slider::after {
+  transform: translateX(18px);
+}
+
+.ff-toggle__input:focus-visible + .ff-toggle__slider {
+  outline: 2px solid var(--primary-600);
+  outline-offset: 2px;
+}
+
+.ff-toggle__label {
+  font-size: 0.875rem;
+  color: var(--neutral-700);
+}
+
+.ff-toggle--sm .ff-toggle__slider {
+  width: 34px;
+  height: 18px;
+  border-radius: 9px;
+}
+
+.ff-toggle--sm .ff-toggle__slider::after {
+  width: 14px;
+  height: 14px;
+  top: 2px;
+}
+
+.ff-toggle--sm .ff-toggle__input:checked + .ff-toggle__slider::after {
+  transform: translateX(16px);
+}
+
+/* --- Badges --- */
+.ff-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.ff-badge--neutral {
+  background: var(--neutral-100);
+  color: var(--neutral-700);
+}
+
+.ff-badge--success {
+  background: #E8F5E9;
+  color: #2E7D32;
+}
+
+/* --- Modals --- */
+.ff-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.ff-modal {
+  background: #fff;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-2);
+  width: 90%;
+  max-width: 520px;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.ff-modal--analytics {
+  max-width: 700px;
+}
+
+.ff-modal__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid var(--neutral-200);
+}
+
+.ff-modal__title {
+  margin: 0;
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+
+.ff-modal__close {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: var(--neutral-500);
+  cursor: pointer;
+  line-height: 1;
+  padding: 0 0.25rem;
+}
+
+.ff-modal__close:hover {
+  color: var(--neutral-900);
+}
+
+.ff-modal__body {
+  padding: 1.25rem;
+}
+
+.ff-modal__impact {
+  margin-top: 0.5rem;
+  color: var(--error-600);
+  font-weight: 500;
+}
+
+.ff-modal__footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  padding: 1rem 1.25rem;
+  border-top: 1px solid var(--neutral-200);
+}
+
+/* --- Form Elements --- */
+.ff-form-group {
+  margin-bottom: 1rem;
+}
+
+.ff-label {
+  display: block;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--neutral-700);
+  margin-bottom: 0.375rem;
+}
+
+.ff-input {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--neutral-300);
+  border-radius: var(--radius-sm);
+  font-size: 0.875rem;
+  font-family: inherit;
+  color: var(--neutral-900);
+  transition: border-color var(--transition);
+  box-sizing: border-box;
+}
+
+.ff-input:focus {
+  outline: none;
+  border-color: var(--primary-600);
+  box-shadow: 0 0 0 2px rgba(0,102,204,0.15);
+}
+
+.ff-input--readonly {
+  background: var(--neutral-100);
+  color: var(--neutral-600);
+  cursor: default;
+}
+
+.ff-textarea {
+  resize: vertical;
+  min-height: 3rem;
+}
+
+.ff-select {
+  appearance: auto;
+}
+
+/* --- Slider --- */
+.ff-slider {
+  width: 100%;
+  height: 6px;
+  -webkit-appearance: none;
+  appearance: none;
+  background: var(--neutral-200);
+  border-radius: 3px;
+  outline: none;
+  margin-top: 0.5rem;
+}
+
+.ff-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--primary-600);
+  cursor: pointer;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+}
+
+.ff-slider::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--primary-600);
+  cursor: pointer;
+  border: none;
+}
+
+.ff-slider-preview {
+  margin-top: 0.375rem;
+  font-size: 0.8125rem;
+  color: var(--neutral-600);
+  font-style: italic;
+}
+
+/* --- Analytics --- */
+.ff-analytics-section {
+  margin-bottom: 1.5rem;
+}
+
+.ff-analytics-section__title {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+}
+
+.ff-analytics-table {
+  width: 100%;
+}
+
+.ff-chart {
+  border: 1px solid var(--neutral-200);
+  border-radius: var(--radius-md);
+  padding: 1rem;
+  overflow-x: auto;
+}
+
+.ff-chart__bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  height: 120px;
+}
+
+.ff-chart__bar-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 14px;
+  height: 100%;
+  justify-content: flex-end;
+}
+
+.ff-chart__bar {
+  width: 100%;
+  background: var(--primary-600);
+  border-radius: 2px 2px 0 0;
+  min-height: 2px;
+  transition: height 0.3s ease;
+}
+
+.ff-chart__bar-label {
+  font-size: 0.5625rem;
+  color: var(--neutral-500);
+  margin-top: 4px;
+  writing-mode: vertical-lr;
+  transform: rotate(180deg);
+  max-height: 40px;
+  overflow: hidden;
+}
+
+/* --- Error Rate Card --- */
+.ff-error-card {
+  padding: 1rem;
+  border-radius: var(--radius-md);
+  font-size: 0.875rem;
+}
+
+.ff-error-card--ok {
+  background: #E8F5E9;
+  color: #2E7D32;
+}
+
+.ff-error-card--warn {
+  background: #FFF3E0;
+  color: #E65100;
+}
+
+.ff-error-card__icon {
+  margin-right: 0.5rem;
+  font-weight: 700;
+}
+
+.ff-error-card__icon--ok { color: #2E7D32; }
+.ff-error-card__icon--warn { color: #E65100; }
+
+/* --- Toast --- */
+.ff-toast-stack {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 1100;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  max-width: 360px;
+}
+
+.ff-toast {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--primary-100);
+  border: 1px solid var(--primary-600);
+  border-radius: var(--radius-md);
+  padding: 0.75rem 1rem;
+  box-shadow: var(--shadow-2);
+  animation: ff-toast-slide 0.3s ease;
+}
+
+@keyframes ff-toast-slide {
+  from { transform: translateX(100%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+.ff-toast__icon {
+  font-weight: 700;
+  color: var(--primary-600);
+}
+
+.ff-toast__message {
+  flex: 1;
+  font-size: 0.8125rem;
+  color: var(--neutral-800);
+}
+
+.ff-toast__dismiss {
+  background: none;
+  border: none;
+  font-size: 1.125rem;
+  color: var(--neutral-500);
+  cursor: pointer;
+  padding: 0;
+}
+
+/* --- Skeleton Loading --- */
+.ff-skeleton__row {
+  height: 40px;
+  background: linear-gradient(90deg, var(--neutral-100) 25%, var(--neutral-200) 50%, var(--neutral-100) 75%);
+  background-size: 200% 100%;
+  animation: ff-shimmer 1.5s infinite;
+  border-radius: var(--radius-sm);
+  margin-bottom: 0.5rem;
+}
+
+@keyframes ff-shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* --- Empty & Error --- */
+.ff-empty,
+.ff-error,
+.ff-loading {
+  padding: 2rem;
+  text-align: center;
+  color: var(--neutral-500);
+  font-size: 0.9375rem;
+}
+
+.ff-error {
+  color: var(--error-600);
+}
+
+/* --- Buttons --- */
+.btn--danger {
+  background: var(--error-600);
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1.25rem;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.btn--danger:hover {
+  background: #C82333;
+}
+
+.btn--sm {
+  padding: 0.25rem 0.625rem;
+  font-size: 0.8125rem;
+}
+
+/* --- Mobile card layout --- */
+.ff-mobile-view {
+  display: none;
+}
+
+.ff-desktop-view {
+  display: block;
+  overflow-x: auto;
+}
+
+.ff-card {
+  background: #fff;
+  border: 1px solid var(--neutral-200);
+  border-radius: var(--radius-md);
+  padding: 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.ff-card__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.ff-card__name {
+  font-weight: 600;
+  font-family: 'Fira Code', 'Consolas', monospace;
+  font-size: 0.8125rem;
+}
+
+.ff-card__desc {
+  font-size: 0.8125rem;
+  color: var(--neutral-600);
+  margin: 0 0 0.5rem;
+}
+
+.ff-card__meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  color: var(--neutral-500);
+  margin-bottom: 0.375rem;
+}
+
+.ff-card__actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+/* --- Responsive --- */
+@media (max-width: 768px) {
+  .ff-desktop-view {
+    display: none;
+  }
+  .ff-mobile-view {
+    display: block;
+  }
+  .ad-tabs {
+    margin: 0 1rem 1rem;
+  }
+  .ad-tab-content {
+    padding: 0 1rem 1rem;
+  }
+  .ff-modal {
+    width: 95%;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .ff-desktop-view {
+    overflow-x: auto;
+  }
+}
+
+.sd-status--completed {
+  background: #DCFCE7;
+  color: #166534;
+}
+
+.sd-status--arrived {
+  background: #DBEAFE;
+  color: #1E40AF;
+}
+
+.sd-status--pending {
+  background: #FEF3C7;
+  color: #92400E;
+}
+
+.sd-status--scheduled {
+  background: var(--neutral-100);
+  color: var(--neutral-700);
+}
+
+/* Staff dashboard responsive */
+@media (max-width: 1023px) {
+  .sd-dept-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 767px) {
+  .sd-dashboard {
+    padding: 16px;
+    gap: 16px;
+  }
+
+  .sd-stats {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .sd-stat-card {
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 14px 16px;
+  }
+
+  .sd-stat-card__value {
+    font-size: 1.5rem;
+  }
+
+  .sd-welcome__greeting {
+    font-size: 1.25rem;
+  }
+
+  .sd-dept-table {
+    font-size: 0.75rem;
+  }
+
+  .sd-dept-table th,
+  .sd-dept-table td {
+    padding: 6px 8px;
+  }
+}
+
+/* ============================================================
+   ADMIN DASHBOARD (ad-*) — SCR-004 wireframe
+   ============================================================ */
+
+.ad-dashboard {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.ad-header {
+  margin-bottom: 0;
+}
+
+.ad-header__title {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--neutral-900);
+}
+
+.ad-header__subtitle {
+  margin: 4px 0 0;
+  font-size: 0.875rem;
+  color: var(--neutral-600);
+}
+
+/* 4 stat cards in a row */
+.ad-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+/* Desktop content grid: users (2/3) + logs (1/3) */
+.ad-content-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+/* Table styling inside admin cards */
+.ad-table {
+  width: 100%;
+}
+
+/* Role badges */
+.ad-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  border-radius: var(--radius-full);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.ad-badge--staff {
+  background: #DBEAFE;
+  color: #1E40AF;
+}
+
+.ad-badge--admin {
+  background: #F3E8FF;
+  color: #6B21A8;
+}
+
+.ad-badge--patient {
+  background: #DCFCE7;
+  color: #166534;
+}
+
+/* Admin dashboard responsive */
+@media (max-width: 1023px) {
+  .ad-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .ad-content-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 767px) {
+  .ad-dashboard {
+    padding: 16px;
+    gap: 16px;
+  }
+
+  .ad-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .ad-header__title {
+    font-size: 1.25rem;
+  }
+}

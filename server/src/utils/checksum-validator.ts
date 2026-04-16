@@ -42,6 +42,9 @@ export class ChecksumValidator {
     expectedChecksum: string,
     algorithm: string = 'md5',
   ): Promise<boolean> {
+    if (!/^[0-9a-f]+$/i.test(expectedChecksum)) {
+      throw new Error('expectedChecksum must be a valid hex string');
+    }
     const actualChecksum = await this.calculateChecksum(filePath, algorithm);
     if (actualChecksum.length !== expectedChecksum.length) {
       return false;

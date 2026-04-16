@@ -1,0 +1,7 @@
+[     656ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=4d0bdab6:20102
+[   48089ms] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized) @ http://localhost:3001/api/auth/login:0
+[   48091ms] [ERROR] [API Error] {message: An unexpected error occurred. Please try again., statusCode: undefined, errorCode: undefined, retryable: false, validationErrors: undefined} @ http://localhost:5173/src/utils/api/errorHandler.ts:84
+[   48092ms] [ERROR] Login failed: An unexpected error occurred. Please try again. @ http://localhost:5173/src/pages/LoginPage.tsx:52
+[   75780ms] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized) @ http://localhost:3001/api/auth/login:0
+[   75782ms] [ERROR] [API Error] {message: An unexpected error occurred. Please try again., statusCode: undefined, errorCode: undefined, retryable: false, validationErrors: undefined} @ http://localhost:5173/src/utils/api/errorHandler.ts:84
+[   75782ms] [ERROR] Login failed: An unexpected error occurred. Please try again. @ http://localhost:5173/src/pages/LoginPage.tsx:52

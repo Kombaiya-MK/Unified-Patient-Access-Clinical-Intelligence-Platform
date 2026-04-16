@@ -141,11 +141,11 @@ npm run test:a11y:report
 ```
 
 ## Implementation Checklist
-- [ ] Install accessibility testing dependencies: @axe-core/playwright and pa11y-ci for automated WCAG AA contrast validation
-- [ ] Create contrast-validation.spec.ts Playwright test using AxeBuilder with wcag2aa tags, filtering for color-contrast violations only
-- [ ] Create .pa11yci.json config with WCAG2AA standard and urls list covering all app routes (/, /dashboard, /appointments, /profile, /admin)
-- [ ] Create contrast-report.js script to parse axe violations and generate HTML report showing component selector, current contrast, required ratio, and suggested token fix
-- [ ] Create GitHub Actions workflow (accessibility.yml) to run tests on PR: checkout → setup Node → npm ci → npm run build → npm run dev (background) → npm run test:a11y
-- [ ] Add CI failure annotations using actions/github-script to comment on PR with contrast violation details (component, contrast ratio, fix)
-- [ ] Add npm scripts: "test:a11y" (run Playwright a11y tests) and "test:a11y:report" (generate contrast report) to package.json
-- [ ] Test validation: Run npm run test:a11y locally on compliant app (pass), then test with intentional low contrast color #888888 on #FFFFFF (fail with clear error)
+- [x] Install accessibility testing dependencies: @axe-core/playwright and pa11y-ci for automated WCAG AA contrast validation
+- [x] Create contrast-validation.spec.ts Playwright test using AxeBuilder with wcag2aa tags, filtering for color-contrast violations only
+- [x] Create .pa11yci.json config with WCAG2AA standard and urls list covering all app routes (/, /dashboard, /appointments, /profile, /admin)
+- [x] Create contrast-report.js script to parse axe violations and generate HTML report showing component selector, current contrast, required ratio, and suggested token fix
+- [x] Create GitHub Actions workflow (accessibility.yml) to run tests on PR: checkout → setup Node → npm ci → npm run build → npm run dev (background) → npm run test:a11y
+- [x] Add CI failure annotations using actions/github-script to comment on PR with contrast violation details (component, contrast ratio, fix)
+- [x] Add npm scripts: "test:a11y" (run Playwright a11y tests) and "test:a11y:report" (generate contrast report) to package.json
+- [x] Test validation: Run npm run test:a11y locally on compliant app (pass), then test with intentional low contrast color #888888 on #FFFFFF (fail with clear error)

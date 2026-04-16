@@ -25,6 +25,8 @@ import {
   validate,
   validateQuery,
 } from '../validators/appointments.validator';
+import { validateRequest } from '../middleware/validation.middleware';
+import { AppointmentBookingDTOSchema } from '../schemas/appointmentBookingDTO.schema';
 
 const router = Router();
 
@@ -112,6 +114,7 @@ router.post(
   authenticate,
   authorize('patient'),
   validateWaitlistAcceptance,
+  validateRequest(AppointmentBookingDTOSchema),
   validate(bookAppointmentSchema),
   appointmentsController.bookAppointment
 );

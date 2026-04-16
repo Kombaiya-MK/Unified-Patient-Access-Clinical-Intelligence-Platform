@@ -36,3 +36,17 @@ describe('AIFallbackAlert', () => {
     expect(screen.getByText('Using Basic Validation')).toBeInTheDocument();
   });
 });
+
+describe('AIFallbackAlert Accessibility', () => {
+  it('has no axe accessibility violations when active', async () => {
+    const { container } = render(<AIFallbackAlert service="ai-intake" isActive={true} />);
+    const { expectNoA11yViolations } = await import('../../src/utils/accessibility-testing');
+    await expectNoA11yViolations(container);
+  });
+
+  it('has no axe accessibility violations when inactive', async () => {
+    const { container } = render(<AIFallbackAlert service="ai-intake" isActive={false} />);
+    const { expectNoA11yViolations } = await import('../../src/utils/accessibility-testing');
+    await expectNoA11yViolations(container);
+  });
+});

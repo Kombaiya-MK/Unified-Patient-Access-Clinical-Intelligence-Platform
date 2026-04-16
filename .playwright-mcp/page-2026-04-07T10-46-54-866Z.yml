@@ -1,0 +1,101 @@
+- generic [ref=e3]:
+  - link "Skip to main content" [ref=e4] [cursor=pointer]:
+    - /url: "#main-content"
+  - banner [ref=e5]:
+    - generic [ref=e6]:
+      - button "Open navigation menu" [ref=e176] [cursor=pointer]:
+        - img [ref=e177]
+      - link "UPACI" [ref=e7] [cursor=pointer]:
+        - /url: /patient/dashboard
+    - generic [ref=e9]:
+      - button "Notifications" [ref=e10] [cursor=pointer]:
+        - img [ref=e11]
+      - 'generic "User: Michael Brown" [ref=e15]': MB
+  - main [ref=e49]:
+    - generic [ref=e50]:
+      - banner "Welcome banner" [ref=e51]:
+        - generic [ref=e52]:
+          - generic [ref=e53]:
+            - heading "Good afternoon, Michael Brown!" [level=2] [ref=e54]
+            - paragraph [ref=e55]: Manage your appointments and view your medical information
+          - generic [ref=e56]:
+            - generic "Profile photo for Michael Brown" [ref=e57] [cursor=pointer]:
+              - generic "User initials" [ref=e58]: MB
+            - button "Log out of your account" [ref=e59] [cursor=pointer]:
+              - generic [ref=e60]: 🚪
+              - generic [ref=e61]: Logout
+      - region "Quick actions" [ref=e62]:
+        - heading "Quick Actions" [level=2] [ref=e63]
+        - generic [ref=e64]:
+          - button "Book a new appointment" [ref=e65] [cursor=pointer]:
+            - img [ref=e67]
+            - generic [ref=e70]: Book Appointment
+          - button "Upload medical documents" [ref=e71] [cursor=pointer]:
+            - img [ref=e73]
+            - generic [ref=e76]: Upload Documents
+          - button "Start AI-assisted patient intake" [ref=e77] [cursor=pointer]:
+            - img [ref=e79]
+            - generic [ref=e81]: AI Intake
+          - button "Complete manual intake form" [ref=e82] [cursor=pointer]:
+            - img [ref=e84]
+            - generic [ref=e87]: Manual Intake
+      - region "My appointments" [ref=e88]:
+        - generic [ref=e89]:
+          - heading "My Appointments" [level=2] [ref=e90]
+          - button "Refresh appointments" [ref=e91] [cursor=pointer]: Refresh
+        - alert [ref=e126]:
+          - strong [ref=e127]: "Error:"
+          - text: Request failed with status code 401
+          - button "Try Again" [ref=e128] [cursor=pointer]
+      - region "My Waitlist" [ref=e98]:
+        - generic [ref=e99]:
+          - generic [ref=e100]:
+            - img [ref=e101]
+            - heading "My Waitlist" [level=2] [ref=e104]
+          - button "Refresh waitlist entries" [ref=e105] [cursor=pointer]:
+            - img [ref=e106]
+        - generic [ref=e129]:
+          - img [ref=e130]
+          - heading "No Active Waitlist Entries" [level=3] [ref=e133]
+          - paragraph [ref=e134]: When you join a waitlist for a fully booked appointment slot, it will appear here. We'll notify you if the slot becomes available.
+  - dialog "Navigation menu" [ref=e179]:
+    - generic [ref=e180]:
+      - generic [ref=e181]: UPACI
+      - button "Close navigation menu" [active] [ref=e182] [cursor=pointer]:
+        - img [ref=e183]
+    - navigation "Navigation menu" [ref=e185]:
+      - link "Dashboard" [ref=e186] [cursor=pointer]:
+        - /url: /patient/dashboard
+        - img [ref=e188]
+        - generic [ref=e193]: Dashboard
+      - link "Book Appointment" [ref=e194] [cursor=pointer]:
+        - /url: /appointments/book
+        - img [ref=e196]
+        - generic [ref=e198]: Book Appointment
+      - link "Patient Intake" [ref=e199] [cursor=pointer]:
+        - /url: /intake/ai
+        - img [ref=e201]
+        - generic [ref=e203]: Patient Intake
+      - link "Manual Intake" [ref=e204] [cursor=pointer]:
+        - /url: /intake/manual
+        - img [ref=e206]
+        - generic [ref=e208]: Manual Intake
+    - button "Logout" [ref=e210] [cursor=pointer]:
+      - img [ref=e212]
+      - generic [ref=e215]: Logout
+  - navigation "Bottom navigation" [ref=e216]:
+    - link "Dashboard" [ref=e217] [cursor=pointer]:
+      - /url: /patient/dashboard
+      - img [ref=e219]
+      - generic [ref=e224]: Dashboard
+    - link "Book Appointment" [ref=e225] [cursor=pointer]:
+      - /url: /appointments/book
+      - img [ref=e227]
+      - generic [ref=e229]: Book Appointment
+    - link "Patient Intake" [ref=e230] [cursor=pointer]:
+      - /url: /intake/ai
+      - img [ref=e232]
+      - generic [ref=e234]: Patient Intake
+    - button "Open navigation menu" [ref=e235] [cursor=pointer]:
+      - img [ref=e237]
+      - generic [ref=e241]: More

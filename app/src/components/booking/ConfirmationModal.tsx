@@ -19,6 +19,7 @@
  */
 
 import React, { useEffect, useRef } from 'react';
+import { useFocusTrap } from '../../utils/focus-management';
 import type { Appointment } from '../../types/appointment.types';
 import type { CalendarSyncStatus } from '../../hooks/useBookingConfirmation';
 import './ConfirmationModal.css';
@@ -153,7 +154,7 @@ export const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
   onClose,
   onRetrySync,
 }) => {
-  const modalRef = useRef<HTMLDivElement>(null);
+  const modalRef = useFocusTrap<HTMLDivElement>(!!appointment);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
 
   // Handle Esc key to close modal
@@ -170,46 +171,6 @@ export const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
       document.removeEventListener('keydown', handleEscape);
     };
   }, [onClose]);
-
-  // Focus trap: Keep focus within modal
-  useEffect(() => {
-    const modalElement = modalRef.current;
-    if (!modalElement) return;
-
-    const focusableElements = modalElement.querySelectorAll<HTMLElement>(
-      'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
-    );
-
-    const firstElement = focusableElements[0];
-    const lastElement = focusableElements[focusableElements.length - 1];
-
-    const handleTab = (event: KeyboardEvent) => {
-      if (event.key !== 'Tab') return;
-
-      if (event.shiftKey) {
-        // Shift + Tab
-        if (document.activeElement === firstElement) {
-          event.preventDefault();
-          lastElement?.focus();
-        }
-      } else {
-        // Tab
-        if (document.activeElement === lastElement) {
-          event.preventDefault();
-          firstElement?.focus();
-        }
-      }
-    };
-
-    document.addEventListener('keydown', handleTab);
-    
-    // Focus first element (close button) on mount
-    closeButtonRef.current?.focus();
-
-    return () => {
-      document.removeEventListener('keydown', handleTab);
-    };
-  }, []);
 
   // Prevent body scroll when modal is open
   useEffect(() => {
@@ -228,12 +189,10 @@ export const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
     appointmentDate,
     startTime,
     endTime,
-    // Assuming these properties exist on Appointment type based on the service
-    // If not, adjust according to actual type definition
-  } = appointment as any;
+  } = appointment;
 
-  const providerName = appointment.providerId || 'Provider';
-  const departmentName = appointment.departmentId || 'Department';
+  const providerName = appointment.providerName || `Provider #${appointment.providerId}`;
+  const departmentName = appointment.departmentName || `Department #${appointment.departmentId}`;
 
   return (
     <div
@@ -274,7 +233,7 @@ export const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
             </div>
             <div className="detail-row">
               <strong>Time:</strong>
-              <span>{formatTime(startTime)} - {formatTime(endTime)}</span>
+              <span>{startTime ? formatTime(startTime) : '-'}{endTime ? ` - ${formatTime(endTime)}` : ''}</span>
             </div>
             <div className="detail-row">
               <strong>Provider:</strong>

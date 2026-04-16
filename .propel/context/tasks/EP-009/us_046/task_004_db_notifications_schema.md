@@ -145,11 +145,11 @@ psql -U postgres -d appointment_platform -c "\d UserNotificationPreferences"
 ```
 
 ## Implementation Checklist
-- [ ] Create V008 migration: CREATE TYPE notification_type ENUM, CREATE TYPE notification_priority ENUM, CREATE TABLE Notifications (notification_id UUID PK, user_id FK Users, type, title, message, priority, read_status, created_at, read_at, action_url)
-- [ ] Create UserNotificationPreferences table: user_id UUID PK FK Users ON DELETE CASCADE, preferences JSONB DEFAULT '{"appointment": true, "medication": true, "system": true, "waitlist": true}', updated_at timestamp
-- [ ] Create V009 migration with indexes: Composite index (user_id, created_at DESC), index (user_id, read_status), index (user_id, type), index on UserNotificationPreferences(user_id)
-- [ ] Add foreign key constraints: user_id references Users(user_id) ON DELETE CASCADE for both tables, ensure referential integrity
-- [ ] Create fn_archive_old_notifications stored function: DELETE FROM Notifications WHERE read_status = true AND created_at < NOW() - INTERVAL '90 days', keep unread notifications
-- [ ] Implement set_read_at_timestamp trigger function: BEFORE UPDATE trigger sets read_at = NOW() when read_status changes from false to true
-- [ ] Add rollback script: DROP TRIGGER, DROP FUNCTION, DROP TABLE UserNotificationPreferences/Notifications CASCADE, DROP TYPE notification_priority/notification_type for safe downgrade
-- [ ] Document schema: Add README with query examples (missed notifications, unread count, mark as read), performance benchmarks (<50ms), retention policy (90 days), JSONB preference structure
+- [x] Create V008 migration: CREATE TYPE notification_type ENUM, CREATE TYPE notification_priority ENUM, CREATE TABLE Notifications (notification_id UUID PK, user_id FK Users, type, title, message, priority, read_status, created_at, read_at, action_url)
+- [x] Create UserNotificationPreferences table: user_id UUID PK FK Users ON DELETE CASCADE, preferences JSONB DEFAULT '{"appointment": true, "medication": true, "system": true, "waitlist": true}', updated_at timestamp
+- [x] Create V009 migration with indexes: Composite index (user_id, created_at DESC), index (user_id, read_status), index (user_id, type), index on UserNotificationPreferences(user_id)
+- [x] Add foreign key constraints: user_id references Users(user_id) ON DELETE CASCADE for both tables, ensure referential integrity
+- [x] Create fn_archive_old_notifications stored function: DELETE FROM Notifications WHERE read_status = true AND created_at < NOW() - INTERVAL '90 days', keep unread notifications
+- [x] Implement set_read_at_timestamp trigger function: BEFORE UPDATE trigger sets read_at = NOW() when read_status changes from false to true
+- [x] Add rollback script: DROP TRIGGER, DROP FUNCTION, DROP TABLE UserNotificationPreferences/Notifications CASCADE, DROP TYPE notification_priority/notification_type for safe downgrade
+- [x] Document schema: Add README with query examples (missed notifications, unread count, mark as read), performance benchmarks (<50ms), retention policy (90 days), JSONB preference structure

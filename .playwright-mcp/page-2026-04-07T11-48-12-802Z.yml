@@ -1,0 +1,124 @@
+- generic [ref=e47]:
+  - link "Skip to main content" [ref=e48] [cursor=pointer]:
+    - /url: "#main-content"
+  - banner [ref=e49]:
+    - generic [ref=e50]:
+      - link "UPACI" [ref=e51] [cursor=pointer]:
+        - /url: /patient/dashboard
+      - generic [ref=e52]: patient
+    - generic [ref=e53]:
+      - button "Notifications" [ref=e54] [cursor=pointer]:
+        - img [ref=e55]
+      - 'generic "User: Jennifer Davis" [ref=e59]': JD
+  - generic [ref=e60]:
+    - navigation "Main navigation" [ref=e61]:
+      - navigation [ref=e62]:
+        - link "Dashboard" [ref=e63] [cursor=pointer]:
+          - /url: /patient/dashboard
+          - img [ref=e65]
+          - generic [ref=e70]: Dashboard
+        - link "Book Appointment" [ref=e71] [cursor=pointer]:
+          - /url: /appointments/book
+          - img [ref=e73]
+          - generic [ref=e75]: Book Appointment
+        - link "Patient Intake" [ref=e76] [cursor=pointer]:
+          - /url: /intake/ai
+          - img [ref=e78]
+          - generic [ref=e80]: Patient Intake
+        - link "Manual Intake" [ref=e81] [cursor=pointer]:
+          - /url: /intake/manual
+          - img [ref=e83]
+          - generic [ref=e85]: Manual Intake
+      - button "Logout" [ref=e87] [cursor=pointer]:
+        - img [ref=e89]
+        - generic [ref=e92]: Logout
+    - main [ref=e93]:
+      - generic [ref=e94]:
+        - banner "Welcome banner" [ref=e95]:
+          - generic [ref=e96]:
+            - generic [ref=e97]:
+              - heading "Good afternoon, Jennifer Davis!" [level=2] [ref=e98]
+              - paragraph [ref=e99]: Manage your appointments and view your medical information
+            - generic [ref=e100]:
+              - generic "Profile photo for Jennifer Davis" [ref=e101] [cursor=pointer]:
+                - generic "User initials" [ref=e102]: JD
+              - button "Log out of your account" [ref=e103] [cursor=pointer]:
+                - generic [ref=e104]: 🚪
+                - generic [ref=e105]: Logout
+        - region "Quick actions" [ref=e106]:
+          - heading "Quick Actions" [level=2] [ref=e107]
+          - generic [ref=e108]:
+            - button "Book a new appointment" [ref=e109] [cursor=pointer]:
+              - img [ref=e111]
+              - generic [ref=e114]: Book Appointment
+            - button "Upload medical documents" [ref=e115] [cursor=pointer]:
+              - img [ref=e117]
+              - generic [ref=e120]: Upload Documents
+            - button "Start AI-assisted patient intake" [ref=e121] [cursor=pointer]:
+              - img [ref=e123]
+              - generic [ref=e125]: AI Intake
+            - button "Complete manual intake form" [ref=e126] [cursor=pointer]:
+              - img [ref=e128]
+              - generic [ref=e131]: Manual Intake
+        - region "My appointments" [ref=e132]:
+          - generic [ref=e133]:
+            - heading "My Appointments" [level=2] [ref=e134]
+            - button "Refresh appointments" [ref=e135] [cursor=pointer]: Refresh
+          - generic [ref=e136]:
+            - paragraph [ref=e137]: No upcoming appointments
+            - button "Book Your First Appointment" [ref=e138] [cursor=pointer]
+        - region "My Waitlist" [ref=e139]:
+          - generic [ref=e140]:
+            - generic [ref=e141]:
+              - img [ref=e142]
+              - heading "My Waitlist" [level=2] [ref=e145]
+            - button "Refresh waitlist entries" [ref=e146] [cursor=pointer]:
+              - img [ref=e147]
+          - generic [ref=e151]:
+            - img [ref=e152]
+            - heading "No Active Waitlist Entries" [level=3] [ref=e155]
+            - paragraph [ref=e156]: When you join a waitlist for a fully booked appointment slot, it will appear here. We'll notify you if the slot becomes available.
+        - generic [ref=e157]:
+          - generic [ref=e158]:
+            - generic [ref=e159]:
+              - img [ref=e160]
+              - generic "3 unread notifications" [ref=e163]: "3"
+            - heading "Notifications" [level=3] [ref=e164]
+          - generic [ref=e165]:
+            - button "Appointment Confirmed. Your appointment with Dr. Sarah Johnson on March 25, 2026 at 2:30 PM has been confirmed.. 2h ago. Unread" [ref=e166] [cursor=pointer]:
+              - generic [ref=e168]: 📅
+              - generic [ref=e169]:
+                - generic [ref=e170]:
+                  - heading "Appointment Confirmed" [level=4] [ref=e171]
+                  - generic "Unread" [ref=e172]
+                - paragraph [ref=e173]: Your appointment with Dr. Sarah Johnson on March 25, 2026 at 2:30 PM has been confirmed.
+                - text: 2h ago
+            - button "Lab Results Available. Your lab results from March 15, 2026 are now available to view.. 5h ago. Unread" [ref=e174] [cursor=pointer]:
+              - generic [ref=e176]: 📊
+              - generic [ref=e177]:
+                - generic [ref=e178]:
+                  - heading "Lab Results Available" [level=4] [ref=e179]
+                  - generic "Unread" [ref=e180]
+                - paragraph [ref=e181]: Your lab results from March 15, 2026 are now available to view.
+                - text: 5h ago
+            - button "Medication Refill Reminder. Your prescription for Lisinopril is due for refill in 3 days.. 1d ago. Read" [ref=e182] [cursor=pointer]:
+              - generic [ref=e184]: 💊
+              - generic [ref=e185]:
+                - heading "Medication Refill Reminder" [level=4] [ref=e187]
+                - paragraph [ref=e188]: Your prescription for Lisinopril is due for refill in 3 days.
+                - text: 1d ago
+            - button "Intake Form Completed. Thank you for completing your patient intake form. Your provider will review it before your visit.. 2d ago. Read" [ref=e189] [cursor=pointer]:
+              - generic [ref=e191]: ✅
+              - generic [ref=e192]:
+                - heading "Intake Form Completed" [level=4] [ref=e194]
+                - paragraph [ref=e195]: Thank you for completing your patient intake form. Your provider will review it before your visit.
+                - text: 2d ago
+            - 'button "Appointment Reminder. Reminder: You have an appointment tomorrow at 10:00 AM with Dr. Michael Chen.. 3d ago. Unread" [ref=e196] [cursor=pointer]':
+              - generic [ref=e198]: ⏰
+              - generic [ref=e199]:
+                - generic [ref=e200]:
+                  - heading "Appointment Reminder" [level=4] [ref=e201]
+                  - generic "Unread" [ref=e202]
+                - paragraph [ref=e203]: "Reminder: You have an appointment tomorrow at 10:00 AM with Dr. Michael Chen."
+                - text: 3d ago
+          - button "View all notifications" [ref=e205] [cursor=pointer]: View All Notifications

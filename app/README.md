@@ -194,6 +194,19 @@ npm run lint
 - **ESLint** - Code linting
 - **Prettier** - Code formatting
 
+## ♿ Accessibility
+
+[![WCAG 2.2 AA](https://img.shields.io/badge/WCAG-2.2%20AA-green)](https://www.w3.org/WAI/WCAG22/quickref/)
+
+This platform conforms to **WCAG 2.2 Level AA** standards.
+
+- [Accessibility Statement](../.propel/docs/accessibility-statement.md)
+- [Testing Guide](docs/accessibility-testing-guide.md)
+- [Testing Results](docs/accessibility-testing-results.md)
+- [Wave Validation Report](docs/wave-validation-report.md)
+- [Color Contrast Report](docs/color-contrast-report.md)
+- [Best Practices](docs/accessibility-best-practices.md)
+
 ## 🔗 Related Documentation
 
 - [React Documentation](https://react.dev/)

@@ -16,12 +16,52 @@ import {
   getConversationContext,
 } from './openai/openAiService';
 import { deleteContext, loadContext } from './openai/conversationContextService';
+import { featureFlagService } from './featureFlagService';
+import { validateModel } from '../utils/modelValidator';
+import type { FlagEvaluationContext } from '../config/featureFlags';
 import type {
   ConversationStatus,
   IntakeMode,
   AIIntakeResponse,
   ExtractedIntakeData,
 } from '../types/aiIntake.types';
+
+export interface IntakeFlagResult {
+  aiEnabled: boolean;
+  redirectTo?: string;
+  model?: string;
+  data?: AIIntakeResponse;
+}
+
+/**
+ * Flag-aware intake entry point.
+ * If ai_intake_enabled is false, returns a redirect to the manual form.
+ * Otherwise resolves the model from the gpt_intake_model flag and
+ * delegates to the standard createConversation flow.
+ */
+export async function processIntakeWithFlags(
+  userId: number,
+  role: string,
+  patientId: number,
+  appointmentId?: number,
+): Promise<IntakeFlagResult> {
+  const flagCtx: FlagEvaluationContext = { userId, role };
+
+  const enabledResult = await featureFlagService.evaluateFlag('ai_intake_enabled', flagCtx);
+
+  if (!enabledResult.value) {
+    logger.info('AI intake disabled by feature flag', { userId, flag: 'ai_intake_enabled' });
+    return { aiEnabled: false, redirectTo: '/manual-form' };
+  }
+
+  const modelResult = await featureFlagService.evaluateFlag('gpt_intake_model', flagCtx);
+  const model = validateModel(modelResult.value as string, 'intake');
+
+  logger.info('AI intake processing with flags', { userId, model, flagModel: modelResult.value });
+
+  const data = await createConversation(patientId, userId, appointmentId);
+  return { aiEnabled: true, model, data };
+}
 
 /**
  * Create a new AI intake conversation

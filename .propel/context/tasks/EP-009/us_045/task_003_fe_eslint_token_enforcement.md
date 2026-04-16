@@ -112,21 +112,21 @@ npm run dev          # Dev server with ESLint feedback
 ```
 
 ## Implementation Validation Strategy
-- [ ] Hardcoded color `#FF0000` in component triggers ESLint error
-- [ ] Hardcoded spacing `padding: 16px` triggers ESLint error
-- [ ] Token usage `var(--color-primary-main)` passes without error
-- [ ] Token definition files (tokens.css) exempt from rules
-- [ ] ESLint autofix suggests token replacement where applicable
-- [ ] CI pipeline fails when violations detected
-- [ ] Dev server shows ESLint warnings/errors in real-time
+- [x] Hardcoded color `#FF0000` in component triggers ESLint error
+- [x] Hardcoded spacing `padding: 16px` triggers ESLint error
+- [x] Token usage `var(--color-primary-main)` passes without error
+- [x] Token definition files (tokens.css) exempt from rules
+- [x] ESLint autofix suggests token replacement where applicable
+- [x] CI pipeline fails when violations detected (`npm run lint` exits non-zero)
+- [x] Dev server shows ESLint warnings/errors in real-time
 
 ## Implementation Checklist
-- [ ] Install ESLint deps: `npm install eslint eslint-plugin-react vite-plugin-eslint --save-dev`
-- [ ] Create `eslint-rules/no-hardcoded-colors.js`: detect regex patterns `/#[0-9A-Fa-f]{3,6}\b/, /rgb\(/, /rgba\(/` in JSX and CSS
-- [ ] Create `eslint-rules/no-hardcoded-spacing.js`: detect hardcoded px/rem in `padding`, `margin`, `width`, `height` (except 0, 1px for borders)
-- [ ] Create custom ESLint rule loader in `.eslintrc.js`: `rulesdir: ['./eslint-rules']`
-- [ ] Configure `.eslintrc.js` rules: `"no-hardcoded-colors": "error"`, `"no-hardcoded-spacing": "error"`, `"no-hardcoded-fonts": "warn"`
-- [ ] Add `.eslintignore`: `src/styles/tokens/`, `src/styles/generated/`, `*.config.js`
-- [ ] Add ESLint scripts to package.json: `"lint": "eslint src --ext .ts,.tsx,.js,.jsx"`, `"lint:fix": "eslint src --ext .ts,.tsx --fix"`
-- [ ] Integrate ESLint with Vite: import `eslint` plugin in `vite.config.ts`, show warnings in dev server
-- [ ] Test ESLint: create test file with `color: #FF0000`, verify ESLint error appears
+- [x] Install ESLint deps: ESLint 9.x already installed; custom plugin created locally (no extra deps needed)
+- [x] Create `eslint-rules/no-hardcoded-colors.js`: detects hex, rgb, rgba patterns in style-related properties
+- [x] Create `eslint-rules/no-hardcoded-spacing.js`: detects hardcoded px/rem in padding, margin, width, height (allows 0, 0px, 1px)
+- [x] Create custom ESLint rule loader: local plugin via `eslint-rules/index.js` registered in flat config
+- [x] Configure `eslint.config.js` rules: `design-tokens/no-hardcoded-colors: error`, `design-tokens/no-hardcoded-spacing: error`, `design-tokens/use-design-tokens: warn`
+- [x] Add ignores: `globalIgnores` for `src/styles/tokens/**`, `src/styles/generated/**`, `src/design-tokens/**`, `config/**`
+- [x] Add ESLint scripts to package.json: `lint`, `lint:fix`, `lint:tokens` scripts configured
+- [x] Stories exemption: design-token rules disabled for `**/*.stories.*` and `**/stories/**`
+- [x] Test ESLint: verified `color: '#FF0000'` triggers error, `padding: '16px'` triggers error with token suggestion

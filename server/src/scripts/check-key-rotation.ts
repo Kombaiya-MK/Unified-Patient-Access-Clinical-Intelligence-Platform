@@ -15,7 +15,7 @@ import { KMSKeyManager } from '../utils/kms-key-manager';
 import { backupConfig } from '../config/backup.config';
 import logger from '../utils/logger';
 
-async function checkAndRotate(): Promise<void> {
+export async function checkAndRotate(): Promise<void> {
   const kms = new KMSKeyManager();
 
   try {
@@ -51,7 +51,9 @@ async function checkAndRotate(): Promise<void> {
   }
 }
 
-checkAndRotate().catch((err) => {
-  logger.error('Key rotation check crashed', { error: err });
-  process.exit(1);
-});
+if (require.main === module || process.argv[1]?.includes('check-key-rotation')) {
+  checkAndRotate().catch((err) => {
+    logger.error('Key rotation check crashed', { error: err });
+    process.exit(1);
+  });
+}

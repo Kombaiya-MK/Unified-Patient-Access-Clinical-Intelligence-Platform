@@ -12,7 +12,52 @@ import { buildExtractionPrompt } from '../prompts/document-extraction-prompt';
 import { extractTextFromFile, isImageFile, isTextExtractable } from './textExtractionService';
 import { openAICircuitBreaker } from './openai/circuitBreakerService';
 import { queueForRetry } from './fallback/extraction-fallback.service';
+import { featureFlagService } from './featureFlagService';
+import { validateModel } from '../utils/modelValidator';
+import type { FlagEvaluationContext } from '../config/featureFlags';
 import logger from '../utils/logger';
+
+export interface ExtractionFlagResult {
+  aiEnabled: boolean;
+  queuedForManual?: boolean;
+  model?: string;
+  data?: ExtractionResult;
+}
+
+/**
+ * Flag-aware extraction entry point.
+ * If ai_extraction_enabled is false, returns a queued-for-manual response.
+ * Otherwise resolves the vision model from the gpt_vision_model flag.
+ */
+export async function extractDocumentWithFlags(
+  userId: number,
+  role: string,
+  filePath: string,
+  mimeType: string,
+  documentType: string,
+  documentId?: number,
+): Promise<ExtractionFlagResult> {
+  const flagCtx: FlagEvaluationContext = { userId, role };
+
+  const enabledResult = await featureFlagService.evaluateFlag('ai_extraction_enabled', flagCtx);
+
+  if (!enabledResult.value) {
+    logger.info('AI extraction disabled by feature flag', { userId, flag: 'ai_extraction_enabled' });
+    if (documentId) {
+      const jobType = isImageFile(mimeType) ? 'ocr_extraction' : 'data_extraction';
+      await queueForRetry(documentId, jobType);
+    }
+    return { aiEnabled: false, queuedForManual: true };
+  }
+
+  const modelResult = await featureFlagService.evaluateFlag('gpt_vision_model', flagCtx);
+  const model = validateModel(modelResult.value as string, 'vision');
+
+  logger.info('AI extraction processing with flags', { userId, model, documentId });
+
+  const data = await extractDataFromDocument(filePath, mimeType, documentType, documentId);
+  return { aiEnabled: true, model, data };
+}
 
 export async function extractDataFromDocument(
   filePath: string,

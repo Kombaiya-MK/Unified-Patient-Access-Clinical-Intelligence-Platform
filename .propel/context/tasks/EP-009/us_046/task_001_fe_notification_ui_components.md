@@ -168,11 +168,11 @@ npm run build
 ```
 
 ## Implementation Checklist
-- [ ] Create NotificationContext with state (notifications[], unreadCount, WebSocket status) and actions (addNotification, markAsRead, clearAll)
-- [ ] Implement useWebSocket hook with socket.io-client connection, user_join emit, "notification" event listener, reconnection with exponential backoff
-- [ ] Build NotificationPopup component with icon (info/warning/critical), title/message/timestamp, auto-dismiss timer (10s info, 15s warning, manual critical), ARIA live region (role="alert"/"status")
-- [ ] Create NotificationBellIcon with red badge showing unread count (99+ cap), hover tooltip, onClick open NotificationPanel, active state styling
-- [ ] Implement NotificationPanel slide-in (400px desktop, full-screen mobile) with header (Mark All Read, Settings, close), scrollable list, date grouping, infinite scroll (IntersectionObserver)
-- [ ] Build NotificationItem with icon, title, message preview, timestamp, unread indicator (bold + dot), onClick navigate to action URL + mark as read
-- [ ] Handle notification stacking (max 3 visible popups, queue additional, auto-dismiss oldest), offline reconnection (fetch missed via REST API, display catch-up banner)
-- [ ] Add keyboard navigation (Tab to focus, Enter to dismiss, ESC to close panel, arrow keys for list), focus trap in NotificationPanel, ARIA live regions for screen readers
+- [x] Create NotificationContext with state (notifications[], unreadCount, WebSocket status) and actions (addNotification, markAsRead, clearAll)
+- [x] Implement useWebSocket hook with socket.io-client connection, user_join emit, "notification" event listener, reconnection with exponential backoff
+- [x] Build NotificationPopup component with icon (info/warning/critical), title/message/timestamp, auto-dismiss timer (10s info, 15s warning, manual critical), ARIA live region (role="alert"/"status")
+- [x] Create NotificationBellIcon with red badge showing unread count (99+ cap), hover tooltip, onClick open NotificationPanel, active state styling
+- [x] Implement NotificationPanel slide-in (400px desktop, full-screen mobile) with header (Mark All Read, Settings, close), scrollable list, date grouping, infinite scroll (IntersectionObserver)
+- [x] Build NotificationItem with icon, title, message preview, timestamp, unread indicator (bold + dot), onClick navigate to action URL + mark as read
+- [x] Handle notification stacking (max 3 visible popups, queue additional, auto-dismiss oldest), offline reconnection (fetch missed via REST API, display catch-up banner)
+- [x] Add keyboard navigation (Tab to focus, Enter to dismiss, ESC to close panel, arrow keys for list), focus trap in NotificationPanel, ARIA live regions for screen readers

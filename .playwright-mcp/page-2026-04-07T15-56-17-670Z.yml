@@ -1,0 +1,88 @@
+- generic [ref=e3]:
+  - link "Skip to main content" [ref=e4] [cursor=pointer]:
+    - /url: "#main-content"
+  - banner [ref=e5]:
+    - generic [ref=e6]:
+      - link "UPACI" [ref=e7] [cursor=pointer]:
+        - /url: /staff/dashboard
+      - generic [ref=e8]: staff
+    - generic [ref=e9]:
+      - button "Notifications" [ref=e10] [cursor=pointer]:
+        - img [ref=e11]
+      - 'generic "User: Sarah Wilson" [ref=e15]': SW
+  - generic [ref=e16]:
+    - navigation "Main navigation" [ref=e17]:
+      - navigation [ref=e18]:
+        - link "Dashboard" [ref=e19] [cursor=pointer]:
+          - /url: /staff/dashboard
+          - img [ref=e21]
+          - generic [ref=e26]: Dashboard
+        - link "Queue" [ref=e27] [cursor=pointer]:
+          - /url: /staff/queue
+          - img [ref=e29]
+          - generic [ref=e30]: Queue
+        - link "Book for Patient" [ref=e31] [cursor=pointer]:
+          - /url: /staff/appointments/book
+          - img [ref=e33]
+          - generic [ref=e35]: Book for Patient
+        - link "AI Intake" [ref=e36] [cursor=pointer]:
+          - /url: /intake/ai
+          - img [ref=e38]
+          - generic [ref=e40]: AI Intake
+        - link "Manual Intake" [ref=e41] [cursor=pointer]:
+          - /url: /intake/manual
+          - img [ref=e43]
+          - generic [ref=e45]: Manual Intake
+      - button "Logout" [ref=e47] [cursor=pointer]:
+        - img [ref=e49]
+        - generic [ref=e52]: Logout
+    - main [ref=e53]:
+      - generic [ref=e54]:
+        - banner [ref=e55]:
+          - generic [ref=e56]:
+            - generic [ref=e57]: UPACI
+            - generic [ref=e58]: Queue Management
+          - generic [ref=e59]:
+            - button "User menu" [ref=e60] [cursor=pointer]: SW
+            - button "Logout" [ref=e61] [cursor=pointer]
+        - main [ref=e62]:
+          - navigation "Breadcrumb" [ref=e63]:
+            - link "Dashboard" [ref=e64] [cursor=pointer]:
+              - /url: /staff/dashboard
+            - generic [ref=e65]: ›
+            - generic [ref=e66]: Queue Management
+          - generic [ref=e67]:
+            - heading "Queue Management" [level=1] [ref=e69]
+            - generic [ref=e72]: Live — Auto-refreshing
+          - search "Filter queue appointments" [ref=e73]:
+            - generic [ref=e74]:
+              - generic [ref=e75]: Search Patient
+              - searchbox "Search patients by name" [ref=e76]
+            - group "Status" [ref=e77]:
+              - generic [ref=e78]: Status
+              - generic [ref=e79]:
+                - generic [ref=e80] [cursor=pointer]:
+                  - checkbox "Filter by Scheduled" [ref=e81]
+                  - generic [ref=e82]: Scheduled
+                - generic [ref=e83] [cursor=pointer]:
+                  - checkbox "Filter by Arrived" [ref=e84]
+                  - generic [ref=e85]: Arrived
+                - generic [ref=e86] [cursor=pointer]:
+                  - checkbox "Filter by In Progress" [ref=e87]
+                  - generic [ref=e88]: In Progress
+                - generic [ref=e89] [cursor=pointer]:
+                  - checkbox "Filter by Completed" [ref=e90]
+                  - generic [ref=e91]: Completed
+                - generic [ref=e92] [cursor=pointer]:
+                  - checkbox "Filter by No Show" [ref=e93]
+                  - generic [ref=e94]: No Show
+            - generic [ref=e95]:
+              - generic [ref=e96]: Provider
+              - combobox "Filter by provider" [ref=e97] [cursor=pointer]:
+                - option "All Providers" [selected]
+            - generic [ref=e98]:
+              - generic [ref=e99]: Department
+              - combobox "Filter by department" [ref=e100] [cursor=pointer]:
+                - option "All Departments" [selected]
+          - status "Loading queue data" [ref=e101]:
+            - paragraph [ref=e103]: Loading queue data...
